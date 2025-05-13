@@ -1,6 +1,6 @@
 from typing import Optional, List
-from connector import execute_mikrotik_command
-from logger import app_logger
+from ..connector import execute_mikrotik_command
+from ..logger import app_logger
 
 def mikrotik_create_filter_rule(
     chain: str,

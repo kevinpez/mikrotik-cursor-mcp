@@ -1,6 +1,6 @@
-from logger import app_logger
-from mikrotik_ssh_client import MikroTikSSHClient
-from settings.configuration import mikrotik_config
+from .logger import app_logger
+from .mikrotik_ssh_client import MikroTikSSHClient
+from .settings.configuration import mikrotik_config
 
 
 def execute_mikrotik_command(command: str) -> str:

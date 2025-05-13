@@ -1,7 +1,7 @@
 import time
 from typing import Optional, List, Dict
-from connector import execute_mikrotik_command
-from logger import app_logger
+from ..connector import execute_mikrotik_command
+from ..logger import app_logger
 import re
 from datetime import datetime, timedelta
 

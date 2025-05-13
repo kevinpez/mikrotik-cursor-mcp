@@ -1,8 +1,8 @@
 # Save this file as mikrotik_scope/dns.py
 
 from typing import Optional, List
-from connector import execute_mikrotik_command
-from logger import app_logger
+from ..connector import execute_mikrotik_command
+from ..logger import app_logger
 
 def mikrotik_set_dns_servers(
     servers: List[str],

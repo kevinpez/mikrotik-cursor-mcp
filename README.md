@@ -1,6 +1,18 @@
 ## Overview
 
 MikroTik MCP provides a bridge between AI assistants and MikroTik RouterOS devices. It allows AI assistants to interact with MikroTik routers through natural language requests, executing commands like managing VLANs, configuring firewall rules, handling DNS settings, and more.
+[Pypi v0.1.6](https://pypi.org/project/mcp-server-mikrotik/)
+
+## Claude Desktop
+
+https://github.com/user-attachments/assets/24fadcdc-c6a8-48ed-90ac-74baf8f94b59
+
+
+## Inspector
+
+
+https://github.com/user-attachments/assets/e0301ff2-8144-4503-83d0-48589d95027d
+
 
 ## Installation
 
@@ -1263,10 +1275,12 @@ Removes an SSH key.
 Add this to your `claude_desktop_config.json`:
 
 ```json
-"mcpServers": {
-  "mikrotik": {
-    "command": "python",
-    "args": ["-m", "mcp-server-mikrotik"]
+{
+  "mcpServers": {
+    "mikrotik": {
+      "command": "uvx",
+      "args": ["mcp-server-mikrotik", "--host", "<HOST>", "--username", "<USERNAME>", "--password", "<PASSWORD>", "--port", "22"]
+    }
   }
 }
 ```
@@ -1275,7 +1289,7 @@ Add this to your `claude_desktop_config.json`:
 
 ```shell
 # Run the inspector against the mcp-server-mikrotik
-npx @modelcontextprotocol/inspector uvx mcp-server-mikrotik
+npx @modelcontextprotocol/inspector uvx mcp-server-mikrotik --host <HOST> --username <USERNAME> --password <PASSWORD> --port 22
 ```
 
 ## UV

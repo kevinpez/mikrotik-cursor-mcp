@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-server-mikrotik"
-version = "0.1.0"
+version = "0.1.6"
 description = "MCP server for MikroTik integration with Claude and other AI assistants"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"}  # Fixed typo in email
+    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"}
 ]
 keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant"]
 classifiers = [

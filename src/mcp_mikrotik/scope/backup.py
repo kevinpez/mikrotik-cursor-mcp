@@ -1,6 +1,6 @@
 from typing import Optional, List
-from connector import execute_mikrotik_command
-from logger import app_logger
+from ..connector import execute_mikrotik_command
+from ..logger import app_logger
 import base64
 import time
 import os

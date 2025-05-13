@@ -1,6 +1,5 @@
 import paramiko
-from logger import app_logger
-
+from .logger import app_logger
 
 class MikroTikSSHClient:
     """SSH client for MikroTik devices."""
