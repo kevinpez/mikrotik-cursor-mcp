@@ -13,7 +13,7 @@ MikroTik MCP provides a bridge between AI assistants and MikroTik RouterOS devic
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/mcp-mikrotik.git
+git clone https://github.com/jeff-nasseri/mikrotik-mcp/tree/master
 cd mcp-mikrotik
 
 # Create virtual environment
