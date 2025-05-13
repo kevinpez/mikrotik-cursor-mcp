@@ -1275,7 +1275,7 @@ Add this to your `claude_desktop_config.json`:
 
 ```shell
 # Run the inspector against the mcp-server-mikrotik
-npx @modelcontextprotocol/inspector python -m mcp-server-mikrotik
+npx @modelcontextprotocol/inspector uvx mcp-server-mikrotik
 ```
 
 ## UV
