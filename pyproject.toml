@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-server-mikrotik"
+version = "0.1.0"
+description = "MCP server for MikroTik integration with Claude and other AI assistants"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"}  # Fixed typo in email
+]
+keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: System :: Networking",
+]
+dependencies = [
+    "mcp>=1.8.0",  # Updated based on your site-packages
+    "paramiko>=3.5.1",
+    "pydantic>=2.11.4",
+    "pydantic-settings>=2.9.1",
+    "python-dotenv>=1.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jeff-nasseri/mikrotik-mcp"
+Issues = "https://github.com/jeff-nasseri/mikrotik-mcp/issues"
+Repository = "https://github.com/jeff-nasseri/mikrotik-mcp"
+
+[project.scripts]
+mcp-server-mikrotik = "mcp_mikrotik.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

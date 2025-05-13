@@ -1,4 +1,4 @@
-aZ## Overview
+## Overview
 
 MikroTik MCP provides a bridge between AI assistants and MikroTik RouterOS devices. It allows AI assistants to interact with MikroTik routers through natural language requests, executing commands like managing VLANs, configuring firewall rules, handling DNS settings, and more.
 
