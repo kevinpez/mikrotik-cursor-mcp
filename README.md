@@ -42,28 +42,6 @@ mcp-server-mikrotik
 
 Here are the available tools in the MikroTik MCP server:
 
-### Configuration Management
-
-#### `mikrotik_config_set`
-Updates MikroTik connection configuration.
-- Parameters:
-  - `host` (optional): MikroTik device IP address
-  - `username` (optional): API username
-  - `password` (optional): API password
-  - `port` (optional): API port number
-- Example:
-  ```
-  mikrotik_config_set(host="192.168.88.1", username="admin", password="mypass", port=8728)
-  ```
-
-#### `mikrotik_config_get`
-Shows current MikroTik connection configuration.
-- Parameters: None
-- Example:
-  ```
-  mikrotik_config_get()
-  ```
-
 ### VLAN Interface Management
 
 #### `mikrotik_create_vlan_interface`
@@ -1295,15 +1273,6 @@ npx @modelcontextprotocol/inspector uvx mcp-server-mikrotik --host <HOST> --user
 Here's the new markdown content that you should add **after the Inspector section and before the License section**:
 
 ## Usage Examples with mcp-cli
-
-### Connection Configuration
-```bash
-# Set up MikroTik connection parameters
-uv run mcp-cli cmd --server mikrotik --tool mikrotik_config_set --tool-args '{"host": "192.168.88.1", "username": "admin", "password": "yourpassword", "port": 8728}'
-
-# Get current configuration
-uv run mcp-cli cmd --server mikrotik --tool mikrotik_config_get --tool-args '{}'
-```
 
 ### VLAN Interface Operations
 ```bash
