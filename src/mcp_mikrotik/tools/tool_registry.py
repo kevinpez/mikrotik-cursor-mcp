@@ -1,7 +1,6 @@
 from typing import Dict, Any, List, Callable
 from mcp.types import Tool
 
-from .config_tools import get_config_tools, get_config_handlers
 from .vlan_tools import get_vlan_tools, get_vlan_handlers
 from .ip_tools import get_ip_address_tools, get_ip_pool_tools, get_ip_address_handlers, get_ip_pool_handlers
 from .dhcp_tools import get_dhcp_tools, get_dhcp_handlers
@@ -15,10 +14,7 @@ from .log_tools import get_log_tools, get_log_handlers
 def get_all_tools() -> List[Tool]:
     """Return all available tools."""
     tools = []
-    
-    # Configuration tools
-    tools.extend(get_config_tools())
-    
+
     # VLAN tools
     tools.extend(get_vlan_tools())
     
@@ -53,9 +49,6 @@ def get_all_tools() -> List[Tool]:
 def get_all_handlers() -> Dict[str, Callable]:
     """Return all command handlers."""
     handlers = {}
-    
-    # Configuration handlers
-    handlers.update(get_config_handlers())
     
     # VLAN handlers
     handlers.update(get_vlan_handlers())
