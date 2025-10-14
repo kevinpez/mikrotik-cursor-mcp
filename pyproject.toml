@@ -1,18 +1,22 @@
-[build-system]
+[build-system]                                     
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mcp-server-mikrotik"
-version = "0.1.14"
-description = "MCP server for MikroTik integration with Claude and other AI assistants"
+name = "mcp-server-mikrotik-nested"
+version = "2.0.0"
+description = "Performance-optimized MikroTik MCP server with nested tools (fork of jeff-nasseri/mikrotik-mcp)"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"}
+    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"},
+    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
 ]
-keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant"]
+maintainers = [
+    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
+]
+keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "nested", "cursor", "automation", "monitoring", "diagnostics"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -33,12 +37,16 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jeff-nasseri/mikrotik-mcp"
-Issues = "https://github.com/jeff-nasseri/mikrotik-mcp/issues"
-Repository = "https://github.com/jeff-nasseri/mikrotik-mcp"
+Homepage = "https://github.com/kevinpez/mikrotik-mcp-nested"
+Issues = "https://github.com/kevinpez/mikrotik-mcp-nested/issues"
+Repository = "https://github.com/kevinpez/mikrotik-mcp-nested"
+"Original Project" = "https://github.com/jeff-nasseri/mikrotik-mcp"
+Changelog = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/README-NESTED.md"
 
 [project.scripts]
 mcp-server-mikrotik = "mcp_mikrotik.server:main"
+mcp-server-mikrotik-nested = "mcp_mikrotik.server_nested:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

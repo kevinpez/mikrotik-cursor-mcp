@@ -28,12 +28,20 @@ Jeff Nasseri's original project provided:
 ## 🔧 **Fork Enhancements**
 
 **Kevin Pez** ([@kevinpez](https://github.com/kevinpez))
+- **GitHub:** https://github.com/kevinpez
 - **Repository:** https://github.com/kevinpez/mikrotik-mcp-nested
+- **Email:** kevinpez@users.noreply.github.com
+- **Role:** Fork Maintainer & Enhancement Developer
 - **Contributions:**
-  - Nested tool architecture (100+ tools → 10 categories)
+  - Nested tool architecture (100+ tools → 15 categories)
   - Route removal improvements (CIDR address handling)
   - Performance optimization for Cursor compatibility
   - Comprehensive documentation for nested version
+  - **NEW:** System monitoring (CPU, RAM, uptime, NTP)
+  - **NEW:** Interface management (stats, enable/disable, bridge)
+  - **NEW:** Network diagnostics (ping, traceroute, ARP, DNS lookup)
+  - **NEW:** Queue management (bandwidth limits & QoS)
+  - **NEW:** Port forwarding helper (easy dstnat creation)
 
 ### Fork Objectives
 
