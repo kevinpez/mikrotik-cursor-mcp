@@ -183,6 +183,34 @@ def mikrotik_update_route(
 def mikrotik_remove_route(route_id: str) -> str:
     app_logger.info(f"Removing route: route_id={route_id}")
     
+    # If it looks like a CIDR address, search for it
+    if "/" in route_id:
+        # Find all routes and search for this dst-address
+        list_cmd = '/ip route print terse'
+        list_result = execute_mikrotik_command(list_cmd)
+        app_logger.info(f"Terse output: {repr(list_result)}")
+        
+        # Parse the output to find the route with matching dst-address
+        import re
+        # Look for lines containing .id and the target dst-address
+        lines = list_result.split('\n')
+        for line in lines:
+            if route_id in line and '.id=' in line:
+                match = re.search(r'\.id=(\*[0-9A-F]+)', line)
+                if match:
+                    actual_id = match.group(1)
+                    app_logger.info(f"Found route with ID: {actual_id}")
+                    cmd = f"/ip route remove {actual_id}"
+                    result = execute_mikrotik_command(cmd)
+                    
+                    if result.strip() == "" or ("failure" not in result.lower() and "error" not in result.lower()):
+                        return f"Route with destination '{route_id}' (ID: {actual_id}) removed successfully."
+                    else:
+                        return f"Failed to remove route: {result}"
+        
+        return f"Route with destination '{route_id}' not found. Full output: {list_result[:200]}"
+    
+    # Otherwise treat as ID
     check_cmd = f"/ip route print count-only where .id={route_id}"
     count = execute_mikrotik_command(check_cmd)
     
