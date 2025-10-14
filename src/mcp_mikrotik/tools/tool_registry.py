@@ -12,6 +12,10 @@ from .user_tools import get_user_tools, get_user_handlers
 from .backup_tools import get_backup_tools, get_backup_handlers
 from .log_tools import get_log_tools, get_log_handlers
 from .wireless_tools import get_wireless_tools, get_wireless_handlers
+from .system_tools import get_system_tools, get_system_handlers
+from .interface_tools import get_interface_tools, get_interface_handlers
+from .diagnostic_tools import get_diagnostic_tools, get_diagnostic_handlers
+from .queue_tools import get_queue_tools, get_queue_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -49,6 +53,18 @@ def get_all_tools() -> List[Tool]:
 
     # Log tools
     tools.extend(get_log_tools())
+
+    # System tools
+    tools.extend(get_system_tools())
+
+    # Interface tools
+    tools.extend(get_interface_tools())
+
+    # Diagnostic tools
+    tools.extend(get_diagnostic_tools())
+
+    # Queue tools
+    tools.extend(get_queue_tools())
 
     return tools
 
@@ -88,5 +104,17 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Log handlers
     handlers.update(get_log_handlers())
+
+    # System handlers
+    handlers.update(get_system_handlers())
+
+    # Interface handlers
+    handlers.update(get_interface_handlers())
+
+    # Diagnostic handlers
+    handlers.update(get_diagnostic_handlers())
+
+    # Queue handlers
+    handlers.update(get_queue_handlers())
 
     return handlers

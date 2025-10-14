@@ -10,7 +10,8 @@ from ..scope.firewall_nat import (
     mikrotik_create_nat_rule, mikrotik_list_nat_rules,
     mikrotik_get_nat_rule, mikrotik_update_nat_rule,
     mikrotik_remove_nat_rule, mikrotik_move_nat_rule,
-    mikrotik_enable_nat_rule, mikrotik_disable_nat_rule
+    mikrotik_enable_nat_rule, mikrotik_disable_nat_rule,
+    mikrotik_create_port_forward, mikrotik_list_port_forwards
 )
 from mcp.types import Tool
 
@@ -294,6 +295,31 @@ def get_firewall_nat_tools() -> List[Tool]:
                 "required": ["rule_id"]
             },
         ),
+        Tool(
+            name="mikrotik_create_port_forward",
+            description="Easy port forwarding helper - forwards external port to internal IP",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "external_port": {"type": "integer"},
+                    "internal_ip": {"type": "string"},
+                    "internal_port": {"type": "integer"},
+                    "protocol": {"type": "string", "enum": ["tcp", "udp", "both"]},
+                    "in_interface": {"type": "string"},
+                    "comment": {"type": "string"}
+                },
+                "required": ["external_port", "internal_ip"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_port_forwards",
+            description="Lists all port forwarding rules (dstnat dst-nat rules)",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
     ]
 
 def get_firewall_filter_handlers() -> Dict[str, Callable]:
@@ -438,4 +464,13 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
         "mikrotik_disable_nat_rule": lambda args: mikrotik_disable_nat_rule(
             args["rule_id"]
         ),
+        "mikrotik_create_port_forward": lambda args: mikrotik_create_port_forward(
+            args["external_port"],
+            args["internal_ip"],
+            args.get("internal_port"),
+            args.get("protocol", "tcp"),
+            args.get("in_interface"),
+            args.get("comment")
+        ),
+        "mikrotik_list_port_forwards": lambda args: mikrotik_list_port_forwards(),
     }

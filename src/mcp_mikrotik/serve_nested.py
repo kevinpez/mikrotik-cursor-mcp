@@ -68,6 +68,26 @@ NESTED_TOOLS = [
         "name": "mikrotik_logs",
         "description": "View and manage MikroTik system logs",
         "category": "logs"
+    },
+    {
+        "name": "mikrotik_system",
+        "description": "Monitor and manage system resources (CPU, RAM, uptime, NTP)",
+        "category": "system"
+    },
+    {
+        "name": "mikrotik_interfaces",
+        "description": "Manage network interfaces (stats, enable/disable, bridge)",
+        "category": "interfaces"
+    },
+    {
+        "name": "mikrotik_diagnostics",
+        "description": "Network diagnostic tools (ping, traceroute, DNS lookup, ARP)",
+        "category": "diagnostics"
+    },
+    {
+        "name": "mikrotik_queues",
+        "description": "Manage bandwidth limits and QoS (simple queues)",
+        "category": "queues"
     }
 ]
 
@@ -75,7 +95,8 @@ NESTED_TOOLS = [
 CATEGORY_ACTIONS = {
     "firewall": [
         "list_filter_rules", "create_filter_rule", "remove_filter_rule", "update_filter_rule",
-        "list_nat_rules", "create_nat_rule", "remove_nat_rule", "update_nat_rule"
+        "list_nat_rules", "create_nat_rule", "remove_nat_rule", "update_nat_rule",
+        "create_port_forward", "list_port_forwards"
     ],
     "dhcp": [
         "list_dhcp_servers", "create_dhcp_server", "remove_dhcp_server", "get_dhcp_server",
@@ -107,6 +128,24 @@ CATEGORY_ACTIONS = {
     ],
     "logs": [
         "get_logs", "search_logs", "clear_logs", "export_logs"
+    ],
+    "system": [
+        "get_system_resources", "get_system_health", "get_system_identity", "set_system_identity",
+        "get_system_clock", "get_ntp_client", "set_ntp_client", "reboot_system",
+        "get_routerboard", "get_license", "get_uptime"
+    ],
+    "interfaces": [
+        "list_interfaces", "get_interface_stats", "enable_interface", "disable_interface",
+        "get_interface_monitor", "list_bridge_ports", "add_bridge_port", "remove_bridge_port",
+        "get_interface_traffic"
+    ],
+    "diagnostics": [
+        "ping", "traceroute", "bandwidth_test", "dns_lookup", "check_connection",
+        "get_arp_table", "get_neighbors"
+    ],
+    "queues": [
+        "list_simple_queues", "create_simple_queue", "remove_simple_queue",
+        "enable_simple_queue", "disable_simple_queue", "update_simple_queue", "list_queue_types"
     ]
 }
 

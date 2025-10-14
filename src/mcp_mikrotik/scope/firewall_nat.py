@@ -421,3 +421,85 @@ def mikrotik_disable_nat_rule(rule_id: str) -> str:
         Command output or error message
     """
     return mikrotik_update_nat_rule(rule_id, disabled=True)
+
+def mikrotik_create_port_forward(
+    external_port: int,
+    internal_ip: str,
+    internal_port: Optional[int] = None,
+    protocol: str = "tcp",
+    in_interface: Optional[str] = None,
+    comment: Optional[str] = None
+) -> str:
+    """
+    Easy port forwarding helper - creates a dstnat rule.
+    
+    Args:
+        external_port: External port to forward from
+        internal_ip: Internal IP address to forward to
+        internal_port: Internal port (defaults to same as external_port)
+        protocol: Protocol (tcp, udp, or both)
+        in_interface: WAN interface (optional, defaults to any)
+        comment: Comment for the rule
+    
+    Returns:
+        Command output or error message
+    """
+    if internal_port is None:
+        internal_port = external_port
+    
+    if comment is None:
+        comment = f"Port Forward: {external_port} -> {internal_ip}:{internal_port}"
+    
+    app_logger.info(f"Creating port forward: {external_port} -> {internal_ip}:{internal_port}")
+    
+    # Handle "both" protocol by creating two rules
+    if protocol.lower() == "both":
+        # Create TCP rule
+        tcp_result = mikrotik_create_nat_rule(
+            chain="dstnat",
+            action="dst-nat",
+            protocol="tcp",
+            dst_port=str(external_port),
+            to_addresses=internal_ip,
+            to_ports=str(internal_port),
+            in_interface=in_interface,
+            comment=f"{comment} (TCP)"
+        )
+        
+        # Create UDP rule
+        udp_result = mikrotik_create_nat_rule(
+            chain="dstnat",
+            action="dst-nat",
+            protocol="udp",
+            dst_port=str(external_port),
+            to_addresses=internal_ip,
+            to_ports=str(internal_port),
+            in_interface=in_interface,
+            comment=f"{comment} (UDP)"
+        )
+        
+        return f"TCP Rule:\n{tcp_result}\n\nUDP Rule:\n{udp_result}"
+    else:
+        # Single protocol
+        return mikrotik_create_nat_rule(
+            chain="dstnat",
+            action="dst-nat",
+            protocol=protocol,
+            dst_port=str(external_port),
+            to_addresses=internal_ip,
+            to_ports=str(internal_port),
+            in_interface=in_interface,
+            comment=comment
+        )
+
+def mikrotik_list_port_forwards() -> str:
+    """List all port forwarding rules (dstnat with dst-nat action)"""
+    app_logger.info("Listing port forwards")
+    
+    cmd = '/ip firewall nat print where chain=dstnat and action=dst-nat'
+    result = execute_mikrotik_command(cmd)
+    
+    if not result or result.strip() == "":
+        return "No port forwarding rules found."
+    
+    return f"PORT FORWARDING RULES:\n\n{result}"
