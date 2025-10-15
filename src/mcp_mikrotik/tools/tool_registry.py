@@ -19,6 +19,7 @@ from .queue_tools import get_queue_tools, get_queue_handlers
 from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
 from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
 from .firewall_advanced_tools import get_firewall_advanced_tools, get_firewall_advanced_handlers
+from .connectivity_tools import get_connectivity_tools, get_connectivity_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
 
 
@@ -78,6 +79,9 @@ def get_all_tools() -> List[Tool]:
 
     # Advanced firewall tools (mangle, raw, connection)
     tools.extend(get_firewall_advanced_tools())
+
+    # Connectivity tools (PPPoE, tunnels, bonding)
+    tools.extend(get_connectivity_tools())
 
     # Workflow tools
     tools.extend(get_workflow_tools())
@@ -141,6 +145,9 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Advanced firewall handlers
     handlers.update(get_firewall_advanced_handlers())
+
+    # Connectivity handlers
+    handlers.update(get_connectivity_handlers())
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())

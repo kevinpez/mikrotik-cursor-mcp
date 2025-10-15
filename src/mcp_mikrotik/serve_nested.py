@@ -151,7 +151,11 @@ CATEGORY_ACTIONS = {
     "interfaces": [
         "list_interfaces", "get_interface_stats", "enable_interface", "disable_interface",
         "get_interface_monitor", "list_bridge_ports", "add_bridge_port", "remove_bridge_port",
-        "get_interface_traffic"
+        "get_interface_traffic",
+        "list_pppoe_clients", "create_pppoe_client", "remove_pppoe_client", "get_pppoe_status", "list_pppoe_servers",
+        "list_eoip_tunnels", "create_eoip_tunnel", "remove_eoip_tunnel",
+        "list_gre_tunnels", "create_gre_tunnel", "remove_gre_tunnel", "list_tunnels",
+        "list_bonding_interfaces", "create_bonding_interface", "add_bonding_slave", "remove_bonding_interface"
     ],
     "diagnostics": [
         "ping", "traceroute", "bandwidth_test", "dns_lookup", "check_connection",
