@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.8.1] - 2025-10-15 - BUG FIXES & DHCP LEASE LISTING
+
+### 🎉 Added
+- **DHCP Lease Listing** - New `list_dhcp_leases` function with comprehensive filtering
+  - List all active DHCP leases with hostname, IP, MAC, status
+  - Filter by server, address, MAC address, status
+  - Filter dynamic/static leases separately
+  - Successfully tested with 16 active devices
+  - Full integration with MCP server action system
+
+### 🐛 Fixed
+- **Log Command Syntax** - Fixed invalid RouterOS command syntax in `get_logs`
+  - Removed invalid "value" print mode
+  - Removed unsupported `limit=` parameter
+  - Implemented limit as post-processing in Python
+  - Fixed in `scope/logs.py`
+  
+- **Interface Stats Parameter** - Fixed parameter name mismatch
+  - Updated handlers to accept both `interface_name` and `name` parameters
+  - Applied to all interface functions for consistency
+  - Fixed in `tools/interface_tools.py`
+
+### 📊 Testing
+- **Comprehensive Testing** - All 19 categories tested (95.6% pass rate)
+  - Created automated test suite (`test_all_mcp_functions.py`)
+  - Generated comprehensive test report (`MCP_TEST_REPORT.md`)
+  - Documented all fixes (`FIXES_APPLIED.md`)
+  - Verified on MikroTik RB5009UG+S+ (RouterOS 7.19.4)
+
+### 📝 Documentation
+- Added comprehensive MCP test report
+- Documented all bug fixes with solutions
+- Updated function documentation
+
+---
+
 ## [4.8.0] - 2025-10-15 - ENTERPRISE-COMPLETE - 99% COVERAGE!
 
 ### 🎉 Added - Enterprise Features for 99% Coverage (+4 actions)

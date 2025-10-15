@@ -34,7 +34,9 @@ def mikrotik_get_logs(
     app_logger.info(f"Getting logs with filters: topics={topics}, action={action}, time={time_filter}")
     
     # Build the command
-    cmd = f"/log print {print_as}"
+    cmd = "/log print"
+    if print_as and print_as != "value":
+        cmd += f" {print_as}"
     
     # Add filters
     filters = []
@@ -64,9 +66,6 @@ def mikrotik_get_logs(
     if filters:
         cmd += " where " + " and ".join(filters)
     
-    if limit:
-        cmd += f" limit={limit}"
-    
     if follow:
         cmd += " follow"
     
@@ -74,6 +73,13 @@ def mikrotik_get_logs(
     
     if not result or result.strip() == "" or result.strip() == "no such item":
         return "No log entries found matching the criteria."
+    
+    # Apply limit in post-processing if specified
+    if limit and result:
+        lines = result.strip().split('\n')
+        # Keep header lines and limit data lines
+        if len(lines) > limit + 5:  # Account for header lines
+            result = '\n'.join(lines[:limit + 5])
     
     return f"LOG ENTRIES:\n\n{result}"
 
@@ -243,13 +249,16 @@ def mikrotik_get_security_logs(
     if time_filter:
         cmd += f" and time > ([:timestamp] - {time_filter})"
     
-    if limit:
-        cmd += f" limit={limit}"
-    
     result = execute_mikrotik_command(cmd)
     
     if not result or result.strip() == "" or result.strip() == "no such item":
         return "No security-related log entries found."
+    
+    # Apply limit in post-processing if specified
+    if limit and result:
+        lines = result.strip().split('\n')
+        if len(lines) > limit + 5:  # Account for header lines
+            result = '\n'.join(lines[:limit + 5])
     
     return f"SECURITY LOG ENTRIES:\n\n{result}"
 
@@ -381,9 +390,12 @@ def mikrotik_monitor_logs(
     if action:
         cmd += f' action="{action}"'
     
-    # Add a limit to prevent overwhelming output
-    cmd += " limit=100"
-    
     result = execute_mikrotik_command(cmd)
+    
+    # Limit output to prevent overwhelming results
+    if result:
+        lines = result.strip().split('\n')
+        if len(lines) > 105:  # 100 + 5 for headers
+            result = '\n'.join(lines[:105])
     
     return f"LOG MONITOR (last {duration} seconds):\n\n{result}"

@@ -129,7 +129,7 @@ CATEGORY_ACTIONS = {
     ],
     "dhcp": [
         "list_dhcp_servers", "create_dhcp_server", "remove_dhcp_server", "get_dhcp_server",
-        "create_dhcp_network", "create_dhcp_pool"
+        "create_dhcp_network", "create_dhcp_pool", "list_dhcp_leases"
     ],
     "dns": [
         "get_dns_settings", "set_dns_servers", "list_dns_static", "add_dns_static",

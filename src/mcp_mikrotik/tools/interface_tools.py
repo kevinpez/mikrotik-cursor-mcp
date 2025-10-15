@@ -315,16 +315,16 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args.get("disabled_only", False)
         ),
         "mikrotik_get_interface_stats": lambda args: mikrotik_get_interface_stats(
-            args["interface_name"]
+            args.get("interface_name") or args.get("name")
         ),
         "mikrotik_enable_interface": lambda args: mikrotik_enable_interface(
-            args["interface_name"]
+            args.get("interface_name") or args.get("name")
         ),
         "mikrotik_disable_interface": lambda args: mikrotik_disable_interface(
-            args["interface_name"]
+            args.get("interface_name") or args.get("name")
         ),
         "mikrotik_get_interface_monitor": lambda args: mikrotik_get_interface_monitor(
-            args["interface_name"]
+            args.get("interface_name") or args.get("name")
         ),
         "mikrotik_list_bridge_ports": lambda args: mikrotik_list_bridge_ports(
             args.get("bridge_name")
@@ -337,7 +337,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args["interface"]
         ),
         "mikrotik_get_interface_traffic": lambda args: mikrotik_get_interface_traffic(
-            args["interface_name"]
+            args.get("interface_name") or args.get("name")
         ),
         # Advanced Bridge handlers
         "mikrotik_list_bridges": lambda args: mikrotik_list_bridges(

@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # Load environment variables from a .env file if present
 load_dotenv()
 
-DEFAULT_MIKROTIK_HOST = "127.0.0.1"  
+DEFAULT_MIKROTIK_HOST = "192.168.88.1"  
 DEFAULT_MIKROTIK_USER = "admin"        
 DEFAULT_MIKROTIK_PASS = ""    
 

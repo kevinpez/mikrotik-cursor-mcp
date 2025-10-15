@@ -261,3 +261,55 @@ def mikrotik_remove_dhcp_server(name: str) -> str:
     
     return f"DHCP server '{name}' removed successfully."
 
+def mikrotik_list_dhcp_leases(
+    server_filter: Optional[str] = None,
+    address_filter: Optional[str] = None,
+    mac_filter: Optional[str] = None,
+    status_filter: Optional[str] = None,
+    dynamic_only: bool = False,
+    static_only: bool = False
+) -> str:
+    """
+    Lists DHCP leases on MikroTik device.
+    
+    Args:
+        server_filter: Filter by DHCP server name
+        address_filter: Filter by IP address
+        mac_filter: Filter by MAC address
+        status_filter: Filter by status (bound, waiting, searching, etc.)
+        dynamic_only: Show only dynamic leases
+        static_only: Show only static leases
+    
+    Returns:
+        List of DHCP leases with host information
+    """
+    app_logger.info(f"Listing DHCP leases with filters: server={server_filter}, address={address_filter}")
+    
+    # Build the command
+    cmd = "/ip dhcp-server lease print detail"
+    
+    # Add filters
+    filters = []
+    if server_filter:
+        filters.append(f'server="{server_filter}"')
+    if address_filter:
+        filters.append(f'address={address_filter}')
+    if mac_filter:
+        filters.append(f'mac-address={mac_filter}')
+    if status_filter:
+        filters.append(f'status={status_filter}')
+    if dynamic_only:
+        filters.append("dynamic=yes")
+    if static_only:
+        filters.append("dynamic=no")
+    
+    if filters:
+        cmd += " where " + " ".join(filters)
+    
+    result = execute_mikrotik_command(cmd)
+    
+    if not result or result.strip() == "":
+        return "No DHCP leases found matching the criteria."
+    
+    return f"DHCP LEASES:\n\n{result}"
+

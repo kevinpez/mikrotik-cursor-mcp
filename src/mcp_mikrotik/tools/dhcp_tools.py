@@ -2,7 +2,8 @@ from typing import Dict, Any, List, Callable
 from ..scope.dhcp import (
     mikrotik_create_dhcp_server, mikrotik_list_dhcp_servers,
     mikrotik_get_dhcp_server, mikrotik_create_dhcp_network,
-    mikrotik_create_dhcp_pool, mikrotik_remove_dhcp_server
+    mikrotik_create_dhcp_pool, mikrotik_remove_dhcp_server,
+    mikrotik_list_dhcp_leases
 )
 from mcp.types import Tool
 
@@ -97,6 +98,22 @@ def get_dhcp_tools() -> List[Tool]:
                 "required": ["name"]
             },
         ),
+        Tool(
+            name="mikrotik_list_dhcp_leases",
+            description="Lists DHCP leases on MikroTik device with host information",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "server_filter": {"type": "string"},
+                    "address_filter": {"type": "string"},
+                    "mac_filter": {"type": "string"},
+                    "status_filter": {"type": "string"},
+                    "dynamic_only": {"type": "boolean"},
+                    "static_only": {"type": "boolean"}
+                },
+                "required": []
+            },
+        ),
     ]
 
 def get_dhcp_handlers() -> Dict[str, Callable]:
@@ -140,5 +157,13 @@ def get_dhcp_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_remove_dhcp_server": lambda args: mikrotik_remove_dhcp_server(
             args["name"]
+        ),
+        "mikrotik_list_dhcp_leases": lambda args: mikrotik_list_dhcp_leases(
+            args.get("server_filter"),
+            args.get("address_filter"),
+            args.get("mac_filter"),
+            args.get("status_filter"),
+            args.get("dynamic_only", False),
+            args.get("static_only", False)
         ),
     }
