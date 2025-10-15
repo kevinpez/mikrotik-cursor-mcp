@@ -37,12 +37,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/kevinpez/mikrotik-mcp-nested"
-Issues = "https://github.com/kevinpez/mikrotik-mcp-nested/issues"
-Repository = "https://github.com/kevinpez/mikrotik-mcp-nested"
+Homepage = "https://github.com/kevinpez/mikrotik-cursor-mcp"
+Issues = "https://github.com/kevinpez/mikrotik-cursor-mcp/issues"
+Repository = "https://github.com/kevinpez/mikrotik-cursor-mcp"
 "Original Project" = "https://github.com/jeff-nasseri/mikrotik-mcp"
-Changelog = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/CHANGELOG.md"
-Documentation = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/README-NESTED.md"
+Changelog = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/README.md"
 
 [project.scripts]
 mikrotik-cursor-mcp = "mcp_mikrotik.server_nested:main"
