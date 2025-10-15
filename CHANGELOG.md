@@ -5,6 +5,100 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2025-10-15 - MAJOR RELEASE
+
+### 🌐 Added - IPv6 & Container Support
+
+#### IPv6 Management (39 actions)
+*Full IPv6 networking support matching IPv4 feature parity*
+
+- **IPv6 Address Management (4 actions):**
+  - `list_ipv6_addresses` - List IPv6 addresses on interfaces
+  - `add_ipv6_address` - Add IPv6 address with prefix
+  - `remove_ipv6_address` - Remove IPv6 address
+  - `get_ipv6_address` - Get IPv6 address details
+
+- **IPv6 Route Management (3 actions):**
+  - `list_ipv6_routes` - List IPv6 routing table
+  - `add_ipv6_route` - Add static IPv6 route
+  - `remove_ipv6_route` - Remove IPv6 route
+
+- **IPv6 Neighbor Discovery (3 actions):**
+  - `list_ipv6_neighbors` - View IPv6 neighbor table
+  - `get_ipv6_nd_settings` - Get ND settings for interface
+  - `set_ipv6_nd` - Configure Router Advertisement
+
+- **IPv6 Pool Management (3 actions):**
+  - `list_ipv6_pools` - List IPv6 address pools
+  - `create_ipv6_pool` - Create IPv6 pool for delegation
+  - `remove_ipv6_pool` - Remove IPv6 pool
+
+- **IPv6 Global Settings (2 actions):**
+  - `get_ipv6_settings` - View global IPv6 settings
+  - `set_ipv6_forward` - Enable/disable IPv6 forwarding
+
+- **IPv6 Firewall (12 actions):**
+  - Filter Rules: `list_ipv6_filter_rules`, `create_ipv6_filter_rule`, `remove_ipv6_filter_rule`
+  - NAT Rules: `list_ipv6_nat_rules`, `create_ipv6_nat_rule`, `remove_ipv6_nat_rule`
+  - Address Lists: `list_ipv6_address_lists`, `add_ipv6_address_list`, `remove_ipv6_address_list_entry`
+  - Mangle Rules: `list_ipv6_mangle_rules`, `create_ipv6_mangle_rule`, `remove_ipv6_mangle_rule`
+
+- **DHCPv6 Server (12 actions):**
+  - Server: `list_dhcpv6_servers`, `create_dhcpv6_server`, `remove_dhcpv6_server`, `get_dhcpv6_server`
+  - Leases: `list_dhcpv6_leases`, `create_dhcpv6_static_lease`, `remove_dhcpv6_lease`
+  - Client: `list_dhcpv6_clients`, `create_dhcpv6_client`, `remove_dhcpv6_client`, `get_dhcpv6_client`
+  - Options: `list_dhcpv6_options`, `create_dhcpv6_option`, `remove_dhcpv6_option`
+
+#### Container Support (18 actions)
+*Docker container management on RouterOS v7.x*
+
+- **Container Lifecycle (6 actions):**
+  - `list_containers` - List all containers
+  - `create_container` - Create container from image
+  - `remove_container` - Remove container
+  - `start_container` - Start stopped container
+  - `stop_container` - Stop running container
+  - `get_container` - Get container details
+
+- **Container Configuration (3 actions):**
+  - `get_container_config` - View container settings
+  - `set_container_registry` - Configure registry URL/auth
+  - `set_container_tmpdir` - Set temporary directory
+
+- **Container Environments (3 actions):**
+  - `list_container_envs` - List environment variables
+  - `create_container_env` - Create environment variable
+  - `remove_container_env` - Remove environment variable
+
+- **Container Mounts (3 actions):**
+  - `list_container_mounts` - List mount points
+  - `create_container_mount` - Create volume mount
+  - `remove_container_mount` - Remove mount point
+
+- **Container Networking (3 actions):**
+  - `list_container_veths` - List veth interfaces
+  - `create_container_veth` - Create veth interface
+  - `remove_container_veth` - Remove veth interface
+
+**New Actions:** 57  
+**Total Actions:** 259 (up from 202)  
+**Categories:** 19 (up from 17)  
+**Coverage:** 90% (up from 88%)
+
+### 🎯 Use Cases
+- **IPv6 Networks:** Full dual-stack IPv4/IPv6 support
+- **Modern Infrastructure:** DHCPv6 with prefix delegation
+- **IPv6 Security:** Complete firewall ruleset capability
+- **Containerization:** Run Docker containers on MikroTik
+- **Edge Computing:** Deploy services directly on router
+- **Network Services:** DNS, monitoring, VPN in containers
+
+### 🎊 Breaking Changes
+This is a MAJOR version (4.0.0) introducing significant new capabilities:
+- Added 2 new nested tool categories (`mikrotik_ipv6`, `mikrotik_container`)
+- IPv6 support brings MikroTik MCP to feature parity with modern networks
+- Container support enables running applications directly on RouterOS v7.x devices
+
 ## [3.5.0] - 2025-10-15
 
 ### 📡 Added - Advanced Wireless & CAPsMAN
