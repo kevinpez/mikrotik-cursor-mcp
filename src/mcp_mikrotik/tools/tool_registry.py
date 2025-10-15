@@ -23,6 +23,9 @@ from .connectivity_tools import get_connectivity_tools, get_connectivity_handler
 from .hotspot_tools import get_hotspot_tools, get_hotspot_handlers
 from .routing_advanced_tools import get_routing_advanced_tools, get_routing_advanced_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
+from .ipv6_tools import (get_ipv6_tools, get_ipv6_handlers, get_ipv6_firewall_tools,
+                         get_ipv6_firewall_handlers, get_dhcpv6_tools, get_dhcpv6_handlers)
+from .container_tools import get_container_tools, get_container_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -93,6 +96,14 @@ def get_all_tools() -> List[Tool]:
 
     # Workflow tools
     tools.extend(get_workflow_tools())
+
+    # IPv6 tools
+    tools.extend(get_ipv6_tools())
+    tools.extend(get_ipv6_firewall_tools())
+    tools.extend(get_dhcpv6_tools())
+
+    # Container tools
+    tools.extend(get_container_tools())
 
     return tools
 
@@ -165,5 +176,13 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())
+
+    # IPv6 handlers
+    handlers.update(get_ipv6_handlers())
+    handlers.update(get_ipv6_firewall_handlers())
+    handlers.update(get_dhcpv6_handlers())
+
+    # Container handlers
+    handlers.update(get_container_handlers())
 
     return handlers

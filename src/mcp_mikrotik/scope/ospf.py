@@ -141,3 +141,4 @@ def mikrotik_create_ospf_area(
     
     return f"OSPF area '{name}' (ID: {area_id}) created successfully."
 
+
