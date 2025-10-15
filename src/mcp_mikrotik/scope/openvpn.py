@@ -105,27 +105,17 @@ def mikrotik_create_openvpn_client(
     """
     app_logger.info(f"Creating OpenVPN client: {name}")
     
-    # Build command
-    cmd_parts = [
-        '/interface ovpn-client add',
-        f'name={name}',
-        f'connect-to={connect_to}',
-        f'port={port}',
-        f'mode={mode}',
-        f'auth={auth}',
-        f'cipher={cipher}'
-    ]
+    # Build command - RouterOS OVPN client syntax
+    cmd = f'/interface ovpn-client add name={name} connect-to={connect_to} port={port} mode={mode} auth={auth} cipher={cipher}'
     
     if user:
-        cmd_parts.append(f'user={user}')
+        cmd += f' user={user}'
     if password:
-        cmd_parts.append(f'password={password}')
+        cmd += f' password={password}'
     if certificate:
-        cmd_parts.append(f'certificate={certificate}')
+        cmd += f' certificate={certificate}'
     if comment:
-        cmd_parts.append(f'comment="{comment}"')
-    
-    cmd = " ".join(cmd_parts)
+        cmd += f' comment="{comment}"'
     result = execute_mikrotik_command(cmd)
     
     if "failure:" in result.lower() or "error" in result.lower():
