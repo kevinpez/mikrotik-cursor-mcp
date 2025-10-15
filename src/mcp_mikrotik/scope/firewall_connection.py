@@ -38,10 +38,6 @@ def mikrotik_get_connection_tracking(
     if filters:
         cmd += " where " + " and ".join(filters)
     
-    # Limit output
-    if limit:
-        cmd += f" | head {limit}"
-    
     result = execute_mikrotik_command(cmd)
     
     if not result or result.strip() == "":
@@ -92,4 +88,5 @@ def mikrotik_flush_connections(
         return f"Connections flushed successfully (filtered by: {', '.join(filters)})."
     else:
         return f"Failed to flush connections: {result}"
+
 
