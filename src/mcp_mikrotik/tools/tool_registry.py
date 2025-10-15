@@ -20,6 +20,7 @@ from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
 from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
 from .firewall_advanced_tools import get_firewall_advanced_tools, get_firewall_advanced_handlers
 from .connectivity_tools import get_connectivity_tools, get_connectivity_handlers
+from .hotspot_tools import get_hotspot_tools, get_hotspot_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
 
 
@@ -82,6 +83,9 @@ def get_all_tools() -> List[Tool]:
 
     # Connectivity tools (PPPoE, tunnels, bonding)
     tools.extend(get_connectivity_tools())
+
+    # Hotspot tools
+    tools.extend(get_hotspot_tools())
 
     # Workflow tools
     tools.extend(get_workflow_tools())
@@ -148,6 +152,9 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Connectivity handlers
     handlers.update(get_connectivity_handlers())
+
+    # Hotspot handlers
+    handlers.update(get_hotspot_handlers())
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())

@@ -98,6 +98,11 @@ NESTED_TOOLS = [
         "name": "mikrotik_openvpn",
         "description": "Manage OpenVPN client and server interfaces",
         "category": "openvpn"
+    },
+    {
+        "name": "mikrotik_hotspot",
+        "description": "Manage hotspot servers, users, and captive portal",
+        "category": "hotspot"
     }
 ]
 
@@ -175,6 +180,12 @@ CATEGORY_ACTIONS = {
         "list_openvpn_interfaces", "list_openvpn_servers", "get_openvpn_server_status",
         "create_openvpn_client", "remove_openvpn_interface", "update_openvpn_client",
         "get_openvpn_status", "enable_openvpn_client", "disable_openvpn_client"
+    ],
+    "hotspot": [
+        "list_hotspot_servers", "create_hotspot_server", "remove_hotspot_server",
+        "list_hotspot_users", "create_hotspot_user", "list_hotspot_active",
+        "list_hotspot_profiles", "create_hotspot_profile",
+        "list_walled_garden", "add_walled_garden"
     ]
 }
 
