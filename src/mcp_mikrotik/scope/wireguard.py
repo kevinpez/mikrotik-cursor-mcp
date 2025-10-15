@@ -5,6 +5,7 @@ Supports interface creation, peer management, and configuration.
 from typing import Optional
 from ..connector import execute_mikrotik_command
 from ..logger import app_logger
+from .validators import validate_wireguard_key, validate_port, validate_interface_name, validate_ip_address
 
 
 def mikrotik_list_wireguard_interfaces(
@@ -42,6 +43,23 @@ def mikrotik_create_wireguard_interface(
 ) -> str:
     """Create a new WireGuard interface"""
     app_logger.info(f"Creating WireGuard interface: {name}")
+    
+    # Validate inputs
+    is_valid, error_msg = validate_interface_name(name)
+    if not is_valid:
+        return f"Validation Error: {error_msg}"
+    
+    is_valid, error_msg = validate_port(listen_port)
+    if not is_valid:
+        return f"Validation Error: {error_msg}"
+    
+    if private_key:
+        is_valid, error_msg = validate_wireguard_key(private_key)
+        if not is_valid:
+            return f"Validation Error (private_key): {error_msg}"
+    
+    if not 1280 <= mtu <= 9000:
+        return f"Validation Error: MTU {mtu} out of range. Use 1280-9000 (recommended: 1420)"
     
     # Build the command
     cmd_parts = [
@@ -166,6 +184,29 @@ def mikrotik_add_wireguard_peer(
 ) -> str:
     """Add a WireGuard peer to an interface"""
     app_logger.info(f"Adding WireGuard peer to interface: {interface}")
+    
+    # Validate public key
+    is_valid, error_msg = validate_wireguard_key(public_key)
+    if not is_valid:
+        return f"Validation Error (public_key): {error_msg}"
+    
+    # Validate preshared key if provided
+    if preshared_key:
+        is_valid, error_msg = validate_wireguard_key(preshared_key)
+        if not is_valid:
+            return f"Validation Error (preshared_key): {error_msg}"
+    
+    # Validate endpoint port if provided
+    if endpoint_port is not None:
+        is_valid, error_msg = validate_port(endpoint_port)
+        if not is_valid:
+            return f"Validation Error (endpoint_port): {error_msg}"
+    
+    # Validate allowed address if provided
+    if allowed_address:
+        is_valid, error_msg = validate_ip_address(allowed_address)
+        if not is_valid:
+            return f"Validation Error (allowed_address): {error_msg}"
     
     cmd_parts = [
         '/interface wireguard peers add',

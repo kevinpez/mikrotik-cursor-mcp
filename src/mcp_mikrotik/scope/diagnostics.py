@@ -115,7 +115,8 @@ def mikrotik_check_connection(
     
     if port:
         # Use tool/fetch to test TCP connectivity
-        cmd = f'/tool fetch url=\"tcp://{address}:{port}\" mode=tcp check-certificate=no dst-path=connection-test.txt'
+        # Note: dst-path uses a simple filename without special chars
+        cmd = f"/tool fetch url=tcp://{address}:{port} mode=tcp check-certificate=no dst-path=conn-test.txt"
     else:
         # Just ping if no port specified
         cmd = f"/ping {address} count=1"
@@ -126,12 +127,15 @@ def mikrotik_check_connection(
         return f"Unable to check connection to {address}."
     
     # Check if connection was successful
-    if port and ("status: finished" in result.lower() or "connected" in result.lower()):
-        return f"CONNECTION CHECK ({address}:{port}):\n\n✅ Port {port} is REACHABLE\n\n{result}"
-    elif port and ("failed" in result.lower() or "timeout" in result.lower() or "could not" in result.lower()):
-        return f"CONNECTION CHECK ({address}:{port}):\n\n❌ Port {port} is NOT REACHABLE\n\n{result}"
+    if port:
+        if "status: finished" in result.lower():
+            return f"CONNECTION CHECK ({address}:{port}):\n\n✅ Port {port} is REACHABLE (Connection successful)\n\n{result}"
+        elif "failed" in result.lower() or "timeout" in result.lower() or "could not" in result.lower() or "connect" in result.lower():
+            return f"CONNECTION CHECK ({address}:{port}):\n\n❌ Port {port} is NOT REACHABLE (Connection failed)\n\n{result}"
+        else:
+            return f"CONNECTION CHECK ({address}:{port}):\n\n⚠️ Status unclear\n\n{result}"
     
-    return f"CONNECTION CHECK ({address}{':' + str(port) if port else ''}):\n\n{result}"
+    return f"CONNECTION CHECK ({address}):\n\n{result}"
 
 def mikrotik_get_arp_table(
     interface: Optional[str] = None,
