@@ -44,6 +44,19 @@ def mikrotik_create_wireguard_interface(
     """Create a new WireGuard interface"""
     app_logger.info(f"Creating WireGuard interface: {name}")
     
+    # Convert string inputs to proper types if needed
+    if isinstance(listen_port, str):
+        try:
+            listen_port = int(listen_port)
+        except ValueError:
+            return f"Validation Error: Invalid port number: {listen_port}. Must be a valid integer."
+    
+    if isinstance(mtu, str):
+        try:
+            mtu = int(mtu)
+        except ValueError:
+            return f"Validation Error: Invalid MTU: {mtu}. Must be a valid integer."
+    
     # Validate inputs
     is_valid, error_msg = validate_interface_name(name)
     if not is_valid:
@@ -57,6 +70,13 @@ def mikrotik_create_wireguard_interface(
         is_valid, error_msg = validate_wireguard_key(private_key)
         if not is_valid:
             return f"Validation Error (private_key): {error_msg}"
+    
+    # Ensure mtu is an integer
+    if isinstance(mtu, str):
+        try:
+            mtu = int(mtu)
+        except ValueError:
+            return f"Validation Error: Invalid MTU: {mtu}. Must be a valid integer."
     
     if not 1280 <= mtu <= 9000:
         return f"Validation Error: MTU {mtu} out of range. Use 1280-9000 (recommended: 1420)"
@@ -107,6 +127,19 @@ def mikrotik_update_wireguard_interface(
 ) -> str:
     """Update WireGuard interface settings"""
     app_logger.info(f"Updating WireGuard interface: {name}")
+    
+    # Convert string inputs to proper types if needed
+    if isinstance(listen_port, str):
+        try:
+            listen_port = int(listen_port)
+        except ValueError:
+            return f"Validation Error: Invalid port number: {listen_port}. Must be a valid integer."
+    
+    if isinstance(mtu, str):
+        try:
+            mtu = int(mtu)
+        except ValueError:
+            return f"Validation Error: Invalid MTU: {mtu}. Must be a valid integer."
     
     cmd_parts = [f'/interface wireguard set [find name="{name}"]']
     
@@ -184,6 +217,13 @@ def mikrotik_add_wireguard_peer(
 ) -> str:
     """Add a WireGuard peer to an interface"""
     app_logger.info(f"Adding WireGuard peer to interface: {interface}")
+    
+    # Convert string inputs to proper types if needed
+    if isinstance(endpoint_port, str):
+        try:
+            endpoint_port = int(endpoint_port)
+        except ValueError:
+            return f"Validation Error: Invalid endpoint port: {endpoint_port}. Must be a valid integer."
     
     # Validate public key
     is_valid, error_msg = validate_wireguard_key(public_key)
@@ -274,6 +314,13 @@ def mikrotik_update_wireguard_peer(
 ) -> str:
     """Update WireGuard peer settings"""
     app_logger.info(f"Updating WireGuard peer on interface: {interface}")
+    
+    # Convert string inputs to proper types if needed
+    if isinstance(endpoint_port, str):
+        try:
+            endpoint_port = int(endpoint_port)
+        except ValueError:
+            return f"Validation Error: Invalid endpoint port: {endpoint_port}. Must be a valid integer."
     
     cmd_parts = [f'/interface wireguard peers set [find interface="{interface}" public-key="{public_key}"]']
     

@@ -69,6 +69,13 @@ def validate_port(port: int) -> Tuple[bool, str]:
     Returns:
         Tuple of (is_valid, error_message)
     """
+    # Ensure port is an integer
+    if isinstance(port, str):
+        try:
+            port = int(port)
+        except ValueError:
+            return False, f"Invalid port number: {port}. Must be a valid integer."
+    
     if not 1 <= port <= 65535:
         return False, f"Invalid port number: {port}. Must be 1-65535"
     

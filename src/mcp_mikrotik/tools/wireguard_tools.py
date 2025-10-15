@@ -294,9 +294,9 @@ def get_wireguard_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_create_wireguard_interface": lambda args: mikrotik_create_wireguard_interface(
             args["name"],
-            args.get("listen_port", 51820),
+            int(args.get("listen_port", 51820)) if args.get("listen_port") is not None else 51820,
             args.get("private_key"),
-            args.get("mtu", 1420),
+            int(args.get("mtu", 1420)) if args.get("mtu") is not None else 1420,
             args.get("comment")
         ),
         "mikrotik_remove_wireguard_interface": lambda args: mikrotik_remove_wireguard_interface(
@@ -304,8 +304,8 @@ def get_wireguard_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_update_wireguard_interface": lambda args: mikrotik_update_wireguard_interface(
             args["name"],
-            args.get("listen_port"),
-            args.get("mtu"),
+            int(args.get("listen_port")) if args.get("listen_port") is not None else None,
+            int(args.get("mtu")) if args.get("mtu") is not None else None,
             args.get("private_key"),
             args.get("disabled"),
             args.get("comment")
@@ -327,7 +327,7 @@ def get_wireguard_handlers() -> Dict[str, Callable]:
             args["interface"],
             args["public_key"],
             args.get("endpoint_address"),
-            args.get("endpoint_port"),
+            int(args.get("endpoint_port")) if args.get("endpoint_port") is not None else None,
             args.get("allowed_address"),
             args.get("preshared_key"),
             args.get("persistent_keepalive"),
@@ -342,7 +342,7 @@ def get_wireguard_handlers() -> Dict[str, Callable]:
             args["interface"],
             args["public_key"],
             args.get("endpoint_address"),
-            args.get("endpoint_port"),
+            int(args.get("endpoint_port")) if args.get("endpoint_port") is not None else None,
             args.get("allowed_address"),
             args.get("preshared_key"),
             args.get("persistent_keepalive"),
