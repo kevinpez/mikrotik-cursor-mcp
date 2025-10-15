@@ -14,7 +14,7 @@
 
 **Kevin Pez**
 - GitHub: [@kevinpez](https://github.com/kevinpez)
-- Repository: https://github.com/kevinpez/mikrotik-mcp-nested
+- Repository: https://github.com/kevinpez/mikrotik-cursor-mcp
 - Email: kevinpez@users.noreply.github.com
 - Role: Fork Maintainer & Enhancement Developer
 - Location: Home Network Automation Enthusiast
@@ -109,7 +109,7 @@ When using code from this project:
 
 ### GitHub Stars
 If you find this project useful, please star both:
-- ⭐ [This fork](https://github.com/kevinpez/mikrotik-mcp-nested)
+- ⭐ [This fork](https://github.com/kevinpez/mikrotik-cursor-mcp)
 - ⭐ [Original project](https://github.com/jeff-nasseri/mikrotik-mcp)
 
 ### Citing This Project
@@ -117,8 +117,8 @@ If you find this project useful, please star both:
 If you use this in a paper or presentation:
 
 ```
-Kevin Pez. (2025). MikroTik MCP Server - Nested Edition.
-GitHub repository: https://github.com/kevinpez/mikrotik-mcp-nested
+Kevin Pez. (2025). MikroTik Cursor MCP Server.
+GitHub repository: https://github.com/kevinpez/mikrotik-cursor-mcp
 
 Based on original work by:
 Jeff Nasseri. (2024). MikroTik MCP Server.
