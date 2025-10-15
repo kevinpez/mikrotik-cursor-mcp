@@ -45,7 +45,8 @@ def main():
 Examples:
   python run_tests.py core                    # Run core tests (default)
   python run_tests.py comprehensive           # Run all feature tests
-  python run_tests.py all                     # Run both core and comprehensive
+  python run_tests.py integration             # Run integration tests
+  python run_tests.py all                     # Run core, comprehensive, and integration
   python run_tests.py core --verbose          # Run core tests with verbose output
   python run_tests.py comprehensive --live    # Run comprehensive tests in live mode
   python run_tests.py core --save-report      # Run core tests and save report
@@ -54,7 +55,7 @@ Examples:
     
     parser.add_argument(
         "test_type",
-        choices=["core", "comprehensive", "all"],
+        choices=["core", "comprehensive", "integration", "all"],
         default="core",
         nargs="?",
         help="Type of test to run (default: core)"
@@ -107,6 +108,14 @@ Examples:
             exit_code = run_test("comprehensive", comprehensive_args)
             exit_codes.append(exit_code)
             
+        elif args.test_type == "integration":
+            # Run integration tests
+            integration_cmd = [sys.executable, "tests/integration/test_integration_runner.py"]
+            if args.verbose:
+                integration_cmd.append("--verbose")
+            exit_code = subprocess.call(integration_cmd)
+            exit_codes.append(exit_code)
+            
         elif args.test_type == "all":
             # Run core tests first
             print("Phase 1: Core Functionality Tests")
@@ -117,9 +126,20 @@ Examples:
                 print("\nPhase 2: Comprehensive Feature Tests")
                 exit_code = run_test("comprehensive", comprehensive_args)
                 exit_codes.append(exit_code)
+                
+                if exit_code == 0:
+                    print("\nPhase 3: Integration Tests")
+                    integration_cmd = [sys.executable, "tests/integration/test_integration_runner.py"]
+                    if args.verbose:
+                        integration_cmd.append("--verbose")
+                    exit_code = subprocess.call(integration_cmd)
+                    exit_codes.append(exit_code)
+                else:
+                    print("\nSkipping integration tests due to comprehensive test failures")
+                    exit_codes.append(1)
             else:
-                print("\nSkipping comprehensive tests due to core test failures")
-                exit_codes.append(1)
+                print("\nSkipping comprehensive and integration tests due to core test failures")
+                exit_codes.extend([1, 1])
         
         # Print final summary
         duration = time.time() - start_time
@@ -134,10 +154,21 @@ Examples:
             else:
                 print("[FAIL] Tests failed!")
         else:
-            core_result = "[PASS]" if exit_codes[0] == 0 else "[FAIL]"
-            comp_result = "[PASS]" if exit_codes[1] == 0 else "[FAIL]"
-            print(f"Core Tests: {core_result}")
-            print(f"Comprehensive Tests: {comp_result}")
+            if len(exit_codes) == 2:
+                # core + comprehensive or core + integration
+                core_result = "[PASS]" if exit_codes[0] == 0 else "[FAIL]"
+                second_result = "[PASS]" if exit_codes[1] == 0 else "[FAIL]"
+                print(f"Core Tests: {core_result}")
+                if len(exit_codes) >= 2:
+                    print(f"Comprehensive Tests: {second_result}")
+            elif len(exit_codes) == 3:
+                # all tests: core + comprehensive + integration
+                core_result = "[PASS]" if exit_codes[0] == 0 else "[FAIL]"
+                comp_result = "[PASS]" if exit_codes[1] == 0 else "[FAIL]"
+                int_result = "[PASS]" if exit_codes[2] == 0 else "[FAIL]"
+                print(f"Core Tests: {core_result}")
+                print(f"Comprehensive Tests: {comp_result}")
+                print(f"Integration Tests: {int_result}")
             
             if all(code == 0 for code in exit_codes):
                 print("[SUCCESS] All test phases passed successfully!")

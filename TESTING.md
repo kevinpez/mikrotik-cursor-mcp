@@ -14,7 +14,12 @@ python run_tests.py core
 python run_tests.py comprehensive
 ```
 
-### Run Both Core and Comprehensive
+### Run Integration Tests
+```bash
+python run_tests.py integration
+```
+
+### Run All Test Types
 ```bash
 python run_tests.py all
 ```
@@ -34,10 +39,11 @@ python run_tests.py all
 - **Safe**: Runs in dry-run mode by default
 
 ### 3. Integration Tests (`tests/integration/`)
-- **Purpose**: Tests specific features with actual MikroTik containers
-- **Duration**: ~2-5 minutes per test
-- **Tests**: User management, new features, etc.
-- **Requires**: Docker and testcontainers
+- **Purpose**: Tests against your actual MikroTik router
+- **Duration**: ~30 seconds
+- **Tests**: Real router connectivity and functionality
+- **Requires**: Access to your MikroTik router
+- **Safe**: Runs in dry-run mode by default
 
 ## Command Line Options
 
@@ -68,7 +74,10 @@ python run_tests.py core --live
 # Save detailed report
 python run_tests.py comprehensive --save-report
 
-# Run both core and comprehensive with verbose output
+# Run integration tests
+python run_tests.py integration
+
+# Run all test types with verbose output
 python run_tests.py all --verbose
 ```
 
@@ -97,14 +106,17 @@ The comprehensive test covers these categories:
 
 ## Integration Tests
 
-Integration tests use Docker containers to test with real MikroTik RouterOS:
+Integration tests run against your actual MikroTik router:
 
 ```bash
-# Run integration tests with pytest
-pytest tests/integration/ -v
+# Run integration tests
+python run_tests.py integration
 
-# Run specific integration test
-pytest tests/integration/test_mikrotik_user_integration.py -v
+# Run integration tests with verbose output
+python tests/integration/test_integration_runner.py --verbose
+
+# Run simple integration test directly
+python tests/integration/test_simple_integration.py --verbose
 ```
 
 ## Configuration
