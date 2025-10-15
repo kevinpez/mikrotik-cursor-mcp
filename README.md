@@ -88,7 +88,7 @@ Add this to your Cursor MCP configuration file (`%USERPROFILE%\.cursor\mcp.json`
         "-m",
         "mcp_mikrotik.server"
       ],
-      "cwd": "C:\\path\\to\\mikrotik-cursor-mcp",
+      "cwd": "C:\\Users\\YourUsername\\mikrotik-cursor-mcp",
       "env": {
         "MIKROTIK_HOST": "192.168.88.1",
         "MIKROTIK_USERNAME": "admin",
@@ -567,8 +567,9 @@ MIT License - see [LICENSE](LICENSE) file
 ## 📞 **Support**
 
 - **GitHub Issues:** [Report bugs or request features](https://github.com/kevinpez/mikrotik-cursor-mcp/issues)
-- **Discussions:** [Ask questions or share use cases](https://github.com/kevinpez/mikrotik-cursor-mcp/discussions)
-- **Documentation:** [Full guides and examples](docs/)
+- **GitHub Discussions:** [Ask questions or share use cases](https://github.com/kevinpez/mikrotik-cursor-mcp/discussions)
+- **Documentation:** [Complete Setup Guide](SETUP_GUIDE.md) | [Capabilities Reference](CAPABILITIES.md) | [Real-World Examples](REAL_WORLD_EXAMPLES.md)
+- **Troubleshooting:** See [SETUP_GUIDE.md](SETUP_GUIDE.md#troubleshooting) section
 
 ---
 
