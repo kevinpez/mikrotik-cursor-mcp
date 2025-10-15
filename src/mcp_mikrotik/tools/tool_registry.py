@@ -21,6 +21,7 @@ from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
 from .firewall_advanced_tools import get_firewall_advanced_tools, get_firewall_advanced_handlers
 from .connectivity_tools import get_connectivity_tools, get_connectivity_handlers
 from .hotspot_tools import get_hotspot_tools, get_hotspot_handlers
+from .routing_advanced_tools import get_routing_advanced_tools, get_routing_advanced_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
 
 
@@ -86,6 +87,9 @@ def get_all_tools() -> List[Tool]:
 
     # Hotspot tools
     tools.extend(get_hotspot_tools())
+
+    # Advanced routing tools (BGP, OSPF, filters)
+    tools.extend(get_routing_advanced_tools())
 
     # Workflow tools
     tools.extend(get_workflow_tools())
@@ -155,6 +159,9 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Hotspot handlers
     handlers.update(get_hotspot_handlers())
+
+    # Advanced routing handlers
+    handlers.update(get_routing_advanced_handlers())
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())

@@ -127,7 +127,12 @@ CATEGORY_ACTIONS = {
     ],
     "routes": [
         "list_routes", "add_route", "remove_route", "update_route", "enable_route", "disable_route",
-        "get_route", "add_default_route", "add_blackhole_route", "get_routing_table"
+        "get_route", "add_default_route", "add_blackhole_route", "get_routing_table",
+        "create_bgp_instance", "add_bgp_peer", "list_bgp_peers", "add_bgp_network", "list_bgp_networks",
+        "list_bgp_routes", "get_bgp_status", "clear_bgp_session",
+        "create_ospf_instance", "add_ospf_network", "add_ospf_interface", "list_ospf_neighbors",
+        "list_ospf_routes", "get_ospf_status", "create_ospf_area",
+        "create_route_filter", "list_route_filters"
     ],
     "ip": [
         "list_ip_addresses", "add_ip_address", "remove_ip_address", "update_ip_address",
