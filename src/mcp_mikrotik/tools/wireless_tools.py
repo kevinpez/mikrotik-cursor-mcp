@@ -2,13 +2,25 @@ from typing import Dict, Any, List, Callable
 from ..scope.wireless import (
     mikrotik_create_wireless_interface, mikrotik_list_wireless_interfaces,
     mikrotik_get_wireless_interface, mikrotik_update_wireless_interface,
-    mikrotik_remove_wireless_interface, mikrotik_create_wireless_security_profile,
-    mikrotik_list_wireless_security_profiles, mikrotik_get_wireless_security_profile,
-    mikrotik_remove_wireless_security_profile, mikrotik_set_wireless_security_profile,
-    mikrotik_scan_wireless_networks, mikrotik_get_wireless_registration_table,
-    mikrotik_create_wireless_access_list, mikrotik_list_wireless_access_list,
-    mikrotik_remove_wireless_access_list_entry, mikrotik_enable_wireless_interface,
-    mikrotik_disable_wireless_interface, mikrotik_check_wireless_support
+    mikrotik_remove_wireless_interface, mikrotik_enable_wireless_interface,
+    mikrotik_disable_wireless_interface, mikrotik_scan_wireless_networks,
+    mikrotik_get_wireless_registration_table, mikrotik_check_wireless_support,
+    mikrotik_create_wireless_security_profile, mikrotik_list_wireless_security_profiles,
+    mikrotik_get_wireless_security_profile, mikrotik_remove_wireless_security_profile,
+    mikrotik_update_wireless_security_profile, mikrotik_create_wireless_access_list,
+    mikrotik_list_wireless_access_list, mikrotik_remove_wireless_access_list_entry,
+    mikrotik_get_wireless_interface_monitor, mikrotik_get_wireless_frequencies,
+    mikrotik_export_wireless_config
+)
+from ..scope.capsman import (
+    mikrotik_enable_capsman, mikrotik_disable_capsman, mikrotik_get_capsman_status,
+    mikrotik_list_capsman_interfaces, mikrotik_get_capsman_interface,
+    mikrotik_create_capsman_configuration, mikrotik_list_capsman_configurations,
+    mikrotik_remove_capsman_configuration, mikrotik_create_capsman_provisioning_rule,
+    mikrotik_list_capsman_provisioning_rules, mikrotik_remove_capsman_provisioning_rule,
+    mikrotik_list_capsman_registration_table, mikrotik_list_capsman_remote_caps,
+    mikrotik_get_capsman_remote_cap, mikrotik_create_capsman_datapath,
+    mikrotik_list_capsman_datapaths, mikrotik_remove_capsman_datapath
 )
 from mcp.types import Tool
 
@@ -163,18 +175,6 @@ def get_wireless_tools() -> List[Tool]:
                 "required": ["name"]
             },
         ),
-        Tool(
-            name="mikrotik_set_wireless_security_profile",
-            description="Sets security profile for interface (legacy systems only)",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string", "description": "Name of the wireless interface"},
-                    "security_profile": {"type": "string", "description": "Name of the security profile to apply"}
-                },
-                "required": ["interface_name", "security_profile"]
-            },
-        ),
 
         # Wireless Network Operations
         Tool(
@@ -241,6 +241,230 @@ def get_wireless_tools() -> List[Tool]:
                 "required": []
             },
         ),
+        
+        # Advanced Wireless Tools
+        Tool(
+            name="mikrotik_update_wireless_security_profile",
+            description="Updates a wireless security profile (v6.x only)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Security profile name"},
+                    "mode": {"type": "string", "description": "Security mode"},
+                    "authentication_types": {"type": "string", "description": "Authentication types"},
+                    "wpa_pre_shared_key": {"type": "string", "description": "WPA PSK"},
+                    "wpa2_pre_shared_key": {"type": "string", "description": "WPA2 PSK"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_get_wireless_interface_monitor",
+            description="Gets real-time monitoring information for a wireless interface",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "interface": {"type": "string", "description": "Wireless interface name"}
+                },
+                "required": ["interface"]
+            },
+        ),
+        Tool(
+            name="mikrotik_get_wireless_frequencies",
+            description="Gets available wireless frequencies (v6.x only)",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_export_wireless_config",
+            description="Exports the complete wireless configuration",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        
+        # CAPsMAN Manager Tools
+        Tool(
+            name="mikrotik_enable_capsman",
+            description="Enables CAPsMAN (Controlled Access Point System Manager)",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_disable_capsman",
+            description="Disables CAPsMAN",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_get_capsman_status",
+            description="Gets CAPsMAN manager status",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_interfaces",
+            description="Lists all CAPsMAN controlled wireless interfaces",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_get_capsman_interface",
+            description="Gets detailed information about a CAPsMAN interface",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Interface name"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_create_capsman_configuration",
+            description="Creates a CAPsMAN configuration profile",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Configuration profile name"},
+                    "ssid": {"type": "string", "description": "Network SSID"},
+                    "country": {"type": "string", "description": "Country code"},
+                    "mode": {"type": "string", "enum": ["ap", "bridge", "station"], "description": "Operating mode"}
+                },
+                "required": ["name", "ssid"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_configurations",
+            description="Lists all CAPsMAN configuration profiles",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_remove_capsman_configuration",
+            description="Removes a CAPsMAN configuration profile",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Configuration profile name"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_create_capsman_provisioning_rule",
+            description="Creates a CAPsMAN provisioning rule",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Rule name"},
+                    "action": {"type": "string", "enum": ["create-enabled", "create-disabled"], "description": "Provisioning action"},
+                    "master_configuration": {"type": "string", "description": "Configuration profile to apply"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_provisioning_rules",
+            description="Lists all CAPsMAN provisioning rules",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_remove_capsman_provisioning_rule",
+            description="Removes a CAPsMAN provisioning rule",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Rule name"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_registration_table",
+            description="Lists all registered CAPsMAN clients",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_remote_caps",
+            description="Lists all remote CAPs (Access Points) connected to this CAPsMAN",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_get_capsman_remote_cap",
+            description="Gets detailed information about a specific remote CAP",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "identity": {"type": "string", "description": "Remote CAP identity/name"}
+                },
+                "required": ["identity"]
+            },
+        ),
+        Tool(
+            name="mikrotik_create_capsman_datapath",
+            description="Creates a CAPsMAN datapath configuration",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Datapath name"},
+                    "bridge": {"type": "string", "description": "Bridge interface to use"},
+                    "vlan_mode": {"type": "string", "enum": ["no-tag", "use-tag"], "description": "VLAN mode"}
+                },
+                "required": ["name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_capsman_datapaths",
+            description="Lists all CAPsMAN datapath configurations",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_remove_capsman_datapath",
+            description="Removes a CAPsMAN datapath configuration",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Datapath name"}
+                },
+                "required": ["name"]
+            },
+        ),
     ]
 
 
@@ -292,10 +516,6 @@ def get_wireless_handlers() -> Dict[str, Callable]:
         "mikrotik_remove_wireless_security_profile": lambda args: mikrotik_remove_wireless_security_profile(
             args["name"]
         ),
-        "mikrotik_set_wireless_security_profile": lambda args: mikrotik_set_wireless_security_profile(
-            args["interface_name"],
-            args["security_profile"]
-        ),
 
         # Wireless Network Operations
         "mikrotik_scan_wireless_networks": lambda args: mikrotik_scan_wireless_networks(
@@ -319,4 +539,60 @@ def get_wireless_handlers() -> Dict[str, Callable]:
 
         # Wireless Support Check
         "mikrotik_check_wireless_support": lambda args: mikrotik_check_wireless_support(),
+        
+        # Advanced Wireless Handlers
+        "mikrotik_update_wireless_security_profile": lambda args: mikrotik_update_wireless_security_profile(
+            name=args["name"],
+            **{k: v for k, v in args.items() if k != "name"}
+        ),
+        "mikrotik_get_wireless_interface_monitor": lambda args: mikrotik_get_wireless_interface_monitor(
+            args["interface"]
+        ),
+        "mikrotik_get_wireless_frequencies": lambda args: mikrotik_get_wireless_frequencies(),
+        "mikrotik_export_wireless_config": lambda args: mikrotik_export_wireless_config(),
+        
+        # CAPsMAN Manager Handlers
+        "mikrotik_enable_capsman": lambda args: mikrotik_enable_capsman(),
+        "mikrotik_disable_capsman": lambda args: mikrotik_disable_capsman(),
+        "mikrotik_get_capsman_status": lambda args: mikrotik_get_capsman_status(),
+        "mikrotik_list_capsman_interfaces": lambda args: mikrotik_list_capsman_interfaces(),
+        "mikrotik_get_capsman_interface": lambda args: mikrotik_get_capsman_interface(
+            args["name"]
+        ),
+        "mikrotik_create_capsman_configuration": lambda args: mikrotik_create_capsman_configuration(
+            name=args["name"],
+            ssid=args["ssid"],
+            country=args.get("country"),
+            mode=args.get("mode", "ap"),
+            **{k: v for k, v in args.items() if k not in ["name", "ssid", "country", "mode"]}
+        ),
+        "mikrotik_list_capsman_configurations": lambda args: mikrotik_list_capsman_configurations(),
+        "mikrotik_remove_capsman_configuration": lambda args: mikrotik_remove_capsman_configuration(
+            args["name"]
+        ),
+        "mikrotik_create_capsman_provisioning_rule": lambda args: mikrotik_create_capsman_provisioning_rule(
+            name=args["name"],
+            action=args.get("action", "create-enabled"),
+            master_configuration=args.get("master_configuration"),
+            **{k: v for k, v in args.items() if k not in ["name", "action", "master_configuration"]}
+        ),
+        "mikrotik_list_capsman_provisioning_rules": lambda args: mikrotik_list_capsman_provisioning_rules(),
+        "mikrotik_remove_capsman_provisioning_rule": lambda args: mikrotik_remove_capsman_provisioning_rule(
+            args["name"]
+        ),
+        "mikrotik_list_capsman_registration_table": lambda args: mikrotik_list_capsman_registration_table(),
+        "mikrotik_list_capsman_remote_caps": lambda args: mikrotik_list_capsman_remote_caps(),
+        "mikrotik_get_capsman_remote_cap": lambda args: mikrotik_get_capsman_remote_cap(
+            args["identity"]
+        ),
+        "mikrotik_create_capsman_datapath": lambda args: mikrotik_create_capsman_datapath(
+            name=args["name"],
+            bridge=args.get("bridge"),
+            vlan_mode=args.get("vlan_mode"),
+            **{k: v for k, v in args.items() if k not in ["name", "bridge", "vlan_mode"]}
+        ),
+        "mikrotik_list_capsman_datapaths": lambda args: mikrotik_list_capsman_datapaths(),
+        "mikrotik_remove_capsman_datapath": lambda args: mikrotik_remove_capsman_datapath(
+            args["name"]
+        ),
     }

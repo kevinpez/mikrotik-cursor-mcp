@@ -1,6 +1,6 @@
 """
 MikroTik Cursor MCP server optimized for Cursor IDE.
-Category-based tool organization with 17 categories and 145+ actions.
+Category-based tool organization with 17 categories and 202 actions.
 """
 import sys
 from .logger import app_logger
@@ -142,7 +142,37 @@ CATEGORY_ACTIONS = {
         "list_vlan_interfaces", "create_vlan_interface", "remove_vlan_interface", "update_vlan_interface"
     ],
     "wireless": [
-        "list_wireless_interfaces", "list_wireless_clients", "update_wireless_interface"
+        # Basic Interface Management
+        "create_wireless_interface", "list_wireless_interfaces", "get_wireless_interface",
+        "update_wireless_interface", "remove_wireless_interface", "enable_wireless_interface",
+        "disable_wireless_interface",
+        # Security Profiles (v6.x)
+        "create_wireless_security_profile", "list_wireless_security_profiles",
+        "get_wireless_security_profile", "remove_wireless_security_profile",
+        "update_wireless_security_profile",
+        # Access Lists (v6.x)
+        "create_wireless_access_list", "list_wireless_access_list",
+        "remove_wireless_access_list_entry",
+        # Network Operations
+        "scan_wireless_networks", "get_wireless_registration_table",
+        # Monitoring & Config
+        "get_wireless_interface_monitor", "get_wireless_frequencies",
+        "export_wireless_config", "check_wireless_support",
+        # CAPsMAN Manager
+        "enable_capsman", "disable_capsman", "get_capsman_status",
+        # CAPsMAN Interfaces
+        "list_capsman_interfaces", "get_capsman_interface",
+        # CAPsMAN Configuration
+        "create_capsman_configuration", "list_capsman_configurations",
+        "remove_capsman_configuration",
+        # CAPsMAN Provisioning
+        "create_capsman_provisioning_rule", "list_capsman_provisioning_rules",
+        "remove_capsman_provisioning_rule",
+        # CAPsMAN Registration & Remote CAPs
+        "list_capsman_registration_table", "list_capsman_remote_caps",
+        "get_capsman_remote_cap",
+        # CAPsMAN Datapath
+        "create_capsman_datapath", "list_capsman_datapaths", "remove_capsman_datapath"
     ],
     "users": [
         "list_users", "create_user", "remove_user", "update_user", "list_user_groups"
