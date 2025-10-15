@@ -33,7 +33,7 @@ def main():
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
 
-    logger.info("Starting MikroTik Cursor MCP server (18 categories, 155 actions, 79% coverage)")
+    logger.info("Starting MikroTik Cursor MCP server (19 categories, 259 actions, 90% coverage)")
     logger.info(f"Using host: {mikrotik_config['host']}")
     logger.info(f"Using username: {mikrotik_config['username']}")
 
