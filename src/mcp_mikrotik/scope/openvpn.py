@@ -105,23 +105,17 @@ def mikrotik_create_openvpn_client(
     """
     app_logger.info(f"Creating OpenVPN client: {name}")
     
-    # Build command - RouterOS OVPN client syntax (simplified)
-    # Start with minimal required parameters
-    cmd = f'/interface ovpn-client add name={name} connect-to={connect_to}'
+    # Build command - RouterOS OVPN client syntax
+    # Use only the most basic parameters first to avoid syntax errors
+    cmd = f'/interface ovpn-client add name={name} connect-to={connect_to} port={port}'
     
-    # Add optional parameters
-    if port != 1194:
-        cmd += f' port={port}'
-    if mode != "ip":
-        cmd += f' mode={mode}'
-    if auth != "sha1":
-        cmd += f' auth={auth}'
-    if cipher != "aes128":
-        cmd += f' cipher={cipher}'
+    # Add authentication if provided
     if user:
         cmd += f' user={user}'
     if password:
         cmd += f' password={password}'
+    
+    # Add optional parameters
     if certificate:
         cmd += f' certificate={certificate}'
     if comment:
