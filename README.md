@@ -1,362 +1,583 @@
 # MikroTik Cursor MCP
 
-**Production-ready MikroTik automation optimized for Cursor IDE**
+**Enterprise-grade MikroTik automation optimized for Cursor IDE**
 
-*Based on [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri)*
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-90%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Actions](https://img.shields.io/badge/Actions-259-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## 🎯 **What's Different?**
-
-**Optimized specifically for Cursor IDE**, this MCP server provides intelligent tool organization that reduces complexity from **100+ individual tools to 17 category-based tools**, keeping you within Cursor's recommended limits while **adding 50%+ more functionality** including WireGuard & OpenVPN, advanced firewall, system monitoring, network diagnostics, and workflow automation.
-
-### Key Improvements
-- ✅ **84% tool count reduction** (100+ → 17 categories)
-- ✅ **Cursor-optimized architecture** (under 80-tool limit)
-- ✅ **Faster loading and performance**
-- ✅ **Improved route removal** (handles CIDR addresses)
-- ✅ **Advanced VPN support** (WireGuard, OpenVPN)
-- ✅ **Workflow automation** (one-command complex operations)
-- ✅ **73% RouterOS coverage** (145 actions)
-- ✅ **Production-tested** on real deployments
-
-## 📊 **Performance & Feature Comparison**
-
-| Metric | Original | This Fork | Improvement |
-|--------|----------|-----------|-------------|
-| Tool Count | 100+ | 17 (+2 workflows) | **84% reduction** |
-| Feature Count | ~70 actions | **145 actions** | **+107% more features!** |
-| Cursor Compatibility | ⚠️ Exceeds limit | ✅ Within limit | **Fixed** |
-| Load Time | Slow | Fast | **~10x faster** |
-| Organization | Flat | Category-based | **Better UX** |
-| System Monitoring | ❌ No | ✅ **CPU, RAM, uptime** | **NEW** |
-| Interface Management | ❌ No | ✅ **Stats, enable/disable** | **NEW** |
-| Network Diagnostics | ❌ No | ✅ **Ping, traceroute, ARP** | **NEW** |
-| Bandwidth Limits | ❌ No | ✅ **Queue management** | **NEW** |
-| Port Forwarding | ⚠️ Manual NAT | ✅ **Easy helper tool** | **NEW** |
-| WireGuard VPN | ❌ No | ✅ **Full VPN automation** | **NEW** |
-| Route Removal | ⚠️ Buggy | ✅ **Fixed** | **Improved** |
-
-## 🚀 **Quick Start**
-
-### Installation
-
-```bash
-# Clone this repository
-git clone https://github.com/kevinpez/mikrotik-cursor-mcp.git
-cd mikrotik-cursor-mcp
-
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -e .
-```
-
-### Configure Cursor
-
-Add to your `~/.cursor/mcp.json`:
-
-   ```json
-   {
-     "mcpServers": {
-    "mikrotik-cursor-mcp": {
-      "command": "/path/to/.venv/Scripts/python.exe",
-         "args": [
-        "/path/to/src/mcp_mikrotik/server_nested.py",
-        "--host", "192.168.88.1",
-        "--username", "admin",
-        "--password", "your-password",
-        "--port", "22"
-      ],
-      "env": {}
-       }
-     }
-   }
-   ```
-
-Replace the paths and credentials with your actual values.
-
-### Restart Cursor
-
-Close and reopen Cursor to load the MCP server.
-
-## 📋 **Available Tools (16 Nested Categories)**
-
-### Core Features (from original)
-| Category | Tool Name | Description | Actions |
-|----------|-----------|-------------|---------|
-| 1️⃣ | `mikrotik_firewall` | Manage firewall rules (filter & NAT) + **Port Forwarding** | 10 actions |
-| 2️⃣ | `mikrotik_dhcp` | Manage DHCP servers & pools | 6 actions |
-| 3️⃣ | `mikrotik_dns` | Manage DNS settings & static entries | 8 actions |
-| 4️⃣ | `mikrotik_routes` | Manage routing table & static routes | 10 actions |
-| 5️⃣ | `mikrotik_ip` | Manage IP addresses & pools | 8 actions |
-| 6️⃣ | `mikrotik_vlan` | Manage VLAN interfaces | 4 actions |
-| 7️⃣ | `mikrotik_wireless` | Manage wireless interfaces & clients | 3 actions |
-| 8️⃣ | `mikrotik_users` | Manage users & groups | 5 actions |
-| 9️⃣ | `mikrotik_backup` | Create & restore backups | 4 actions |
-| 🔟 | `mikrotik_logs` | View & manage system logs | 4 actions |
-
-### ⭐ NEW Features (not in original!)
-| Category | Tool Name | Description | Actions |
-|----------|-----------|-------------|---------|
-| 1️⃣1️⃣ | `mikrotik_system` | **Monitor system resources (CPU, RAM, NTP, reboot)** | 11 actions |
-| 1️⃣2️⃣ | `mikrotik_interfaces` | **Manage interfaces (stats, enable/disable, bridge)** | 9 actions |
-| 1️⃣3️⃣ | `mikrotik_diagnostics` | **Network tools (ping, traceroute, ARP, DNS lookup)** | 7 actions |
-| 1️⃣4️⃣ | `mikrotik_queues` | **Bandwidth limits & QoS (simple queues)** | 7 actions |
-| 1️⃣5️⃣ | `mikrotik_wireguard` | **Manage WireGuard VPN interfaces and peers** | 11 actions |
-
-**Total:** 145 actions across 17 categories + 2 workflow helpers!
-
-## 💡 **Usage**
-
-### Quick Example: ONE-COMMAND VPN Setup! 🚀
-
-**NEW in v2.2.0:** Complete WireGuard VPN from AWS EC2 to your home router in ONE command:
-
-```python
-# ONE-SHOT VPN SETUP (NEW!)
-mikrotik_setup_vpn_client(
-    vpn_name="wireguard-aws",
-    local_vpn_ip="10.13.13.2/24",
-    remote_vpn_ip="10.13.13.1",
-    remote_endpoint="3.80.62.116",
-    remote_endpoint_port=51820,
-    remote_public_key="SERVER_KEY",
-    local_private_key="CLIENT_KEY",
-    preshared_key="PRESHARED_KEY"
-)
-# ✅ Creates interface, adds IP, configures peer, tests connection!
-# Result: VPN ready in ~10 seconds with 0% packet loss!
-```
-
-**Before v2.2.0 (manual steps):**
-```python
-# Step 1: Create interface
-mikrotik_wireguard(action="create_wireguard_interface", ...)
-# Step 2: Add IP
-mikrotik_ip(action="add_ip_address", ...)
-# Step 3: Add peer
-mikrotik_wireguard(action="add_wireguard_peer", ...)
-# Step 4: Test
-mikrotik_diagnostics(action="ping", ...)
-# Total: 5 commands, ~3 minutes
-```
-
-**After v2.2.0 (ONE command):**
-```python
-mikrotik_setup_vpn_client(...)
-# Total: 1 command, ~10 seconds! 80% faster! ✅
-```
-
-**See `REAL_WORLD_EXAMPLES.md` for 15+ complete examples including:**
-- Complete AWS VPN setup (EC2 + MikroTik)
-- Network diagnostics and troubleshooting
-- Bandwidth management (QoS)
-- Firewall configuration
-- And much more!
-
-### Natural Language Commands
-
-Works seamlessly with natural language in Cursor:
-
-```
-You: "Show me all firewall rules"
-AI: Uses mikrotik_firewall with action="list_filter_rules"
-
-You: "What's my router's CPU and RAM usage?"
-AI: Uses mikrotik_system with action="get_system_resources"
-
-You: "Ping google.com from the router"
-AI: Uses mikrotik_diagnostics with action="ping"
-
-You: "Forward port 80 to 192.168.88.100"
-AI: Uses mikrotik_firewall with action="create_port_forward"
-
-You: "Show traffic stats for ether1"
-AI: Uses mikrotik_interfaces with action="get_interface_stats"
-
-You: "Limit 192.168.88.50 to 10Mbps download"
-AI: Uses mikrotik_queues with action="create_simple_queue"
-
-You: "Create a backup of my configuration"
-AI: Uses mikrotik_backup with action="create_backup"
-```
-
-See [README-NESTED.md](README-NESTED.md) for detailed documentation on all actions.
-
-## ⭐ **What's New in This Fork?**
-
-### 🖥️ **System Monitoring**
-```
-You: "Show me CPU and RAM usage"
-AI: CPU: 1%, RAM: 872MB/1024MB, Uptime: 8w5d6h
-
-You: "What's my router's uptime?"
-AI: 8 weeks, 5 days, 6 hours, 32 minutes
-
-You: "Configure NTP to use pool.ntp.org"
-AI: NTP configured and synchronized ✅
-```
-
-### 🔌 **Interface Management**
-```
-You: "Show all network interfaces"
-AI: Lists all 11 interfaces with status
-
-You: "Show traffic stats for ether1" 
-AI: RX: 1.37TB, TX: 110GB
-
-You: "Disable ether5"
-AI: Interface disabled ✅
-
-You: "Which interfaces are in the bridge?"
-AI: ether2, ether3, ether4, ether5, ether6, ether7, ether8
-```
-
-### 🔍 **Network Diagnostics**
-```
-You: "Ping google.com from the router"
-AI: 3 packets sent, 0% loss, avg 11ms
-
-You: "Traceroute to 1.1.1.1"
-AI: Shows full routing path
-
-You: "Show ARP table"
-AI: Lists 19 devices on your network
-
-You: "Find other MikroTik devices"
-AI: Found 1 neighbor: MikroTik-40011
-```
-
-### 🚪 **Easy Port Forwarding**
-```
-You: "Forward port 3389 to 192.168.88.100"
-AI: Port forward created ✅
-
-You: "Forward port 80 to 192.168.88.50 on port 8080"
-AI: External port 80 → Internal 192.168.88.50:8080 ✅
-
-You: "Show all port forwards"
-AI: Lists all dstnat rules
-```
-
-### ⚡ **Bandwidth Management**
-```
-You: "Limit 192.168.88.50 to 10Mbps"
-AI: Simple queue created ✅
-
-You: "Show all bandwidth limits"
-AI: Lists all active queues
-
-You: "Remove bandwidth limit for 192.168.88.50"
-AI: Queue removed ✅
-```
-
-## 🔧 **Technical Details**
-
-### How Nested Tools Work
-
-Instead of registering 100+ individual tools, we register 10 category tools. Each category accepts an `action` parameter:
-
-```python
-# Before (100+ tools)
-mikrotik_list_filter_rules()
-mikrotik_create_filter_rule(...)
-mikrotik_remove_filter_rule(...)
-
-# After (1 tool with actions)
-mikrotik_firewall(action="list_filter_rules")
-mikrotik_firewall(action="create_filter_rule", ...)
-mikrotik_firewall(action="remove_filter_rule", ...)
-```
-
-### Architecture
-
-```
-src/mcp_mikrotik/
-├── server_nested.py        # Entry point for nested version ⭐ NEW
-├── serve_nested.py         # Nested implementation ⭐ NEW
-├── server.py               # Original entry point (still available)
-├── serve.py                # Original implementation (still available)
-├── scope/                  # Business logic (shared by both versions)
-│   ├── firewall_filter.py
-│   ├── firewall_nat.py
-│   ├── dhcp.py
-│   ├── dns.py
-│   ├── routes.py           # ⭐ IMPROVED: Better route removal
-│   └── ...
-└── tools/                  # Tool definitions (shared by both versions)
-    └── ...
-```
-
-## 📚 **Documentation**
-
-- **Nested Version Guide:** [README-NESTED.md](README-NESTED.md)
-- **Feature Coverage:** See docs for full feature matrix
-- **Original Documentation:** See upstream repository
-
-## 🙏 **Credits & Attribution**
-
-This project is based on **[MikroTik MCP Server](https://github.com/jeff-nasseri/mikrotik-mcp)** by **[@jeff-nasseri](https://github.com/jeff-nasseri)**.
-
-### What We Changed
-
-- ✅ Added nested tool architecture for better performance
-- ✅ Fixed route removal to handle CIDR addresses
-- ✅ Maintained all original functionality
-- ✅ Kept original server version available
-
-### Original Project
-
-- **Repository:** https://github.com/jeff-nasseri/mikrotik-mcp
-- **Author:** Jeff Nasseri (@jeff-nasseri)
-- **License:** See [LICENSE](LICENSE)
-
-**Thank you to Jeff Nasseri for creating the original MikroTik MCP server!** 🙏
-
-## 🤝 **Contributing**
-
-Contributions are welcome! Please:
-
-1. Fork this repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-For major changes, please open an issue first to discuss what you'd like to change.
-
-## 📝 **License**
-
-This project maintains the same license as the original MikroTik MCP project. See [LICENSE](LICENSE) file for details.
-
-## 🔗 **Related Projects**
-
-- **Original MikroTik MCP:** https://github.com/jeff-nasseri/mikrotik-mcp
-- **MCP Protocol:** https://github.com/modelcontextprotocol
-- **MikroTik RouterOS:** https://mikrotik.com
-
-## 📞 **Support & Contact**
-
-### This Fork
-- **Issues:** [GitHub Issues](https://github.com/kevinpez/mikrotik-mcp-nested/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/kevinpez/mikrotik-mcp-nested/discussions)
-- **Author:** Kevin Pez ([@kevinpez](https://github.com/kevinpez))
-- **Repository:** https://github.com/kevinpez/mikrotik-mcp-nested
-
-### Original Project
-- **Issues:** [Original GitHub Issues](https://github.com/jeff-nasseri/mikrotik-mcp/issues)
-- **Author:** Jeff Nasseri ([@jeff-nasseri](https://github.com/jeff-nasseri))
-- **Repository:** https://github.com/jeff-nasseri/mikrotik-mcp
-
-## ⚡ **Quick Links**
-
-- 📖 [Nested Tool Documentation](README-NESTED.md)
-- 🔧 [Installation Guide](#quick-start)
-- 🎯 [Usage Examples](#usage)
-- 🙏 [Credits](#credits--attribution)
+*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 90% RouterOS coverage and enterprise features*
 
 ---
 
-**Made with ❤️ for the MikroTik and MCP communities**
+## 🎯 **What Is This?**
 
-**Based on excellent work by [@jeff-nasseri](https://github.com/jeff-nasseri)** ⭐
+A **production-ready MCP (Model Context Protocol) server** that lets you manage MikroTik routers using **natural language** in Cursor IDE. Instead of remembering complex RouterOS commands, just describe what you want to do.
+
+**Example:**
+> "Create a WireGuard VPN tunnel to my AWS EC2 instance at 52.1.2.3"
+
+The MCP server handles all the technical details - generating keys, configuring interfaces, setting up routes, and creating firewall rules.
+
+---
+
+## ⚡ **Key Highlights**
+
+### **Comprehensive Coverage**
+- ✅ **90% RouterOS Feature Coverage** (259 actions)
+- ✅ **19 Category-Based Tools** (optimized for Cursor)
+- ✅ **Enterprise Features** (BGP, OSPF, IPv6, Containers)
+- ✅ **Dual-Stack Networking** (Full IPv4 + IPv6)
+
+### **Production-Ready**
+- ✅ **Tested on Live Networks** (zero downtime)
+- ✅ **Safety-First Design** (backup-before-change)
+- ✅ **Natural Language Interface** (in Cursor IDE)
+- ✅ **Workflow Automation** (one-command complex operations)
+
+### **Modern Features**
+- ✅ **VPN Suite** (WireGuard, OpenVPN)
+- ✅ **Container Support** (Docker on RouterOS v7.x)
+- ✅ **Dynamic Routing** (BGP, OSPF)
+- ✅ **Advanced Wireless** (CAPsMAN, security profiles)
+
+---
+
+## 📦 **Installation**
+
+### Prerequisites
+- Python 3.8+
+- Cursor IDE
+- MikroTik RouterOS device with SSH enabled
+- Network access to the router
+
+### Quick Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/kevinpez/mikrotik-cursor-mcp.git
+cd mikrotik-cursor-mcp
+
+# 2. Create virtual environment
+python -m venv .venv
+
+# On Windows:
+.venv\Scripts\activate
+
+# On Linux/Mac:
+source .venv/bin/activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Install the package
+pip install -e .
+```
+
+### Configure Cursor IDE
+
+Add this to your Cursor MCP configuration file (`%USERPROFILE%\.cursor\mcp.json` on Windows or `~/.cursor/mcp.json` on Linux/Mac):
+
+```json
+{
+  "mcpServers": {
+    "mikrotik-cursor-mcp": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_mikrotik.server"
+      ],
+      "cwd": "C:\\path\\to\\mikrotik-cursor-mcp",
+      "env": {
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "admin",
+        "MIKROTIK_PASSWORD": "your-password",
+        "MIKROTIK_PORT": "22"
+      }
+    }
+  }
+}
+```
+
+**Important:** Replace the paths and credentials with your actual values.
+
+### Verify Installation
+
+1. **Restart Cursor IDE** completely
+2. Open a new Cursor chat
+3. Try: "List all backups on my MikroTik router"
+
+If configured correctly, you'll see your router's backups!
+
+---
+
+## 🎨 **What Can It Do?**
+
+### **19 Categories × 259 Actions**
+
+| Category | Actions | Capabilities |
+|----------|---------|--------------|
+| **🔥 Firewall** | 23 | Filter rules, NAT, port forwarding, mangle, RAW, connection tracking |
+| **📡 DHCP** | 7 | DHCP servers, pools, leases, networks |
+| **🌐 DNS** | 9 | DNS settings, static entries, cache management |
+| **🛣️ Routes** | 27 | Static routes, BGP, OSPF, route filtering, routing marks |
+| **🔌 Interfaces** | 22 | Statistics, enable/disable, bridges, PPPoE, tunnels, bonding |
+| **📊 Diagnostics** | 7 | Ping, traceroute, bandwidth tests, DNS lookup, ARP table |
+| **👥 Users** | 5 | User management, groups, permissions |
+| **💾 Backup** | 4 | Create, list, restore backups, export config |
+| **📝 Logs** | 4 | View, search, clear, export logs |
+| **📶 Wireless** | 34 | Interfaces, CAPsMAN, security profiles, access lists, monitoring |
+| **⚙️ System** | 11 | Resources, health, identity, NTP, reboot, license |
+| **🏷️ VLAN** | 4 | VLAN interfaces, tagging |
+| **🌍 IP** | 8 | IPv4 addresses, pools |
+| **🔒 WireGuard** | 11 | Interfaces, peers, keys, tunnels |
+| **🔐 OpenVPN** | 9 | Client/server interfaces, certificates |
+| **🎯 Queues** | 7 | Bandwidth limiting, QoS, traffic shaping |
+| **🏨 Hotspot** | 10 | Captive portal, users, walled garden |
+| **🌐 IPv6** | 39 | Addresses, routes, ND, DHCPv6, firewall, pools |
+| **📦 Container** | 18 | Docker containers, images, volumes, networking |
+
+**Total: 259 actions providing 90% RouterOS coverage!**
+
+---
+
+## 🚀 **Usage Examples**
+
+### **Natural Language Commands**
+
+Just describe what you want to do in Cursor chat:
+
+#### Basic Management
+```
+"Show me the system resources and uptime"
+"List all network interfaces and their status"
+"What's in my ARP table?"
+"Create a backup called 'before-vpn-setup'"
+```
+
+#### Firewall & Security
+```
+"Create a firewall rule to allow SSH from 10.0.0.0/8"
+"Block all traffic from 192.168.99.0/24"
+"Show me active connections"
+"Create a port forward: external 8080 → internal 192.168.1.100:80"
+```
+
+#### VPN Setup
+```
+"Set up a WireGuard VPN to my AWS server at 52.1.2.3"
+"Create an OpenVPN client connection to my office"
+"List all WireGuard interfaces and their status"
+```
+
+#### IPv6 Networking
+```
+"Add IPv6 address 2001:db8::1/64 to bridge"
+"Enable IPv6 forwarding"
+"List IPv6 neighbors"
+"Create a DHCPv6 server on bridge interface"
+```
+
+#### Wireless Management
+```
+"List all wireless interfaces"
+"Scan for nearby WiFi networks"
+"Show connected wireless clients"
+"Enable CAPsMAN controller"
+```
+
+#### Container Management (RouterOS v7.x)
+```
+"List all containers"
+"Create a container from nginx:latest"
+"Show container configuration"
+"Create a veth interface for containers"
+```
+
+#### Dynamic Routing
+```
+"List BGP peers"
+"Show OSPF neighbors"
+"Create a route filter"
+```
+
+---
+
+## 🏗️ **Architecture**
+
+### Category-Based Organization
+
+Unlike traditional flat tool structures, this MCP uses **category-based tools** that dramatically reduce complexity:
+
+```
+Traditional:                    This MCP:
+├─ mikrotik_list_firewall       ├─ mikrotik_firewall
+├─ mikrotik_create_firewall        ├─ list_filter_rules
+├─ mikrotik_update_firewall        ├─ create_filter_rule
+├─ mikrotik_list_nat               ├─ list_nat_rules
+├─ mikrotik_create_nat             └─ ... (23 actions)
+├─ mikrotik_port_forward        
+... (100+ tools)                └─ mikrotik_ipv6 (39 actions)
+
+❌ Exceeds Cursor limits         ✅ Within Cursor limits
+❌ Hard to navigate              ✅ Easy to discover
+❌ Slow loading                  ✅ Fast loading
+```
+
+### Technology Stack
+
+- **Python 3.8+** - Core language
+- **MCP SDK** - Model Context Protocol
+- **Paramiko** - SSH connectivity
+- **RouterOS CLI** - Direct command execution
+
+### How It Works
+
+```
+┌─────────────┐         ┌──────────────┐         ┌─────────────┐
+│  Cursor     │ Natural │  MikroTik    │   SSH   │  RouterOS   │
+│  IDE + AI   │─────────▶   MCP        ├─────────▶   Device    │
+│             │ Language │  Server      │         │             │
+└─────────────┘         └──────────────┘         └─────────────┘
+     │                         │                         │
+     │  1. "Create VPN"        │                         │
+     │─────────────────────────▶                         │
+     │                         │  2. Generate config     │
+     │                         │  3. Execute commands    │
+     │                         ├────────────────────────▶│
+     │                         │  4. Verify results      │
+     │                         │◀────────────────────────│
+     │  5. "VPN created ✓"     │                         │
+     │◀─────────────────────────                         │
+```
+
+---
+
+## 📚 **Feature Deep Dive**
+
+### 🔥 **Firewall Management**
+
+**23 actions** covering complete firewall functionality:
+
+- **Filter Rules:** Allow, drop, reject traffic
+- **NAT:** Source NAT, destination NAT, masquerade
+- **Port Forwarding:** Easy external-to-internal mapping
+- **Mangle:** Packet marking, routing marks
+- **RAW:** Pre-connection tracking rules
+- **Connection Tracking:** View active connections
+
+**Example Workflow:**
+```
+1. "Create a filter rule to allow established connections"
+2. "Add NAT masquerade on ether1"
+3. "Set up port forwarding: 8080 → 192.168.1.100:80"
+4. "Show me current connection tracking"
+```
+
+### 🌐 **IPv6 Support (NEW in v4.0.0)**
+
+**39 actions** providing complete dual-stack networking:
+
+- **Address Management:** Add, remove, list IPv6 addresses
+- **Route Management:** Static IPv6 routes
+- **Neighbor Discovery:** RA, SLAAC configuration
+- **DHCPv6 Server:** Prefix delegation, stateful addressing
+- **DHCPv6 Client:** Request prefixes from upstream
+- **IPv6 Firewall:** Complete filter/NAT/mangle support
+- **IPv6 Pools:** Manage IPv6 address pools
+
+**Example Workflow:**
+```
+1. "Add IPv6 address 2001:db8::1/64 to bridgeLocal"
+2. "Enable IPv6 router advertisements on bridge"
+3. "Create DHCPv6 server with prefix delegation"
+4. "Add IPv6 firewall rule to allow ICMPv6"
+```
+
+### 📦 **Container Support (NEW in v4.0.0)**
+
+**18 actions** for Docker on RouterOS v7.x:
+
+- **Lifecycle:** Create, start, stop, remove containers
+- **Registry:** Configure private registries
+- **Environment:** Manage environment variables
+- **Storage:** Volume mounts
+- **Networking:** Veth interfaces
+
+**Example Workflow:**
+```
+1. "Set container registry to docker.io"
+2. "Create container from nginx:latest"
+3. "Create veth interface for container"
+4. "Start the nginx container"
+```
+
+### 🔒 **VPN Suite**
+
+**WireGuard (11 actions):**
+- Interface management
+- Peer configuration
+- Automatic key generation
+- Tunnel setup
+
+**OpenVPN (9 actions):**
+- Client configuration
+- Server management
+- Certificate handling
+
+**Example:**
+```
+"Create WireGuard interface wg0 with public key ABC123..."
+"Add WireGuard peer with endpoint 52.1.2.3:51820"
+"List all WireGuard peers and their status"
+```
+
+### 🛣️ **Dynamic Routing**
+
+**27 routing actions** including enterprise protocols:
+
+**BGP (8 actions):**
+- BGP instances
+- Peer management
+- Network advertisement
+- Route viewing
+
+**OSPF (7 actions):**
+- OSPF instances
+- Area configuration
+- Interface setup
+- Neighbor status
+
+**Route Filters (2 actions):**
+- Filter creation
+- Policy-based routing
+
+### 📡 **Wireless Management**
+
+**34 actions** for complete wireless control:
+
+**Basic Management:**
+- Create/remove interfaces
+- Enable/disable radios
+- Security profiles (v6.x)
+- Access lists
+
+**CAPsMAN (Centralized Management):**
+- Controller setup
+- Configuration profiles
+- Automatic provisioning
+- Remote AP management
+
+**Monitoring:**
+- Client registration table
+- Signal strength
+- Frequency scanning
+
+---
+
+## 🎯 **Real-World Use Cases**
+
+### **Home Lab Automation**
+```
+✓ "Set up WireGuard VPN to access my home network"
+✓ "Create guest WiFi with isolated network"
+✓ "Block ads using DNS firewall rules"
+✓ "Set up bandwidth limits for IoT devices"
+```
+
+### **Enterprise Deployment**
+```
+✓ "Configure BGP peering with ISP"
+✓ "Set up multi-site OSPF routing"
+✓ "Deploy CAPsMAN for centralized AP management"
+✓ "Create IPv6 dual-stack network"
+```
+
+### **Cloud Integration**
+```
+✓ "VPN tunnel to AWS VPC"
+✓ "Connect to Azure Virtual Network"
+✓ "Site-to-site VPN with GCP"
+✓ "Container-based services on edge router"
+```
+
+### **Security & Compliance**
+```
+✓ "Implement zero-trust firewall rules"
+✓ "Set up hotspot with captive portal"
+✓ "Create segmented VLANs for PCI compliance"
+✓ "Enable connection tracking for audit"
+```
+
+---
+
+## 📈 **Version History**
+
+### v4.0.0 - MAJOR (Current)
+- ✅ **IPv6 Support** (39 actions)
+- ✅ **Container Management** (18 actions)
+- ✅ **90% RouterOS Coverage**
+- ✅ **259 Total Actions**
+
+### v3.5.0
+- ✅ **Advanced Wireless** (17 actions)
+- ✅ **CAPsMAN Support** (17 actions)
+- ✅ **88% Coverage**
+
+### v3.0.0 - MAJOR
+- ✅ **BGP Support** (8 actions)
+- ✅ **OSPF Support** (7 actions)
+- ✅ **Route Filtering**
+- ✅ **85% Coverage**
+
+### v2.6.0
+- ✅ **Hotspot Management** (10 actions)
+
+### v2.5.0
+- ✅ **PPPoE Support**
+- ✅ **Tunnel Management** (EoIP, GRE)
+- ✅ **Link Bonding**
+
+### v2.4.0
+- ✅ **Advanced Firewall** (mangle, RAW)
+- ✅ **Connection Tracking**
+
+### v2.3.0
+- ✅ **OpenVPN Support** (9 actions)
+
+### v2.1.0
+- ✅ **WireGuard Support** (11 actions)
+
+### v1.0.0
+- ✅ **Initial Release**
+- ✅ **Basic RouterOS Functions**
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+
+---
+
+## 🔒 **Security Considerations**
+
+### Credentials
+- **Never commit credentials** to version control
+- Use environment variables for sensitive data
+- Consider using SSH keys instead of passwords
+
+### Network Access
+- Ensure **secure SSH access** to router
+- Use **firewall rules** to restrict management access
+- Enable **two-factor authentication** if available
+
+### Backup Strategy
+- **Always create backups** before major changes
+- This MCP includes built-in backup commands
+- Store backups in multiple locations
+
+### Testing
+- **Test on non-production** routers first
+- Use **isolated VLANs** for experiments
+- Have **out-of-band access** available
+
+---
+
+## 🐛 **Troubleshooting**
+
+### MCP Not Loading
+
+**Symptoms:** Cursor doesn't recognize MikroTik commands
+
+**Solutions:**
+1. Verify `mcp.json` path and format
+2. Check Python path in configuration
+3. Ensure virtual environment is activated
+4. Restart Cursor completely
+
+### Connection Issues
+
+**Symptoms:** "Failed to connect" errors
+
+**Solutions:**
+1. Verify `MIKROTIK_HOST` is correct
+2. Check SSH is enabled: `/ip service print`
+3. Test manual SSH: `ssh admin@192.168.88.1`
+4. Verify firewall rules allow SSH
+
+### Command Failures
+
+**Symptoms:** Commands return errors
+
+**Solutions:**
+1. Check RouterOS version compatibility
+2. Verify required packages are installed
+3. Check user permissions
+4. Review router logs: `/log print`
+
+### Performance Issues
+
+**Symptoms:** Slow responses
+
+**Solutions:**
+1. Check network latency to router
+2. Reduce concurrent operations
+3. Verify router has sufficient resources
+4. Update to latest RouterOS version
+
+---
+
+## 🤝 **Contributing**
+
+Contributions are welcome! Here's how:
+
+### Reporting Issues
+- Use GitHub Issues
+- Include RouterOS version
+- Provide command examples
+- Share error messages
+
+### Feature Requests
+- Check existing requests
+- Describe use case
+- Explain RouterOS capability
+
+### Pull Requests
+1. Fork the repository
+2. Create feature branch
+3. Test on live router
+4. Update documentation
+5. Submit PR with clear description
+
+---
+
+## 📄 **License**
+
+MIT License - see [LICENSE](LICENSE) file
+
+---
+
+## 🙏 **Acknowledgments**
+
+- **[@jeff-nasseri](https://github.com/jeff-nasseri)** - Original mikrotik-mcp project
+- **MikroTik** - For excellent RouterOS
+- **Anthropic** - For Claude and MCP protocol
+- **Cursor Team** - For amazing AI-powered IDE
+
+---
+
+## 📞 **Support**
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/kevinpez/mikrotik-cursor-mcp/issues)
+- **Discussions:** [Ask questions or share use cases](https://github.com/kevinpez/mikrotik-cursor-mcp/discussions)
+- **Documentation:** [Full guides and examples](docs/)
+
+---
+
+## 🌟 **Star History**
+
+If this project helped you, please ⭐ star it on GitHub!
+
+---
+
+**Built with ❤️ for the MikroTik community**
+
+*Making RouterOS automation accessible through natural language*
