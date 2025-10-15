@@ -303,6 +303,10 @@ class ComprehensiveTester:
                 test_args = {"filename": "test-backup.backup"}
             elif "watchdog" in tool_name:
                 test_args = {"script_name": "watchdog-test"}
+            elif "lease" in tool_name:
+                test_args = {"lease_id": "0"}
+            elif "client" in tool_name:
+                test_args = {"interface": "bridgeLocal"}
             elif "route" in tool_name and "ipv6" in tool_name:
                 test_args = {"dst_address": "::/0"}
             elif "eoip" in tool_name:
@@ -442,6 +446,32 @@ class ComprehensiveTester:
             test_args = {"severity": "info"}
         elif "topic" in tool_name.lower():
             test_args = {"topic": "system"}
+        elif "address_id" in tool_name.lower() or ("remove" in tool_name.lower() and "address" in tool_name.lower()):
+            test_args = {"address_id": "0"}
+        elif "prefix" in tool_name.lower() and "pool" in tool_name.lower():
+            test_args = {"name": "ipv6-pool", "prefix": "2001:db8::/64"}
+        elif "list_name" in tool_name.lower():
+            test_args = {"list_name": "test-list", "address": "2001:db8::1"}
+        elif "entry_id" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "lease_id" in tool_name.lower():
+            test_args = {"lease_id": "0"}
+        elif "public_key" in tool_name.lower():
+            test_args = {"interface": "wg1", "public_key": "test-key"}
+        elif "name" in tool_name.lower() and ("hotspot" in tool_name.lower() or "user" in tool_name.lower()):
+            test_args = {"name": "testuser", "password": "testpass"}
+        elif "interface" in tool_name.lower() and ("dhcpv6" in tool_name.lower() or "client" in tool_name.lower()):
+            test_args = {"interface": "bridgeLocal"}
+        elif "address" in tool_name.lower() and ("ipv6" in tool_name.lower() or "dhcpv6" in tool_name.lower()):
+            test_args = {"address": "2001:db8::1"}
+        elif "key" in tool_name.lower() and "container" in tool_name.lower():
+            test_args = {"name": "test-env", "key": "VAR", "value": "VALUE"}
+        elif "src" in tool_name.lower() and "container" in tool_name.lower():
+            test_args = {"name": "test-mount", "src": "/tmp", "dst": "/mnt"}
+        elif "expand" in tool_name.lower():
+            test_args = {"name": "test-pool"}
+        elif "address_pool" in tool_name.lower():
+            test_args = {"name": "dhcpv6-server", "interface": "bridgeLocal", "address_pool": "ipv6-pool"}
         
         return test_args
     
