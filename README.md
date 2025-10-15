@@ -1,6 +1,8 @@
-# MikroTik MCP Server - Nested Edition
+# MikroTik Cursor MCP
 
-**A performance-optimized fork of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri)**
+**Production-ready MikroTik automation optimized for Cursor IDE**
+
+*Based on [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri)*
 
 ## 🎯 **What's Different?**
 
@@ -38,8 +40,8 @@ This fork introduces a **nested tool architecture** that reduces the tool count 
 
 ```bash
 # Clone this repository
-git clone https://github.com/kevinpez/mikrotik-mcp-nested.git
-cd mikrotik-mcp-nested
+git clone https://github.com/kevinpez/mikrotik-cursor-mcp.git
+cd mikrotik-cursor-mcp
 
 # Create virtual environment
 python -m venv .venv
@@ -56,7 +58,7 @@ Add to your `~/.cursor/mcp.json`:
    ```json
    {
      "mcpServers": {
-    "mikrotik-mcp-nested": {
+    "mikrotik-cursor-mcp": {
       "command": "/path/to/.venv/Scripts/python.exe",
          "args": [
         "/path/to/src/mcp_mikrotik/server_nested.py",

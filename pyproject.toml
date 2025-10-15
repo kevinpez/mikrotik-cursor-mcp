@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mcp-server-mikrotik-nested"
-version = "2.0.0"
-description = "Performance-optimized MikroTik MCP server with nested tools (fork of jeff-nasseri/mikrotik-mcp)"
+name = "mikrotik-cursor-mcp"
+version = "2.4.0"
+description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 73% RouterOS coverage and workflow automation"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -45,7 +45,7 @@ Changelog = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/CHANGELOG
 Documentation = "https://github.com/kevinpez/mikrotik-mcp-nested/blob/main/README-NESTED.md"
 
 [project.scripts]
-mcp-server-mikrotik = "mcp_mikrotik.server:main"
+mikrotik-cursor-mcp = "mcp_mikrotik.server_nested:main"
 mcp-server-mikrotik-nested = "mcp_mikrotik.server_nested:main"
 
 [tool.setuptools.packages.find]

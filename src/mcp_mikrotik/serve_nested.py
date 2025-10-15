@@ -206,8 +206,8 @@ async def serve() -> None:
     """
     Main function to run the nested MCP server for MikroTik commands.
     """
-    app_logger.info("Starting Nested MikroTik MCP server")
-    server = Server("mcp-mikrotik-nested")
+    app_logger.info("Starting MikroTik Cursor MCP server")
+    server = Server("mikrotik-cursor-mcp")
 
     @server.list_tools()
     async def list_tools() -> List[Tool]:
