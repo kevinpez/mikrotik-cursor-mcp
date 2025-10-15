@@ -6,7 +6,7 @@ Provides safe preview of changes before applying them.
 from typing import Dict, Any, List, Optional, Callable
 from mcp.types import Tool
 from ..dry_run import get_dry_run_manager, OperationType
-from ..idempotency import get_idempotency_manager, DesiredState
+from ..safety_manager import get_unified_safety_manager, DesiredState
 from ..logger import app_logger
 
 
@@ -312,8 +312,8 @@ async def mikrotik_check_idempotency(resource_type: str, properties: Dict[str, A
         )
         
         # Check idempotency
-        idempotency_manager = get_idempotency_manager()
-        result = idempotency_manager._check_resource_idempotency(desired_state)
+        safety_manager = get_unified_safety_manager()
+        result = safety_manager.check_idempotency(desired_state.resource_type, desired_state.properties)
         
         app_logger.info(f"Idempotency check completed for {resource_type}")
         
@@ -352,8 +352,8 @@ async def mikrotik_ensure_desired_state(desired_states: List[Dict[str, Any]], ma
             states.append(state)
         
         # Ensure desired states
-        idempotency_manager = get_idempotency_manager()
-        results = idempotency_manager.ensure_desired_state(states, max_retries)
+        safety_manager = get_unified_safety_manager()
+        results = safety_manager.ensure_desired_state(states, max_retries)
         
         app_logger.info(f"Ensure desired state completed for {len(desired_states)} resources")
         

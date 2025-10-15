@@ -83,26 +83,31 @@ python run_tests.py all --verbose
 
 ## Test Categories
 
-The comprehensive test covers these categories:
-- **system**: System monitoring and management
-- **interfaces**: Network interface management
-- **ip**: IP address and pool management
-- **dhcp**: DHCP server configuration
-- **dns**: DNS settings and static entries
-- **routes**: Routing table and static routes
-- **firewall**: Firewall rules (filter, NAT, mangle, raw)
-- **diagnostics**: Network diagnostics (ping, traceroute, etc.)
-- **users**: User management
-- **logs**: System logs
-- **backup**: Backup management
-- **queues**: QoS queue management
-- **vlan**: VLAN interfaces
-- **wireguard**: WireGuard VPN
-- **openvpn**: OpenVPN configuration
-- **wireless**: Wireless interfaces and security
-- **hotspot**: Hotspot/captive portal
-- **ipv6**: IPv6 configuration
-- **container**: RouterOS v7.x containers
+The comprehensive test covers these categories with current success rates (82.7% overall):
+
+### 100% Success Categories ✅
+- **system**: System monitoring and management (7/7)
+- **interfaces**: Network interface management (8/8)
+- **routes**: Routing table and static routes (4/4)
+- **firewall**: Firewall rules (filter, NAT, mangle, raw) (1/1)
+- **users**: User management (3/3)
+- **backup**: Backup management (5/5)
+- **queues**: QoS queue management (2/2)
+- **openvpn**: OpenVPN configuration (9/9)
+
+### High Success Categories (80%+) 🟡
+- **ip**: IP address and pool management (36/42 - 85.7%)
+- **wireless**: Wireless interfaces and security (18/21 - 85.7%)
+- **hotspot**: Hotspot/captive portal (7/8 - 87.5%)
+- **ipv6**: IPv6 configuration (23/27 - 85.2%)
+- **wireguard**: WireGuard VPN (9/11 - 81.8%)
+- **logs**: System logs (6/8 - 75.0%)
+
+### Categories Being Improved 🔧
+- **dhcp**: DHCP server configuration (17/23 - 73.9%)
+- **container**: RouterOS v7.x containers (13/18 - 72.2%)
+- **vlan**: VLAN interfaces (8/12 - 66.7%)
+- **dns**: DNS settings and static entries (10/16 - 62.5%)
 
 ## Integration Tests
 

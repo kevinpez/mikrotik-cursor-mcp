@@ -583,6 +583,18 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 - Use **isolated VLANs** for experiments
 - Have **out-of-band access** available
 
+### **Automated Testing**
+```bash
+# Run core tests (100% success rate)
+python test_core.py
+
+# Run comprehensive tests (82.7% success rate - 186/225 tests)
+python test_comprehensive.py
+
+# Run all test types
+python run_tests.py all
+```
+
 ---
 
 ## 🐛 **Troubleshooting**
