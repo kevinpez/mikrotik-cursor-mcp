@@ -1,0 +1,170 @@
+# Multi-Site Configuration Example
+# Copy this to sites.yaml and customize for your environment
+
+sites:
+  # Primary Home Network
+  home-main:
+    name: "Home Network - Main Router"
+    host: "192.168.88.1"
+    username: "admin"
+    password: "your-secure-password"
+    ssh_port: 22
+    location: "Home Office, Main Floor"
+    priority: "high"  # high, medium, low
+    tags:
+      - "production"
+      - "home"
+      - "primary"
+    notes: "Main router for home network. Critical - handle with care."
+    
+    # Monitoring settings
+    monitoring:
+      enabled: true
+      interval: 300  # Check every 5 minutes
+      alert_on:
+        - "high_cpu"      # CPU > 80%
+        - "low_memory"    # Memory < 20% free
+        - "interface_down"
+        - "connection_loss"
+    
+    # Backup settings
+    backup:
+      enabled: true
+      schedule: "daily"  # daily, weekly, monthly
+      time: "02:00"      # 2 AM local time
+      retention_days: 30
+      include_sensitive: false  # Don't backup passwords
+
+  # Vacation Property
+  vacation-home:
+    name: "Vacation Property"
+    host: "vacation.yourdomain.com"  # Can use dynamic DNS
+    username: "admin"
+    password: "different-password"
+    ssh_port: 2222  # Non-standard port for security
+    location: "Lake House, Remote"
+    priority: "medium"
+    tags:
+      - "production"
+      - "vacation"
+      - "remote"
+    notes: "Vacation property router. Lower priority, check connectivity before operations."
+    
+    monitoring:
+      enabled: true
+      interval: 600  # Check every 10 minutes (less frequent)
+      alert_on:
+        - "connection_loss"
+    
+    backup:
+      enabled: true
+      schedule: "weekly"
+      time: "03:00"
+      retention_days: 60
+
+  # Lab/Testing Environment
+  lab-network:
+    name: "Home Lab Network"
+    host: "192.168.99.1"
+    username: "admin"
+    password: "lab-password"
+    ssh_port: 22
+    location: "Basement Lab"
+    priority: "low"
+    tags:
+      - "testing"
+      - "lab"
+      - "development"
+    notes: "Testing environment. Safe for experiments."
+    
+    monitoring:
+      enabled: false  # Don't monitor test environment
+    
+    backup:
+      enabled: true
+      schedule: "weekly"
+      time: "04:00"
+      retention_days: 7  # Short retention for lab
+
+  # Office Network (Example for business use)
+  # office-main:
+  #   name: "Office HQ Router"
+  #   host: "office.company.com"
+  #   username: "admin"
+  #   ssh_key: "/path/to/ssh/key"  # Use SSH key instead of password
+  #   ssh_port: 22
+  #   location: "Office HQ, Server Room"
+  #   priority: "high"
+  #   tags:
+  #     - "production"
+  #     - "office"
+  #     - "business-critical"
+  #   
+  #   monitoring:
+  #     enabled: true
+  #     interval: 60  # Check every minute for critical site
+  #     alert_on:
+  #       - "high_cpu"
+  #       - "low_memory"
+  #       - "interface_down"
+  #       - "connection_loss"
+  #       - "high_bandwidth"
+  #   
+  #   backup:
+  #     enabled: true
+  #     schedule: "daily"
+  #     time: "01:00"
+  #     retention_days: 90  # 3 months for business
+
+# Global Settings
+global:
+  # Default backup location
+  backup_directory: "./backups"
+  
+  # Default monitoring settings
+  monitoring:
+    default_interval: 300
+    alert_email: "admin@example.com"
+    alert_methods:
+      - "email"
+      # - "slack"
+      # - "sms"
+  
+  # Connection settings
+  connection:
+    timeout: 10  # seconds
+    retry_attempts: 3
+    retry_delay: 5  # seconds between retries
+  
+  # Logging
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+    file: "./logs/multi-site-manager.log"
+    max_size_mb: 100
+    backup_count: 5
+  
+  # Security
+  security:
+    require_confirmation: true  # Confirm destructive operations
+    log_all_operations: true
+    encrypt_backups: false  # Encrypt backup files
+    # encryption_key: "path/to/encryption/key"
+
+# Site Groups (for bulk operations)
+groups:
+  production:
+    - home-main
+    - vacation-home
+  
+  testing:
+    - lab-network
+  
+  all-sites:
+    - home-main
+    - vacation-home
+    - lab-network
+  
+  high-priority:
+    - home-main
+    # - office-main
+

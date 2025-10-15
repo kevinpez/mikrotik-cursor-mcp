@@ -1,0 +1,44 @@
+# Multi-Site Manager - Git Ignore
+
+# Site configuration (contains passwords)
+sites.yaml
+
+# Backup files
+backups/
+*.backup
+*.rsc
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Reports
+reports/
+*.html
+*.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+
