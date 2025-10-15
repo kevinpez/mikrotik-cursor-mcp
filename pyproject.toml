@@ -45,8 +45,7 @@ Changelog = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/CHANGELOG
 Documentation = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/README.md"
 
 [project.scripts]
-mikrotik-cursor-mcp = "mcp_mikrotik.server_nested:main"
-mcp-server-mikrotik-nested = "mcp_mikrotik.server_nested:main"
+mikrotik-cursor-mcp = "mcp_mikrotik.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
