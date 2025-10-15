@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2025-10-15
+
+### 🔥 Added - Advanced Firewall Features
+
+#### Mangle Rules (6 actions)
+- `list_mangle_rules` - List all mangle rules
+- `create_mangle_rule` - Create mangle rule for packet/connection/routing marking
+- `remove_mangle_rule` - Remove mangle rule
+- `update_mangle_rule` - Update mangle rule
+- `create_routing_mark` - Helper for policy-based routing
+- `list_routing_marks` - List all routing marks
+
+#### RAW Firewall (3 actions)
+- `list_raw_rules` - List RAW rules
+- `create_raw_rule` - Create RAW rule (bypass connection tracking)
+- `remove_raw_rule` - Remove RAW rule
+
+#### Connection Tracking (2 actions)
+- `get_connection_tracking` - View active connections
+- `flush_connections` - Clear connection table (with filters)
+
+**New Actions:** 11  
+**Total Actions:** 129 (up from 118)  
+**Coverage:** 73% (up from 70%)
+
+### ✅ Tested
+- Tested on live MikroTik RB5009UG+S+ (RouterOS 7.19.4)
+- List functions working correctly
+- All integrated into firewall category
+- No internet disruption during development
+
+### 🎯 Use Cases
+- Policy-based routing (multi-WAN)
+- Advanced traffic shaping with packet marking
+- Connection tracking bypass for high-performance servers
+- QoS with connection marking
+- Custom routing based on source/destination
+
 ## [2.3.0] - 2025-10-15
 
 ### 🆕 Added - OpenVPN Support
