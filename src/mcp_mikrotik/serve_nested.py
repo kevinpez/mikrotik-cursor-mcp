@@ -106,7 +106,11 @@ CATEGORY_ACTIONS = {
     "firewall": [
         "list_filter_rules", "create_filter_rule", "remove_filter_rule", "update_filter_rule",
         "list_nat_rules", "create_nat_rule", "remove_nat_rule", "update_nat_rule",
-        "create_port_forward", "list_port_forwards"
+        "create_port_forward", "list_port_forwards",
+        "list_mangle_rules", "create_mangle_rule", "remove_mangle_rule", "update_mangle_rule",
+        "create_routing_mark", "list_routing_marks",
+        "list_raw_rules", "create_raw_rule", "remove_raw_rule",
+        "get_connection_tracking", "flush_connections"
     ],
     "dhcp": [
         "list_dhcp_servers", "create_dhcp_server", "remove_dhcp_server", "get_dhcp_server",
