@@ -6,26 +6,27 @@
 
 ## 🎯 **What's Different?**
 
-This fork introduces a **nested tool architecture** that reduces the tool count from **100+ individual tools to just 15 category-based tools**, making it compatible with Cursor's recommended tool limit while **adding 37% more functionality** including system monitoring, interface management, network diagnostics, bandwidth control, and easy port forwarding.
+**Optimized specifically for Cursor IDE**, this MCP server provides intelligent tool organization that reduces complexity from **100+ individual tools to 17 category-based tools**, keeping you within Cursor's recommended limits while **adding 50%+ more functionality** including WireGuard & OpenVPN, advanced firewall, system monitoring, network diagnostics, and workflow automation.
 
 ### Key Improvements
-- ✅ **90% tool count reduction** (100+ → 16 tools)
-- ✅ **Better Cursor compatibility** (under 80-tool limit)
+- ✅ **84% tool count reduction** (100+ → 17 categories)
+- ✅ **Cursor-optimized architecture** (under 80-tool limit)
 - ✅ **Faster loading and performance**
 - ✅ **Improved route removal** (handles CIDR addresses)
-- ✅ **6 NEW feature categories** added (System, Interfaces, Diagnostics, Queues, Port Forwarding, **WireGuard**)
-- ✅ **MORE functionality** than original
-- ✅ **Backward compatible** - both versions included
+- ✅ **Advanced VPN support** (WireGuard, OpenVPN)
+- ✅ **Workflow automation** (one-command complex operations)
+- ✅ **73% RouterOS coverage** (145 actions)
+- ✅ **Production-tested** on real deployments
 
 ## 📊 **Performance & Feature Comparison**
 
 | Metric | Original | This Fork | Improvement |
 |--------|----------|-----------|-------------|
-| Tool Count | 100+ | 16 (+2 workflows) | **84% reduction** |
-| Feature Count | ~70 actions | **109 actions** | **+56% more features!** |
+| Tool Count | 100+ | 17 (+2 workflows) | **84% reduction** |
+| Feature Count | ~70 actions | **145 actions** | **+107% more features!** |
 | Cursor Compatibility | ⚠️ Exceeds limit | ✅ Within limit | **Fixed** |
 | Load Time | Slow | Fast | **~10x faster** |
-| Organization | Flat | Categorized | **Better UX** |
+| Organization | Flat | Category-based | **Better UX** |
 | System Monitoring | ❌ No | ✅ **CPU, RAM, uptime** | **NEW** |
 | Interface Management | ❌ No | ✅ **Stats, enable/disable** | **NEW** |
 | Network Diagnostics | ❌ No | ✅ **Ping, traceroute, ARP** | **NEW** |
@@ -104,7 +105,7 @@ Close and reopen Cursor to load the MCP server.
 | 1️⃣4️⃣ | `mikrotik_queues` | **Bandwidth limits & QoS (simple queues)** | 7 actions |
 | 1️⃣5️⃣ | `mikrotik_wireguard` | **Manage WireGuard VPN interfaces and peers** | 11 actions |
 
-**Total:** 109 actions across 16 categories + 2 workflow helpers!
+**Total:** 145 actions across 17 categories + 2 workflow helpers!
 
 ## 💡 **Usage**
 
@@ -156,7 +157,7 @@ mikrotik_setup_vpn_client(...)
 
 ### Natural Language Commands
 
-The nested version works with natural language commands in Cursor:
+Works seamlessly with natural language in Cursor:
 
 ```
 You: "Show me all firewall rules"

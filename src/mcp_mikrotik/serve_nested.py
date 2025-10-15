@@ -1,6 +1,6 @@
 """
-Nested MikroTik MCP server with reduced tool count.
-Instead of 100+ individual tools, we have ~10 category tools.
+MikroTik Cursor MCP server optimized for Cursor IDE.
+Category-based tool organization with 17 categories and 145+ actions.
 """
 import sys
 from .logger import app_logger

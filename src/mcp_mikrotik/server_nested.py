@@ -6,8 +6,8 @@ from mcp_mikrotik.settings.configuration import mikrotik_config
 
 def main():
     """
-    Entry point for the Nested MCP MikroTik server when run as a command-line program.
-    This version reduces tool count from 100+ to ~10 nested tools.
+    Entry point for the MikroTik Cursor MCP server.
+    Optimized for Cursor IDE with category-based tool organization.
     """
     import asyncio
     import argparse
@@ -33,16 +33,16 @@ def main():
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
 
-    logger.info("Starting Nested MCP MikroTik server (10 tools instead of 100+)")
+    logger.info("Starting MikroTik Cursor MCP server (17 categories, 145+ actions)")
     logger.info(f"Using host: {mikrotik_config['host']}")
     logger.info(f"Using username: {mikrotik_config['username']}")
 
     try:
         asyncio.run(serve())
     except KeyboardInterrupt:
-        logger.info("Nested MCP MikroTik server stopped by user")
+        logger.info("MikroTik Cursor MCP server stopped by user")
     except Exception as e:
-        logger.error(f"Error running Nested MCP MikroTik server: {e}")
+        logger.error(f"Error running MikroTik Cursor MCP server: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
