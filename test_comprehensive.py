@@ -118,6 +118,10 @@ class ComprehensiveTester:
             test_args = {"name": "testuser", "password": "testpass"}
         elif "address" in tool_name.lower() and ("ipv6" in tool_name.lower() or "dhcpv6" in tool_name.lower()):
             test_args = {"address": "2001:db8::1"}
+        elif "additional_ranges" in tool_name.lower():
+            test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
+        elif "interface" in tool_name.lower() and "ipv6" in tool_name.lower():
+            test_args = {"address": "2001:db8::1/64", "interface": "ether1"}
         elif "list" in tool_name.lower():
             # List commands usually don't need arguments
             pass
@@ -152,7 +156,7 @@ class ComprehensiveTester:
             elif "dhcpv6" in tool_name:
                 test_args = {"interface": "bridgeLocal"}
             elif "ipv6" in tool_name and "address" in tool_name:
-                test_args = {"address": "2001:db8::1/64"}
+                test_args = {"address": "2001:db8::1/64", "interface": "ether1"}
             elif "ipv6" in tool_name and "nd" in tool_name:
                 test_args = {"interface": "ether1"}
         elif "create" in tool_name.lower() or "set" in tool_name.lower() or "add" in tool_name.lower():
@@ -201,7 +205,7 @@ class ComprehensiveTester:
             elif "pool" in tool_name:
                 test_args = {"name": "test-pool", "ranges": "192.168.100.100-192.168.100.200"}
             elif "expand" in tool_name:
-                test_args = {"name": "test-pool", "additional_range": "192.168.100.201-192.168.100.250"}
+                test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
             elif "watchdog" in tool_name:
                 test_args = {"script_name": "watchdog-test", "script_content": "echo watchdog test"}
             elif "script" in tool_name:
@@ -537,6 +541,36 @@ class ComprehensiveTester:
             test_args = {"interface": "bridgeLocal"}
         elif "name" in tool_name.lower() and "dhcpv6" in tool_name.lower():
             test_args = {"name": "dhcpv6-option", "value": "test"}
+        elif "remove_ip_address" in tool_name.lower():
+            test_args = {"address_id": "0"}
+        elif "expand_ip_pool" in tool_name.lower():
+            test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
+        elif "add_ipv6_address" in tool_name.lower():
+            test_args = {"address": "2001:db8::1/64", "interface": "ether1"}
+        elif "create_ipv6_pool" in tool_name.lower():
+            test_args = {"name": "ipv6-pool", "prefix": "2001:db8::/64"}
+        elif "add_ipv6_address_list" in tool_name.lower():
+            test_args = {"list_name": "test-list", "address": "2001:db8::1"}
+        elif "remove_ipv6_address_list_entry" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "create_dhcpv6_server" in tool_name.lower():
+            test_args = {"name": "dhcpv6-server", "interface": "bridgeLocal", "address_pool": "ipv6-pool"}
+        elif "create_dhcpv6_static_lease" in tool_name.lower():
+            test_args = {"address": "2001:db8::100", "duid": "test-duid"}
+        elif "get_dhcpv6_client" in tool_name.lower():
+            test_args = {"interface": "bridgeLocal"}
+        elif "create_dhcpv6_option" in tool_name.lower():
+            test_args = {"name": "dhcpv6-option", "value": "test"}
+        elif "get_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "update_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0", "comment": "updated"}
+        elif "remove_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "enable_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "disable_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0"}
         
         return test_args
     
