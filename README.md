@@ -50,6 +50,15 @@ The MCP server handles all the technical details - generating keys, configuring 
 - ✅ **High Availability** (VRRP redundancy)
 - ✅ **Automation** (Script scheduler, watchdog monitoring)
 
+### **🆕 Multi-Site Manager**
+- ✅ **Centralized Control** (Manage unlimited routers from one CLI)
+- ✅ **Health Monitoring** (CPU, memory, interfaces across all sites)
+- ✅ **Automated Backups** (Scheduled backups with retention policies)
+- ✅ **Bulk Operations** (Deploy changes to multiple sites simultaneously)
+- ✅ **Site Organization** (Groups, tags, priorities)
+
+👉 **See [multi-site-manager/](multi-site-manager/)** for complete multi-site management capabilities
+
 ---
 
 ## 📦 **Installation**

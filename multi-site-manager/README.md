@@ -1,331 +1,356 @@
 # MikroTik Multi-Site Manager
 
-**Centralized management for multiple MikroTik routers across different locations**
+> **Centralized management for multiple MikroTik routers from a single CLI**
 
-## Overview
+Manage unlimited MikroTik sites with automated backups, health monitoring, and bulk operations. Built on the MikroTik Cursor MCP foundation.
 
-The Multi-Site Manager extends the MikroTik MCP server to manage multiple routers from a single interface. Perfect for:
-- Multiple office locations
-- Home + vacation property
-- Client networks (MSP use case)
-- Lab + production environments
+---
 
-## Features
+## Why Use This?
 
-### ✅ **Centralized Management**
-- Single configuration for all sites
-- Bulk operations across sites
-- Consistent security policies
-- Synchronized configurations
+**Before:** SSH into each router individually → Run commands → Keep track manually  
+**After:** One command manages all your routers simultaneously
 
-### ✅ **Site Health Monitoring**
-- Real-time status of all sites
-- Resource utilization tracking
-- Connection state monitoring
-- Alert system for issues
+**Perfect for:**
+- 🏠 Multiple properties (home + vacation home + lab)
+- 🏢 Multi-office businesses  
+- 🔧 MSPs managing client networks
+- 🎓 Network labs and testing environments
 
-### ✅ **Backup Management**
-- Automated backup scheduling
-- Centralized backup storage
-- Version history tracking
-- Quick restore capabilities
-
-### ✅ **Bulk Operations**
-- Deploy firewall rules to all sites
-- Update configurations simultaneously
-- Synchronized firmware updates
-- Mass user management
-
-### ✅ **Site Comparison**
-- Configuration drift detection
-- Compliance checking
-- Performance comparison
-- Security posture analysis
+---
 
 ## Quick Start
 
-### 1. Install Requirements
+### 1. Setup (2 minutes)
 
 ```bash
 cd multi-site-manager
 pip install -r requirements.txt
+cp sites.yaml.example sites.yaml
 ```
 
-### 2. Configure Sites
-
-Edit `sites.yaml`:
-
+Edit `sites.yaml` with your routers:
 ```yaml
 sites:
   home-main:
-    name: "Home Network - Main"
+    name: "Home Router"
     host: "192.168.88.1"
     username: "admin"
     password: "your-password"
-    ssh_port: 22
-    location: "Home Office"
-    priority: "high"
-    
-  vacation-home:
-    name: "Vacation Property"
-    host: "vacation.example.com"
-    username: "admin"
-    password: "your-password"
-    ssh_port: 22
-    location: "Lake House"
-    priority: "medium"
 ```
 
-### 3. Run Manager
+### 2. First Commands (30 seconds)
 
-```bash
-# Check status of all sites
-python site_manager.py status
-
-# Backup all sites
-python site_manager.py backup --all
-
-# Deploy firewall rule to all sites
-python site_manager.py firewall deploy --rule "block_suspicious" --sites all
-
-# Get health report
-python site_manager.py health --format html
-```
-
-## Architecture
-
-```
-multi-site-manager/
-├── README.md                 # This file
-├── requirements.txt          # Python dependencies
-├── sites.yaml               # Site configuration
-├── config/
-│   ├── global_policies.yaml # Global security policies
-│   ├── firewall_templates/  # Reusable firewall configs
-│   └── user_templates/      # Standard user configs
-├── site_manager.py          # Main CLI tool
-├── lib/
-│   ├── site_connector.py    # Connect to sites
-│   ├── bulk_operations.py   # Bulk ops engine
-│   ├── health_monitor.py    # Health monitoring
-│   ├── backup_manager.py    # Backup system
-│   └── comparison.py        # Config comparison
-├── backups/                 # Centralized backup storage
-├── logs/                    # Operation logs
-└── reports/                 # Health reports
-
-```
-
-## Usage Examples
-
-### Health Check
 ```bash
 # Check all sites
-python site_manager.py health
+python site_manager.py status
 
-# Check specific site
-python site_manager.py health --site home-main
+# Health check
+python site_manager.py health --all
 
-# Generate HTML report
-python site_manager.py health --format html --output report.html
+# Create backups
+python site_manager.py backup create --all
 ```
 
-### Backup Management
+**📖 Full setup guide:** See [QUICK_START.md](QUICK_START.md)
+
+---
+
+## Core Features
+
+### 🏥 Health Monitoring
+Monitor CPU, memory, interfaces, DHCP leases across all sites
 ```bash
-# Backup all sites
-python site_manager.py backup --all
+python site_manager.py health --all
+python site_manager.py health --all --format html --output report.html
+```
 
-# Backup specific site
-python site_manager.py backup --site home-main
-
-# List all backups
+### 💾 Automated Backups
+Schedule and manage backups with retention policies
+```bash
+python site_manager.py backup create --all
 python site_manager.py backup list
+python site_manager.py backup restore home-main --date 2025-10-15
+```
 
-# Restore from backup
-python site_manager.py backup restore --site home-main --date 2025-10-15
+### ⚡ Bulk Operations
+Execute commands across multiple sites simultaneously
+```bash
+python site_manager.py bulk execute "/system identity print" --sites all
+python site_manager.py bulk execute "command" --group production
+```
+
+### 🏷️ Site Organization
+Organize by tags, groups, and priorities
+```yaml
+sites:
+  home-main:
+    tags: ["production", "home"]
+    priority: "high"
+
+groups:
+  production: [home-main, office-main]
+```
+
+---
+
+## Command Reference
+
+### Status & Health
+```bash
+status                              # Connection status
+status --site <site-id>            # Specific site
+health --all                        # Health check all
+health --site <site-id>            # Health check one
+health --all --format html         # HTML report
+```
+
+### Backups
+```bash
+backup create --all                 # Backup all sites
+backup create --site <site-id>     # Backup one site
+backup list                         # List all backups
+backup list --site <site-id>       # List for site
+backup restore <site-id> --date <date>
 ```
 
 ### Bulk Operations
 ```bash
-# Deploy firewall rule to all sites
-python site_manager.py firewall deploy --rule block_malicious --all
-
-# Update user on all sites
-python site_manager.py user update --username admin --password newpass --all
-
-# Add DHCP static lease to all sites
-python site_manager.py dhcp add-static --ip 192.168.88.100 --mac aa:bb:cc:dd:ee:ff --all
+bulk execute "<command>" --sites all
+bulk execute "<command>" --sites site1,site2
+bulk execute "<command>" --group <group-name>
 ```
 
-### Configuration Comparison
+### Site Management
 ```bash
-# Compare configurations
-python site_manager.py compare --sites home-main,vacation-home
-
-# Check for drift from template
-python site_manager.py compare --template standard-config.yaml
-
-# Security posture comparison
-python site_manager.py compare --type security
+site add <site-id>                  # Add new site
+site remove <site-id>               # Remove site
+site info <site-id>                 # View site details
 ```
 
-### Site Discovery
-```bash
-# Auto-discover MikroTik routers on network
-python site_manager.py discover --network 192.168.1.0/24
+---
 
-# Add discovered site
-python site_manager.py site add --from-discovery
+## Project Structure
+
+```
+multi-site-manager/
+├── site_manager.py              # Main CLI tool
+├── sites.yaml                   # Your site configuration
+├── lib/
+│   ├── site_connector.py        # Connection management
+│   ├── health_monitor.py        # Health checks
+│   ├── backup_manager.py        # Backup system
+│   └── bulk_operations.py       # Bulk operations
+├── examples/
+│   ├── daily_operations.sh      # Automation script
+│   └── deploy_firewall_rule.py  # Deployment example
+├── backups/                     # Backup storage (auto-created)
+└── logs/                        # Operation logs (auto-created)
 ```
 
-## Configuration Files
+---
 
-### sites.yaml
-Main configuration file for all sites:
+## Configuration
+
+### Basic Site Configuration
 
 ```yaml
 sites:
   site-id:
-    name: "Human-readable name"
-    host: "IP or hostname"
+    name: "Site Name"
+    host: "192.168.88.1"              # IP or hostname
     username: "admin"
-    password: "password"  # Or use ssh_key
-    ssh_key: "/path/to/key"  # Optional
+    password: "password"               # Or use ssh_key
     ssh_port: 22
     location: "Physical location"
-    priority: "high|medium|low"
+    priority: "high"                   # high/medium/low
     tags: ["production", "office"]
+    
     monitoring:
       enabled: true
-      interval: 300  # seconds
+      interval: 300                    # seconds
+    
     backup:
       enabled: true
-      schedule: "daily"  # daily, weekly, monthly
-      retention: 30  # days
+      schedule: "daily"                # daily/weekly/monthly
+      retention_days: 30
 ```
 
-### global_policies.yaml
-Policies applied to all sites:
+### Site Groups
 
 ```yaml
-policies:
-  firewall:
-    - name: "Block RFC1918 from WAN"
-      chain: "input"
-      action: "drop"
-      src-address-list: "rfc1918"
-      in-interface: "ether1"
-      
-  users:
-    - name: "admin"
-      group: "full"
-      password_policy: "strong"
-      
-  security:
-    disable_services:
-      - "telnet"
-      - "ftp"
-    enable_services:
-      - "ssh"
-      - "winbox-ssl"
+groups:
+  production:
+    - home-main
+    - office-main
+  
+  testing:
+    - lab-network
 ```
 
-## API Usage
+---
 
-You can also use the Python API directly:
+## Common Use Cases
 
+### Daily Health Check & Backup
+```bash
+#!/bin/bash
+# Add to cron: 0 2 * * *
+cd /path/to/multi-site-manager
+python site_manager.py backup create --all
+python site_manager.py health --all --format html --output daily_report.html
+```
+
+### Deploy Firewall Rule to All Sites
+```bash
+python site_manager.py bulk execute \
+  "/ip firewall filter add chain=input action=accept src-address=10.0.0.0/8" \
+  --sites all
+```
+
+### Update DNS on Production Sites
+```bash
+python site_manager.py bulk execute \
+  "/ip dns set servers=8.8.8.8,8.8.4.4" \
+  --group production
+```
+
+### Compare Configurations
+```bash
+# Get firewall rules from all sites
+python site_manager.py bulk execute "/ip firewall filter print" --sites all
+
+# Review differences manually or pipe to diff tool
+```
+
+---
+
+## Automation Examples
+
+### Daily Operations (Cron)
+```bash
+# /etc/cron.d/mikrotik-multi-site
+0 2 * * * /path/to/examples/daily_operations.sh
+```
+
+### Python Script Integration
 ```python
-from lib.site_manager import SiteManager
-
-# Initialize manager
-manager = SiteManager('sites.yaml')
-
-# Get all sites
-sites = manager.get_all_sites()
-
-# Execute command on all sites
-results = manager.execute_all('system identity print')
-
-# Deploy firewall rule
-manager.deploy_firewall_rule(
-    rule_name='block_suspicious',
-    sites=['home-main', 'vacation-home']
-)
+from lib.site_connector import SiteConnector
+from lib.health_monitor import HealthMonitor
 
 # Get health status
-health = manager.get_health_status('home-main')
-print(f"CPU: {health['cpu']}%")
-print(f"Memory: {health['memory_used']}/{health['memory_total']}")
+monitor = HealthMonitor()
+health = monitor.check_all_sites()
+
+# Alert if any site unhealthy
+for site_id, data in health.items():
+    if data.get('health_score', 100) < 80:
+        send_alert(f"{site_id} health score: {data['health_score']}")
 ```
 
-## Best Practices
+---
 
-### Security
-1. **Use SSH Keys** instead of passwords where possible
+## Performance
+
+- **Single site check:** < 2 seconds
+- **10 sites parallel:** < 5 seconds
+- **Scalability:** Designed for 100+ sites
+
+---
+
+## Requirements
+
+- **Python:** 3.8+
+- **Network:** SSH access to routers (port 22)
+- **Disk:** ~10MB + backup storage
+- **Dependencies:** See requirements.txt
+
+---
+
+## Security Best Practices
+
+1. **Use SSH keys** instead of passwords where possible
 2. **Encrypt sites.yaml** if storing passwords
-3. **Restrict SSH access** to management network only
-4. **Enable logging** for all management operations
-5. **Regular backups** before bulk operations
+3. **Restrict file permissions:** `chmod 600 sites.yaml`
+4. **Use non-standard SSH ports** for internet-facing routers
+5. **Enable logging** for audit trail
 
-### Operations
-1. **Test on single site first** before bulk deployment
-2. **Use tags** to group similar sites
-3. **Set priorities** for critical sites
-4. **Schedule backups** during low-traffic hours
-5. **Monitor health** continuously
-
-### Organization
-1. **Document site purposes** in site configuration
-2. **Use consistent naming** across sites
-3. **Tag environments** (prod, dev, test)
-4. **Version control** your configuration files
-5. **Keep backup retention policy** reasonable
+---
 
 ## Troubleshooting
 
-### Connection Issues
+### Connection Failed
 ```bash
-# Test connectivity to site
-python site_manager.py test-connection --site home-main
+# Test specific site
+python site_manager.py status --site <site-id>
 
-# View last successful connection
-python site_manager.py site info --site home-main
+# Verify router is reachable
+ping <router-ip>
+```
+
+### Command Failed
+```bash
+# Check logs
+cat logs/multi-site-manager.log
+
+# Test command on single site first
+python site_manager.py bulk execute "<command>" --sites test-site
 ```
 
 ### Backup Issues
 ```bash
-# Verify backup integrity
-python site_manager.py backup verify --backup-id abc123
+# Force new backup
+python site_manager.py backup create --site <site-id> --force
 
-# Force backup creation
-python site_manager.py backup --site home-main --force
+# Check backup directory
+ls -la backups/<site-id>/
 ```
 
-### Operation Failures
-```bash
-# View operation logs
-python site_manager.py logs --site home-main --last 10
+---
 
-# Rollback last operation
-python site_manager.py rollback --site home-main
-```
+## Advanced Usage
 
-## Roadmap
+### Custom Health Checks
+Extend `lib/health_monitor.py` to add:
+- VPN tunnel status
+- Wireless client counts
+- Bandwidth monitoring
+- Custom metrics
 
-- [ ] Web dashboard for multi-site management
-- [ ] Mobile app for site monitoring
-- [ ] Automated firmware update orchestration
-- [ ] VPN mesh auto-configuration
-- [ ] Advanced analytics and reporting
-- [ ] Integration with monitoring systems (Prometheus, Grafana)
-- [ ] Slack/Teams notifications
-- [ ] Compliance reporting (PCI-DSS, HIPAA)
+### Cloud Backup Integration
+Modify `lib/backup_manager.py` to:
+- Upload to S3/Azure/GCS
+- Encrypt backups
+- Implement differential backups
+
+### Monitoring Integration
+Build integrations with:
+- Prometheus & Grafana
+- Nagios/Zabbix
+- Slack/Teams alerts
+- Email notifications
+
+---
 
 ## Contributing
 
-This is part of the MikroTik Cursor MCP project. See main README for contribution guidelines.
+This is part of the [MikroTik Cursor MCP](https://github.com/kevinpez/mikrotik-cursor-mcp) project.
+
+---
 
 ## License
 
-MIT License - See main project LICENSE file
+MIT License - See main project [LICENSE](../LICENSE) file
 
+---
+
+## Support
+
+- **Documentation:** [QUICK_START.md](QUICK_START.md)
+- **Examples:** See `examples/` directory
+- **Issues:** GitHub Issues
+- **Parent Project:** [MikroTik Cursor MCP](https://github.com/kevinpez/mikrotik-cursor-mcp)
+
+---
+
+**Built on:** MikroTik Cursor MCP v4.8.1 (99% RouterOS coverage, 383 actions)

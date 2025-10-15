@@ -1,20 +1,35 @@
 #!/bin/bash
 #
 # Daily Operations Script for Multi-Site Manager
-# Run this daily via cron for automated management
 #
-# Add to crontab: 0 2 * * * /path/to/daily_operations.sh
+# Purpose: Automated backups, health checks, and cleanup
+# Schedule: Add to crontab with: 0 2 * * * /path/to/daily_operations.sh
 #
+# Features:
+# - Creates backups of all sites
+# - Generates HTML health report
+# - Cleans up old backups (30+ days)
+# - Cleans up old reports (14+ days)
+# - Optional email notifications
 
-# Configuration
+# ============================================================================
+# CONFIGURATION - Edit these values
+# ============================================================================
+
+# Directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MANAGER_DIR="$(dirname "$SCRIPT_DIR")"
 REPORT_DIR="$MANAGER_DIR/reports"
 LOG_FILE="$MANAGER_DIR/logs/daily_operations.log"
 
-# Email settings (configure if you want email notifications)
-SEND_EMAIL=false
-EMAIL_TO="admin@example.com"
+# Email settings
+SEND_EMAIL=false                    # Set to true to enable email
+EMAIL_TO="admin@example.com"        # Your email address
+EMAIL_FROM="mikrotik@example.com"   # From address
+
+# Retention policies (days)
+BACKUP_RETENTION=30
+REPORT_RETENTION=14
 
 # Create necessary directories
 mkdir -p "$REPORT_DIR"
@@ -56,15 +71,17 @@ else
     log "✗ Status check failed!"
 fi
 
-# 4. Cleanup old backups (keep 30 days)
-log "Cleaning up old backups..."
-find "$MANAGER_DIR/backups" -name "*.rsc" -type f -mtime +30 -delete 2>> "$LOG_FILE"
-log "✓ Old backups cleaned up"
+# 4. Cleanup old backups
+log "Cleaning up old backups (keeping $BACKUP_RETENTION days)..."
+find "$MANAGER_DIR/backups" -name "*.rsc" -type f -mtime +$BACKUP_RETENTION -delete 2>> "$LOG_FILE"
+BACKUP_COUNT=$(find "$MANAGER_DIR/backups" -name "*.rsc" -type f | wc -l)
+log "✓ Old backups cleaned up ($BACKUP_COUNT backups remaining)"
 
-# 5. Cleanup old reports (keep 14 days)
-log "Cleaning up old reports..."
-find "$REPORT_DIR" -name "*.html" -type f -mtime +14 -delete 2>> "$LOG_FILE"
-log "✓ Old reports cleaned up"
+# 5. Cleanup old reports
+log "Cleaning up old reports (keeping $REPORT_RETENTION days)..."
+find "$REPORT_DIR" -name "*.html" -type f -mtime +$REPORT_RETENTION -delete 2>> "$LOG_FILE"
+REPORT_COUNT=$(find "$REPORT_DIR" -name "*.html" -type f | wc -l)
+log "✓ Old reports cleaned up ($REPORT_COUNT reports remaining)"
 
 # 6. Send email notification (if configured)
 if [ "$SEND_EMAIL" = true ]; then

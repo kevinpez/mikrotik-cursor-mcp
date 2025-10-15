@@ -1,25 +1,36 @@
-# Multi-Site Manager - Quick Start Guide
+# Quick Start Guide - Multi-Site Manager
 
-Get up and running with multi-site management in 5 minutes!
+Get up and running in **5 minutes** ⚡
 
-## Step 1: Install Dependencies (2 minutes)
+---
+
+## Prerequisites
+
+✅ Python 3.8 or higher  
+✅ SSH access to your MikroTik routers  
+✅ MikroTik Cursor MCP installed (parent project)
+
+---
+
+## Step 1: Install (2 minutes)
 
 ```bash
-cd multi-site-manager
+# Navigate to multi-site manager
+cd mikrotik-mcp/multi-site-manager
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Copy configuration template
+cp sites.yaml.example sites.yaml
 ```
+
+---
 
 ## Step 2: Configure Your Sites (2 minutes)
 
-```bash
-# Copy example configuration
-cp sites.yaml.example sites.yaml
+Edit `sites.yaml` with your routers:
 
-# Edit with your actual sites
-nano sites.yaml  # or use your favorite editor
-```
-
-**Minimum configuration:**
 ```yaml
 sites:
   home-main:
@@ -30,206 +41,269 @@ sites:
     ssh_port: 22
     location: "Home"
     priority: "high"
+    tags: ["production"]
 ```
+
+**Minimum required fields:**
+- `name` - Human-readable name
+- `host` - IP address or hostname
+- `username` - SSH username
+- `password` - SSH password (or use `ssh_key`)
+
+---
 
 ## Step 3: Test Connection (30 seconds)
 
 ```bash
-# Check if sites are reachable
+# Check if your router is reachable
 python site_manager.py status
 ```
 
-You should see:
+**Expected output:**
 ```
 Site ID    Name            Host           Status  Last Check
-─────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
 home-main  My Home Router  192.168.88.1   ●       2025-10-15...
 ```
 
-## Step 4: Your First Commands (30 seconds)
+✅ Green dot (●) means connected!  
+❌ Red X (✗) means connection failed
 
+---
+
+## Step 4: Your First Commands (1 minute)
+
+### Health Check
 ```bash
-# Get health status
 python site_manager.py health --all
-
-# Create backup
-python site_manager.py backup create --all
-
-# List DHCP leases from all sites
-python site_manager.py bulk execute "/ip dhcp-server lease print" --sites all
 ```
 
-## Common Use Cases
-
-### Daily Backup
-
+### Create Backup
 ```bash
-# Backup all sites
 python site_manager.py backup create --all
+```
 
-# List backups
+### List Backups
+```bash
 python site_manager.py backup list
+```
 
-# Restore if needed
-python site_manager.py backup restore home-main --date 2025-10-15
+### Execute Command on All Sites
+```bash
+python site_manager.py bulk execute "/system identity print" --sites all
+```
+
+---
+
+## Common Commands
+
+### Check Site Status
+```bash
+python site_manager.py status                    # All sites
+python site_manager.py status --site home-main   # One site
 ```
 
 ### Health Monitoring
-
 ```bash
-# Quick health check
-python site_manager.py health --all
+python site_manager.py health --all                        # All sites
+python site_manager.py health --site home-main             # One site
+python site_manager.py health --all --format html --output report.html
+```
 
-# Generate HTML report
-python site_manager.py health --all --format html --output health_report.html
-
-# Check specific site
-python site_manager.py health --site home-main
+### Backup Operations
+```bash
+python site_manager.py backup create --all       # Backup all
+python site_manager.py backup create --site home-main
+python site_manager.py backup list
+python site_manager.py backup restore home-main --date 2025-10-15
 ```
 
 ### Bulk Operations
-
 ```bash
-# Get system info from all sites
-python site_manager.py bulk execute "/system identity print" --sites all
-
-# Update DNS on all sites
-python site_manager.py bulk execute "/ip dns set servers=8.8.8.8,8.8.4.4" --sites all
-
-# Check all firewall rules
-python site_manager.py bulk execute "/ip firewall filter print" --sites all
+python site_manager.py bulk execute "<command>" --sites all
+python site_manager.py bulk execute "<command>" --sites site1,site2
 ```
 
-### Site Management
+---
 
+## Adding More Sites
+
+### Option 1: Edit sites.yaml manually
+```yaml
+sites:
+  vacation-home:
+    name: "Vacation Property"
+    host: "vacation.example.com"
+    username: "admin"
+    password: "different-password"
+    ssh_port: 22
+    priority: "medium"
+```
+
+### Option 2: Use CLI (interactive)
 ```bash
-# Add new site
 python site_manager.py site add vacation-home
-
-# View site info
-python site_manager.py site info home-main
-
-# Remove site
-python site_manager.py site remove old-site
+# Follow the prompts
 ```
 
-## Pro Tips
+---
 
-### 1. Use Site Groups
-Define groups in `sites.yaml`:
+## Organizing Sites
+
+### By Groups
 ```yaml
 groups:
   production:
     - home-main
     - office-main
+  
   testing:
     - lab-network
 ```
 
-Then operate on groups:
+Use with:
 ```bash
 python site_manager.py bulk execute "command" --group production
 ```
 
-### 2. Use Tags
-Tag your sites for easy filtering:
+### By Tags
 ```yaml
 sites:
   home-main:
-    tags:
-      - "production"
-      - "home"
-      - "wifi-6"
+    tags: ["production", "wifi-6", "home"]
 ```
 
-### 3. Automate with Cron
-
-Create a daily backup script:
-```bash
-#!/bin/bash
-cd /path/to/multi-site-manager
-python site_manager.py backup create --all
-python site_manager.py health --all --format html --output /var/www/health.html
+### By Priority
+```yaml
+sites:
+  critical-router:
+    priority: "high"    # high, medium, or low
 ```
-
-Add to crontab:
-```
-0 2 * * * /path/to/backup_script.sh
-```
-
-### 4. Generate Reports
-
-```bash
-# HTML health report
-python site_manager.py health --all --format html --output report.html
-
-# JSON for processing
-python site_manager.py health --all --format json > health.json
-
-# Status table
-python site_manager.py status --format table
-```
-
-## Troubleshooting
-
-### Connection Failed
-
-```bash
-# Test individual site
-python site_manager.py status --site home-main
-
-# Check if router is reachable
-ping 192.168.88.1
-
-# Verify SSH is enabled on router
-```
-
-### Command Failed
-
-```bash
-# Try running command directly
-python site_manager.py bulk execute "/system identity print" --sites home-main
-
-# Check logs
-cat logs/multi-site-manager.log
-```
-
-### Backup Failed
-
-```bash
-# Force new backup
-python site_manager.py backup create --site home-main --force
-
-# Check backup directory
-ls -la backups/home-main/
-```
-
-## Next Steps
-
-1. **Automate Monitoring** - Set up scheduled health checks
-2. **Configure Alerts** - Add email/SMS notifications
-3. **Build Workflows** - Create custom automation scripts
-4. **Explore Advanced Features** - Try configuration comparison, bulk deployments
-
-## Need Help?
-
-- Check the main README.md for detailed documentation
-- View example configurations in sites.yaml.example
-- Run `python site_manager.py --help` for command help
-
-## Common Commands Reference
-
-| Command | Description |
-|---------|-------------|
-| `status` | Show connection status |
-| `health --all` | Health check all sites |
-| `backup create --all` | Backup all sites |
-| `backup list` | List all backups |
-| `bulk execute "cmd" --sites all` | Run command on all sites |
-| `site add <id>` | Add new site |
-| `site info <id>` | View site details |
 
 ---
 
-**You're all set!** Start managing your MikroTik sites from a single interface. 🚀
+## Automating with Cron
 
+### Daily Backup + Health Check
+```bash
+# Edit crontab
+crontab -e
+
+# Add this line (runs at 2 AM daily)
+0 2 * * * cd /path/to/multi-site-manager && python site_manager.py backup create --all && python site_manager.py health --all --format html --output /var/www/health.html
+```
+
+### Use the Example Script
+```bash
+# Make executable
+chmod +x examples/daily_operations.sh
+
+# Edit script with your paths
+nano examples/daily_operations.sh
+
+# Add to cron
+0 2 * * * /path/to/examples/daily_operations.sh
+```
+
+---
+
+## Troubleshooting
+
+### ❌ Connection Failed
+
+**Check router is reachable:**
+```bash
+ping 192.168.88.1
+```
+
+**Verify SSH is enabled:**
+```
+# On your router (via Winbox/WebFig):
+System → Users → Active sessions (should show SSH)
+```
+
+**Test SSH manually:**
+```bash
+ssh admin@192.168.88.1
+```
+
+### ❌ Command Failed
+
+**Test on single site first:**
+```bash
+python site_manager.py bulk execute "/system identity print" --sites home-main
+```
+
+**Check logs:**
+```bash
+cat logs/multi-site-manager.log
+```
+
+### ❌ Backup Failed
+
+**Check backup directory exists:**
+```bash
+ls -la backups/
+```
+
+**Force new backup:**
+```bash
+python site_manager.py backup create --site home-main --force
+```
+
+---
+
+## Next Steps
+
+### ✅ Daily Operations
+- Set up automated backups (cron)
+- Configure health check alerts
+- Review backup retention policies
+
+### ✅ Security Hardening
+```bash
+# Use SSH keys instead of passwords
+ssh_key: "/path/to/private_key"
+
+# Set file permissions
+chmod 600 sites.yaml
+
+# Use non-standard SSH ports
+ssh_port: 2222
+```
+
+### ✅ Advanced Usage
+- Deploy firewall rules across sites
+- Synchronize user accounts
+- Build custom health checks
+- Integrate with monitoring systems
+
+---
+
+## Getting Help
+
+- **Full Documentation:** [README.md](README.md)
+- **Example Scripts:** `examples/` directory
+- **Command Help:** `python site_manager.py --help`
+- **Sub-command Help:** `python site_manager.py backup --help`
+
+---
+
+## Quick Reference Card
+
+| Task | Command |
+|------|---------|
+| Check status | `python site_manager.py status` |
+| Health check | `python site_manager.py health --all` |
+| Backup all | `python site_manager.py backup create --all` |
+| List backups | `python site_manager.py backup list` |
+| Execute command | `python site_manager.py bulk execute "cmd" --sites all` |
+| Add site | `python site_manager.py site add <id>` |
+| View site | `python site_manager.py site info <id>` |
+| HTML report | `python site_manager.py health --all --format html` |
+
+---
+
+**🎉 You're all set! Start managing your MikroTik sites from a single interface.**
+
+Need more details? Check the [full README](README.md) or explore the [examples](examples/) directory.
