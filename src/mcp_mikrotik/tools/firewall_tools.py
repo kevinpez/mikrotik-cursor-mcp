@@ -13,6 +13,13 @@ from ..scope.firewall_nat import (
     mikrotik_enable_nat_rule, mikrotik_disable_nat_rule,
     mikrotik_create_port_forward, mikrotik_list_port_forwards
 )
+from ..scope.firewall_address_list import (
+    mikrotik_list_address_lists, mikrotik_add_address_list_entry,
+    mikrotik_remove_address_list_entry, mikrotik_update_address_list_entry,
+    mikrotik_get_address_list_entry, mikrotik_list_address_list_names,
+    mikrotik_clear_address_list, mikrotik_enable_address_list_entry,
+    mikrotik_disable_address_list_entry
+)
 from mcp.types import Tool
 
 def get_firewall_filter_tools() -> List[Tool]:
@@ -473,4 +480,158 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
             args.get("comment")
         ),
         "mikrotik_list_port_forwards": lambda args: mikrotik_list_port_forwards(),
+    }
+
+def get_firewall_address_list_tools() -> List[Tool]:
+    """Return the list of firewall address list tools."""
+    return [
+        Tool(
+            name="mikrotik_list_address_lists",
+            description="Lists firewall address list entries (READ-ONLY, safe)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "list_filter": {"type": "string"},
+                    "address_filter": {"type": "string"},
+                    "dynamic_only": {"type": "boolean"},
+                    "disabled_only": {"type": "boolean"}
+                },
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_add_address_list_entry",
+            description="Adds an entry to a firewall address list with optional timeout",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "list_name": {"type": "string"},
+                    "address": {"type": "string"},
+                    "timeout": {"type": "string", "description": "Timeout (e.g., 1h, 30m, 1d, 1w)"},
+                    "comment": {"type": "string"},
+                    "disabled": {"type": "boolean"}
+                },
+                "required": ["list_name", "address"]
+            },
+        ),
+        Tool(
+            name="mikrotik_remove_address_list_entry",
+            description="Removes an entry from a firewall address list",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "entry_id": {"type": "string"}
+                },
+                "required": ["entry_id"]
+            },
+        ),
+        Tool(
+            name="mikrotik_update_address_list_entry",
+            description="Updates an existing address list entry",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "entry_id": {"type": "string"},
+                    "address": {"type": "string"},
+                    "timeout": {"type": "string", "description": "Timeout (e.g., 1h, 30m, 1d, 1w) or 'none' to remove"},
+                    "comment": {"type": "string"},
+                    "disabled": {"type": "boolean"}
+                },
+                "required": ["entry_id"]
+            },
+        ),
+        Tool(
+            name="mikrotik_get_address_list_entry",
+            description="Gets detailed information about a specific address list entry (READ-ONLY, safe)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "entry_id": {"type": "string"}
+                },
+                "required": ["entry_id"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_address_list_names",
+            description="Lists all unique address list names currently in use (READ-ONLY, safe)",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_clear_address_list",
+            description="Removes all entries from a specific address list (⚠️ destructive!)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "list_name": {"type": "string"}
+                },
+                "required": ["list_name"]
+            },
+        ),
+        Tool(
+            name="mikrotik_enable_address_list_entry",
+            description="Enables an address list entry",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "entry_id": {"type": "string"}
+                },
+                "required": ["entry_id"]
+            },
+        ),
+        Tool(
+            name="mikrotik_disable_address_list_entry",
+            description="Disables an address list entry",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "entry_id": {"type": "string"}
+                },
+                "required": ["entry_id"]
+            },
+        ),
+    ]
+
+def get_firewall_address_list_handlers() -> Dict[str, Callable]:
+    """Return the handlers for firewall address list tools."""
+    return {
+        "mikrotik_list_address_lists": lambda args: mikrotik_list_address_lists(
+            args.get("list_filter"),
+            args.get("address_filter"),
+            args.get("dynamic_only", False),
+            args.get("disabled_only", False)
+        ),
+        "mikrotik_add_address_list_entry": lambda args: mikrotik_add_address_list_entry(
+            args["list_name"],
+            args["address"],
+            args.get("timeout"),
+            args.get("comment"),
+            args.get("disabled", False)
+        ),
+        "mikrotik_remove_address_list_entry": lambda args: mikrotik_remove_address_list_entry(
+            args["entry_id"]
+        ),
+        "mikrotik_update_address_list_entry": lambda args: mikrotik_update_address_list_entry(
+            args["entry_id"],
+            args.get("address"),
+            args.get("timeout"),
+            args.get("comment"),
+            args.get("disabled")
+        ),
+        "mikrotik_get_address_list_entry": lambda args: mikrotik_get_address_list_entry(
+            args["entry_id"]
+        ),
+        "mikrotik_list_address_list_names": lambda args: mikrotik_list_address_list_names(),
+        "mikrotik_clear_address_list": lambda args: mikrotik_clear_address_list(
+            args["list_name"]
+        ),
+        "mikrotik_enable_address_list_entry": lambda args: mikrotik_enable_address_list_entry(
+            args["entry_id"]
+        ),
+        "mikrotik_disable_address_list_entry": lambda args: mikrotik_disable_address_list_entry(
+            args["entry_id"]
+        ),
     }

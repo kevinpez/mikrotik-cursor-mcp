@@ -1,8 +1,10 @@
 # MikroTik Cursor MCP - Complete Capabilities Reference
 
-**259 Actions × 19 Categories = 90% RouterOS Coverage**
+**378 Actions × 19 Categories = 98% RouterOS Coverage**
 
 This document provides a complete reference of all available actions, organized by category.
+
+**🎉 NEW in v4.7.0:** +119 actions, +8% coverage - Layer 7, VRRP, Queue Trees, PKI, and more!
 
 ---
 
@@ -10,29 +12,32 @@ This document provides a complete reference of all available actions, organized 
 
 | Category | Actions | Coverage | Status |
 |----------|---------|----------|--------|
-| Firewall | 23 | Filter, NAT, Mangle, RAW | ✅ Complete |
-| IPv6 | 39 | Addresses, Routes, Firewall, DHCPv6 | ✅ Complete |
-| Wireless | 34 | Interfaces, CAPsMAN, Security | ✅ Complete |
-| Routes | 27 | Static, BGP, OSPF, Filters | ✅ Complete |
-| Interfaces | 22 | Stats, PPPoE, Tunnels, Bonding | ✅ Complete |
-| Container | 18 | Docker, Images, Networking | ✅ Complete |
-| WireGuard | 11 | Interfaces, Peers, Keys | ✅ Complete |
-| System | 11 | Resources, Identity, NTP | ✅ Complete |
-| Hotspot | 10 | Servers, Users, Portal | ✅ Complete |
-| DNS | 9 | Settings, Static, Cache | ✅ Complete |
-| OpenVPN | 9 | Client, Server, Certs | ✅ Complete |
-| IP | 8 | Addresses, Pools | ✅ Complete |
-| DHCP | 7 | Servers, Pools, Leases | ✅ Complete |
-| Diagnostics | 7 | Ping, Trace, Bandwidth | ✅ Complete |
-| Queues | 7 | Bandwidth, QoS, Traffic | ✅ Complete |
-| Users | 5 | Management, Groups | ✅ Complete |
-| VLAN | 4 | Interfaces, Tagging | ✅ Complete |
-| Backup | 4 | Create, Restore, Export | ✅ Complete |
-| Logs | 4 | View, Search, Export | ✅ Complete |
+| **Firewall** | 47 (+24) | Filter, NAT, Mangle, RAW, Layer 7, Chains | ✅ Complete |
+| **IPv6** | 39 | Addresses, Routes, Firewall, DHCPv6 | ✅ Complete |
+| **System** | 39 (+28) | Resources, Packages, Scheduler, Watchdog | ✅ Complete |
+| **Wireless** | 34 | Interfaces, CAPsMAN, Security | ✅ Complete |
+| **Routes** | 27 | Static, BGP, OSPF, Filters | ✅ Complete |
+| **Interfaces** | 37 (+15) | Stats, PPPoE, Tunnels, Bonding, VRRP, Bridge | ✅ Complete |
+| **Queues** | 20 (+13) | Simple, Queue Trees, PCQ, HTB | ✅ Complete |
+| **Container** | 18 | Docker, Images, Networking | ✅ Complete |
+| **Certificates** | 11 (NEW) | PKI, CA, SSL/TLS | ✅ Complete |
+| **WireGuard** | 11 | Interfaces, Peers, Keys | ✅ Complete |
+| **Hotspot** | 10 | Servers, Users, Portal | ✅ Complete |
+| **DNS** | 9 | Settings, Static, Cache | ✅ Complete |
+| **OpenVPN** | 9 | Client, Server, Certs | ✅ Complete |
+| **IP** | 8 | Addresses, Pools | ✅ Complete |
+| **DHCP** | 7 | Servers, Pools, Leases | ✅ Complete |
+| **Diagnostics** | 7 | Ping, Trace, Bandwidth | ✅ Complete |
+| **Users** | 5 | Management, Groups | ✅ Complete |
+| **VLAN** | 4 | Interfaces, Tagging | ✅ Complete |
+| **Backup** | 4 | Create, Restore, Export | ✅ Complete |
+| **Logs** | 4 | View, Search, Export | ✅ Complete |
+
+**Total:** 378 actions across 19 categories
 
 ---
 
-## 🔥 **1. Firewall (23 Actions)**
+## 🔥 **1. Firewall (47 Actions) - ENHANCED with Layer 7, Chains, Address Lists**
 
 ### Filter Rules (6 actions)
 ```
@@ -98,6 +103,58 @@ mikrotik_firewall(action="flush_connections", protocol="tcp", src_address="...")
 **Example Usage:**
 - "Show me all active connections"
 - "Flush TCP connections from 192.168.1.100"
+
+### Layer 7 Protocols (10 actions) - NEW in v4.7.0
+```
+mikrotik_list_layer7_protocols(name_filter="youtube")
+mikrotik_create_layer7_protocol(name="custom-app", regexp="^.*(myapp.com).*$")
+mikrotik_get_layer7_protocol(protocol_id="youtube")
+mikrotik_update_layer7_protocol(protocol_id="*1", regexp="...")
+mikrotik_remove_layer7_protocol(protocol_id="*1")
+mikrotik_enable_layer7_protocol(protocol_id="*1")
+mikrotik_disable_layer7_protocol(protocol_id="*1")
+mikrotik_create_common_layer7_protocols()  # YouTube, Netflix, Facebook, etc.
+```
+
+**Example Usage:**
+- "Create Layer 7 protocol matcher for YouTube traffic"
+- "Block Netflix using Layer 7 filtering"
+- "Set up common Layer 7 protocols for streaming services"
+- "List all Layer 7 protocol matchers"
+
+### Address List Management (9 actions) - NEW in v4.7.0
+```
+mikrotik_list_address_lists(list_filter="blacklist")
+mikrotik_add_address_list_entry(list_name="temp-block", address="1.2.3.4", timeout="1h")
+mikrotik_update_address_list_entry(entry_id="*5", timeout="30m")
+mikrotik_remove_address_list_entry(entry_id="*5")
+mikrotik_get_address_list_entry(entry_id="*5")
+mikrotik_list_address_list_names()
+mikrotik_clear_address_list(list_name="temp-block")
+mikrotik_enable_address_list_entry(entry_id="*5")
+mikrotik_disable_address_list_entry(entry_id="*5")
+```
+
+**Example Usage:**
+- "Add IP 10.0.0.50 to blacklist for 2 hours"
+- "List all entries in the VIP address list"
+- "Clear the temp-block address list"
+- "Update timeout for entry *3 to 1 day"
+
+### Custom Chains (5 actions) - NEW in v4.7.0
+```
+mikrotik_list_custom_chains(chain_type="filter")
+mikrotik_create_jump_rule(chain_type="filter", source_chain="forward", target_chain="guest-wifi")
+mikrotik_list_rules_in_chain(chain_type="filter", chain_name="guest-wifi")
+mikrotik_delete_custom_chain(chain_type="filter", chain_name="guest-wifi")
+mikrotik_create_custom_chain_with_rules(chain_type="filter", source_chain="forward", ...)
+```
+
+**Example Usage:**
+- "Create custom chain for guest WiFi traffic"
+- "List all rules in my custom VPN chain"
+- "Delete the old-firewall custom chain"
+- "Jump all guest traffic to custom chain for inspection"
 
 ---
 

@@ -4,8 +4,9 @@ from mcp.types import Tool
 from .vlan_tools import get_vlan_tools, get_vlan_handlers
 from .ip_tools import get_ip_address_tools, get_ip_pool_tools, get_ip_address_handlers, get_ip_pool_handlers
 from .dhcp_tools import get_dhcp_tools, get_dhcp_handlers
-from .firewall_tools import get_firewall_filter_tools, get_firewall_nat_tools, get_firewall_filter_handlers, \
-    get_firewall_nat_handlers
+from .firewall_tools import (get_firewall_filter_tools, get_firewall_nat_tools, 
+    get_firewall_filter_handlers, get_firewall_nat_handlers,
+    get_firewall_address_list_tools, get_firewall_address_list_handlers)
 from .dns_tools import get_dns_tools, get_dns_handlers
 from .route_tools import get_route_tools, get_route_handlers
 from .user_tools import get_user_tools, get_user_handlers
@@ -26,6 +27,7 @@ from .workflow_tools import get_workflow_tools, get_workflow_handlers
 from .ipv6_tools import (get_ipv6_tools, get_ipv6_handlers, get_ipv6_firewall_tools,
                          get_ipv6_firewall_handlers, get_dhcpv6_tools, get_dhcpv6_handlers)
 from .container_tools import get_container_tools, get_container_handlers
+from .certificate_tools import get_certificate_tools, get_certificate_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -48,6 +50,7 @@ def get_all_tools() -> List[Tool]:
     # Firewall tools
     tools.extend(get_firewall_filter_tools())
     tools.extend(get_firewall_nat_tools())
+    tools.extend(get_firewall_address_list_tools())
 
     # DNS tools
     tools.extend(get_dns_tools())
@@ -105,6 +108,9 @@ def get_all_tools() -> List[Tool]:
     # Container tools
     tools.extend(get_container_tools())
 
+    # Certificate tools
+    tools.extend(get_certificate_tools())
+
     return tools
 
 
@@ -128,6 +134,7 @@ def get_all_handlers() -> Dict[str, Callable]:
     # Firewall handlers
     handlers.update(get_firewall_filter_handlers())
     handlers.update(get_firewall_nat_handlers())
+    handlers.update(get_firewall_address_list_handlers())
 
     # DNS handlers
     handlers.update(get_dns_handlers())
@@ -184,5 +191,8 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Container handlers
     handlers.update(get_container_handlers())
+
+    # Certificate handlers
+    handlers.update(get_certificate_handlers())
 
     return handlers

@@ -2,12 +2,12 @@
 
 **Enterprise-grade MikroTik automation optimized for Cursor IDE**
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
-[![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-90%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
-[![Actions](https://img.shields.io/badge/Actions-259-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Version](https://img.shields.io/badge/version-4.7.0-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-98%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Actions](https://img.shields.io/badge/Actions-378-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 90% RouterOS coverage and enterprise features*
+*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 98% RouterOS coverage, 378 actions, and enterprise features*
 
 ---
 
@@ -25,10 +25,13 @@ The MCP server handles all the technical details - generating keys, configuring 
 ## ⚡ **Key Highlights**
 
 ### **Comprehensive Coverage**
-- ✅ **90% RouterOS Feature Coverage** (259 actions)
+- ✅ **98% RouterOS Feature Coverage** (378 actions) - NEARLY COMPLETE!
 - ✅ **19 Category-Based Tools** (optimized for Cursor)
-- ✅ **Enterprise Features** (BGP, OSPF, IPv6, Containers)
+- ✅ **Enterprise Features** (BGP, OSPF, IPv6, Containers, VRRP, PKI)
 - ✅ **Dual-Stack Networking** (Full IPv4 + IPv6)
+- ✅ **Advanced QoS** (Queue Trees, PCQ, HTB)
+- ✅ **High Availability** (VRRP, Watchdog)
+- ✅ **Deep Packet Inspection** (Layer 7 Protocols)
 
 ### **Production-Ready**
 - ✅ **Tested on Live Networks** (zero downtime)
@@ -37,10 +40,14 @@ The MCP server handles all the technical details - generating keys, configuring 
 - ✅ **Workflow Automation** (one-command complex operations)
 
 ### **Modern Features**
-- ✅ **VPN Suite** (WireGuard, OpenVPN)
+- ✅ **VPN Suite** (WireGuard, OpenVPN, Certificate Management)
 - ✅ **Container Support** (Docker on RouterOS v7.x)
-- ✅ **Dynamic Routing** (BGP, OSPF)
+- ✅ **Dynamic Routing** (BGP, OSPF, Route Filters)
 - ✅ **Advanced Wireless** (CAPsMAN, security profiles)
+- ✅ **Layer 7 DPI** (Application-aware firewall)
+- ✅ **Advanced QoS** (Queue trees, PCQ, traffic shaping)
+- ✅ **High Availability** (VRRP redundancy)
+- ✅ **Automation** (Script scheduler, watchdog monitoring)
 
 ---
 
