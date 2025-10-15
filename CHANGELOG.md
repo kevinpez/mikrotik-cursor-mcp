@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-10-15
+
+### 🆕 Added - OpenVPN Support
+
+#### OpenVPN Management (`mikrotik_openvpn`)
+- `list_openvpn_interfaces` - List all OpenVPN client interfaces
+- `list_openvpn_servers` - List OpenVPN server interfaces
+- `get_openvpn_server_status` - Get OpenVPN server status and profiles
+- `create_openvpn_client` - Create OpenVPN client interface
+- `remove_openvpn_interface` - Remove OpenVPN interface
+- `update_openvpn_client` - Update client settings
+- `get_openvpn_status` - Get detailed interface status
+- `enable_openvpn_client` / `disable_openvpn_client` - Control interface state
+
+**New Actions:** 9  
+**Total Actions:** 118 (up from 109)  
+**Coverage:** 70% (up from 65%)
+
+### ✅ Tested
+- Tested on live MikroTik RB5009UG+S+ (RouterOS 7.19.4)
+- Create/list/get/remove all working correctly
+- No internet disruption during testing
+- Safe backup created and used
+
+### 🎯 Use Cases
+- OpenVPN client connections to cloud providers
+- Site-to-site VPN with OpenVPN
+- Road warrior VPN setups
+- Compatibility with legacy systems requiring OpenVPN
+
 ## [2.2.0] - 2025-10-15
 
 ### 🚀 Added - Workflow Helpers & Comprehensive Validation
