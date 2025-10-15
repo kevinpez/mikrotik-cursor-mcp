@@ -18,6 +18,7 @@ from .diagnostic_tools import get_diagnostic_tools, get_diagnostic_handlers
 from .queue_tools import get_queue_tools, get_queue_handlers
 from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
 from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
+from .firewall_advanced_tools import get_firewall_advanced_tools, get_firewall_advanced_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
 
 
@@ -74,6 +75,9 @@ def get_all_tools() -> List[Tool]:
 
     # OpenVPN tools
     tools.extend(get_openvpn_tools())
+
+    # Advanced firewall tools (mangle, raw, connection)
+    tools.extend(get_firewall_advanced_tools())
 
     # Workflow tools
     tools.extend(get_workflow_tools())
@@ -134,6 +138,9 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # OpenVPN handlers
     handlers.update(get_openvpn_handlers())
+
+    # Advanced firewall handlers
+    handlers.update(get_firewall_advanced_handlers())
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())
