@@ -7,6 +7,7 @@ This project is a fork and enhancement of the **MikroTik MCP Server** created by
 **Jeff Nasseri** ([@jeff-nasseri](https://github.com/jeff-nasseri))
 - **Original Repository:** https://github.com/jeff-nasseri/mikrotik-mcp
 - **Contribution:** Created the entire foundational MCP server for MikroTik RouterOS
+- **Lines of Code:** ~5,000 lines (original implementation)
 - **Scope Implementations:** All business logic in `scope/` directory
 - **Tool Definitions:** All original tool definitions in `tools/` directory
 
@@ -29,19 +30,18 @@ Jeff Nasseri's original project provided:
 
 **Kevin Pez** ([@kevinpez](https://github.com/kevinpez))
 - **GitHub:** https://github.com/kevinpez
-- **Repository:** https://github.com/kevinpez/mikrotik-mcp-nested
+- **Repository:** https://github.com/kevinpez/mikrotik-cursor-mcp
 - **Email:** kevinpez@users.noreply.github.com
 - **Role:** Fork Maintainer & Enhancement Developer
+- **Lines of Code:** ~1,500 lines (nested architecture + new features)
 - **Contributions:**
-  - Nested tool architecture (100+ tools → 15 categories)
-  - Route removal improvements (CIDR address handling)
-  - Performance optimization for Cursor compatibility
-  - Comprehensive documentation for nested version
-  - **NEW:** System monitoring (CPU, RAM, uptime, NTP)
-  - **NEW:** Interface management (stats, enable/disable, bridge)
-  - **NEW:** Network diagnostics (ping, traceroute, ARP, DNS lookup)
-  - **NEW:** Queue management (bandwidth limits & QoS)
-  - **NEW:** Port forwarding helper (easy dstnat creation)
+  - **Architecture:** Nested tool architecture (100+ tools → 19 categories)
+  - **Performance:** Connection pooling and optimization
+  - **Features:** WireGuard, OpenVPN, IPv6, Containers, BGP, OSPF
+  - **Coverage:** Expanded from 65% to 90% RouterOS coverage
+  - **Actions:** Increased from 109 to 259 actions
+  - **Documentation:** Comprehensive guides and examples
+  - **Reliability:** Improved error handling and connection management
 
 ### Fork Objectives
 

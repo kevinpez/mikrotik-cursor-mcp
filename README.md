@@ -557,7 +557,8 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## 🙏 **Acknowledgments**
 
-- **[@jeff-nasseri](https://github.com/jeff-nasseri)** - Original mikrotik-mcp project
+- **[@jeff-nasseri](https://github.com/jeff-nasseri)** - Original mikrotik-mcp project (~5,000 lines)
+- **[@kevinpez](https://github.com/kevinpez)** - Nested architecture & enhancements (~1,500 lines)
 - **MikroTik** - For excellent RouterOS
 - **Anthropic** - For Claude and MCP protocol
 - **Cursor Team** - For amazing AI-powered IDE

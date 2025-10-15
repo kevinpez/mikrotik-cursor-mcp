@@ -10,8 +10,8 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"},
-    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
+    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com", role = "original-author"},
+    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com", role = "enhancement-developer"}
 ]
 maintainers = [
     {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
