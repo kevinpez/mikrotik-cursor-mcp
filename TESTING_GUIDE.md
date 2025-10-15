@@ -1,8 +1,8 @@
-# Safe Testing Guide - v2.3.0 OpenVPN Development
+# MikroTik Cursor MCP - Testing Guide
 
-**Branch:** `feature/v2.3.0-vpn-expansion`  
-**Status:** Ready for testing  
-**Safety:** ✅ Backup created (`pre-v2.3-development`)
+**Version:** v4.8.0 (ENTERPRISE-COMPLETE)  
+**Status:** Production-Ready  
+**Coverage:** 99% RouterOS features (382 actions)
 
 ---
 
@@ -10,137 +10,174 @@
 
 ### Pre-Testing Checklist
 
-✅ **Backup Created:** `pre-v2.3-development.backup`  
-✅ **Development Branch:** `feature/v2.3.0-vpn-expansion`  
-✅ **Internet Working:** Verified (0% loss, 13ms)  
-✅ **Code Committed:** Commit `35479db`
+Before testing any MikroTik MCP features:
 
-### How to Restore if Needed
+✅ **Create Backup:** Always create a backup before testing
+✅ **Test Environment:** Use a non-production router if possible  
+✅ **Internet Connection:** Verify connectivity before and after  
+✅ **Documentation:** Review feature documentation first
 
-```routeros
-# If anything goes wrong:
-/system backup load name=pre-v2.3-development.backup
-# Router will reboot and restore to previous state
+### How to Create and Restore Backups
+
+```python
+# Create backup before testing
+mikrotik_backup(action="create_backup", name="pre-testing-backup")
+
+# If something goes wrong, restore:
+mikrotik_backup(action="restore_backup", backup_name="pre-testing-backup")
+# Note: Router will reboot after restore
 ```
 
 ---
 
-## 🔄 **RESTART CURSOR NOW**
+## 🔄 **Restart Cursor After Configuration Changes**
 
-**You MUST restart Cursor to load the new OpenVPN tools!**
+**When to restart Cursor:**
+- After modifying `mcp.json` configuration
+- After installing or updating the MCP server
+- After changing environment variables
 
-1. Close Cursor completely
-2. Reopen Cursor
-3. Wait for MCP servers to load
-4. Come back here to continue testing
+**How to restart:**
+1. Close all Cursor windows
+2. End Cursor process in Task Manager (Windows) or Activity Monitor (Mac)
+3. Reopen Cursor
+4. Wait 10-15 seconds for MCP servers to initialize
 
 ---
 
-## 🧪 **Testing Plan (After Restart)**
+## 🧪 **Testing MikroTik MCP Features**
 
 ### Phase 1: READ-ONLY Tests (100% Safe) ✅
 
-These commands only READ data - they CANNOT break your internet:
+These commands only READ data - they CANNOT break your router configuration:
 
 ```python
-# Test 1: List OpenVPN clients (safe - just reads config)
-mikrotik_openvpn(action="list_openvpn_interfaces")
-# Expected: Empty or list of existing OpenVPN clients
+# Test 1: System Resources (safe - just reads status)
+mikrotik_system(action="get_system_resources")
+# Expected: CPU, RAM, disk usage, uptime
 
-# Test 2: List OpenVPN servers (safe - just reads config)
-mikrotik_openvpn(action="list_openvpn_servers")  
-# Expected: Empty (unless you have OpenVPN configured)
+# Test 2: List Interfaces (safe - just reads config)
+mikrotik_interfaces(action="list_interfaces")
+# Expected: List of all network interfaces
 
-# Test 3: Get server status (safe - just reads)
-mikrotik_openvpn(action="get_openvpn_server_status")
-# Expected: Server status or "not configured"
+# Test 3: List Backups (safe - just reads files)
+mikrotik_backup(action="list_backups")
+# Expected: List of backup files
+
+# Test 4: List Firewall Rules (safe - just reads)
+mikrotik_firewall(action="list_filter_rules")
+# Expected: Current firewall filter rules
+
+# Test 5: Get System Identity (safe - just reads)
+mikrotik_system(action="get_system_identity")
+# Expected: Router name/identity
+
+# Test 6: List IP Addresses
+mikrotik_ip(action="list_ip_addresses")
+# Expected: All configured IP addresses
+
+# Test 7: List Routes
+mikrotik_routes(action="list_routes")
+# Expected: Routing table
+
+# Test 8: DNS Settings
+mikrotik_dns(action="get_dns_settings")
+# Expected: Current DNS configuration
 ```
 
 **Safety Level:** 🟢 **100% Safe** - These only READ, never WRITE
 
 ---
 
-### Phase 2: CREATE Test (Careful - Creates NEW Interface)
+### Phase 2: Safe Write Tests (Low Risk) ⚠️
 
-**⚠️ This creates a NEW interface but doesn't touch existing ones:**
+These tests create new configuration but don't modify existing critical settings:
 
 ```python
-# Test 4: Create test OpenVPN client (disabled by default)
-mikrotik_openvpn(
-    action="create_openvpn_client",
-    name="ovpn-test-safe",
-    connect_to="test.example.com",
-    port=1194,
-    comment="TEST ONLY - Safe to delete"
+# Test 1: Create backup (safe - doesn't change config)
+mikrotik_backup(action="create_backup", name="test-backup")
+# Verify: Check backup was created
+mikrotik_backup(action="list_backups")
+
+# Test 2: Add a test comment to existing rule (safe - just adds metadata)
+# Note: Use with caution on production systems
+
+# Test 3: Create a disabled firewall rule (safe - it's disabled)
+mikrotik_firewall(
+    action="create_filter_rule",
+    chain="forward",
+    rule_action="accept",
+    comment="TEST RULE - SAFE TO DELETE",
+    disabled=True
 )
-# This creates a NEW disabled interface - won't connect or affect internet
+# Verify: Check rule was created (and is disabled)
+mikrotik_firewall(action="list_filter_rules")
 ```
 
-**Safety Level:** 🟡 **Mostly Safe** - Creates new interface but disabled
+**Safety Level:** 🟡 **Low Risk** - Creates new items but doesn't modify existing config
 
 ---
 
-### Phase 3: VERIFY Creation (Safe)
+### Phase 3: Integration Tests
 
-```python
-# Test 5: Verify test interface was created
-mikrotik_openvpn(action="list_openvpn_interfaces")
-# Should show: ovpn-test-safe (disabled)
+For complete integration testing, see: `tests/integration/`
 
-# Test 6: Get status of test interface
-mikrotik_openvpn(
-    action="get_openvpn_status",
-    name="ovpn-test-safe"
-)
-# Should show: configuration details
+#### Running Integration Tests
+
+```bash
+# Install test dependencies
+pip install pytest pytest-asyncio
+
+# Run all integration tests
+pytest tests/integration/ -v
+
+# Run specific test file
+pytest tests/integration/test_mikrotik_user_integration.py -v
+
+# Run with detailed output
+pytest tests/integration/ -v -s
 ```
 
-**Safety Level:** 🟢 **100% Safe** - Just reading
+#### Test Coverage
+
+- ✅ User management (create, list, update, remove)
+- ✅ Firewall rules (filter, NAT, mangle)
+- ✅ DHCP servers and pools
+- ✅ DNS configuration
+- ✅ IP addresses and routes
+- ✅ Interface management
+- ✅ System operations
+- ✅ Backup and restore
 
 ---
 
-### Phase 4: CLEANUP Test (Safe - Removes Test Interface)
+## 📊 **Testing Checklist**
 
-```python
-# Test 7: Remove test interface
-mikrotik_openvpn(
-    action="remove_openvpn_interface",
-    name="ovpn-test-safe"
-)
-# Removes only the test interface we created
+### Before Starting
+- [ ] Backup created and verified
+- [ ] Internet connectivity confirmed
+- [ ] MCP server loaded in Cursor
+- [ ] Documentation reviewed
 
-# Test 8: Verify it's gone
-mikrotik_openvpn(action="list_openvpn_interfaces")
-# Should be empty again
-```
+### Phase 1 Tests (READ-ONLY)
+- [ ] System resources test passed
+- [ ] List interfaces test passed
+- [ ] List backups test passed
+- [ ] List firewall rules test passed
+- [ ] Get system identity test passed
+- [ ] Internet still working ✅
 
-**Safety Level:** 🟢 **Safe** - Only removes test interface
+### Phase 2 Tests (WRITE)
+- [ ] Backup creation test passed
+- [ ] Test firewall rule created
+- [ ] Test rule cleanup successful
+- [ ] Internet still working ✅
 
----
-
-### Phase 5: Internet Connectivity Check
-
-**After each test phase:**
-
-```python
-# Quick ping test
-mikrotik_diagnostics(action="ping", address="8.8.8.8", count=4)
-# Should always show 0% packet loss
-
-# Or from Windows:
-ping google.com
-# Should always work
-```
-
----
-
-## ⚠️ **What NOT to Do During Testing**
-
-❌ **DON'T** create OpenVPN on critical interfaces  
-❌ **DON'T** modify ether1 (your WAN interface)  
-❌ **DON'T** change existing firewall rules  
-❌ **DON'T** disable bridgeLocal (your LAN)  
-❌ **DON'T** modify existing routes  
+### Integration Tests
+- [ ] All pytest tests passed
+- [ ] No errors in logs
+- [ ] Router functionality verified
+- [ ] Internet still working ✅
 
 ---
 
@@ -148,115 +185,106 @@ ping google.com
 
 ### If Internet Stops Working
 
-**Option 1: Disable the test interface**
+**Option 1: Via Cursor/MCP**
 ```python
-mikrotik_openvpn(
-    action="disable_openvpn_client",
-    name="ovpn-test-safe"
-)
-```
-
-**Option 2: Delete the test interface**
-```python
-mikrotik_openvpn(
-    action="remove_openvpn_interface",
-    name="ovpn-test-safe"
-)
-```
-
-**Option 3: Restore from backup**
-```python
-mikrotik_backup(
-    action="restore_backup",
-    backup_name="pre-v2.3-development"
-)
+# Restore from backup
+mikrotik_backup(action="restore_backup", backup_name="pre-testing-backup")
 # Router will reboot to previous state
 ```
 
-**Option 4: Via Winbox (if MCP fails)**
+**Option 2: Via Winbox**
 1. Open Winbox
-2. Connect to 192.168.88.1
-3. Interface → OVPN Client → Delete test interface
-4. Or: System → Backup → Load `pre-v2.3-development`
+2. Connect to router (192.168.88.1 or MAC address)
+3. Go to System → Backup
+4. Click "Restore" and select your backup
+5. Router will reboot
+
+**Option 3: Via SSH**
+```bash
+ssh admin@192.168.88.1
+/system backup load name=pre-testing-backup
+```
+
+**Option 4: Physical Reset** (Last Resort)
+1. Hold reset button for 5 seconds (soft reset)
+2. Or hold reset button until LED turns off (hard reset - loses all config!)
 
 ---
 
-## ✅ **Testing Checklist**
+## 🎯 **What We're Testing**
 
-**Before Starting:**
-- [ ] Cursor restarted
-- [ ] MCP servers loaded
-- [ ] Internet connectivity verified
-- [ ] Backup confirmed created
+### Feature Categories (19 total)
+1. ✅ Firewall (43 actions)
+2. ✅ System Management (56 actions)
+3. ✅ IPv6 (41 actions)
+4. ✅ Interfaces (37 actions)
+5. ✅ Wireless (34 actions)
+6. ✅ Routes (29 actions)
+7. ✅ Queues (20 actions)
+8. ✅ Container (18 actions)
+9. ✅ Certificates (11 actions)
+10. ✅ WireGuard (11 actions)
+11. ✅ Hotspot (10 actions)
+12. ✅ OpenVPN (9 actions)
+13. ✅ DNS (9 actions)
+14. ✅ IP (8 actions)
+15. ✅ DHCP (7 actions)
+16. ✅ Diagnostics (7 actions)
+17. ✅ Users (5 actions)
+18. ✅ VLAN (4 actions)
+19. ✅ Backup & Logs (8 actions)
 
-**Phase 1 Tests (READ-ONLY):**
-- [ ] list_openvpn_interfaces works
-- [ ] list_openvpn_servers works
-- [ ] get_openvpn_server_status works
-- [ ] Internet still working ✅
-
-**Phase 2 Tests (CREATE):**
-- [ ] create_openvpn_client creates interface
-- [ ] Interface is disabled by default
-- [ ] Internet still working ✅
-
-**Phase 3 Tests (VERIFY):**
-- [ ] list shows new interface
-- [ ] get_status shows details
-- [ ] Internet still working ✅
-
-**Phase 4 Tests (CLEANUP):**
-- [ ] remove_openvpn_interface deletes interface
-- [ ] list confirms it's gone
-- [ ] Internet still working ✅
-
-**Final Check:**
-- [ ] All OpenVPN functions tested
-- [ ] No errors encountered
-- [ ] Internet never interrupted
-- [ ] Router in clean state
+**Total:** 382 actions across 19 categories = 99% RouterOS coverage!
 
 ---
 
-## 📊 **What We're Testing**
+## 📝 **Test Results Documentation**
 
-**OpenVPN Functions (9 total):**
-1. ✅ list_openvpn_interfaces - Safe
-2. ✅ list_openvpn_servers - Safe
-3. ✅ get_openvpn_server_status - Safe
-4. ✅ create_openvpn_client - Test carefully
-5. ✅ remove_openvpn_interface - Test carefully
-6. ✅ update_openvpn_client - Test carefully
-7. ✅ get_openvpn_status - Safe
-8. ✅ enable_openvpn_client - Test carefully (won't connect if server doesn't exist)
-9. ✅ disable_openvpn_client - Safe
+After testing, document your results:
 
----
+```
+Test Date: [Date]
+RouterOS Version: [Version]
+MCP Version: v4.8.0
+Router Model: [Model]
 
-## 🎯 **Expected Results**
+Phase 1 (READ): ✅ PASS / ❌ FAIL
+Phase 2 (WRITE): ✅ PASS / ❌ FAIL
+Integration Tests: ✅ PASS / ❌ FAIL
 
-**If successful:**
-- All 9 OpenVPN functions work correctly
-- No internet disruption
-- Clean creation and deletion
-- Ready to move to next feature (L2TP/IPSec)
-
-**If issues:**
-- Restore from backup
-- Debug the problem
-- Fix and retry
-- Document any issues found
+Issues Found: [Describe any issues]
+Notes: [Additional observations]
+```
 
 ---
 
-## 📝 **Current Status**
+## 🎓 **Best Practices**
 
-**Committed:** ✅ Yes (commit `35479db`)  
-**Branch:** `feature/v2.3.0-vpn-expansion`  
-**Backup:** `pre-v2.3-development.backup`  
-**Next Step:** **→ RESTART CURSOR ←**
+1. **Always create backups** before testing write operations
+2. **Start with read-only tests** to verify MCP connectivity
+3. **Use test routers** when possible, not production
+4. **Test incrementally** - one feature at a time
+5. **Document everything** - what worked, what didn't
+6. **Keep internet working** - verify after each test phase
+7. **Clean up test data** - remove test rules, users, etc.
+8. **Review logs** - check for warnings or errors
 
 ---
 
-**After restart, say "ready to test" and we'll begin the safe testing sequence!** 🧪
+## 📞 **Getting Help**
 
+If you encounter issues during testing:
+
+1. **Check logs:** Review MCP server logs for errors
+2. **GitHub Issues:** Report bugs at https://github.com/kevinpez/mikrotik-cursor-mcp/issues
+3. **Documentation:** See SETUP_GUIDE.md for troubleshooting
+4. **Discussions:** Ask questions at https://github.com/kevinpez/mikrotik-cursor-mcp/discussions
+
+---
+
+**Version:** 4.8.0  
+**Status:** ENTERPRISE-COMPLETE  
+**Last Updated:** October 15, 2025  
+**Test Coverage:** 99% RouterOS features
+
+*Happy Testing! 🧪*

@@ -13,7 +13,7 @@ This document provides a complete reference of all available actions, organized 
 
 | Category | Actions | Coverage | Status |
 |----------|---------|----------|--------|
-| **Firewall** | 47 (+24) | Filter, NAT, Mangle, RAW, Layer 7, Chains | ✅ Complete |
+| **Firewall** | 43 | Filter, NAT, Mangle, RAW, Layer 7, Chains | ✅ Complete |
 | **System** | 56 (+28) | Resources, Packages, Scheduler, Watchdog | ✅ Complete |
 | **IPv6** | 41 (+2) | Addresses, Routes, Firewall, DHCPv6, DHCPv6 Relay | ✅ Complete |
 | **Interfaces** | 37 (+15) | Stats, PPPoE, Tunnels, Bonding, VRRP, Bridge | ✅ Complete |
@@ -38,7 +38,7 @@ This document provides a complete reference of all available actions, organized 
 
 ---
 
-## 🔥 **1. Firewall (47 Actions) - ENHANCED with Layer 7, Chains, Address Lists**
+## 🔥 **1. Firewall (43 Actions) - ENHANCED with Layer 7, Chains, Address Lists**
 
 ### Filter Rules (6 actions)
 ```
@@ -56,7 +56,7 @@ mikrotik_firewall(action="create_port_forward", external_port=8080, ...)
 - "Set up port forwarding: 8080 → 192.168.1.100:80"
 - "List all firewall filter rules"
 
-### NAT Rules (3 actions)
+### NAT Rules (4 actions)
 ```
 mikrotik_firewall(action="list_nat_rules")
 mikrotik_firewall(action="create_nat_rule", chain="srcnat", ...)
@@ -69,7 +69,7 @@ mikrotik_firewall(action="update_nat_rule", rule_id="2", ...)
 - "Add masquerade rule for outbound traffic"
 - "List all NAT rules"
 
-### Mangle Rules (4 actions)
+### Mangle Rules (6 actions)
 ```
 mikrotik_firewall(action="list_mangle_rules")
 mikrotik_firewall(action="create_mangle_rule", chain="prerouting", ...)
@@ -105,7 +105,7 @@ mikrotik_firewall(action="flush_connections", protocol="tcp", src_address="...")
 - "Show me all active connections"
 - "Flush TCP connections from 192.168.1.100"
 
-### Layer 7 Protocols (10 actions) - NEW in v4.7.0
+### Layer 7 Protocols (8 actions) - NEW in v4.7.0
 ```
 mikrotik_list_layer7_protocols(name_filter="youtube")
 mikrotik_create_layer7_protocol(name="custom-app", regexp="^.*(myapp.com).*$")
@@ -656,7 +656,7 @@ mikrotik_openvpn(action="disable_openvpn_client", name="ovpn-to-office")
 
 ---
 
-## ⚙️ **9. System (11 Actions)**
+## ⚙️ **9. System (56 Actions) - COMPLETE**
 
 ```
 mikrotik_system(action="get_system_resources")

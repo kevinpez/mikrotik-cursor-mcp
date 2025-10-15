@@ -130,7 +130,7 @@ If configured correctly, you'll see your router's backups!
 
 | Category | Actions | Capabilities |
 |----------|---------|--------------|
-| **🔥 Firewall** | 62 | Filter rules, NAT, port forwarding, mangle, RAW, Layer 7, custom chains, address lists |
+| **🔥 Firewall** | 43 | Filter rules, NAT, port forwarding, mangle, RAW, Layer 7, custom chains, address lists |
 | **📡 DHCP** | 7 | DHCP servers, pools, leases, networks |
 | **🌐 DNS** | 9 | DNS settings, static entries, cache management |
 | **🛣️ Routes** | 29 | Static routes, BGP, OSPF with auth, route filtering, routing marks |

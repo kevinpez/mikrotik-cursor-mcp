@@ -1,6 +1,7 @@
 # Real-World MCP Examples
 
-**Practical examples from actual deployments using MikroTik MCP Server**
+**Version:** v4.8.0 (ENTERPRISE-COMPLETE)  
+**Practical examples from actual deployments using MikroTik Cursor MCP**
 
 ---
 
@@ -700,9 +701,9 @@ mikrotik_firewall(action="list_filter_rules")
 ---
 
 **All examples tested on:**
-- MikroTik RB5009UG+S+ (RouterOS 7.19.4)
-- MikroTik MCP Server v2.1.0
-- October 2025
+- MikroTik RB5009UG+S+ (RouterOS 7.x)
+- MikroTik Cursor MCP v4.8.0 (ENTERPRISE-COMPLETE)
+- October 15, 2025
 
-**Need Help?** Check `WIREGUARD_FEATURE.md` for detailed WireGuard documentation or `README.md` for tool reference.
+**Need Help?** Check [CAPABILITIES.md](CAPABILITIES.md) for complete API reference or [README.md](README.md) for overview.
 

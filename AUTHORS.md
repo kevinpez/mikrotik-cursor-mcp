@@ -19,14 +19,22 @@
 - Role: Fork Maintainer & Enhancement Developer
 - Location: Home Network Automation Enthusiast
 - Contributions:
-  - Nested tool architecture (85% tool reduction)
-  - System monitoring features
-  - Interface management
-  - Network diagnostic tools
-  - Queue/bandwidth management
-  - Port forwarding helper
-  - Route removal bug fixes
-  - Comprehensive documentation
+  - Nested tool architecture (100+ tools → 19 categories)
+  - System monitoring features (56 actions)
+  - Interface management (37 actions)
+  - Network diagnostic tools (7 actions)
+  - Queue/bandwidth management (20 actions)
+  - VPN Suite: WireGuard (11 actions), OpenVPN (9 actions)
+  - IPv6 complete stack (41 actions)
+  - Container management (18 actions)
+  - BGP & OSPF routing (17 actions)
+  - Advanced firewall (Layer 7, custom chains, timeouts)
+  - Certificate & PKI management (11 actions)
+  - VRRP high availability (12 actions)
+  - Queue trees & advanced QoS (13 actions)
+  - Package management, scheduler, watchdog
+  - DHCPv6 relay & OSPF authentication
+  - Comprehensive documentation (16+ guides)
 
 ---
 
@@ -79,8 +87,8 @@ We welcome contributions in:
 
 ### Lines of Code by Author
 
-- **Jeff Nasseri:** ~5,000 lines (original implementation)
-- **Kevin Pez:** ~1,500 lines (nested architecture + new features)
+- **Jeff Nasseri:** ~5,000 lines (original implementation, ~38% of current codebase)
+- **Kevin Pez:** ~8,200 lines (nested architecture + massive expansion, ~62% of current codebase)
 
 ### Files by Author
 
@@ -127,8 +135,9 @@ GitHub repository: https://github.com/jeff-nasseri/mikrotik-mcp
 
 ---
 
-**Last Updated:** October 14, 2025  
-**Active Contributors:** 1 (accepting more!)  
-**Total Commits:** 3 (and growing)
+**Last Updated:** October 15, 2025  
+**Version:** v4.8.0 (ENTERPRISE-COMPLETE)  
+**Active Contributors:** 2 (accepting more!)  
+**Total Commits:** Growing every release
 
 *This file will be updated as the project evolves and more contributors join.*

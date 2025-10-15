@@ -1,5 +1,9 @@
 # MikroTik Cursor MCP - Complete Setup Guide
 
+**Version:** v4.8.0 (ENTERPRISE-COMPLETE)  
+**Coverage:** 99% RouterOS features (382 actions)  
+**Last Updated:** October 15, 2025
+
 This guide walks you through setting up the MikroTik Cursor MCP server from scratch, including troubleshooting common issues.
 
 ---

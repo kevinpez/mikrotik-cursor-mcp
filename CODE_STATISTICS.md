@@ -18,7 +18,7 @@
 ## 👥 **Author Contributions**
 
 ### **Jeff Nasseri - Original Author**
-- **Lines of Code:** ~5,000 lines (~77% of codebase)
+- **Lines of Code:** ~5,000 lines (~38% of current codebase)
 - **Role:** Original implementation and foundational architecture
 - **Key Contributions:**
   - Complete MikroTik RouterOS SSH connectivity
@@ -29,7 +29,7 @@
   - Original documentation and examples
 
 ### **Kevin Pez - Enhancement Developer**
-- **Lines of Code:** ~8,000 lines (~62% of current codebase)
+- **Lines of Code:** ~8,200 lines (~62% of current codebase)
 - **Role:** Architecture enhancement and massive feature expansion
 - **Key Contributions (v4.0.0):**
   - Nested tool architecture (100+ tools → 19 categories)

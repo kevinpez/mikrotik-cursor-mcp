@@ -1,15 +1,51 @@
 {
   "mcpServers": {
-    "mikrotik-mcp-server": {
-      "command": "${PATH_TO_PYTHON_EXECUTE_ABLE_FILE}:-python",
+    "mikrotik-cursor-mcp": {
+      "command": "python",
       "args": [
-          "${PATH_TO_SERVER_PY}:-mikrotik-mcp/src/mcp_mikrotik/server.py",
-          "--password", "${PASSWORD}:-admin",
-          "--host", "${HOST}:-127.0.0.1",
-          "--port", "${SSH_PORT}:-22",
-          "--username", "${USERNAME}:-admin"
+        "-m",
+        "mcp_mikrotik.server"
       ],
-      "env": {}
+      "cwd": "/path/to/mikrotik-cursor-mcp",
+      "env": {
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "admin",
+        "MIKROTIK_PASSWORD": "your-password-here",
+        "MIKROTIK_PORT": "22",
+        "MIKROTIK_SSH_KEY": "",
+        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "false",
+        "MIKROTIK_KNOWN_HOSTS": "",
+        "MIKROTIK_CONNECT_TIMEOUT": "10",
+        "MIKROTIK_CMD_TIMEOUT": "30"
+      }
     }
   }
 }
+
+// SECURITY NOTES:
+// 1. SSH KEY AUTHENTICATION (RECOMMENDED):
+//    - Generate SSH key: ssh-keygen -t rsa -b 4096 -f ~/.ssh/mikrotik_rsa
+//    - Upload to MikroTik: /user ssh-keys import public-key-file=mikrotik_rsa.pub user=admin
+//    - Set MIKROTIK_SSH_KEY to key path: "/home/user/.ssh/mikrotik_rsa"
+//    - Leave MIKROTIK_PASSWORD empty when using SSH keys
+//
+// 2. PASSWORD AUTHENTICATION (LESS SECURE):
+//    - Only use for testing or home networks
+//    - Store this file with restricted permissions (chmod 600 on Linux/Mac)
+//    - Never commit this file to version control
+//
+// 3. STRICT HOST KEY CHECKING:
+//    - Set to "true" for production environments
+//    - Requires MIKROTIK_KNOWN_HOSTS to be set
+//    - Prevents MITM attacks
+//
+// 4. FIREWALL:
+//    - Restrict SSH access to management network only
+//    - Example: /ip firewall filter add chain=input protocol=tcp dst-port=22 src-address=192.168.1.0/24 action=accept
+//
+// 5. PATH CONFIGURATION:
+//    - Update "cwd" to your actual installation directory
+//    - Windows example: "C:\\Users\\YourName\\mikrotik-cursor-mcp"
+//    - Linux/Mac example: "/home/yourname/mikrotik-cursor-mcp"
+//
+// For complete setup instructions, see: SETUP_GUIDE.md
