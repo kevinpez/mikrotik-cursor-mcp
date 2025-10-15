@@ -7,11 +7,11 @@
 This fork introduces a **nested tool architecture** that reduces the tool count from **100+ individual tools to just 15 category-based tools**, making it compatible with Cursor's recommended tool limit while **adding 37% more functionality** including system monitoring, interface management, network diagnostics, bandwidth control, and easy port forwarding.
 
 ### Key Improvements
-- ✅ **90% tool count reduction** (100+ → 15 tools)
+- ✅ **90% tool count reduction** (100+ → 16 tools)
 - ✅ **Better Cursor compatibility** (under 80-tool limit)
 - ✅ **Faster loading and performance**
 - ✅ **Improved route removal** (handles CIDR addresses)
-- ✅ **5 NEW feature categories** added (System, Interfaces, Diagnostics, Queues, Port Forwarding)
+- ✅ **6 NEW feature categories** added (System, Interfaces, Diagnostics, Queues, Port Forwarding, **WireGuard**)
 - ✅ **MORE functionality** than original
 - ✅ **Backward compatible** - both versions included
 
@@ -19,8 +19,8 @@ This fork introduces a **nested tool architecture** that reduces the tool count 
 
 | Metric | Original | This Fork | Improvement |
 |--------|----------|-----------|-------------|
-| Tool Count | 100+ | 15 | **85% reduction** |
-| Feature Count | ~70 actions | **96 actions** | **+37% more features!** |
+| Tool Count | 100+ | 16 | **84% reduction** |
+| Feature Count | ~70 actions | **107 actions** | **+53% more features!** |
 | Cursor Compatibility | ⚠️ Exceeds limit | ✅ Within limit | **Fixed** |
 | Load Time | Slow | Fast | **~10x faster** |
 | Organization | Flat | Categorized | **Better UX** |
@@ -29,6 +29,7 @@ This fork introduces a **nested tool architecture** that reduces the tool count 
 | Network Diagnostics | ❌ No | ✅ **Ping, traceroute, ARP** | **NEW** |
 | Bandwidth Limits | ❌ No | ✅ **Queue management** | **NEW** |
 | Port Forwarding | ⚠️ Manual NAT | ✅ **Easy helper tool** | **NEW** |
+| WireGuard VPN | ❌ No | ✅ **Full VPN automation** | **NEW** |
 | Route Removal | ⚠️ Buggy | ✅ **Fixed** | **Improved** |
 
 ## 🚀 **Quick Start**
@@ -76,7 +77,7 @@ Replace the paths and credentials with your actual values.
 
 Close and reopen Cursor to load the MCP server.
 
-## 📋 **Available Tools (15 Nested Categories)**
+## 📋 **Available Tools (16 Nested Categories)**
 
 ### Core Features (from original)
 | Category | Tool Name | Description | Actions |
@@ -99,8 +100,9 @@ Close and reopen Cursor to load the MCP server.
 | 1️⃣2️⃣ | `mikrotik_interfaces` | **Manage interfaces (stats, enable/disable, bridge)** | 9 actions |
 | 1️⃣3️⃣ | `mikrotik_diagnostics` | **Network tools (ping, traceroute, ARP, DNS lookup)** | 7 actions |
 | 1️⃣4️⃣ | `mikrotik_queues` | **Bandwidth limits & QoS (simple queues)** | 7 actions |
+| 1️⃣5️⃣ | `mikrotik_wireguard` | **Manage WireGuard VPN interfaces and peers** | 11 actions |
 
-**Total:** 96 actions across 15 categories!
+**Total:** 107 actions across 16 categories!
 
 ## 💡 **Usage**
 

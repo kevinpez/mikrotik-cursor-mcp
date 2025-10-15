@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-10-15
+
+### 🆕 Added - WireGuard VPN Support
+
+#### WireGuard Management (`mikrotik_wireguard`)
+- `list_wireguard_interfaces` - List all WireGuard VPN interfaces
+- `create_wireguard_interface` - Create new WireGuard interface with custom settings
+- `remove_wireguard_interface` - Remove WireGuard interface
+- `update_wireguard_interface` - Update interface configuration (port, MTU, keys)
+- `get_wireguard_interface` - Get detailed information about an interface
+- `enable_wireguard_interface` / `disable_wireguard_interface` - Control interface state
+- `list_wireguard_peers` - List all configured peers
+- `add_wireguard_peer` - Add VPN peer with full configuration
+- `remove_wireguard_peer` - Remove peer by public key or ID
+- `update_wireguard_peer` - Update peer settings (endpoint, allowed IPs, keepalive)
+
+**New Actions:** 11  
+**Total Actions:** 107 (up from 96)  
+**Total Categories:** 16 (up from 15)
+
+### 📚 Documentation
+- Added `WIREGUARD_FEATURE.md` with comprehensive WireGuard usage guide
+- Added complete AWS EC2 + MikroTik WireGuard VPN setup example
+- Updated README with WireGuard feature comparison
+
+### 🎯 Use Cases
+- Full VPN automation between MikroTik routers and cloud servers
+- Site-to-site VPN configuration
+- Road warrior VPN setups
+- Automated peer management for dynamic environments
+
 ## [2.0.0] - 2025-10-14
 
 ### 🎉 Major Release - Nested Architecture + 5 New Feature Categories

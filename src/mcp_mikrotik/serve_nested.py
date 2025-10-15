@@ -88,6 +88,11 @@ NESTED_TOOLS = [
         "name": "mikrotik_queues",
         "description": "Manage bandwidth limits and QoS (simple queues)",
         "category": "queues"
+    },
+    {
+        "name": "mikrotik_wireguard",
+        "description": "Manage WireGuard VPN interfaces and peers",
+        "category": "wireguard"
     }
 ]
 
@@ -146,6 +151,12 @@ CATEGORY_ACTIONS = {
     "queues": [
         "list_simple_queues", "create_simple_queue", "remove_simple_queue",
         "enable_simple_queue", "disable_simple_queue", "update_simple_queue", "list_queue_types"
+    ],
+    "wireguard": [
+        "list_wireguard_interfaces", "create_wireguard_interface", "remove_wireguard_interface",
+        "update_wireguard_interface", "get_wireguard_interface", "enable_wireguard_interface",
+        "disable_wireguard_interface", "list_wireguard_peers", "add_wireguard_peer",
+        "remove_wireguard_peer", "update_wireguard_peer"
     ]
 }
 

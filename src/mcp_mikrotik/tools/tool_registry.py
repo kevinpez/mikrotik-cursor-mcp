@@ -16,6 +16,7 @@ from .system_tools import get_system_tools, get_system_handlers
 from .interface_tools import get_interface_tools, get_interface_handlers
 from .diagnostic_tools import get_diagnostic_tools, get_diagnostic_handlers
 from .queue_tools import get_queue_tools, get_queue_handlers
+from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -65,6 +66,9 @@ def get_all_tools() -> List[Tool]:
 
     # Queue tools
     tools.extend(get_queue_tools())
+
+    # WireGuard tools
+    tools.extend(get_wireguard_tools())
 
     return tools
 
@@ -116,5 +120,8 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Queue handlers
     handlers.update(get_queue_handlers())
+
+    # WireGuard handlers
+    handlers.update(get_wireguard_handlers())
 
     return handlers
