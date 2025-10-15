@@ -1,9 +1,10 @@
 # MikroTik Cursor MCP - Complete Capabilities Reference
 
-**378 Actions × 19 Categories = 98% RouterOS Coverage**
+**382 Actions × 19 Categories = 99% RouterOS Coverage**
 
 This document provides a complete reference of all available actions, organized by category.
 
+**🎉 NEW in v4.8.0:** +4 actions, +1% coverage - DHCPv6 Relay, OSPF Authentication - ENTERPRISE-COMPLETE!  
 **🎉 NEW in v4.7.0:** +119 actions, +8% coverage - Layer 7, VRRP, Queue Trees, PKI, and more!
 
 ---
@@ -13,11 +14,11 @@ This document provides a complete reference of all available actions, organized 
 | Category | Actions | Coverage | Status |
 |----------|---------|----------|--------|
 | **Firewall** | 47 (+24) | Filter, NAT, Mangle, RAW, Layer 7, Chains | ✅ Complete |
-| **IPv6** | 39 | Addresses, Routes, Firewall, DHCPv6 | ✅ Complete |
-| **System** | 39 (+28) | Resources, Packages, Scheduler, Watchdog | ✅ Complete |
-| **Wireless** | 34 | Interfaces, CAPsMAN, Security | ✅ Complete |
-| **Routes** | 27 | Static, BGP, OSPF, Filters | ✅ Complete |
+| **System** | 56 (+28) | Resources, Packages, Scheduler, Watchdog | ✅ Complete |
+| **IPv6** | 41 (+2) | Addresses, Routes, Firewall, DHCPv6, DHCPv6 Relay | ✅ Complete |
 | **Interfaces** | 37 (+15) | Stats, PPPoE, Tunnels, Bonding, VRRP, Bridge | ✅ Complete |
+| **Wireless** | 34 | Interfaces, CAPsMAN, Security | ✅ Complete |
+| **Routes** | 29 (+2) | Static, BGP, OSPF with Auth, Filters | ✅ Complete |
 | **Queues** | 20 (+13) | Simple, Queue Trees, PCQ, HTB | ✅ Complete |
 | **Container** | 18 | Docker, Images, Networking | ✅ Complete |
 | **Certificates** | 11 (NEW) | PKI, CA, SSL/TLS | ✅ Complete |
@@ -33,7 +34,7 @@ This document provides a complete reference of all available actions, organized 
 | **Backup** | 4 | Create, Restore, Export | ✅ Complete |
 | **Logs** | 4 | View, Search, Export | ✅ Complete |
 
-**Total:** 378 actions across 19 categories
+**Total:** 382 actions across 19 categories
 
 ---
 
@@ -276,6 +277,17 @@ mikrotik_ipv6(action="remove_dhcpv6_option", name="dns")
 - "List all DHCPv6 leases"
 - "Configure DHCPv6 client on WAN interface"
 
+### DHCPv6 Relay (2 actions) - NEW in v4.8.0
+```
+mikrotik_ipv6(action="configure_dhcpv6_relay", interface="bridge", dhcp_server="2001:db8::1", ...)
+mikrotik_ipv6(action="list_dhcpv6_relays", interface_filter="bridge")
+```
+
+**Example Usage:**
+- "Configure DHCPv6 relay on bridge interface to 2001:db8::1"
+- "List all DHCPv6 relay configurations"
+- "Set up DHCPv6 relay for multi-site IPv6 deployment"
+
 ---
 
 ## 📦 **3. Container (18 Actions)**
@@ -513,6 +525,18 @@ mikrotik_routes(action="list_route_filters")
 **Example Usage:**
 - "Create route filter to accept specific prefixes"
 - "Filter BGP routes"
+
+### OSPF Authentication (2 actions) - NEW in v4.8.0
+```
+mikrotik_configure_ospf_authentication(interface="ether1", auth_type="md5", auth_key="secret123", ...)
+mikrotik_list_ospf_auth_keys(interface_filter="ether1")
+```
+
+**Example Usage:**
+- "Configure MD5 authentication on OSPF interface ether1"
+- "Set up simple authentication for OSPF"
+- "List all OSPF authentication configurations"
+- "Secure OSPF routing with authentication"
 
 ---
 
