@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-10-15
+
+### 🐛 Fixed - Critical Improvements from Real-World Usage
+
+#### Parameter Naming Conflicts Resolved
+- **Fixed** `mikrotik_create_filter_rule` - Renamed `action` parameter to `rule_action` to avoid conflict with nested tool's action parameter
+- **Improved** Schema validation - Added enum validation for firewall actions
+- **Fixed** `mikrotik_check_connection` - Improved TCP connectivity testing with proper quoting and better error handling
+
+#### Documentation
+- **Added** `REAL_WORLD_EXAMPLES.md` with 15+ practical examples from actual deployments
+- **Added** AWS EC2 + MikroTik VPN complete setup example
+- **Updated** README with real-world use case (tested AWS VPN setup)
+- **Improved** Error messages and status indicators for connection checks
+
+### 📝 Lessons Learned
+These improvements came from a real deployment: setting up WireGuard VPN from AWS EC2 to home MikroTik router.
+- Total setup time: ~45 minutes
+- Result: 0% packet loss, ~52ms latency
+- 100% automated via MCP servers
+
+### 🎯 Breaking Changes
+- Firewall rule creation now uses `rule_action` instead of `action` parameter (more clear and avoids conflicts)
+
+**Migration:**
+```python
+# Before (v2.1.0)
+mikrotik_firewall(action="create_filter_rule", chain="input", action="accept", ...)
+
+# After (v2.1.1)
+mikrotik_firewall(action="create_filter_rule", chain="input", rule_action="accept", ...)
+```
+
 ## [2.1.0] - 2025-10-15
 
 ### 🆕 Added - WireGuard VPN Support

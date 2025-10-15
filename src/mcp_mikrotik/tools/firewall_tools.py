@@ -26,7 +26,7 @@ def get_firewall_filter_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "chain": {"type": "string", "enum": ["input", "forward", "output"]},
-                    "action": {"type": "string"},
+                    "rule_action": {"type": "string", "enum": ["accept", "drop", "reject", "jump", "log", "passthrough", "return", "tarpit", "fasttrack-connection"], "description": "Firewall action to take"},
                     "src_address": {"type": "string"},
                     "dst_address": {"type": "string"},
                     "src_port": {"type": "string"},
@@ -46,7 +46,7 @@ def get_firewall_filter_tools() -> List[Tool]:
                     "log_prefix": {"type": "string"},
                     "place_before": {"type": "string"}
                 },
-                "required": ["chain", "action"]
+                "required": ["chain", "rule_action"]
             },
         ),
         Tool(
@@ -327,7 +327,7 @@ def get_firewall_filter_handlers() -> Dict[str, Callable]:
     return {
         "mikrotik_create_filter_rule": lambda args: mikrotik_create_filter_rule(
             args["chain"],
-            args["action"],
+            args["rule_action"],
             args.get("src_address"),
             args.get("dst_address"),
             args.get("src_port"),

@@ -106,6 +106,44 @@ Close and reopen Cursor to load the MCP server.
 
 ## 💡 **Usage**
 
+### Quick Example: AWS EC2 VPN Setup
+
+Real-world example that sets up a complete WireGuard VPN from AWS EC2 to your home router:
+
+```python
+# Step 1: Create WireGuard interface on MikroTik
+mikrotik_wireguard(
+    action="create_wireguard_interface",
+    name="wireguard-aws",
+    private_key="YOUR_KEY",
+    comment="VPN to AWS EC2"
+)
+
+# Step 2: Add peer (EC2 server)
+mikrotik_wireguard(
+    action="add_wireguard_peer",
+    interface="wireguard-aws",
+    public_key="SERVER_KEY",
+    endpoint_address="52.91.171.70",
+    endpoint_port=51820,
+    allowed_address="10.13.13.1/32",
+    persistent_keepalive="25s"
+)
+
+# Step 3: Test connectivity
+mikrotik_diagnostics(action="ping", address="10.13.13.1")
+# Result: 0% packet loss! ✅
+```
+
+**See `REAL_WORLD_EXAMPLES.md` for 15+ complete examples including:**
+- Complete AWS VPN setup (EC2 + MikroTik)
+- Network diagnostics and troubleshooting
+- Bandwidth management (QoS)
+- Firewall configuration
+- And much more!
+
+### Natural Language Commands
+
 The nested version works with natural language commands in Cursor:
 
 ```
