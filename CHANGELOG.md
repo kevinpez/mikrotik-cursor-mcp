@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-10-15 - MAJOR RELEASE
+
+### 🔀 Added - Dynamic Routing (Enterprise Features)
+
+#### BGP Support (8 actions)
+- `create_bgp_instance` - Create BGP routing instance
+- `add_bgp_peer` - Add BGP neighbor
+- `list_bgp_peers` - List neighbors and status
+- `add_bgp_network` - Advertise network
+- `list_bgp_networks` - List advertised networks
+- `list_bgp_routes` - View BGP routing table
+- `get_bgp_status` - Get BGP instance status
+- `clear_bgp_session` - Reset BGP session
+
+#### OSPF Support (7 actions)
+- `create_ospf_instance` - Create OSPF instance
+- `add_ospf_network` - Add network to OSPF
+- `add_ospf_interface` - Configure OSPF on interface
+- `list_ospf_neighbors` - View OSPF neighbors
+- `list_ospf_routes` - View OSPF routes
+- `get_ospf_status` - Get OSPF status
+- `create_ospf_area` - Configure OSPF areas
+
+#### Route Filtering (2 actions)
+- `create_route_filter` - Create route filter rules
+- `list_route_filters` - List route filters
+
+**New Actions:** 17  
+**Total Actions:** 172 (up from 155)  
+**Coverage:** 85% (up from 79%)
+
+### 🎯 Breaking Changes
+This is a MAJOR version (3.0.0) indicating significant new capabilities.
+No breaking API changes, but BGP/OSPF require RouterOS configuration knowledge.
+
+### ✅ Enterprise Ready
+- Multi-homing with BGP
+- Dynamic routing with OSPF
+- Route filtering for traffic engineering
+- ISP-grade routing capabilities
+
+### 🎯 Use Cases
+- Internet multi-homing (dual ISP)
+- BGP peering with providers
+- OSPF in enterprise campus networks
+- Route redistribution between protocols
+- Policy-based routing with filters
+
 ## [2.6.0] - 2025-10-15
 
 ### 📱 Added - Hotspot & Captive Portal
