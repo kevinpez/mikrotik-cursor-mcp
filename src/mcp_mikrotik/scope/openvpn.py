@@ -108,7 +108,7 @@ def mikrotik_create_openvpn_client(
     # Build command
     cmd_parts = [
         '/interface ovpn-client add',
-        f'name="{name}"',
+        f'name={name}',
         f'connect-to={connect_to}',
         f'port={port}',
         f'mode={mode}',
@@ -117,11 +117,11 @@ def mikrotik_create_openvpn_client(
     ]
     
     if user:
-        cmd_parts.append(f'user="{user}"')
+        cmd_parts.append(f'user={user}')
     if password:
-        cmd_parts.append(f'password="{password}"')
+        cmd_parts.append(f'password={password}')
     if certificate:
-        cmd_parts.append(f'certificate="{certificate}"')
+        cmd_parts.append(f'certificate={certificate}')
     if comment:
         cmd_parts.append(f'comment="{comment}"')
     
