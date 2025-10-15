@@ -17,6 +17,7 @@ from .interface_tools import get_interface_tools, get_interface_handlers
 from .diagnostic_tools import get_diagnostic_tools, get_diagnostic_handlers
 from .queue_tools import get_queue_tools, get_queue_handlers
 from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
+from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
 
 
@@ -70,6 +71,9 @@ def get_all_tools() -> List[Tool]:
 
     # WireGuard tools
     tools.extend(get_wireguard_tools())
+
+    # OpenVPN tools
+    tools.extend(get_openvpn_tools())
 
     # Workflow tools
     tools.extend(get_workflow_tools())
@@ -127,6 +131,9 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # WireGuard handlers
     handlers.update(get_wireguard_handlers())
+
+    # OpenVPN handlers
+    handlers.update(get_openvpn_handlers())
 
     # Workflow handlers
     handlers.update(get_workflow_handlers())

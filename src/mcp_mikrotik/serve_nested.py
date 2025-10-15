@@ -93,6 +93,11 @@ NESTED_TOOLS = [
         "name": "mikrotik_wireguard",
         "description": "Manage WireGuard VPN interfaces and peers",
         "category": "wireguard"
+    },
+    {
+        "name": "mikrotik_openvpn",
+        "description": "Manage OpenVPN client and server interfaces",
+        "category": "openvpn"
     }
 ]
 
@@ -157,6 +162,11 @@ CATEGORY_ACTIONS = {
         "update_wireguard_interface", "get_wireguard_interface", "enable_wireguard_interface",
         "disable_wireguard_interface", "list_wireguard_peers", "add_wireguard_peer",
         "remove_wireguard_peer", "update_wireguard_peer"
+    ],
+    "openvpn": [
+        "list_openvpn_interfaces", "list_openvpn_servers", "get_openvpn_server_status",
+        "create_openvpn_client", "remove_openvpn_interface", "update_openvpn_client",
+        "get_openvpn_status", "enable_openvpn_client", "disable_openvpn_client"
     ]
 }
 
