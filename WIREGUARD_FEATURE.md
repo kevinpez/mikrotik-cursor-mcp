@@ -170,7 +170,7 @@ mikrotik_diagnostics(
 
 1. **src/mcp_mikrotik/scope/wireguard.py** - Core WireGuard functions
 2. **src/mcp_mikrotik/tools/wireguard_tools.py** - Tool definitions and handlers
-3. **src/mcp_mikrotik/serve_nested.py** - Added wireguard category
+3. **src/mcp_mikrotik/serve.py** - Added wireguard category
 4. **src/mcp_mikrotik/tools/tool_registry.py** - Registered wireguard handlers
 
 ## Requirements
@@ -298,7 +298,7 @@ Potential improvements for future versions:
 To extend this feature:
 1. Add new functions to `scope/wireguard.py`
 2. Add corresponding tool definitions to `tools/wireguard_tools.py`
-3. Update action lists in `serve_nested.py`
+3. Update action lists in `serve.py`
 4. Test thoroughly with real MikroTik hardware
 
 ## License

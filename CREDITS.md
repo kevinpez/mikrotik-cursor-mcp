@@ -65,9 +65,9 @@ This fork was created to:
 - ✅ All original functionality
 
 ### What We Added
-- ⭐ `serve_nested.py` - New nested server architecture
-- ⭐ `server_nested.py` - Entry point for nested version
-- ⭐ `README-NESTED.md` - Nested version documentation
+- ⭐ `serve.py` - Category-based server architecture
+- ⭐ `server.py` - Unified entry point
+- ⭐ Consolidated documentation in main README.md
 - ⭐ Improved route removal logic
 
 ### What We Changed

@@ -42,7 +42,7 @@ Final: v5.0.0 (100% Coverage)
   - [ ] Handler mappings
   - [ ] Input schema with validation
 
-- [ ] **Update serve_nested.py**
+- [ ] **Update serve.py**
   - [ ] Add "openvpn" category
   - [ ] List 8 actions in CATEGORY_ACTIONS
 
@@ -641,7 +641,7 @@ v5.0.0: 90% ██████████████████████�
 2. **Implementation** (40% of time)
    - Create scope/*.py functions
    - Create tools/*_tools.py
-   - Add to serve_nested.py
+   - Add to serve.py
    - Register in tool_registry.py
 
 3. **Validation** (15% of time)

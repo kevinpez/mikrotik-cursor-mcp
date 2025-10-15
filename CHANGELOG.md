@@ -544,7 +544,7 @@ This release transforms the MikroTik MCP server with a nested tool architecture 
 ### Documentation 📚
 
 #### New Documentation Files
-- `README-NESTED.md` - Comprehensive nested version guide
+- Consolidated documentation in main README.md
 - `CREDITS.md` - Full attribution to original author
 - `CHANGELOG.md` - This file
 - `MIKROTIK-MCP-COVERAGE.md` - Feature coverage analysis
@@ -617,7 +617,7 @@ Original MikroTik MCP server with 100+ tools covering:
 ### From Original (1.0.0) to Nested (2.0.0)
 
 1. **Update configuration:**
-   - Change `server.py` → `server_nested.py`
+   - Use unified `server.py` entry point
    
 2. **Restart Cursor**
 
@@ -659,6 +659,6 @@ Original MikroTik MCP server with 100+ tools covering:
 
 **For detailed documentation, see:**
 - Main README: [README.md](README.md)
-- Nested Guide: [README-NESTED.md](README-NESTED.md)
+- Complete Guide: [README.md](README.md)
 - Feature Coverage: [MIKROTIK-MCP-COVERAGE.md](MIKROTIK-MCP-COVERAGE.md)
 - Credits: [CREDITS.md](CREDITS.md)
