@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2025-10-15
+
+### 🌐 Added - PPPoE, Tunnels & Bonding
+
+#### PPPoE Support (5 actions)
+- `list_pppoe_clients` - List PPPoE client interfaces
+- `create_pppoe_client` - Create PPPoE client for ISP connection
+- `remove_pppoe_client` - Remove PPPoE client
+- `get_pppoe_status` - Get PPPoE connection status
+- `list_pppoe_servers` - List PPPoE servers
+
+#### Tunnel Interfaces (7 actions)
+- EoIP: `list_eoip_tunnels`, `create_eoip_tunnel`, `remove_eoip_tunnel`
+- GRE: `list_gre_tunnels`, `create_gre_tunnel`, `remove_gre_tunnel`
+- `list_tunnels` - List all tunnel types
+
+#### Bonding/Link Aggregation (4 actions)
+- `list_bonding_interfaces` - List bonding interfaces
+- `create_bonding_interface` - Create bonding (802.3ad, balance-rr, etc.)
+- `add_bonding_slave` - Add interface to bond
+- `remove_bonding_interface` - Remove bonding
+
+**New Actions:** 16  
+**Total Actions:** 145 (up from 129)  
+**Coverage:** 76% (up from 73%)
+
+### 📝 Documentation Updates
+- Removed "nesting" terminology
+- Emphasize "Cursor IDE optimization"
+- Cleaner, more user-friendly messaging
+- Updated all counts to reflect v2.5.0
+
+### ✅ Tested
+- All integrated into interfaces category
+- Ready for production use
+
+### 🎯 Use Cases
+- ISP PPPoE connections (DSL, fiber)
+- Site-to-site tunnels (EoIP, GRE)
+- Link aggregation for bandwidth/redundancy
+- Multi-link setups
+
 ## [2.4.0] - 2025-10-15
 
 ### 🔥 Added - Advanced Firewall Features
