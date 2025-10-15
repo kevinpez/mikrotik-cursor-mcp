@@ -1,31 +1,32 @@
 from .logger import app_logger
-from .mikrotik_ssh_client import MikroTikSSHClient
+from .connection_manager import get_connection_manager
 from .settings.configuration import mikrotik_config
 
 
 def execute_mikrotik_command(command: str) -> str:
     """
     Execute a MikroTik command via SSH and return the output.
+    Uses connection pooling for better performance.
     """
     app_logger.info(f"Executing MikroTik command: {command}")
     
-    ssh_client = MikroTikSSHClient(
-        host=mikrotik_config["host"],
-        username=mikrotik_config["username"],
-        password=mikrotik_config["password"],
-        port=mikrotik_config["port"]
-    )
+    connection_manager = get_connection_manager()
     
     try:
-        if not ssh_client.connect():
-            return "Error: Failed to connect to MikroTik device"
-        
-        result = ssh_client.execute_command(command)
-        app_logger.info(f"Command result: {repr(result)}") 
-        return result
+        with connection_manager.get_connection_context() as ssh_client:
+            stdin, stdout, stderr = ssh_client.exec_command(command, timeout=30)
+            
+            output = stdout.read().decode('utf-8')
+            error = stderr.read().decode('utf-8')
+            
+            if error and not output:
+                app_logger.warning(f"Command error: {error}")
+                return error
+            
+            app_logger.debug(f"Command result length: {len(output)} chars")
+            return output
+            
     except Exception as e:
         error_msg = f"Error executing command: {str(e)}"
         app_logger.error(error_msg)
         return error_msg
-    finally:
-        ssh_client.disconnect()

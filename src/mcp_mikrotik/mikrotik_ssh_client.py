@@ -27,8 +27,17 @@ class MikroTikSSHClient:
                 timeout=10
             )
             return True
+        except paramiko.AuthenticationException as e:
+            app_logger.error(f"Authentication failed for {self.username}@{self.host}: {e}")
+            return False
+        except paramiko.SSHException as e:
+            app_logger.error(f"SSH error connecting to {self.host}: {e}")
+            return False
+        except TimeoutError as e:
+            app_logger.error(f"Connection timeout to {self.host}:{self.port}: {e}")
+            return False
         except Exception as e:
-            app_logger.error(f"Failed to connect to MikroTik: {e}")
+            app_logger.error(f"Unexpected error connecting to MikroTik: {e}")
             return False
     
     def execute_command(self, command: str) -> str:
@@ -37,7 +46,7 @@ class MikroTikSSHClient:
             raise Exception("Not connected to MikroTik device")
         
         try:
-            stdin, stdout, stderr = self.client.exec_command(command)
+            stdin, stdout, stderr = self.client.exec_command(command, timeout=30)
             
             output = stdout.read().decode('utf-8')
             error = stderr.read().decode('utf-8')
@@ -46,8 +55,14 @@ class MikroTikSSHClient:
                 return error
             
             return output
+        except paramiko.SSHException as e:
+            app_logger.error(f"SSH error executing command: {e}")
+            raise
+        except TimeoutError as e:
+            app_logger.error(f"Command timeout: {e}")
+            raise
         except Exception as e:
-            app_logger.error(f"Error executing command: {e}")
+            app_logger.error(f"Unexpected error executing command: {e}")
             raise
     
     def disconnect(self):

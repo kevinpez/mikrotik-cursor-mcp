@@ -11,8 +11,8 @@ try:
     from mcp.server.stdio import stdio_server
     from mcp.types import TextContent, Tool
 except ImportError as e:
-    print(f"Error importing MCP: {e}")
-    print(f"Current Python path: {sys.path}")
+    app_logger.error(f"Error importing MCP: {e}")
+    app_logger.error(f"Current Python path: {sys.path}")
     sys.exit(1)
 
 from .tools.tool_registry import get_all_handlers
@@ -342,7 +342,7 @@ async def serve() -> None:
         
         # Get the handler
         handlers = get_all_handlers()
-        
+
         if original_tool_name in handlers:
             try:
                 # Remove 'action' from arguments since the handler doesn't expect it

@@ -44,7 +44,7 @@ def mikrotik_create_backup(
     result = execute_mikrotik_command(cmd)
     
     # Check if backup was successful
-    print(result)
+    app_logger.debug(f"Backup command result: {result}")
     if "saved" in result or not result.strip():
         # Get file details
         file_cmd = f"/file print detail where name={name}.backup"

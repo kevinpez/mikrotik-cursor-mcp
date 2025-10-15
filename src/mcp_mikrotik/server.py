@@ -3,6 +3,7 @@ import logging
 from mcp_mikrotik.logger import app_logger
 from mcp_mikrotik.serve import serve
 from mcp_mikrotik.settings.configuration import mikrotik_config
+from mcp_mikrotik.connection_manager import cleanup_connections
 
 def main():
     """
@@ -44,6 +45,9 @@ def main():
     except Exception as e:
         logger.error(f"Error running MCP MikroTik server: {e}")
         sys.exit(1)
+    finally:
+        cleanup_connections()
+        logger.info("Connection cleanup completed")
 
 if __name__ == "__main__":
     main()
