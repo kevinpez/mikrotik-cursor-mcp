@@ -5,6 +5,79 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2025-10-15
+
+### 📡 Added - Advanced Wireless & CAPsMAN
+
+#### Advanced Wireless Features (17 actions)
+- **Security Profiles (RouterOS v6.x):**
+  - `create_wireless_security_profile` - Create WPA/WPA2 security profiles
+  - `list_wireless_security_profiles` - List all security profiles
+  - `get_wireless_security_profile` - Get profile details
+  - `remove_wireless_security_profile` - Remove security profile
+  - `update_wireless_security_profile` - Update security settings
+
+- **Access Lists (RouterOS v6.x):**
+  - `create_wireless_access_list` - Create MAC-based access control
+  - `list_wireless_access_list` - List access list entries
+  - `remove_wireless_access_list_entry` - Remove access list entry
+
+- **Monitoring & Configuration:**
+  - `get_wireless_interface_monitor` - Real-time monitoring data
+  - `get_wireless_frequencies` - List available frequencies
+  - `export_wireless_config` - Export wireless configuration
+
+- **Enhanced Basic Operations:**
+  - `create_wireless_interface` - Create wireless interfaces
+  - `remove_wireless_interface` - Remove wireless interfaces
+  - `enable_wireless_interface` - Enable wireless interfaces
+  - `disable_wireless_interface` - Disable wireless interfaces
+  - `scan_wireless_networks` - Scan for nearby networks
+  - `check_wireless_support` - Check wireless capability
+
+#### CAPsMAN Support (17 actions)
+*Centralized wireless Access Point management for enterprise deployments*
+
+- **Manager Control:**
+  - `enable_capsman` - Enable CAPsMAN controller
+  - `disable_capsman` - Disable CAPsMAN controller
+  - `get_capsman_status` - Get manager status
+
+- **Configuration Profiles:**
+  - `create_capsman_configuration` - Create config profiles
+  - `list_capsman_configurations` - List configurations
+  - `remove_capsman_configuration` - Remove configuration
+
+- **Provisioning Rules:**
+  - `create_capsman_provisioning_rule` - Auto-provision APs
+  - `list_capsman_provisioning_rules` - List provisioning rules
+  - `remove_capsman_provisioning_rule` - Remove rule
+
+- **Interface Management:**
+  - `list_capsman_interfaces` - List CAP interfaces
+  - `get_capsman_interface` - Get interface details
+
+- **Client & AP Management:**
+  - `list_capsman_registration_table` - View connected clients
+  - `list_capsman_remote_caps` - List managed APs
+  - `get_capsman_remote_cap` - Get specific AP details
+
+- **Datapath Configuration:**
+  - `create_capsman_datapath` - Create datapath config
+  - `list_capsman_datapaths` - List datapaths
+  - `remove_capsman_datapath` - Remove datapath
+
+**New Actions:** 34  
+**Total Actions:** 202 (up from 172)  
+**Coverage:** 88% (up from 85%)
+
+### 🎯 Use Cases
+- Enterprise wireless management with centralized control
+- Guest network isolation with security profiles
+- MAC-based access control
+- Multi-AP deployments with automatic provisioning
+- Real-time wireless monitoring and troubleshooting
+
 ## [3.0.0] - 2025-10-15 - MAJOR RELEASE
 
 ### 🔀 Added - Dynamic Routing (Enterprise Features)
