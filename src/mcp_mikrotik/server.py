@@ -1,7 +1,7 @@
 import sys
 import logging
 from mcp_mikrotik.logger import app_logger
-from mcp_mikrotik.serve_nested import serve
+from mcp_mikrotik.serve import serve
 from mcp_mikrotik.settings.configuration import mikrotik_config
 
 def main():
