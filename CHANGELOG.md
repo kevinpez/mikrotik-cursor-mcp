@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2025-10-15
+
+### 📱 Added - Hotspot & Captive Portal
+
+#### Hotspot Management (10 actions)
+- `list_hotspot_servers` - List hotspot servers
+- `create_hotspot_server` - Create hotspot on interface
+- `remove_hotspot_server` - Remove hotspot server
+- `list_hotspot_users` - List hotspot users
+- `create_hotspot_user` - Create user with credentials
+- `list_hotspot_active` - View active sessions
+- `list_hotspot_profiles` - List profiles
+- `create_hotspot_profile` - Create profile with limits
+- `list_walled_garden` - List walled garden sites
+- `add_walled_garden` - Add site accessible without login
+
+**New Actions:** 10  
+**Total Actions:** 155 (up from 145)  
+**Coverage:** 79% (up from 76%)
+
+### 🎯 Use Cases
+- Guest WiFi with captive portal
+- Public network access control
+- Bandwidth limiting per user/group
+- Time-based access control
+- Free access to specific websites
+
 ## [2.5.0] - 2025-10-15
 
 ### 🌐 Added - PPPoE, Tunnels & Bonding
