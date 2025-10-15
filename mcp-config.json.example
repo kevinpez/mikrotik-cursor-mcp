@@ -1,12 +1,10 @@
 {
   "mcpServers": {
     "mikrotik-cursor-mcp": {
-      "command": "python",
+      "command": "C:\\path\\to\\mikrotik-mcp\\.venv\\Scripts\\python.exe",
       "args": [
-        "-m",
-        "mcp_mikrotik.server"
+        "C:\\path\\to\\mikrotik-mcp\\src\\mcp_mikrotik\\server.py"
       ],
-      "cwd": "/path/to/mikrotik-cursor-mcp",
       "env": {
         "MIKROTIK_HOST": "192.168.88.1",
         "MIKROTIK_USERNAME": "admin",
@@ -16,8 +14,23 @@
         "MIKROTIK_STRICT_HOST_KEY_CHECKING": "false",
         "MIKROTIK_KNOWN_HOSTS": "",
         "MIKROTIK_CONNECT_TIMEOUT": "10",
-        "MIKROTIK_CMD_TIMEOUT": "30"
-      }
+        "MIKROTIK_CMD_TIMEOUT": "30",
+        "MIKROTIK_LOG_LEVEL": "INFO",
+        "MIKROTIK_LOG_FORMAT": "json",
+        "MIKROTIK_DRY_RUN": "true",
+        "MIKROTIK_SAFETY_MODE": "true",
+        "MIKROTIK_METRICS_ENABLED": "true",
+        "MIKROTIK_METRICS_PORT": "9090",
+        "MIKROTIK_CONNECTION_POOL_SIZE": "5",
+        "MIKROTIK_CONNECTION_TIMEOUT": "30",
+        "MIKROTIK_COMMAND_TIMEOUT": "60",
+        "MIKROTIK_RETRY_ATTEMPTS": "3",
+        "MIKROTIK_RETRY_DELAY": "1",
+        "MIKROTIK_BACKUP_BEFORE_CHANGES": "true",
+        "MIKROTIK_AUTO_BACKUP_RETENTION": "10"
+      },
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }
@@ -44,8 +57,8 @@
 //    - Example: /ip firewall filter add chain=input protocol=tcp dst-port=22 src-address=192.168.1.0/24 action=accept
 //
 // 5. PATH CONFIGURATION:
-//    - Update "cwd" to your actual installation directory
-//    - Windows example: "C:\\Users\\YourName\\mikrotik-cursor-mcp"
-//    - Linux/Mac example: "/home/yourname/mikrotik-cursor-mcp"
+//    - Update "command" and "args" paths to your actual installation directory
+//    - Windows example: "C:\\Users\\YourName\\mikrotik-mcp\\.venv\\Scripts\\python.exe"
+//    - Linux/Mac example: "/home/yourname/mikrotik-mcp/.venv/bin/python"
 //
-// For complete setup instructions, see: SETUP_GUIDE.md
+// For complete setup instructions, see: SETUP_COMPLETE_GUIDE.md

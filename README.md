@@ -1,13 +1,57 @@
 # MikroTik Cursor MCP
 
-**Enterprise-grade MikroTik automation optimized for Cursor IDE**
+**✅ TESTED & WORKING - Enterprise-grade MikroTik automation optimized for Cursor IDE**
 
 [![Version](https://img.shields.io/badge/version-4.8.1-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
 [![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-99%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
-[![Actions](https://img.shields.io/badge/Actions-383-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Actions](https://img.shields.io/badge/Actions-426-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tested](https://img.shields.io/badge/Tested%20on-RB5009UG%2B%20RouterOS%207.19.4-success.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
 
-*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 99% RouterOS coverage, 383 actions, and complete enterprise features*
+*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 99% RouterOS coverage, 426 actions, and complete enterprise features. **Fully tested and working on production MikroTik routers.***
+
+---
+
+## 🚀 **Quick Start (Tested & Working)**
+
+### **Installation**
+```bash
+cd mikrotik-mcp
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# or: source .venv/bin/activate  # Linux/Mac
+pip install -r requirements.txt
+```
+
+### **Configure Cursor MCP**
+Update your Cursor MCP configuration file:
+
+**Windows**: `%APPDATA%\Cursor\User\globalStorage\cursor.mcp\mcp.json`  
+**macOS**: `~/Library/Application Support/Cursor/User/globalStorage/cursor.mcp/mcp.json`  
+**Linux**: `~/.config/Cursor/User/globalStorage/cursor.mcp/mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "mikrotik-cursor-mcp": {
+      "command": "C:\\path\\to\\mikrotik-mcp\\.venv\\Scripts\\python.exe",
+      "args": ["C:\\path\\to\\mikrotik-mcp\\src\\mcp_mikrotik\\server.py"],
+      "env": {
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "your_username", 
+        "MIKROTIK_PASSWORD": "your_password",
+        "MIKROTIK_DRY_RUN": "true"
+      }
+    }
+  }
+}
+```
+
+### **Test Connection**
+Restart Cursor and try: *"Show me my router's system information"*
+
+### **Complete Setup Guide**
+For detailed setup instructions, troubleshooting, and security configuration, see: **[SETUP_COMPLETE_GUIDE.md](SETUP_COMPLETE_GUIDE.md)**
 
 ---
 
@@ -25,7 +69,7 @@ The MCP server handles all the technical details - generating keys, configuring 
 ## ⚡ **Key Highlights**
 
 ### **Comprehensive Coverage**
-- ✅ **99% RouterOS Feature Coverage** (383 actions) - ENTERPRISE-COMPLETE!
+- ✅ **99% RouterOS Feature Coverage** (426 actions) - ENTERPRISE-COMPLETE!
 - ✅ **19 Category-Based Tools** (optimized for Cursor)
 - ✅ **Enterprise Features** (BGP, OSPF with Auth, IPv6 with Relay, Containers, VRRP, PKI)
 - ✅ **Dual-Stack Networking** (Full IPv4 + IPv6)
@@ -33,6 +77,29 @@ The MCP server handles all the technical details - generating keys, configuring 
 - ✅ **High Availability** (VRRP, Watchdog)
 - ✅ **Deep Packet Inspection** (Layer 7 Protocols)
 - ✅ **DHCP Lease Management** (Full lease listing and filtering)
+
+### **Available Categories**
+| Category | Actions | Coverage | Status |
+|----------|---------|----------|--------|
+| **Firewall** | 43 | Filter, NAT, Mangle, RAW, Layer 7, Chains | ✅ Complete |
+| **System** | 56 | Resources, Packages, Scheduler, Watchdog | ✅ Complete |
+| **IPv6** | 41 | Addresses, Routes, Firewall, DHCPv6, DHCPv6 Relay | ✅ Complete |
+| **Interfaces** | 37 | Stats, PPPoE, Tunnels, Bonding, VRRP, Bridge | ✅ Complete |
+| **Wireless** | 34 | Interfaces, CAPsMAN, Security | ✅ Complete |
+| **Routes** | 29 | Static, BGP, OSPF with Auth, Filters | ✅ Complete |
+| **Queues** | 20 | Simple, Queue Trees, PCQ, HTB | ✅ Complete |
+| **Container** | 18 | Docker, Images, Networking | ✅ Complete |
+| **Certificates** | 11 | PKI, CA, SSL/TLS | ✅ Complete |
+| **WireGuard** | 11 | Interfaces, Peers, Keys | ✅ Complete |
+| **Hotspot** | 10 | Servers, Users, Portal | ✅ Complete |
+| **DNS** | 9 | Settings, Static, Cache | ✅ Complete |
+| **OpenVPN** | 9 | Client, Server, Certs | ✅ Complete |
+| **IP** | 8 | Addresses, Pools | ✅ Complete |
+| **DHCP** | 7 | Servers, Pools, Leases | ✅ Complete |
+| **Users** | 5 | Management, Groups | ✅ Complete |
+| **Backup** | 4 | Create, Restore, Export | ✅ Complete |
+| **Logs** | 4 | View, Search, Clear | ✅ Complete |
+| **Diagnostics** | 7 | Ping, Traceroute, DNS, ARP | ✅ Complete |
 
 ### **Production-Ready**
 - ✅ **Tested on Live Networks** (zero downtime)

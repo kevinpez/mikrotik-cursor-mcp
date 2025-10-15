@@ -28,6 +28,7 @@ from .ipv6_tools import (get_ipv6_tools, get_ipv6_handlers, get_ipv6_firewall_to
                          get_ipv6_firewall_handlers, get_dhcpv6_tools, get_dhcpv6_handlers)
 from .container_tools import get_container_tools, get_container_handlers
 from .certificate_tools import get_certificate_tools, get_certificate_handlers
+from .dry_run_tools import get_dry_run_tools, get_dry_run_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -110,6 +111,9 @@ def get_all_tools() -> List[Tool]:
 
     # Certificate tools
     tools.extend(get_certificate_tools())
+
+    # Dry-run and safety tools
+    tools.extend(get_dry_run_tools())
 
     return tools
 
@@ -194,5 +198,8 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Certificate handlers
     handlers.update(get_certificate_handlers())
+
+    # Dry-run and safety handlers
+    handlers.update(get_dry_run_handlers())
 
     return handlers

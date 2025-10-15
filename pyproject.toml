@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mikrotik-cursor-mcp"
-version = "4.8.0"
-description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 99% RouterOS coverage and workflow automation"
+version = "4.8.1"
+description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 99% RouterOS coverage, dry-run mode, and enterprise features"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -16,7 +16,7 @@ authors = [
 maintainers = [
     {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
 ]
-keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "nested", "cursor", "automation", "monitoring", "diagnostics"]
+keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "cursor", "automation", "monitoring", "diagnostics", "dry-run", "enterprise", "production"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -26,14 +26,22 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
     "Topic :: System :: Networking",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: AsyncIO",
 ]
 dependencies = [
-    "mcp>=1.8.0",  # Updated based on your site-packages
+    "mcp>=1.8.0",
     "paramiko>=3.5.1",
     "pydantic>=2.11.4",
     "pydantic-settings>=2.9.1",
     "python-dotenv>=1.1.0",
+    "pyyaml>=6.0",
+    "prometheus-client>=0.19.0",
 ]
 
 [project.urls]
@@ -43,6 +51,11 @@ Repository = "https://github.com/kevinpez/mikrotik-cursor-mcp"
 "Original Project" = "https://github.com/jeff-nasseri/mikrotik-mcp"
 Changelog = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/CHANGELOG.md"
 Documentation = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/README.md"
+"Quick Start" = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/QUICK_START.md"
+"Natural Language Examples" = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/NATURAL_LANGUAGE_EXAMPLES.md"
+"Security Guide" = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/SECURITY.md"
+"Testing Guide" = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/TESTING_GUIDE.md"
+"Multi-Site Manager" = "https://github.com/kevinpez/mikrotik-cursor-mcp/blob/main/multi-site-manager/README.md"
 
 [project.scripts]
 mikrotik-cursor-mcp = "mcp_mikrotik.server:main"
