@@ -343,3 +343,90 @@ def mikrotik_remove_dhcpv6_option(name: str) -> str:
     
     return f"DHCPv6 option '{name}' removed successfully."
 
+
+# ============================================================================
+# DHCPv6 RELAY - NEW in v4.8.0
+# ============================================================================
+
+def mikrotik_configure_dhcpv6_relay(
+    interface: str,
+    dhcp_server: str,
+    name: Optional[str] = None,
+    disabled: bool = False
+) -> str:
+    """
+    Configures DHCPv6 relay agent on an interface.
+    
+    Args:
+        interface: Interface to run relay on
+        dhcp_server: IPv6 address of DHCPv6 server
+        name: Optional name for the relay configuration
+        disabled: Whether to disable the relay after creation
+    
+    Returns:
+        Command output or error message
+    """
+    app_logger.info(f"Configuring DHCPv6 relay on {interface} to server {dhcp_server}")
+    
+    if not interface or interface.strip() == "":
+        return "Error: Interface cannot be empty."
+    
+    if not dhcp_server or dhcp_server.strip() == "":
+        return "Error: DHCPv6 server address cannot be empty."
+    
+    # Build command
+    cmd = f'/ipv6 dhcp-relay add interface="{interface}" dhcp-server={dhcp_server}'
+    
+    if name:
+        cmd += f' name="{name}"'
+    
+    if disabled:
+        cmd += " disabled=yes"
+    
+    result = execute_mikrotik_command(cmd)
+    
+    if result.strip() and ("*" in result or result.strip().isdigit()):
+        relay_id = result.strip()
+        details_cmd = f"/ipv6 dhcp-relay print detail where .id={relay_id}"
+        details = execute_mikrotik_command(details_cmd)
+        
+        if details.strip():
+            return f"DHCPv6 relay configured successfully:\n\n{details}"
+        else:
+            return f"DHCPv6 relay configured with ID: {result}"
+    else:
+        return f"Failed to configure DHCPv6 relay: {result}" if result else "DHCPv6 relay configured."
+
+def mikrotik_list_dhcpv6_relays(
+    interface_filter: Optional[str] = None,
+    disabled_only: bool = False
+) -> str:
+    """
+    Lists DHCPv6 relay configurations.
+    
+    Args:
+        interface_filter: Filter by interface name
+        disabled_only: Show only disabled relays
+    
+    Returns:
+        List of DHCPv6 relay configurations
+    """
+    app_logger.info(f"Listing DHCPv6 relays: interface_filter={interface_filter}")
+    
+    cmd = "/ipv6 dhcp-relay print detail"
+    
+    filters = []
+    if interface_filter:
+        filters.append(f'interface~"{interface_filter}"')
+    if disabled_only:
+        filters.append("disabled=yes")
+    
+    if filters:
+        cmd += " where " + " ".join(filters)
+    
+    result = execute_mikrotik_command(cmd)
+    
+    if not result or result.strip() == "" or result.strip() == "no such item":
+        return "No DHCPv6 relay configurations found."
+    
+    return f"DHCPv6 RELAYS:\n\n{result}"

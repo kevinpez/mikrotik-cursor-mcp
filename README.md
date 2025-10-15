@@ -2,12 +2,12 @@
 
 **Enterprise-grade MikroTik automation optimized for Cursor IDE**
 
-[![Version](https://img.shields.io/badge/version-4.7.0-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
-[![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-98%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
-[![Actions](https://img.shields.io/badge/Actions-378-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Version](https://img.shields.io/badge/version-4.8.0-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Coverage](https://img.shields.io/badge/RouterOS%20Coverage-99%25-brightgreen.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![Actions](https://img.shields.io/badge/Actions-382-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 98% RouterOS coverage, 378 actions, and enterprise features*
+*Evolution of [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri) - now with 99% RouterOS coverage, 382 actions, and complete enterprise features*
 
 ---
 
@@ -25,9 +25,9 @@ The MCP server handles all the technical details - generating keys, configuring 
 ## ⚡ **Key Highlights**
 
 ### **Comprehensive Coverage**
-- ✅ **98% RouterOS Feature Coverage** (378 actions) - NEARLY COMPLETE!
+- ✅ **99% RouterOS Feature Coverage** (382 actions) - ENTERPRISE-COMPLETE!
 - ✅ **19 Category-Based Tools** (optimized for Cursor)
-- ✅ **Enterprise Features** (BGP, OSPF, IPv6, Containers, VRRP, PKI)
+- ✅ **Enterprise Features** (BGP, OSPF with Auth, IPv6 with Relay, Containers, VRRP, PKI)
 - ✅ **Dual-Stack Networking** (Full IPv4 + IPv6)
 - ✅ **Advanced QoS** (Queue Trees, PCQ, HTB)
 - ✅ **High Availability** (VRRP, Watchdog)

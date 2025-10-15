@@ -10,7 +10,8 @@ from ..scope.bgp import (
 from ..scope.ospf import (
     mikrotik_create_ospf_instance, mikrotik_add_ospf_network, mikrotik_add_ospf_interface,
     mikrotik_list_ospf_neighbors, mikrotik_list_ospf_routes, mikrotik_get_ospf_status,
-    mikrotik_create_ospf_area
+    mikrotik_create_ospf_area, mikrotik_configure_ospf_authentication,
+    mikrotik_list_ospf_auth_keys
 )
 from ..scope.routing_filters import (
     mikrotik_create_route_filter, mikrotik_list_route_filters
@@ -53,6 +54,11 @@ def get_routing_advanced_tools() -> List[Tool]:
             inputSchema={"type": "object", "properties": {"instance": {"type": "string"}}, "required": []}),
         Tool(name="mikrotik_create_ospf_area", description="Configure OSPF area",
             inputSchema={"type": "object", "properties": {"name": {"type": "string"}, "area_id": {"type": "string"}, "instance": {"type": "string"}, "area_type": {"type": "string"}, "comment": {"type": "string"}}, "required": ["name", "area_id"]}),
+        # OSPF Authentication tools - NEW in v4.8.0
+        Tool(name="mikrotik_configure_ospf_authentication", description="Configure OSPF authentication on interface",
+            inputSchema={"type": "object", "properties": {"interface": {"type": "string"}, "auth_type": {"type": "string", "enum": ["simple", "md5", "none"]}, "auth_key": {"type": "string"}, "auth_key_id": {"type": "integer", "default": 1}, "comment": {"type": "string"}}, "required": ["interface", "auth_type", "auth_key"]}),
+        Tool(name="mikrotik_list_ospf_auth_keys", description="List OSPF authentication configurations (READ-ONLY, safe)",
+            inputSchema={"type": "object", "properties": {"interface_filter": {"type": "string"}}, "required": []}),
         # Route filter tools
         Tool(name="mikrotik_create_route_filter", description="Create route filter rule",
             inputSchema={"type": "object", "properties": {"chain": {"type": "string"}, "prefix": {"type": "string"}, "prefix_length": {"type": "string"}, "action": {"type": "string"}, "comment": {"type": "string"}}, "required": ["chain", "prefix"]}),
@@ -79,6 +85,17 @@ def get_routing_advanced_handlers() -> Dict[str, Callable]:
         "mikrotik_list_ospf_routes": lambda args: mikrotik_list_ospf_routes(),
         "mikrotik_get_ospf_status": lambda args: mikrotik_get_ospf_status(args.get("instance", "default")),
         "mikrotik_create_ospf_area": lambda args: mikrotik_create_ospf_area(args["name"], args["area_id"], args.get("instance", "default"), args.get("area_type", "default"), args.get("comment")),
+        # OSPF Authentication handlers - NEW in v4.8.0
+        "mikrotik_configure_ospf_authentication": lambda args: mikrotik_configure_ospf_authentication(
+            interface=args["interface"],
+            auth_type=args["auth_type"],
+            auth_key=args["auth_key"],
+            auth_key_id=args.get("auth_key_id", 1),
+            comment=args.get("comment")
+        ),
+        "mikrotik_list_ospf_auth_keys": lambda args: mikrotik_list_ospf_auth_keys(
+            interface_filter=args.get("interface_filter")
+        ),
         "mikrotik_create_route_filter": lambda args: mikrotik_create_route_filter(args["chain"], args["prefix"], args.get("prefix_length"), args.get("action", "accept"), args.get("comment")),
         "mikrotik_list_route_filters": lambda args: mikrotik_list_route_filters(args.get("chain_filter")),
     }

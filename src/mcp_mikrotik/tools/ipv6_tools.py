@@ -21,7 +21,8 @@ from ..scope.ipv6_dhcp import (
     mikrotik_remove_dhcpv6_lease, mikrotik_list_dhcpv6_clients,
     mikrotik_create_dhcpv6_client, mikrotik_remove_dhcpv6_client,
     mikrotik_get_dhcpv6_client, mikrotik_list_dhcpv6_options,
-    mikrotik_create_dhcpv6_option, mikrotik_remove_dhcpv6_option
+    mikrotik_create_dhcpv6_option, mikrotik_remove_dhcpv6_option,
+    mikrotik_configure_dhcpv6_relay, mikrotik_list_dhcpv6_relays
 )
 from mcp.types import Tool
 
@@ -678,6 +679,33 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "required": ["name"]
             },
         ),
+        # DHCPv6 Relay - NEW in v4.8.0
+        Tool(
+            name="mikrotik_configure_dhcpv6_relay",
+            description="Configures DHCPv6 relay agent on an interface",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "interface": {"type": "string", "description": "Interface to run relay on"},
+                    "dhcp_server": {"type": "string", "description": "IPv6 address of DHCPv6 server"},
+                    "name": {"type": "string", "description": "Optional name for relay"},
+                    "disabled": {"type": "boolean", "description": "Disable relay"}
+                },
+                "required": ["interface", "dhcp_server"]
+            },
+        ),
+        Tool(
+            name="mikrotik_list_dhcpv6_relays",
+            description="Lists DHCPv6 relay configurations (READ-ONLY, safe)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "interface_filter": {"type": "string"},
+                    "disabled_only": {"type": "boolean"}
+                },
+                "required": []
+            },
+        ),
     ]
 
 
@@ -731,6 +759,17 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_remove_dhcpv6_option": lambda args: mikrotik_remove_dhcpv6_option(
             args["name"]
+        ),
+        # DHCPv6 Relay handlers - NEW in v4.8.0
+        "mikrotik_configure_dhcpv6_relay": lambda args: mikrotik_configure_dhcpv6_relay(
+            interface=args["interface"],
+            dhcp_server=args["dhcp_server"],
+            name=args.get("name"),
+            disabled=args.get("disabled", False)
+        ),
+        "mikrotik_list_dhcpv6_relays": lambda args: mikrotik_list_dhcpv6_relays(
+            interface_filter=args.get("interface_filter"),
+            disabled_only=args.get("disabled_only", False)
         ),
     }
 
