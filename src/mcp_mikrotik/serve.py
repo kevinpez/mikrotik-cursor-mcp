@@ -1,6 +1,6 @@
 """
 MikroTik Cursor MCP server optimized for Cursor IDE.
-Category-based tool organization with 17 categories and 202 actions.
+Category-based tool organization with 19 categories and 259 actions.
 """
 import sys
 from .logger import app_logger
@@ -103,6 +103,16 @@ NESTED_TOOLS = [
         "name": "mikrotik_hotspot",
         "description": "Manage hotspot servers, users, and captive portal",
         "category": "hotspot"
+    },
+    {
+        "name": "mikrotik_ipv6",
+        "description": "Manage IPv6 addresses, routes, ND, pools, firewall, and DHCPv6",
+        "category": "ipv6"
+    },
+    {
+        "name": "mikrotik_container",
+        "description": "Manage containers (RouterOS v7.x) - lifecycle, config, envs, mounts, veths",
+        "category": "container"
     }
 ]
 
@@ -221,6 +231,47 @@ CATEGORY_ACTIONS = {
         "list_hotspot_users", "create_hotspot_user", "list_hotspot_active",
         "list_hotspot_profiles", "create_hotspot_profile",
         "list_walled_garden", "add_walled_garden"
+    ],
+    "ipv6": [
+        # IPv6 Address Management
+        "list_ipv6_addresses", "add_ipv6_address", "remove_ipv6_address", "get_ipv6_address",
+        # IPv6 Routes
+        "list_ipv6_routes", "add_ipv6_route", "remove_ipv6_route",
+        # IPv6 Neighbors & ND
+        "list_ipv6_neighbors", "get_ipv6_nd_settings", "set_ipv6_nd",
+        # IPv6 Pools
+        "list_ipv6_pools", "create_ipv6_pool", "remove_ipv6_pool",
+        # IPv6 Settings
+        "get_ipv6_settings", "set_ipv6_forward",
+        # IPv6 Firewall Filter
+        "list_ipv6_filter_rules", "create_ipv6_filter_rule", "remove_ipv6_filter_rule",
+        # IPv6 Firewall NAT
+        "list_ipv6_nat_rules", "create_ipv6_nat_rule", "remove_ipv6_nat_rule",
+        # IPv6 Address Lists
+        "list_ipv6_address_lists", "add_ipv6_address_list", "remove_ipv6_address_list_entry",
+        # IPv6 Mangle
+        "list_ipv6_mangle_rules", "create_ipv6_mangle_rule", "remove_ipv6_mangle_rule",
+        # DHCPv6 Server
+        "list_dhcpv6_servers", "create_dhcpv6_server", "remove_dhcpv6_server", "get_dhcpv6_server",
+        # DHCPv6 Leases
+        "list_dhcpv6_leases", "create_dhcpv6_static_lease", "remove_dhcpv6_lease",
+        # DHCPv6 Client
+        "list_dhcpv6_clients", "create_dhcpv6_client", "remove_dhcpv6_client", "get_dhcpv6_client",
+        # DHCPv6 Options
+        "list_dhcpv6_options", "create_dhcpv6_option", "remove_dhcpv6_option"
+    ],
+    "container": [
+        # Container Management
+        "list_containers", "create_container", "remove_container",
+        "start_container", "stop_container", "get_container",
+        # Container Config
+        "get_container_config", "set_container_registry", "set_container_tmpdir",
+        # Container Environments
+        "list_container_envs", "create_container_env", "remove_container_env",
+        # Container Mounts
+        "list_container_mounts", "create_container_mount", "remove_container_mount",
+        # Container VETHs
+        "list_container_veths", "create_container_veth", "remove_container_veth"
     ]
 }
 

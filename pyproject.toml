@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mikrotik-cursor-mcp"
-version = "3.5.0"
+version = "4.0.0"
 description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 73% RouterOS coverage and workflow automation"
 readme = "README.md"
 requires-python = ">=3.8"
