@@ -7,6 +7,7 @@ import threading
 from typing import Optional, Dict, Any
 from contextlib import contextmanager
 import paramiko
+import socket
 from .logger import app_logger
 from .settings.configuration import mikrotik_config
 
@@ -37,18 +38,41 @@ class MikroTikConnectionManager:
         app_logger.debug("Creating new SSH connection to MikroTik")
         
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        # Host key policy
+        if mikrotik_config.get("strict_host_key_checking"):
+            client.set_missing_host_key_policy(paramiko.RejectPolicy())
+            if mikrotik_config.get("known_hosts_path"):
+                try:
+                    client.load_host_keys(mikrotik_config["known_hosts_path"])
+                except Exception as e:
+                    app_logger.warning(f"Failed to load known hosts: {e}")
+        else:
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
         try:
+            # Prepare auth options
+            ssh_key = mikrotik_config.get("ssh_key_path")
+            ssh_key_pass = mikrotik_config.get("ssh_key_passphrase")
+            use_key = bool(ssh_key) and not mikrotik_config.get("password")
+
             client.connect(
                 hostname=mikrotik_config["host"],
                 port=mikrotik_config["port"],
                 username=mikrotik_config["username"],
-                password=mikrotik_config["password"],
-                look_for_keys=False,
-                allow_agent=False,
-                timeout=10
+                password=mikrotik_config.get("password") if not use_key else None,
+                key_filename=ssh_key if use_key else None,
+                passphrase=ssh_key_pass if use_key and ssh_key_pass else None,
+                look_for_keys=not use_key,
+                allow_agent=not use_key,
+                timeout=mikrotik_config.get("connect_timeout", 10)
             )
+            # Enable TCP keepalive on transport
+            try:
+                transport = client.get_transport()
+                if transport:
+                    transport.set_keepalive(30)
+            except Exception:
+                pass
             app_logger.info(f"Successfully connected to {mikrotik_config['host']}")
             return client
         except paramiko.AuthenticationException:
@@ -57,7 +81,7 @@ class MikroTikConnectionManager:
         except paramiko.SSHException as e:
             app_logger.error(f"SSH error: {str(e)}")
             raise
-        except TimeoutError:
+        except (socket.timeout, TimeoutError):
             app_logger.error("Connection timeout - check network connectivity")
             raise
         except Exception as e:
@@ -90,7 +114,7 @@ class MikroTikConnectionManager:
             # Simple command to test connection
             stdin, stdout, stderr = self._connection.exec_command('/system identity print', timeout=5)
             result = stdout.read().decode('utf-8')
-            if result and "name=" in result:
+            if result and ("name=" in result or "name:" in result):
                 app_logger.debug("Connection health check passed")
                 return True
             else:

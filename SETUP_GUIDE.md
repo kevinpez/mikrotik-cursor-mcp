@@ -204,7 +204,12 @@ If the file doesn't exist, create it. Add this configuration:
         "MIKROTIK_HOST": "192.168.88.1",
         "MIKROTIK_USERNAME": "admin",
         "MIKROTIK_PASSWORD": "your-password",
-        "MIKROTIK_PORT": "22"
+        "MIKROTIK_PORT": "22",
+        "MIKROTIK_SSH_KEY": "C:\\Users\\John\\.ssh\\mikrotik_rsa",
+        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "false",
+        "MIKROTIK_KNOWN_HOSTS": "C:\\Users\\John\\.ssh\\known_hosts",
+        "MIKROTIK_CONNECT_TIMEOUT": "10",
+        "MIKROTIK_CMD_TIMEOUT": "30"
       }
     }
   }
@@ -218,11 +223,16 @@ If the file doesn't exist, create it. Add this configuration:
    - Example: `"C:\\Users\\John\\mikrotik-cursor-mcp"`
    - Or: `"C:/Users/John/mikrotik-cursor-mcp"`
 
-2. **Update credentials:** Replace with your router's details
+2. **Update credentials and security options:** Replace with your router's details
    - `MIKROTIK_HOST`: Your router's IP address
    - `MIKROTIK_USERNAME`: Router admin username
    - `MIKROTIK_PASSWORD`: Router admin password
    - `MIKROTIK_PORT`: SSH port (usually 22)
+   - `MIKROTIK_SSH_KEY`: Optional path to private key (use instead of password)
+   - `MIKROTIK_STRICT_HOST_KEY_CHECKING`: `true` to reject unknown hosts (recommended for prod)
+   - `MIKROTIK_KNOWN_HOSTS`: Path to known_hosts for strict checking
+   - `MIKROTIK_CONNECT_TIMEOUT`: SSH connect timeout seconds
+   - `MIKROTIK_CMD_TIMEOUT`: Per-command timeout seconds
 
 3. **Use absolute paths:** Don't use `~` or relative paths
 
@@ -576,7 +586,7 @@ If all these work, your setup is **100% functional!**
 
 ## 🚀 **Next Steps**
 
-1. **Read the README** - Learn about all 259 actions
+1. **Read the README** - Learn about all 382 actions
 2. **Check CAPABILITIES.md** - See detailed feature matrix
 3. **Try examples** - Test different commands
 4. **Create backups** - Before making changes

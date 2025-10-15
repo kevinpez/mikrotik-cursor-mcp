@@ -100,7 +100,12 @@ Add this to your Cursor MCP configuration file (`%USERPROFILE%\.cursor\mcp.json`
         "MIKROTIK_HOST": "192.168.88.1",
         "MIKROTIK_USERNAME": "admin",
         "MIKROTIK_PASSWORD": "your-password",
-        "MIKROTIK_PORT": "22"
+        "MIKROTIK_PORT": "22",
+        "MIKROTIK_SSH_KEY": "C:\\Users\\YourUsername\\.ssh\\mikrotik_rsa", 
+        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "false",
+        "MIKROTIK_KNOWN_HOSTS": "C:\\Users\\YourUsername\\.ssh\\known_hosts",
+        "MIKROTIK_CONNECT_TIMEOUT": "10",
+        "MIKROTIK_CMD_TIMEOUT": "30"
       }
     }
   }

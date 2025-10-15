@@ -14,7 +14,10 @@ def execute_mikrotik_command(command: str) -> str:
     
     try:
         with connection_manager.get_connection_context() as ssh_client:
-            stdin, stdout, stderr = ssh_client.exec_command(command, timeout=30)
+            stdin, stdout, stderr = ssh_client.exec_command(
+                command,
+                timeout=mikrotik_config.get("command_timeout", 30)
+            )
             
             output = stdout.read().decode('utf-8')
             error = stderr.read().decode('utf-8')

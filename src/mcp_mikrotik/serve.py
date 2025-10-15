@@ -1,6 +1,6 @@
 """
 MikroTik Cursor MCP server optimized for Cursor IDE.
-Category-based tool organization with 19 categories and 259 actions.
+Category-based tool organization with 19 categories and 382 actions.
 """
 import sys
 from .logger import app_logger
@@ -132,7 +132,7 @@ CATEGORY_ACTIONS = {
         "create_dhcp_network", "create_dhcp_pool"
     ],
     "dns": [
-        "get_dns_settings", "update_dns_settings", "list_dns_static", "create_dns_static",
+        "get_dns_settings", "set_dns_servers", "list_dns_static", "add_dns_static",
         "remove_dns_static", "update_dns_static", "flush_dns_cache", "get_dns_cache"
     ],
     "routes": [
@@ -145,7 +145,7 @@ CATEGORY_ACTIONS = {
         "create_route_filter", "list_route_filters"
     ],
     "ip": [
-        "list_ip_addresses", "add_ip_address", "remove_ip_address", "update_ip_address",
+        "list_ip_addresses", "add_ip_address", "remove_ip_address",
         "list_ip_pools", "create_ip_pool", "remove_ip_pool", "update_ip_pool"
     ],
     "vlan": [
@@ -185,10 +185,10 @@ CATEGORY_ACTIONS = {
         "create_capsman_datapath", "list_capsman_datapaths", "remove_capsman_datapath"
     ],
     "users": [
-        "list_users", "create_user", "remove_user", "update_user", "list_user_groups"
+        "list_users", "add_user", "remove_user", "update_user", "list_user_groups"
     ],
     "backup": [
-        "create_backup", "list_backups", "restore_backup", "export_configuration"
+        "create_backup", "list_backups", "restore_backup", "create_export"
     ],
     "logs": [
         "get_logs", "search_logs", "clear_logs", "export_logs"

@@ -711,7 +711,7 @@ mikrotik_hotspot(action="add_walled_garden", dst_host="*.google.com")
 mikrotik_ip(action="list_ip_addresses")
 mikrotik_ip(action="add_ip_address", address="192.168.1.1/24", interface="bridge")
 mikrotik_ip(action="remove_ip_address", address="192.168.1.1")
-mikrotik_ip(action="update_ip_address", old_address="...", new_address="...")
+# (update action is handled via remove+add; no direct update action)
 
 # Pools
 mikrotik_ip(action="list_ip_pools")
@@ -750,9 +750,9 @@ mikrotik_dhcp(action="list_dhcp_leases")
 
 ```
 mikrotik_dns(action="get_dns_settings")
-mikrotik_dns(action="update_dns_settings", servers="8.8.8.8,8.8.4.4", allow_remote_requests=true)
+mikrotik_dns(action="set_dns_servers", servers=["8.8.8.8","8.8.4.4"], allow_remote_requests=true)
 mikrotik_dns(action="list_dns_static")
-mikrotik_dns(action="create_dns_static", name="router.local", address="192.168.1.1")
+mikrotik_dns(action="add_dns_static", name="router.local", address="192.168.1.1")
 mikrotik_dns(action="remove_dns_static", entry_id="5")
 mikrotik_dns(action="update_dns_static", entry_id="5", ...)
 mikrotik_dns(action="flush_dns_cache")
@@ -811,7 +811,7 @@ mikrotik_queues(action="list_queue_types")
 
 ```
 mikrotik_users(action="list_users")
-mikrotik_users(action="create_user", name="operator", password="...", group="read")
+mikrotik_users(action="add_user", name="operator", password="...", group="read")
 mikrotik_users(action="remove_user", name="operator")
 mikrotik_users(action="update_user", name="operator", password="newpass")
 mikrotik_users(action="list_user_groups")
@@ -845,7 +845,7 @@ mikrotik_vlan(action="update_vlan_interface", name="vlan10", ...)
 mikrotik_backup(action="create_backup", name="before-upgrade")
 mikrotik_backup(action="list_backups")
 mikrotik_backup(action="restore_backup", name="before-upgrade")
-mikrotik_backup(action="export_configuration")
+mikrotik_backup(action="create_export")
 ```
 
 **Example Usage:**
