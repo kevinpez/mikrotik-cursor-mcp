@@ -107,7 +107,7 @@ class ComprehensiveTester:
         elif "vlan_id" in tool_name.lower():
             test_args = {"bridge": "bridge", "vlan_id": "100"}
         elif "expand" in tool_name.lower():
-            test_args = {"name": "test-pool"}
+            test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
         elif "address_pool" in tool_name.lower():
             test_args = {"name": "dhcpv6-server", "interface": "bridgeLocal", "address_pool": "ipv6-pool"}
         elif "key" in tool_name.lower() and "container" in tool_name.lower():
@@ -116,12 +116,60 @@ class ComprehensiveTester:
             test_args = {"name": "test-mount", "src": "/tmp", "dst": "/mnt"}
         elif "name" in tool_name.lower() and ("hotspot" in tool_name.lower() or "user" in tool_name.lower()):
             test_args = {"name": "testuser", "password": "testpass"}
+        elif "add_ipv6_address_list" in tool_name.lower():
+            test_args = {"list_name": "test-list", "address": "2001:db8::1"}
+        elif "add_ipv6_address" in tool_name.lower():
+            test_args = {"address": "2001:db8::1/64", "interface": "ether1"}
+        elif "remove_ipv6_address_list_entry" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "remove_ip_address" in tool_name.lower():
+            test_args = {"address_id": "0"}
+        elif "expand_ip_pool" in tool_name.lower():
+            test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
+        elif "create_ipv6_pool" in tool_name.lower():
+            test_args = {"name": "ipv6-pool", "prefix": "2001:db8::/64"}
         elif "address" in tool_name.lower() and ("ipv6" in tool_name.lower() or "dhcpv6" in tool_name.lower()):
             test_args = {"address": "2001:db8::1"}
         elif "additional_ranges" in tool_name.lower():
             test_args = {"name": "test-pool", "additional_ranges": "192.168.100.201-192.168.100.250"}
         elif "interface" in tool_name.lower() and "ipv6" in tool_name.lower():
             test_args = {"address": "2001:db8::1/64", "interface": "ether1"}
+        elif "create_dhcpv6_server" in tool_name.lower():
+            test_args = {"name": "dhcpv6-server", "interface": "bridgeLocal", "address_pool": "ipv6-pool"}
+        elif "create_dhcpv6_static_lease" in tool_name.lower():
+            test_args = {"address": "2001:db8::100", "duid": "test-duid"}
+        elif "get_dhcpv6_client" in tool_name.lower():
+            test_args = {"interface": "bridgeLocal"}
+        elif "create_dhcpv6_option" in tool_name.lower():
+            test_args = {"name": "dhcpv6-option", "code": "23", "value": "test"}
+        elif "get_dns_static" in tool_name.lower() or "update_dns_static" in tool_name.lower() or "remove_dns_static" in tool_name.lower() or "enable_dns_static" in tool_name.lower() or "disable_dns_static" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "dns_lookup" in tool_name.lower():
+            test_args = {"hostname": "google.com"}
+        elif "create_vlan_interface" in tool_name.lower():
+            test_args = {"name": "vlan100", "vlan_id": 100, "interface": "ether1"}
+        elif "get_vlan_interface" in tool_name.lower():
+            test_args = {"name": "vlan100"}
+        elif "remove_bridge_vlan" in tool_name.lower():
+            test_args = {"bridge": "bridge", "vlan_id": "100"}
+        elif "create_vlan_aware_bridge" in tool_name.lower():
+            test_args = {"name": "bridge1", "ports": ["ether1", "ether2"], "vlan_config": [{"vlan_id": 100, "tagged": ["ether1"], "untagged": ["ether2"]}]}
+        elif "create_wireless_access_list" in tool_name.lower():
+            test_args = {"interface": "wlan1", "mac_address": "00:11:22:33:44:55"}
+        elif "remove_wireless_access_list_entry" in tool_name.lower():
+            test_args = {"entry_id": "0"}
+        elif "get_wireless_interface_monitor" in tool_name.lower():
+            test_args = {"interface": "wlan1"}
+        elif "get_wireless_interface" in tool_name.lower():
+            test_args = {"name": "wlan1"}
+        elif "get_wireguard_interface" in tool_name.lower():
+            test_args = {"name": "wg1"}
+        elif "start_container" in tool_name.lower() or "stop_container" in tool_name.lower() or "get_container" in tool_name.lower():
+            test_args = {"name": "test-container"}
+        elif "create_container_env" in tool_name.lower():
+            test_args = {"name": "test-env", "key": "VAR", "value": "VALUE"}
+        elif "create_container_mount" in tool_name.lower():
+            test_args = {"name": "test-mount", "src": "/tmp", "dst": "/mnt"}
         elif "list" in tool_name.lower():
             # List commands usually don't need arguments
             pass
@@ -196,6 +244,8 @@ class ComprehensiveTester:
                     }
             elif "system" in tool_name and "identity" in tool_name:
                 test_args = {"name": "test-router"}
+            elif "hotspot" in tool_name and "user" in tool_name and "create" in tool_name:
+                test_args = {"name": "hotspotuser", "password": "hotspotpass"}
             elif "user" in tool_name:
                 test_args = {"username": "testuser", "password": "testpass"}
             elif "interface" in tool_name:
@@ -394,7 +444,7 @@ class ComprehensiveTester:
             elif "user" in tool_name:
                 test_args = {"username": "testuser", "password": "newpass"}
             elif "peer" in tool_name:
-                test_args = {"interface": "wg1", "peer": "peer1", "comment": "updated"}
+                test_args = {"interface": "wg1", "public_key": "test-public-key", "comment": "updated"}
             elif "public_key" in tool_name:
                 test_args = {"interface": "wg1", "public_key": "test-key", "comment": "updated"}
             elif "wireguard" in tool_name:
