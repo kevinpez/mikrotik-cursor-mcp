@@ -37,7 +37,8 @@ from ..scope.system import (
     mikrotik_get_system_resources, mikrotik_get_system_health, mikrotik_get_system_identity,
     mikrotik_set_system_identity, mikrotik_get_system_clock, mikrotik_get_ntp_client,
     mikrotik_set_ntp_client, mikrotik_reboot_system, mikrotik_get_routerboard,
-    mikrotik_get_license, mikrotik_get_uptime
+    mikrotik_get_license, mikrotik_get_uptime, mikrotik_validate_configuration,
+    mikrotik_get_configuration_summary
 )
 from mcp.types import Tool
 
@@ -480,6 +481,24 @@ def get_system_tools() -> List[Tool]:
                 "required": ["monitor_name"]
             },
         ),
+        Tool(
+            name="mikrotik_validate_configuration",
+            description="Validates the MikroTik MCP server configuration",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
+        Tool(
+            name="mikrotik_get_configuration_summary",
+            description="Gets a summary of the current configuration (without sensitive data)",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+        ),
     ]
 
 def get_system_handlers() -> Dict[str, Callable]:
@@ -609,5 +628,7 @@ def get_system_handlers() -> Dict[str, Callable]:
             args.get("ping_target"),
             args.get("reboot_on_failure", True)
         ),
+        "mikrotik_validate_configuration": lambda args: mikrotik_validate_configuration(),
+        "mikrotik_get_configuration_summary": lambda args: mikrotik_get_configuration_summary(),
     }
 

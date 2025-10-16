@@ -1,6 +1,7 @@
 from typing import Optional
 from ..connector import execute_mikrotik_command
 from ..logger import app_logger
+from ..settings.configuration import validate_config, get_config_summary
 
 def mikrotik_get_system_resources() -> str:
     """Get system resource usage (CPU, RAM, uptime, etc.)"""
@@ -162,4 +163,32 @@ def mikrotik_get_uptime() -> str:
             return f"SYSTEM UPTIME:\n\n{line.strip()}"
     
     return f"SYSTEM INFO:\n\n{result}"
+
+def mikrotik_validate_configuration() -> str:
+    """Validate the MikroTik MCP server configuration."""
+    app_logger.info("Validating configuration")
+    
+    issues = validate_config()
+    
+    if not issues:
+        return "✅ CONFIGURATION VALID\n\nAll configuration settings are valid and properly configured."
+    
+    result = "❌ CONFIGURATION ISSUES FOUND:\n\n"
+    for i, issue in enumerate(issues, 1):
+        result += f"{i}. {issue}\n"
+    
+    result += "\nPlease fix these issues before using the MCP server."
+    return result
+
+def mikrotik_get_configuration_summary() -> str:
+    """Get a summary of the current configuration (without sensitive data)."""
+    app_logger.info("Getting configuration summary")
+    
+    summary = get_config_summary()
+    
+    result = "📋 CONFIGURATION SUMMARY:\n\n"
+    for key, value in summary.items():
+        result += f"{key.replace('_', ' ').title()}: {value}\n"
+    
+    return result
 

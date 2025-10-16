@@ -53,13 +53,19 @@ class MikroTikConnectionManager:
             # Prepare auth options
             ssh_key = mikrotik_config.get("ssh_key_path")
             ssh_key_pass = mikrotik_config.get("ssh_key_passphrase")
-            use_key = bool(ssh_key) and not mikrotik_config.get("password")
+            password = mikrotik_config.get("password")
+            use_key = bool(ssh_key) and not password
+            
+            # Check if we have any authentication method
+            if not password and not ssh_key:
+                app_logger.error("No authentication method configured. Set either MIKROTIK_PASSWORD or MIKROTIK_SSH_KEY")
+                raise paramiko.AuthenticationException("No authentication method configured")
 
             client.connect(
                 hostname=mikrotik_config["host"],
                 port=mikrotik_config["port"],
                 username=mikrotik_config["username"],
-                password=mikrotik_config.get("password") if not use_key else None,
+                password=password if not use_key else None,
                 key_filename=ssh_key if use_key else None,
                 passphrase=ssh_key_pass if use_key and ssh_key_pass else None,
                 look_for_keys=not use_key,
