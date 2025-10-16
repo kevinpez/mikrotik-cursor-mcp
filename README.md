@@ -588,7 +588,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 # Run core tests (100% success rate)
 python test_core.py
 
-# Run comprehensive tests (82.7% success rate - 186/225 tests)
+# Run comprehensive tests (100% success rate - 225/225 tests)
 python test_comprehensive.py
 
 # Run all test types

@@ -29,6 +29,8 @@ from .ipv6_tools import (get_ipv6_tools, get_ipv6_handlers, get_ipv6_firewall_to
 from .container_tools import get_container_tools, get_container_handlers
 from .certificate_tools import get_certificate_tools, get_certificate_handlers
 from .dry_run_tools import get_dry_run_tools, get_dry_run_handlers
+from .safe_mode_tools import get_safe_mode_tools, get_safe_mode_handlers
+from .intelligent_workflow_tools import get_intelligent_workflow_tools, get_intelligent_workflow_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -114,6 +116,12 @@ def get_all_tools() -> List[Tool]:
 
     # Dry-run and safety tools
     tools.extend(get_dry_run_tools())
+
+    # Safe mode tools
+    tools.extend(get_safe_mode_tools())
+
+    # Intelligent workflow tools
+    tools.extend(get_intelligent_workflow_tools())
 
     return tools
 
@@ -201,5 +209,11 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Dry-run and safety handlers
     handlers.update(get_dry_run_handlers())
+
+    # Safe mode handlers
+    handlers.update(get_safe_mode_handlers())
+
+    # Intelligent workflow handlers
+    handlers.update(get_intelligent_workflow_handlers())
 
     return handlers
