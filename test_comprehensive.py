@@ -138,6 +138,29 @@ class ComprehensiveTester:
             test_args = {"name": "dhcpv6-server", "interface": "bridgeLocal", "address_pool": "ipv6-pool"}
         elif "create_dhcpv6_static_lease" in tool_name.lower():
             test_args = {"address": "2001:db8::100", "duid": "test-duid"}
+        elif "ip_services" in tool_name.lower():
+            if "list" in tool_name.lower():
+                test_args = {}
+            elif "get" in tool_name.lower():
+                test_args = {"service_name": "ssh"}
+            elif "set_service_address" in tool_name.lower():
+                test_args = {"service_name": "ssh", "address": "192.168.88.0/24"}
+            elif "enable" in tool_name.lower():
+                test_args = {"service_name": "ssh"}
+            elif "disable" in tool_name.lower():
+                test_args = {"service_name": "telnet"}
+            elif "set_service_port" in tool_name.lower():
+                test_args = {"service_name": "ssh", "port": 22}
+            elif "configure_secure" in tool_name.lower():
+                test_args = {"local_network": "192.168.88.0/24"}
+            elif "restore_default" in tool_name.lower():
+                test_args = {}
+            elif "get_service_status" in tool_name.lower():
+                test_args = {}
+            elif "create_service_backup" in tool_name.lower():
+                test_args = {}
+            else:
+                test_args = {"service_name": "ssh"}
         elif "get_dhcpv6_client" in tool_name.lower():
             test_args = {"interface": "bridgeLocal"}
         elif "create_dhcpv6_option" in tool_name.lower():
@@ -673,7 +696,8 @@ class ComprehensiveTester:
         categories = [
             'system', 'interfaces', 'ip', 'dhcp', 'dns', 'routes', 'firewall',
             'diagnostics', 'users', 'logs', 'backup', 'queues', 'vlan',
-            'wireguard', 'openvpn', 'wireless', 'hotspot', 'ipv6', 'container'
+            'wireguard', 'openvpn', 'wireless', 'hotspot', 'ipv6', 'container',
+            'ip_services'
         ]
         
         if self.category:

@@ -60,6 +60,11 @@ NESTED_TOOLS = [
         "category": "users"
     },
     {
+        "name": "mikrotik_ip_services",
+        "description": "Manage MikroTik IP services (SSH, Winbox, API access controls)",
+        "category": "ip_services"
+    },
+    {
         "name": "mikrotik_backup",
         "description": "Create and restore MikroTik backups",
         "category": "backup"
@@ -186,6 +191,12 @@ CATEGORY_ACTIONS = {
     ],
     "users": [
         "list_users", "add_user", "remove_user", "update_user", "list_user_groups"
+    ],
+    "ip_services": [
+        "list_ip_services", "get_ip_service", "set_service_address",
+        "enable_ip_service", "disable_ip_service", "set_service_port",
+        "configure_secure_services", "restore_default_services",
+        "get_service_status", "create_service_backup"
     ],
     "backup": [
         "create_backup", "list_backups", "restore_backup", "create_export"

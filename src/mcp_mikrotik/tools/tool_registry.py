@@ -31,6 +31,7 @@ from .certificate_tools import get_certificate_tools, get_certificate_handlers
 from .dry_run_tools import get_dry_run_tools, get_dry_run_handlers
 from .safe_mode_tools import get_safe_mode_tools, get_safe_mode_handlers
 from .intelligent_workflow_tools import get_intelligent_workflow_tools, get_intelligent_workflow_handlers
+from .ip_services_tools import get_ip_services_tools, get_ip_services_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -119,9 +120,12 @@ def get_all_tools() -> List[Tool]:
 
     # Safe mode tools
     tools.extend(get_safe_mode_tools())
-
+    
     # Intelligent workflow tools
     tools.extend(get_intelligent_workflow_tools())
+    
+    # IP services tools
+    tools.extend(get_ip_services_tools())
 
     return tools
 
@@ -215,5 +219,8 @@ def get_all_handlers() -> Dict[str, Callable]:
 
     # Intelligent workflow handlers
     handlers.update(get_intelligent_workflow_handlers())
-
+    
+    # IP services handlers
+    handlers.update(get_ip_services_handlers())
+    
     return handlers
