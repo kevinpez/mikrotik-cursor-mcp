@@ -206,25 +206,25 @@ class HealthMonitor:
         
         # Deduct points for high CPU
         cpu = health_data.get('cpu_load', 0)
-        if cpu > 90:
+        if isinstance(cpu, (int, float)) and cpu > 90:
             score -= 30
-        elif cpu > 80:
+        elif isinstance(cpu, (int, float)) and cpu > 80:
             score -= 20
-        elif cpu > 70:
+        elif isinstance(cpu, (int, float)) and cpu > 70:
             score -= 10
         
         # Deduct points for high memory
         mem = health_data.get('memory_percent', 0)
-        if mem > 95:
+        if isinstance(mem, (int, float)) and mem > 95:
             score -= 30
-        elif mem > 90:
+        elif isinstance(mem, (int, float)) and mem > 90:
             score -= 20
-        elif mem > 80:
+        elif isinstance(mem, (int, float)) and mem > 80:
             score -= 10
         
         # Deduct points for interfaces down
         interfaces_down = health_data.get('interfaces_down', 0)
-        if interfaces_down > 0:
+        if isinstance(interfaces_down, (int, float)) and interfaces_down > 0:
             score -= (interfaces_down * 5)
         
         # Bonus points for successful checks
@@ -249,21 +249,21 @@ class HealthMonitor:
         
         # CPU alerts
         cpu = health_data.get('cpu_load', 0)
-        if cpu > 90:
+        if isinstance(cpu, (int, float)) and cpu > 90:
             alerts.append(f"CRITICAL: CPU load is {cpu}% (>90%)")
-        elif cpu > 80:
+        elif isinstance(cpu, (int, float)) and cpu > 80:
             alerts.append(f"WARNING: CPU load is {cpu}% (>80%)")
         
         # Memory alerts
         mem = health_data.get('memory_percent', 0)
-        if mem > 95:
+        if isinstance(mem, (int, float)) and mem > 95:
             alerts.append(f"CRITICAL: Memory usage is {mem}% (>95%)")
-        elif mem > 90:
+        elif isinstance(mem, (int, float)) and mem > 90:
             alerts.append(f"WARNING: Memory usage is {mem}% (>90%)")
         
         # Interface alerts
         interfaces_down = health_data.get('interfaces_down', 0)
-        if interfaces_down > 0:
+        if isinstance(interfaces_down, (int, float)) and interfaces_down > 0:
             alerts.append(f"WARNING: {interfaces_down} interface(s) down")
         
         # General errors

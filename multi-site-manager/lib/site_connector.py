@@ -118,10 +118,17 @@ class SiteConnector:
         try:
             # Try to connect and get identity
             import os
+            import importlib
+            from mcp_mikrotik.settings import configuration
+            
+            # Set environment variables
             os.environ['MIKROTIK_HOST'] = site['host']
             os.environ['MIKROTIK_USERNAME'] = site['username']
             os.environ['MIKROTIK_PASSWORD'] = site.get('password', '')
             os.environ['MIKROTIK_PORT'] = str(site.get('ssh_port', 22))
+            
+            # Reload configuration to pick up new environment variables
+            importlib.reload(configuration)
             
             # Use MCP connector
             result = execute_mikrotik_command('/system identity print')
@@ -154,10 +161,17 @@ class SiteConnector:
         """
         try:
             import os
+            import importlib
+            from mcp_mikrotik.settings import configuration
+            
+            # Set environment variables
             os.environ['MIKROTIK_HOST'] = host
             os.environ['MIKROTIK_USERNAME'] = username
             os.environ['MIKROTIK_PASSWORD'] = password
             os.environ['MIKROTIK_PORT'] = str(port)
+            
+            # Reload configuration to pick up new environment variables
+            importlib.reload(configuration)
             
             # Try to connect
             result = execute_mikrotik_command('/system identity print')
@@ -194,10 +208,17 @@ class SiteConnector:
         try:
             # Set environment for this site
             import os
+            import importlib
+            from mcp_mikrotik.settings import configuration
+            
+            # Set environment variables
             os.environ['MIKROTIK_HOST'] = site['host']
             os.environ['MIKROTIK_USERNAME'] = site['username']
             os.environ['MIKROTIK_PASSWORD'] = site.get('password', '')
             os.environ['MIKROTIK_PORT'] = str(site.get('ssh_port', 22))
+            
+            # Reload configuration to pick up new environment variables
+            importlib.reload(configuration)
             
             # Execute command
             result = execute_mikrotik_command(command)
@@ -269,10 +290,17 @@ class SiteConnector:
         
         # Set environment for this site
         import os
+        import importlib
+        from mcp_mikrotik.settings import configuration
+        
+        # Set environment variables
         os.environ['MIKROTIK_HOST'] = site['host']
         os.environ['MIKROTIK_USERNAME'] = site['username']
         os.environ['MIKROTIK_PASSWORD'] = site.get('password', '')
         os.environ['MIKROTIK_PORT'] = str(site.get('ssh_port', 22))
+        
+        # Reload configuration to pick up new environment variables
+        importlib.reload(configuration)
         
         # Execute command
         return execute_mikrotik_command(command)
