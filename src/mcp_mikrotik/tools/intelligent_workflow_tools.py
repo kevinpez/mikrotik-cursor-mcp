@@ -97,7 +97,7 @@ def _assess_command_risk(command: str) -> str:
     workflow_manager = get_workflow_manager()
     assessment = workflow_manager.assess_risk(command)
     
-    result = f"""🔍 **RISK ASSESSMENT**
+    result = f"""RISK ASSESSMENT
 
 **Command:** `{command}`
 
@@ -114,7 +114,7 @@ def _assess_command_risk(command: str) -> str:
 **Warnings:**
 """
     for warning in assessment.warnings:
-        result += f"- ⚠️ {warning}\n"
+        result += f"- WARNING: {warning}\n"
     
     return result
 

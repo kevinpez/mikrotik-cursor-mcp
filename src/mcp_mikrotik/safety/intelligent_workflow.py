@@ -220,7 +220,7 @@ class IntelligentWorkflowManager:
             
             return WorkflowResult(
                 success=True,
-                message=f"✅ LOW RISK OPERATION COMPLETED\n\nCommand: {command}\nResult: {result}",
+                message=f"SUCCESS: LOW RISK OPERATION COMPLETED\n\nCommand: {command}\nResult: {result}",
                 command_executed=command,
                 safe_mode_used=False,
                 logs_checked=logs_checked,
@@ -230,7 +230,7 @@ class IntelligentWorkflowManager:
         except Exception as e:
             return WorkflowResult(
                 success=False,
-                message=f"❌ LOW RISK OPERATION FAILED\n\nCommand: {command}\nError: {str(e)}",
+                message=f"ERROR: LOW RISK OPERATION FAILED\n\nCommand: {command}\nError: {str(e)}",
                 command_executed=command,
                 safe_mode_used=False,
                 logs_checked=False,
@@ -275,7 +275,7 @@ class IntelligentWorkflowManager:
             
             return WorkflowResult(
                 success=True,
-                message=f"✅ HIGH RISK OPERATION COMPLETED\n\nCommand: {command}\nResult: {result}\nSafe Mode: {'Used' if safe_mode_used else 'Not required'}\nLogs Checked: {'Yes' if logs_checked else 'No'}\nState Verified: {'Yes' if state_verified else 'No'}",
+                message=f"SUCCESS: HIGH RISK OPERATION COMPLETED\n\nCommand: {command}\nResult: {result}\nSafe Mode: {'Used' if safe_mode_used else 'Not required'}\nLogs Checked: {'Yes' if logs_checked else 'No'}\nState Verified: {'Yes' if state_verified else 'No'}",
                 command_executed=command,
                 safe_mode_used=safe_mode_used,
                 logs_checked=logs_checked,
@@ -289,7 +289,7 @@ class IntelligentWorkflowManager:
             
             return WorkflowResult(
                 success=False,
-                message=f"❌ HIGH RISK OPERATION FAILED\n\nCommand: {command}\nError: {str(e)}\nAuto-rollback: {'Triggered' if rollback_triggered else 'Not available'}",
+                message=f"ERROR: HIGH RISK OPERATION FAILED\n\nCommand: {command}\nError: {str(e)}\nAuto-rollback: {'Triggered' if rollback_triggered else 'Not available'}",
                 command_executed=command,
                 safe_mode_used=safe_mode_used,
                 logs_checked=False,
@@ -299,7 +299,7 @@ class IntelligentWorkflowManager:
     
     def _show_dry_run_preview(self, command: str, assessment: RiskAssessment) -> str:
         """Show dry-run preview and request approval."""
-        preview = f"""🔍 **DRY-RUN PREVIEW & APPROVAL REQUIRED**
+        preview = f"""DRY-RUN PREVIEW & APPROVAL REQUIRED
 
 **Command to Execute:**
 ```
@@ -314,14 +314,14 @@ class IntelligentWorkflowManager:
 **Warnings:**
 """
         for warning in assessment.warnings:
-            preview += f"- ⚠️ {warning}\n"
+            preview += f"- WARNING: {warning}\n"
         
         preview += f"""
 **Safety Measures:**
-- {'✅ Safe Mode will be used' if assessment.requires_safe_mode else '❌ Safe Mode not required'}
-- ✅ Log monitoring will be performed
-- ✅ State verification will be performed
-- ✅ Automatic rollback available
+- {'Safe Mode will be used' if assessment.requires_safe_mode else 'Safe Mode not required'}
+- Log monitoring will be performed
+- State verification will be performed
+- Automatic rollback available
 
 **To proceed, please approve this operation.**
 """

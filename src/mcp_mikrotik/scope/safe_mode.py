@@ -35,10 +35,10 @@ def mikrotik_enter_safe_mode(timeout_minutes: Optional[int] = None) -> str:
         
         if "safe mode" in result.lower() or "entered" in result.lower():
             app_logger.info("Successfully entered Safe Mode")
-            return f"✅ SAFE MODE ACTIVATED\n\nSafe Mode is now active. All configuration changes will be temporary until Safe Mode is exited.\n\nTimeout: {timeout_minutes or 10} minutes\n\nTo make changes permanent, use the exit safe mode command.\n\nResult: {result}"
+            return f"SUCCESS: SAFE MODE ACTIVATED\n\nSafe Mode is now active. All configuration changes will be temporary until Safe Mode is exited.\n\nTimeout: {timeout_minutes or 10} minutes\n\nTo make changes permanent, use the exit safe mode command.\n\nResult: {result}"
         else:
             app_logger.warning(f"Safe Mode activation may have failed: {result}")
-            return f"⚠️ Safe Mode activation result: {result}"
+            return f"WARNING: Safe Mode activation result: {result}"
             
     except Exception as e:
         error_msg = f"Failed to enter Safe Mode: {str(e)}"
