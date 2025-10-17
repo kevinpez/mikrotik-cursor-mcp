@@ -7,7 +7,7 @@ from ..connector import execute_mikrotik_command
 from ..logger import app_logger
 
 
-def mikrotik_list_ip_services() -> str:
+def mikrotik_list_ip_services(test_args: Dict[str, Any] = None) -> str:
     """List all IP services and their current configuration."""
     app_logger.info("Listing IP services")
     try:
@@ -20,7 +20,7 @@ def mikrotik_list_ip_services() -> str:
         return error_msg
 
 
-def mikrotik_get_ip_service(service_name: str) -> str:
+def mikrotik_get_ip_service(service_name: str, test_args: Dict[str, Any] = None) -> str:
     """Get configuration for a specific IP service."""
     app_logger.info(f"Getting IP service configuration for: {service_name}")
     try:
@@ -33,7 +33,7 @@ def mikrotik_get_ip_service(service_name: str) -> str:
         return error_msg
 
 
-def mikrotik_set_service_address(service_name: str, address: str) -> str:
+def mikrotik_set_service_address(service_name: str, address: str, test_args: Dict[str, Any] = None) -> str:
     """
     Set the 'Available From' address for an IP service.
     
@@ -52,7 +52,7 @@ def mikrotik_set_service_address(service_name: str, address: str) -> str:
         return error_msg
 
 
-def mikrotik_enable_ip_service(service_name: str) -> str:
+def mikrotik_enable_ip_service(service_name: str, test_args: Dict[str, Any] = None) -> str:
     """Enable an IP service."""
     app_logger.info(f"Enabling IP service: {service_name}")
     try:
@@ -65,7 +65,7 @@ def mikrotik_enable_ip_service(service_name: str) -> str:
         return error_msg
 
 
-def mikrotik_disable_ip_service(service_name: str) -> str:
+def mikrotik_disable_ip_service(service_name: str, test_args: Dict[str, Any] = None) -> str:
     """Disable an IP service."""
     app_logger.info(f"Disabling IP service: {service_name}")
     try:
@@ -78,7 +78,7 @@ def mikrotik_disable_ip_service(service_name: str) -> str:
         return error_msg
 
 
-def mikrotik_set_service_port(service_name: str, port: int) -> str:
+def mikrotik_set_service_port(service_name: str, port: int, test_args: Dict[str, Any] = None) -> str:
     """Set the port for an IP service."""
     app_logger.info(f"Setting service {service_name} port to: {port}")
     try:
@@ -91,7 +91,7 @@ def mikrotik_set_service_port(service_name: str, port: int) -> str:
         return error_msg
 
 
-def mikrotik_configure_secure_services(local_network: str = "192.168.88.0/24") -> str:
+def mikrotik_configure_secure_services(local_network: str = "192.168.88.0/24", test_args: Dict[str, Any] = None) -> str:
     """
     Configure secure IP services - restrict to local network only.
     
@@ -138,7 +138,7 @@ Your MikroTik router is now secured with proper service access controls!"""
         return error_msg
 
 
-def mikrotik_restore_default_services() -> str:
+def mikrotik_restore_default_services(test_args: Dict[str, Any] = None) -> str:
     """Restore IP services to default configuration (allow from anywhere)."""
     app_logger.info("Restoring IP services to default configuration")
     
@@ -167,7 +167,7 @@ WARNING: Services are now accessible from anywhere. Consider using secure config
         return error_msg
 
 
-def mikrotik_get_service_status() -> str:
+def mikrotik_get_service_status(test_args: Dict[str, Any] = None) -> str:
     """Get status summary of all IP services."""
     app_logger.info("Getting IP services status summary")
     try:
@@ -206,7 +206,7 @@ Legend:
         return error_msg
 
 
-def mikrotik_create_service_backup() -> str:
+def mikrotik_create_service_backup(test_args: Dict[str, Any] = None) -> str:
     """Create a backup of current IP services configuration."""
     app_logger.info("Creating IP services configuration backup")
     try:
