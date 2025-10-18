@@ -4,6 +4,7 @@ For enterprise routing, multi-homing, and internet peering.
 """
 from typing import Optional
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
 

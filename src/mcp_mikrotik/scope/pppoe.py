@@ -3,6 +3,7 @@ PPPoE client and server management for MikroTik RouterOS.
 """
 from typing import Optional
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
 

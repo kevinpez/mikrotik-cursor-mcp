@@ -2,13 +2,13 @@ from typing import Optional
 from ..connector import execute_mikrotik_command
 from ..logger import app_logger
 from ..settings.configuration import validate_config, get_config_summary
+from ..api_fallback import api_fallback_execute
 
 def mikrotik_get_system_resources() -> str:
     """Get system resource usage (CPU, RAM, uptime, etc.)"""
     app_logger.info("Getting system resources")
     
-    cmd = "/system resource print"
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/system/resource', 'print', '/system resource print')
     
     if not result or result.strip() == "":
         return "Unable to retrieve system resources."
@@ -19,8 +19,7 @@ def mikrotik_get_system_health() -> str:
     """Get system health (temperature, voltage, etc.)"""
     app_logger.info("Getting system health")
     
-    cmd = "/system health print"
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/system/health', 'print', '/system health print')
     
     if not result or result.strip() == "" or "no such item" in result.lower():
         return "System health monitoring not available on this device."
@@ -31,8 +30,7 @@ def mikrotik_get_system_identity() -> str:
     """Get system identity/name"""
     app_logger.info("Getting system identity")
     
-    cmd = "/system identity print"
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/system/identity', 'print', '/system identity print')
     
     if not result or result.strip() == "":
         return "Unable to retrieve system identity."
@@ -43,14 +41,13 @@ def mikrotik_set_system_identity(name: str) -> str:
     """Set system identity/name"""
     app_logger.info(f"Setting system identity to: {name}")
     
-    cmd = f'/system identity set name="{name}"'
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/system/identity', 'set', f'/system identity set name="{name}"', name=name)
     
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to set identity: {result}"
     
-    verify_cmd = "/system identity print"
-    verify_result = execute_mikrotik_command(verify_cmd)
+    # Verify the change
+    verify_result = mikrotik_get_system_identity()
     
     return f"System identity updated:\n\n{verify_result}"
 
@@ -58,8 +55,7 @@ def mikrotik_get_system_clock() -> str:
     """Get system clock settings"""
     app_logger.info("Getting system clock")
     
-    cmd = "/system clock print"
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/system/clock', 'print', '/system clock print')
     
     if not result or result.strip() == "":
         return "Unable to retrieve system clock."

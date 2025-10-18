@@ -1,5 +1,6 @@
 from typing import Optional, List
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
 def mikrotik_add_route(
@@ -265,19 +266,25 @@ def mikrotik_check_route_path(
 ) -> str:
     app_logger.info(f"Checking route path to: {destination}")
     
-    cmd = f"/ip route check {destination}"
-    
-    if source:
-        cmd += f" src-address={source}"
-    if routing_mark:
-        cmd += f' routing-mark="{routing_mark}"'
-    
-    result = execute_mikrotik_command(cmd)
-    
-    if not result:
-        return f"Unable to check route to {destination}"
-    
-    return f"ROUTE PATH TO {destination}:\n\n{result}"
+    # Try API first, fallback to SSH
+    try:
+        from ..api_connector import execute_api_command
+        # Use route listing via API instead of traceroute
+        routes = execute_api_command('/ip/route', 'print')
+        return f"ROUTE INFORMATION FOR {destination}:\n\nAvailable routes:\n{routes}\n\nNote: Use SSH traceroute for detailed path tracing."
+    except Exception as e:
+        # Fallback to SSH if API fails
+        app_logger.warning(f"API failed for route path check, falling back to SSH: {str(e)}")
+        cmd = f"/tool traceroute {destination}"
+        if source:
+            cmd += f" src-address={source}"
+        
+        result = execute_mikrotik_command(cmd)
+        
+        if not result:
+            return f"Unable to check route to {destination}"
+        
+        return f"ROUTE PATH TO {destination} (via SSH traceroute):\n\n{result}"
 
 def mikrotik_get_route_cache() -> str:
     app_logger.info("Getting route cache")

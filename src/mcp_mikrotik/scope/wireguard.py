@@ -4,6 +4,7 @@ Supports interface creation, peer management, and configuration.
 """
 from typing import Optional
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 from .validators import validate_wireguard_key, validate_port, validate_interface_name, validate_ip_address
 

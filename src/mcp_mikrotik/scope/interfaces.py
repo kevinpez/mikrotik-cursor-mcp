@@ -1,5 +1,6 @@
 from typing import Optional
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
 def mikrotik_list_interfaces(
@@ -26,7 +27,7 @@ def mikrotik_list_interfaces(
     if filters:
         cmd += " where " + " and ".join(filters)
     
-    result = execute_mikrotik_command(cmd)
+    result = api_fallback_execute('/interface', 'print', cmd)
     
     if not result or result.strip() == "":
         return "No interfaces found matching the criteria."

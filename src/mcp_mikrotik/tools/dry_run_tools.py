@@ -499,11 +499,25 @@ def _generate_batch_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 def get_dry_run_handlers() -> Dict[str, Callable]:
     """Return the dry-run tool handlers."""
+    
+    # Synchronous wrapper for async functions
+    def sync_idempotency_check(args):
+        import asyncio
+        return asyncio.run(mikrotik_check_idempotency(args['resource_type'], args['properties']))
+    
+    def sync_safety_check(args):
+        import asyncio
+        return asyncio.run(mikrotik_safety_check(args['command'], args.get('operation_type', 'execute')))
+    
+    def sync_dry_run_analysis(args):
+        import asyncio
+        return asyncio.run(mikrotik_dry_run_analysis(args['command']))
+    
     return {
-        "mikrotik_dry_run_analysis": mikrotik_dry_run_analysis,
+        "mikrotik_dry_run_analysis": sync_dry_run_analysis,
         "mikrotik_create_plan": mikrotik_create_plan,
-        "mikrotik_safety_check": mikrotik_safety_check,
-        "mikrotik_check_idempotency": mikrotik_check_idempotency,
+        "mikrotik_safety_check": sync_safety_check,
+        "mikrotik_check_idempotency": sync_idempotency_check,
         "mikrotik_ensure_desired_state": mikrotik_ensure_desired_state,
         "mikrotik_batch_safety_analysis": mikrotik_batch_safety_analysis,
     }

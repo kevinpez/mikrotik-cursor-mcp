@@ -4,6 +4,7 @@ Manage IP services (SSH, Winbox, API, etc.) and their access controls
 """
 from typing import Dict, Any, List, Optional
 from ..connector import execute_mikrotik_command
+from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
 
