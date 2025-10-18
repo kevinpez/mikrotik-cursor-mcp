@@ -30,6 +30,7 @@ from lib.site_connector import SiteConnector
 from lib.health_monitor import HealthMonitor
 from lib.backup_manager import BackupManager
 from lib.bulk_operations import BulkOperations
+from lib.neighbor_scanner import MikroTikNeighborScanner
 
 console = Console()
 
@@ -422,6 +423,43 @@ def site_info(site_id):
     
     panel = Panel(info_text, title=f"[bold]{site_id}[/bold]", border_style="cyan")
     console.print(panel)
+
+@site.command('scan')
+@click.option('--host', prompt=True, help='Router IP/hostname to scan from')
+@click.option('--username', default='admin', help='SSH username')
+@click.option('--password', prompt=True, hide_input=True, help='SSH password')
+@click.option('--port', default=22, help='SSH port')
+@click.option('--populate', is_flag=True, help='Automatically populate site config with discovered devices')
+@click.option('--default-password', help='Default password for discovered devices')
+def site_scan(host, username, password, port, populate, default_password):
+    """Scan for MikroTik neighbors and optionally populate site configuration."""
+    console.print(f"\n[bold cyan]Scanning for MikroTik neighbors from {host}...[/bold cyan]\n")
+    
+    scanner = MikroTikNeighborScanner()
+    
+    try:
+        # Perform scan
+        scan_result = scanner.scan_from_router(host, username, password, port)
+        
+        # Display results
+        scanner.display_scan_results(scan_result)
+        
+        if scan_result['mikrotik_devices'] and populate:
+            console.print(f"\n[bold yellow]Populating site configuration...[/bold yellow]")
+            
+            population_result = scanner.populate_site_config(
+                scan_result['mikrotik_devices'],
+                username,
+                default_password or 'changeme'
+            )
+            
+            scanner.display_population_results(population_result)
+        elif scan_result['mikrotik_devices'] and not populate:
+            console.print(f"\n[yellow]Use --populate flag to add discovered devices to site configuration[/yellow]")
+        
+    except Exception as e:
+        console.print(f"[red]Error during scan: {e}[/red]")
+        return 1
 
 # =============================================================================
 # MAIN
