@@ -1,4 +1,4 @@
-# MikroTik Network Neighbor Scanner Guide
+executing script from sshd failed, please check it manually# MikroTik Network Neighbor Scanner Guide
 
 ## Overview
 

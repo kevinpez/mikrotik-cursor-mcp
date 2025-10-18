@@ -217,6 +217,14 @@ logs/
 *.log
 log.txt
 
+# Reports and generated output
+reports/
+output/
+*_report_*.md
+*_report_*.json
+*_scan_*.md
+*_scan_*.json
+
 # Test outputs
 test_results/
 tests/results/
@@ -236,6 +244,14 @@ mcp-logs/
 backup/
 backups/
 *.backup
+
+# Standalone scripts (keep only MCP server)
+*_autodiscovery.py
+*_network_setup.py
+*_security_scan.py
+*_monitor.py
+automated_*.py
+scan_*.py
 
 # Certificate files
 *.crt

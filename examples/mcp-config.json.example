@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "mikrotik-cursor-mcp": {
+      "command": "C:\\path\\to\\mikrotik-mcp\\.venv\\Scripts\\python.exe",
+      "args": ["C:\\path\\to\\mikrotik-mcp\\src\\mcp_mikrotik\\server.py"],
+      "env": {
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "admin",
+        "MIKROTIK_PASSWORD": "your-password-here",
+        "MIKROTIK_PORT": "22",
+        "MIKROTIK_DRY_RUN": "true",
+        "MIKROTIK_CONNECT_TIMEOUT": "10",
+        "MIKROTIK_CMD_TIMEOUT": "30"
+      }
+    }
+  }
+}
+

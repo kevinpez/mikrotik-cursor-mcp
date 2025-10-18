@@ -32,6 +32,7 @@ from .dry_run_tools import get_dry_run_tools, get_dry_run_handlers
 from .safe_mode_tools import get_safe_mode_tools, get_safe_mode_handlers
 from .intelligent_workflow_tools import get_intelligent_workflow_tools, get_intelligent_workflow_handlers
 from .ip_services_tools import get_ip_services_tools, get_ip_services_handlers
+from .ospf_autodiscovery_tools import get_ospf_autodiscovery_tools, get_ospf_autodiscovery_handlers
 
 
 def get_all_tools() -> List[Tool]:
@@ -126,6 +127,9 @@ def get_all_tools() -> List[Tool]:
     
     # IP services tools
     tools.extend(get_ip_services_tools())
+    
+    # OSPF auto-discovery tools
+    tools.extend(get_ospf_autodiscovery_tools())
 
     return tools
 
@@ -222,5 +226,8 @@ def get_all_handlers() -> Dict[str, Callable]:
     
     # IP services handlers
     handlers.update(get_ip_services_handlers())
+    
+    # OSPF auto-discovery handlers
+    handlers.update(get_ospf_autodiscovery_handlers())
     
     return handlers

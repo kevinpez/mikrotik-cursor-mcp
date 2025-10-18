@@ -117,34 +117,6 @@ The MCP server handles all the technical details - generating keys, configuring 
 - ✅ **High Availability** (VRRP redundancy)
 - ✅ **Automation** (Script scheduler, watchdog monitoring)
 
-### **🆕 Multi-Site Manager**
-- ✅ **Centralized Control** (Manage unlimited routers from one CLI)
-- ✅ **Health Monitoring** (CPU, memory, interfaces across all sites)
-- ✅ **Automated Backups** (Scheduled backups with retention policies)
-- ✅ **Bulk Operations** (Deploy changes to multiple sites simultaneously)
-- ✅ **Site Organization** (Groups, tags, priorities)
-
-👉 **See [multi-site-manager/](multi-site-manager/)** for complete multi-site management capabilities
-
-### 🔍 **Network Discovery (NEW!)**
-
-**Automatic MikroTik device discovery using neighbor scanning!**
-
-```bash
-# Discover and add all MikroTik devices on your network
-python scan_neighbors.py
-
-# Or use the multi-site manager
-python multi-site-manager/site_manager.py site scan --host 192.168.88.1 --populate
-```
-
-The neighbor scanner automatically:
-- 🔍 Discovers MikroTik devices using RouterOS neighbor discovery
-- 🎯 Identifies devices by platform, MAC address, and device information  
-- 📝 Populates your site configuration with discovered devices
-- 🎛️ Enables centralized management of your entire MikroTik network
-
-**See [NEIGHBOR_SCANNER_GUIDE.md](NEIGHBOR_SCANNER_GUIDE.md) for detailed documentation.**
 
 ---
 
