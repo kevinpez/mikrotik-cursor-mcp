@@ -17,7 +17,7 @@ This MCP server provides a natural language interface to MikroTik RouterOS devic
 
 - **API-First Design**: Uses MikroTik API for fast, structured communication
 - **SSH Fallback**: Automatically falls back to SSH when API is unavailable
-- **Category-Based Tools**: Organizes 426 actions into 19 logical categories
+- **Category-Based Tools**: Organizes 440+ actions into 19 logical categories
 - **Dual Transport**: API and SSH support with automatic selection
 
 ---
@@ -83,27 +83,27 @@ The server translates this into the necessary RouterOS API calls or SSH commands
 
 | Category | Actions | Coverage |
 |----------|---------|----------|
-| **Firewall** | 43 | Filter, NAT, Mangle, RAW, Layer 7, Chains, Address Lists |
-| **System** | 56 | Resources, Packages, Scheduler, Watchdog |
-| **IPv6** | 41 | Addresses, Routes, Firewall, DHCPv6, DHCPv6 Relay |
-| **Interfaces** | 37 | Stats, PPPoE, Tunnels, Bonding, VRRP, Bridge |
-| **Wireless** | 34 | Interfaces, CAPsMAN, Security |
-| **Routes** | 29 | Static, BGP, OSPF with Auth, Filters |
-| **Queues** | 20 | Simple, Queue Trees, PCQ, HTB |
-| **Container** | 18 | Docker, Images, Networking |
+| **Firewall** | 54 | Filter, NAT, Mangle, RAW, Layer 7, Chains, Address Lists, Connections |
+| **System** | 42 | Resources, Identity, Packages, Scheduler, Watchdog, Safe Mode |
+| **IPv6** | 43 | Addresses, Routes, Firewall, DHCPv6, Neighbor Discovery |
+| **Interfaces** | 53 | Physical, Virtual, Bridge, PPPoE, Tunnels, Bonding, VRRP, VLAN |
+| **Wireless** | 39 | Interfaces, CAPsMAN, Security Profiles, Access Lists |
+| **Routes** | 33 | Static, BGP, OSPF, Routing Filters |
+| **Queues** | 20 | Simple, Queue Trees, Traffic Shaping |
+| **Container** | 18 | Docker Containers, Images, Networking, Environment |
 | **Certificates** | 11 | PKI, CA, SSL/TLS |
 | **WireGuard** | 11 | Interfaces, Peers, Keys |
-| **Hotspot** | 10 | Servers, Users, Portal |
-| **DNS** | 9 | Settings, Static, Cache |
-| **OpenVPN** | 9 | Client, Server, Certs |
-| **IP** | 8 | Addresses, Pools |
+| **Hotspot** | 10 | Servers, Users, Captive Portal |
+| **DNS** | 15 | Settings, Static Entries, Cache |
+| **OpenVPN** | 9 | Client, Server, Certificates |
+| **IP Management** | 18 | Addresses, Pools, Services |
 | **DHCP** | 7 | Servers, Pools, Leases |
-| **Users** | 5 | Management, Groups |
-| **Backup** | 4 | Create, Restore, Export |
-| **Logs** | 4 | View, Search, Clear |
-| **Diagnostics** | 7 | Ping, Traceroute, DNS, ARP |
+| **Users** | 18 | Management, Groups, Permissions |
+| **Backup** | 10 | Create, Restore, Export |
+| **Logs** | 10 | View, Search, Clear |
+| **Diagnostics** | 9 | Ping, Traceroute, DNS Lookup, ARP, Neighbors |
 
-**Total: 426 actions across 19 categories**
+**Total: 440+ actions across 19 categories**
 
 ### Core Capabilities
 
@@ -113,7 +113,7 @@ The server translates this into the necessary RouterOS API calls or SSH commands
 - **Container Support**: Docker containers on RouterOS v7.x
 - **Advanced Wireless**: CAPsMAN centralized management
 - **Layer 7 Inspection**: Application-aware firewall rules
-- **QoS**: Queue trees, PCQ, traffic shaping
+- **QoS**: Queue trees, traffic shaping
 - **High Availability**: VRRP redundancy
 - **Automation**: Script scheduler, watchdog monitoring
 
@@ -208,7 +208,7 @@ Add this to your Cursor MCP configuration file (`%USERPROFILE%\.cursor\mcp.json`
 "Create a firewall rule to allow SSH from 10.0.0.0/8"
 "Block all traffic from 192.168.99.0/24"
 "Show me active connections"
-"Create a port forward: external 8080 → internal 192.168.1.100:80"
+"Create a port forward: external 8080 to internal 192.168.1.100:80"
 ```
 
 #### VPN Setup
@@ -263,9 +263,9 @@ Traditional Approach:          This MCP:
 ├─ mikrotik_create_firewall        ├─ list_filter_rules
 ├─ mikrotik_update_firewall        ├─ create_filter_rule
 ├─ mikrotik_list_nat               ├─ list_nat_rules
-├─ mikrotik_create_nat             └─ ... (43 actions)
+├─ mikrotik_create_nat             └─ ... (54 actions)
 ├─ mikrotik_port_forward        
-... (100+ separate tools)      └─ mikrotik_ipv6 (41 actions)
+... (100+ separate tools)      └─ mikrotik_ipv6 (43 actions)
 ```
 
 ### Technology Stack
@@ -281,141 +281,66 @@ Traditional Approach:          This MCP:
 ```
 ┌───────────────┐       ┌────────────────────┐       ┌───────────────┐
 │  Cursor IDE   │       │   MikroTik MCP     │       │   RouterOS    │
-│      + AI     │───▶   │       Server       │──API▶ │    Device     │
+│      + AI     │──────▶│       Server       │──API▶ │    Device     │
 └───────────────┘       └────────────────────┘       └───────────────┘
         │                          │                          │
-| Natural language request          │                          │
-        │──────────────────────────▶                          │
+│ Natural language request          │                          │
+        │─────────────────────────▶                          │
         │                          │ Parse & translate        │
         │                          │ Execute via API/SSH      │
-        │                          ├──────────────────────────▶
+        │                          ├─────────────────────────▶
         │                          │ Verify results           │
-        │                          │◀──────────────────────────│
-| Structured response               │                          │
-◀──────────────────────────────────│                          │
+        │                          │◀─────────────────────────│
+│ Structured response               │                          │
+◀─────────────────────────────────│                          │
 ```
 
 ---
 
-## Feature Details
+## Testing
 
-### Firewall Management
+### Hardware Validation Suite
 
-43 actions covering complete firewall functionality:
+The project includes a comprehensive hardware validation suite that tests all handlers against live MikroTik hardware.
 
-- **Filter Rules:** Allow, drop, reject traffic
-- **NAT:** Source NAT, destination NAT, masquerade
-- **Port Forwarding:** External-to-internal mapping
-- **Mangle:** Packet marking, routing marks
-- **RAW:** Pre-connection tracking rules
-- **Layer 7:** Application-based filtering
-- **Connection Tracking:** Active connection monitoring
+```bash
+# Test all handlers
+python tests/hardware_validation.py
 
-### IPv6 Support
+# Test specific category with verbose output
+python tests/hardware_validation.py --category System -v
 
-41 actions providing dual-stack networking:
+# Save test results to JSON
+python tests/hardware_validation.py --report results.json
 
-- **Address Management:** Add, remove, list IPv6 addresses
-- **Route Management:** Static IPv6 routes
-- **Neighbor Discovery:** RA, SLAAC configuration
-- **DHCPv6 Server:** Prefix delegation, stateful addressing
-- **DHCPv6 Client:** Request prefixes from upstream
-- **DHCPv6 Relay:** Relay DHCPv6 requests between networks
-- **IPv6 Firewall:** Filter/NAT/mangle support
-- **IPv6 Pools:** Address pool management
+# List available categories
+python tests/hardware_validation.py --list-categories
+```
 
-### Container Support
+### Test Configuration
 
-18 actions for Docker on RouterOS v7.x:
+Create a `.env.test` file in the project root:
 
-- **Lifecycle:** Create, start, stop, remove containers
-- **Registry:** Configure private registries
-- **Environment:** Manage environment variables
-- **Storage:** Volume mounts
-- **Networking:** Veth interfaces
+```bash
+MIKROTIK_HOST=192.168.88.1
+MIKROTIK_USERNAME=admin
+MIKROTIK_PASSWORD=your_password
+MIKROTIK_PORT=22
+MIKROTIK_LOG_LEVEL=INFO
+```
 
-### VPN Suite
+### Test Categories
 
-**WireGuard (11 actions):**
-- Interface management
-- Peer configuration
-- Automatic key generation
-- Tunnel setup
+The test suite covers all 19 categories:
+- System, Backup, Certificates, Containers
+- DHCP, DNS, Diagnostics
+- Firewall (Filter, NAT, Mangle, RAW)
+- Hotspot, IP Services, IPv6
+- Interfaces, Logs, OpenVPN
+- Queues, Routes, Routing Filters
+- Users, Wireless, WireGuard, CAPsMAN
 
-**OpenVPN (9 actions):**
-- Client configuration
-- Server management
-- Certificate handling
-
-### Dynamic Routing
-
-29 routing actions including:
-
-**BGP (8 actions):**
-- BGP instances
-- Peer management
-- Network advertisement
-- Route viewing
-
-**OSPF (9 actions):**
-- OSPF instances
-- Area configuration
-- Interface setup
-- Neighbor status
-- Authentication (MD5, text)
-
-**Route Filters (2 actions):**
-- Filter creation
-- Policy-based routing
-
-### Wireless Management
-
-34 actions for wireless control:
-
-**Basic Management:**
-- Interface creation and removal
-- Radio enable/disable
-- Security profiles
-- Access lists
-
-**CAPsMAN (Centralized Management):**
-- Controller setup
-- Configuration profiles
-- Automatic provisioning
-- Remote AP management
-
-**Monitoring:**
-- Client registration table
-- Signal strength monitoring
-- Frequency scanning
-
----
-
-## Use Cases
-
-### Home Lab
-- WireGuard VPN for remote access
-- Guest WiFi with network isolation
-- DNS-based ad blocking
-- Bandwidth limits for IoT devices
-
-### Enterprise Deployment
-- BGP peering with ISPs
-- Multi-site OSPF routing
-- CAPsMAN for centralized AP management
-- IPv6 dual-stack networks
-
-### Cloud Integration
-- VPN tunnels to AWS VPC
-- Azure Virtual Network connections
-- Site-to-site VPN with GCP
-- Container-based edge services
-
-### Security & Compliance
-- Zero-trust firewall rules
-- Hotspot with captive portal
-- Segmented VLANs
-- Connection tracking for audit logs
+See [TESTING.md](TESTING.md) for complete testing documentation.
 
 ---
 
@@ -440,19 +365,6 @@ Traditional Approach:          This MCP:
 - Test on non-production routers first
 - Use isolated VLANs for experiments
 - Maintain out-of-band access
-
-### Automated Testing
-
-```bash
-# Run core tests
-python test_core.py
-
-# Run comprehensive tests
-python test_comprehensive.py
-
-# Run all test types
-python run_tests.py all
-```
 
 ---
 
@@ -544,7 +456,7 @@ MIT License - see [LICENSE](LICENSE) file
 
 - **GitHub Issues:** [Report bugs or request features](https://github.com/kevinpez/mikrotik-cursor-mcp/issues)
 - **GitHub Discussions:** [Ask questions or share use cases](https://github.com/kevinpez/mikrotik-cursor-mcp/discussions)
-- **Documentation:** See [SETUP_COMPLETE_GUIDE.md](docs/setup/SETUP_COMPLETE_GUIDE.md)
+- **Documentation:** See [docs/INDEX.md](docs/INDEX.md)
 
 ---
 
@@ -555,7 +467,7 @@ MIT License - see [LICENSE](LICENSE) file
 ### Getting Started
 - **[Quick Start](#quick-start)** - Installation and configuration
 - **[Setup Guide](docs/setup/SETUP_COMPLETE_GUIDE.md)** - Detailed setup instructions
-- **[Testing Guide](docs/guides/TESTING_GUIDE.md)** - Verify installation
+- **[Testing Guide](TESTING.md)** - Verify installation
 
 ### API Documentation
 - **[API Conversion Report](docs/reports/API_CONVERSION_SUCCESS_REPORT.md)** - API implementation details
@@ -569,13 +481,13 @@ MIT License - see [LICENSE](LICENSE) file
 - **[OSPF Guide](docs/guides/OSPF_MCP_USAGE_EXAMPLE.md)** - OSPF configuration examples
 
 ### Development
-- **[Testing Guide](TESTING_GUIDE.md)** - Testing procedures
+- **[Testing Guide](TESTING.md)** - Testing procedures
 - **[Contributing](CONTRIBUTING.md)** - Contribution guidelines
 - **[Changelog](CHANGELOG.md)** - Version history
 - **[Roadmap](ROADMAP.md)** - Future development plans
 
 ### Project Information
-- **[Authors](docs/api/AUTHORS.md)** - Author information
+- **[Authors](docs/AUTHORS.md)** - Author information
 - **[Credits](docs/CREDITS.md)** - Acknowledgments
 - **[License](LICENSE)** - MIT License
 

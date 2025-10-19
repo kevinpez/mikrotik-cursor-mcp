@@ -4,19 +4,23 @@ Comprehensive testing for the MikroTik Cursor MCP server.
 
 ---
 
+## Overview
+
+The test suite validates all MikroTik handler functions against live RouterOS hardware, ensuring compatibility and correctness across different RouterOS versions and configurations.
+
+---
+
 ## Test Structure
 
 ```
 tests/
 ├── README.md                      # This file
-├── hardware_validation.py         # ⭐ NEW: Complete hardware validation suite
-├── HARDWARE_TESTING_GUIDE.md      # Complete guide for hardware testing
+├── hardware_validation.py         # Hardware validation suite
+├── HARDWARE_TESTING_GUIDE.md      # Detailed testing guide
+├── QUICK_REFERENCE.md             # Command quick reference
 ├── test_core.py                   # Core functionality tests
 ├── test_comprehensive.py          # Comprehensive integration tests
-├── run_tests.py                   # Test runner with options
-├── unit/                          # Unit tests (future)
-│   └── .gitkeep
-└── integration/                   # Integration tests
+└── integration/                   # Integration test modules
     ├── test_integration_runner.py
     ├── test_all_handlers.py
     ├── comprehensive_test_suite.py
@@ -27,63 +31,222 @@ tests/
 
 ## Running Tests
 
-### ⭐ NEW: Hardware Validation (Recommended)
+### Hardware Validation (Recommended)
 
-**Test ALL commands against your actual MikroTik hardware with detailed CLI feedback:**
+Test all handlers against your actual MikroTik router:
 
 ```bash
-# Test everything - see what works and what fails on your hardware
+# Test all categories
 python tests/hardware_validation.py
 
-# Test specific category with detailed output
+# Test specific category with verbose output
 python tests/hardware_validation.py --category System -v
 
-# Save detailed results to JSON
+# Save results to JSON
 python tests/hardware_validation.py --report results.json
 
-# List all available categories
+# List available categories
 python tests/hardware_validation.py --list-categories
 ```
 
-**Features:**
-- ✅ Tests EVERY MCP command (400+ handlers)
-- ✅ Real-time progress with color-coded results
-- ✅ Shows exactly what works and what fails on your router
-- ✅ Safe execution with automatic rollback
-- ✅ Detailed JSON reports for CI/CD
-- ✅ Category-based testing (System, Firewall, Routing, etc.)
+### Core Tests
 
-**See [HARDWARE_TESTING_GUIDE.md](HARDWARE_TESTING_GUIDE.md) for complete documentation.**
+Test fundamental MCP functionality:
 
-### Quick Test
 ```bash
-# Run core tests only
+# Using pytest
+pytest tests/test_core.py
+
+# Using Python directly
 python tests/test_core.py
-
-# Run comprehensive tests
-python tests/test_comprehensive.py
 ```
 
-### Using Test Runner
+### Comprehensive Tests
+
+Test all MCP tools and handlers:
+
 ```bash
-# Run all tests
-python run_tests.py all
-
-# Run specific test suite
-python run_tests.py core
-python run_tests.py comprehensive
-python run_tests.py integration
-
-# Run with verbose output
-python run_tests.py all --verbose
+pytest tests/test_comprehensive.py
 ```
 
-### Using pytest
-```bash
-# Activate virtual environment
-.venv\Scripts\activate  # Windows
-# source .venv/bin/activate  # Linux/Mac
+### Integration Tests
 
+Test against live router (requires configuration):
+
+```bash
+pytest tests/integration/
+```
+
+---
+
+## Test Configuration
+
+Create `.env.test` in project root:
+
+```bash
+MIKROTIK_HOST=192.168.88.1
+MIKROTIK_USERNAME=admin
+MIKROTIK_PASSWORD=your_password
+MIKROTIK_PORT=22
+MIKROTIK_LOG_LEVEL=INFO
+```
+
+**Security Note:** The `.env.test` file is in `.gitignore` - never commit credentials.
+
+---
+
+## Test Types
+
+### Hardware Validation Tests
+
+**Purpose:** Validate all 440+ handlers against live hardware
+
+**Features:**
+- Tests every MikroTik handler function
+- Real-time progress with status indicators
+- Category-based organization (19 categories)
+- Safe execution with automatic skip of dangerous operations
+- Detailed JSON reports for CI/CD
+
+**Output Modes:**
+- **Compact**: One line per handler with pass/fail status
+- **Verbose**: Detailed command execution information
+
+### Core Tests
+
+**Purpose:** Verify fundamental MCP functionality
+
+**Coverage:**
+- Connection management
+- SSH client functionality  
+- Basic RouterOS commands
+- Error handling
+- Configuration validation
+
+### Comprehensive Tests
+
+**Purpose:** Ensure complete feature coverage
+
+**Coverage:**
+- All 19 MCP tool categories
+- Category-based tool organization
+- Tool handler registration
+- Schema validation
+- End-to-end workflows
+
+### Integration Tests
+
+**Purpose:** Validate against actual MikroTik hardware
+
+**Coverage:**
+- Real router connectivity
+- Command execution on live devices
+- Multi-router scenarios
+- Performance testing
+
+---
+
+## Test Categories
+
+The hardware validation suite covers 19 functional categories:
+
+1. **System** - Identity, resources, clock, health
+2. **Firewall** - Filter, NAT, mangle, RAW rules
+3. **Interfaces** - Physical, virtual, bridge, VLAN
+4. **Routes** - Static routes, BGP, OSPF
+5. **IPv6** - Addresses, routes, DHCPv6, firewall
+6. **Wireless** - Interfaces, CAPsMAN, security
+7. **DNS** - Settings, static entries, cache
+8. **DHCP** - Servers, pools, leases
+9. **Users** - User management, groups
+10. **WireGuard** - VPN interfaces and peers
+11. **OpenVPN** - Client, server, certificates
+12. **Containers** - Docker lifecycle, networking
+13. **Certificates** - PKI, CA, SSL/TLS
+14. **Backup** - Create, restore, export
+15. **Hotspot** - Servers, users, captive portal
+16. **IP Management** - Addresses, pools, services
+17. **Queues** - Simple queues, queue trees
+18. **Logs** - View, search, clear
+19. **Diagnostics** - Ping, traceroute, ARP
+
+---
+
+## Output Formats
+
+### Compact Mode (Default)
+
+```
+[1/10] get_system_identity         PASS (0.45s)
+[2/10] get_system_resources         PASS (0.38s)
+[3/10] get_system_health            PASS (0.41s)
+```
+
+### Verbose Mode
+
+```
+[1/10] get_system_identity
+
+  Executing: mikrotik_get_system_identity
+  Command executed in 0.45s
+  
+  Result:
+  SYSTEM IDENTITY:
+  name: test-router
+  
+  Command successful
+```
+
+### JSON Report
+
+```json
+{
+  "summary": {
+    "total": 440,
+    "passed": 385,
+    "failed": 35,
+    "skipped": 20
+  },
+  "categories": [
+    {
+      "name": "System",
+      "handlers": 13,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 3
+    }
+  ]
+}
+```
+
+---
+
+## Understanding Results
+
+### Status Indicators
+
+- **PASS** - Handler executed successfully
+- **FAIL** - Handler returned error
+- **SKIP** - Handler skipped (dangerous or requires arguments)
+
+### Expected Pass Rates
+
+- **Read Operations**: 80-95%
+- **Write Operations**: 30-50% (many require specific arguments)
+- **Diagnostic Operations**: 60-80%
+
+### Why Handlers Skip
+
+- **Dangerous operations**: reboot, factory_reset, clear_logs
+- **Missing arguments**: Operations requiring specific IDs, filenames
+- **Hardware dependent**: Features not available on all models
+- **Version specific**: Feature requires newer RouterOS version
+
+---
+
+## Using pytest
+
+```bash
 # Run all tests
 pytest
 
@@ -97,90 +260,131 @@ pytest --cov=src/mcp_mikrotik
 pytest -v
 
 # Run specific test function
-pytest tests/test_core.py::test_function_name
+pytest tests/test_core.py::test_connection
+
+# Run tests matching pattern
+pytest -k "firewall"
 ```
 
 ---
 
-## Test Types
+## Troubleshooting
 
-### Core Tests (`test_core.py`)
-- ✅ Connection management
-- ✅ SSH client functionality
-- ✅ Basic RouterOS commands
-- ✅ Error handling
-- ✅ Configuration validation
+### Connection Errors
 
-**Purpose:** Verify fundamental MCP server functionality
+**Issue:** `Failed to connect to router`
 
-### Comprehensive Tests (`test_comprehensive.py`)
-- ✅ All MCP tools (426+ actions)
-- ✅ Category-based tool organization
-- ✅ Tool handler registration
-- ✅ Schema validation
-- ✅ End-to-end workflows
+**Solutions:**
+1. Verify `MIKROTIK_HOST` in `.env.test`
+2. Check network connectivity: `ping 192.168.88.1`
+3. Verify SSH/API is enabled on router
+4. Check firewall rules allow access
 
-**Purpose:** Ensure complete feature coverage
+### Authentication Errors
 
-### Hardware Validation Tests (`hardware_validation.py`) - ⭐ NEW
-- ✅ Tests ALL 400+ MCP handlers against real hardware
-- ✅ Real-time CLI feedback with color-coded results
-- ✅ Category-based testing (25+ categories)
-- ✅ Detailed per-command pass/fail reporting
-- ✅ JSON report generation for CI/CD
-- ✅ Safe execution with automatic cleanup
+**Issue:** `Authentication failed`
 
-**Purpose:** Comprehensive validation that every command works on your actual router
+**Solutions:**
+1. Verify credentials in `.env.test`
+2. Check user has sufficient permissions
+3. Ensure user account is enabled
 
-### Integration Tests (`integration/`)
-- ✅ Real router connectivity (if available)
-- ✅ Command execution on live devices
-- ✅ Multi-router scenarios
-- ✅ Performance testing
+### Import Errors
 
-**Purpose:** Validate against actual MikroTik hardware
+**Issue:** `ModuleNotFoundError`
 
-### Unit Tests (`unit/`) - *Coming Soon*
-- Isolated scope module testing
-- Tool definition validation
-- Utility function testing
-- Mock-based testing
+**Solutions:**
+1. Activate virtual environment
+2. Install dependencies: `pip install -r requirements.txt`
+3. Install package: `pip install -e .`
+
+### Timeout Issues
+
+**Issue:** Commands timing out
+
+**Solutions:**
+1. Check router CPU usage
+2. Verify network latency
+3. Increase timeout: `MIKROTIK_CMD_TIMEOUT=60` in `.env.test`
 
 ---
 
-## Test Configuration
+## CI/CD Integration
 
-### Environment Variables
-```bash
-# For integration tests with real router
-MIKROTIK_TEST_HOST=192.168.88.1
-MIKROTIK_TEST_USERNAME=admin
-MIKROTIK_TEST_PASSWORD=test-password
-# Configure your MikroTik router credentials
+### GitHub Actions Example
+
+```yaml
+name: Test MikroTik MCP
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Run tests
+        run: pytest -v
+        
+      - name: Hardware validation
+        if: github.event_name == 'push'
+        env:
+          MIKROTIK_HOST: ${{ secrets.MIKROTIK_HOST }}
+          MIKROTIK_USERNAME: ${{ secrets.MIKROTIK_USERNAME }}
+          MIKROTIK_PASSWORD: ${{ secrets.MIKROTIK_PASSWORD }}
+        run: |
+          python tests/hardware_validation.py --report results.json
+          
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: results.json
 ```
 
-### Test Data
-- Test configurations in `tests/fixtures/`
-- Mock responses in `tests/mocks/`
-- Sample RouterOS outputs for validation
+---
+
+## Performance Benchmarks
+
+### Typical Execution Times
+
+- **Core tests**: 5-10 seconds
+- **Comprehensive tests**: 10-20 seconds
+- **Hardware validation (single category)**: 0.2-2 seconds
+- **Hardware validation (all categories)**: 30-60 seconds
+
+### Optimization Tips
+
+1. Test specific categories when developing
+2. Use compact mode for quick checks
+3. Run full suite in CI/CD only
+4. Enable parallel test execution
 
 ---
 
-## Test Coverage Goals
+## Contributing Tests
 
-| Component | Target | Current |
-|-----------|--------|---------|
-| Core Connection | 100% | ✅ 100% |
-| MCP Tools | 95% | ✅ 100% |
-| Scope Modules | 90% | 🔄 TBD |
-| Safety Features | 100% | ✅ 100% |
-| Error Handling | 95% | ✅ 95% |
+When adding new features:
 
----
-
-## Writing Tests
+1. Write tests first (TDD approach)
+2. Ensure tests pass locally
+3. Add integration tests for router interaction
+4. Update this README if adding new test types
+5. Maintain test coverage above 90%
 
 ### Test Naming Convention
+
 ```python
 # File: test_<module>.py
 # Class: Test<Feature>
@@ -191,81 +395,16 @@ def test_firewall_filter_rule_creation():
     pass
 ```
 
-### Using Fixtures
-```python
-import pytest
+---
 
-@pytest.fixture
-def mock_router():
-    """Provide a mock MikroTik router connection."""
-    # Setup
-    yield mock_connection
-    # Teardown
-```
+## Documentation
 
-### Assertions
-```python
-# Use descriptive assertions
-assert result is not None, "Expected result, got None"
-assert "success" in response.lower(), f"Unexpected response: {response}"
-```
+- **[Hardware Testing Guide](HARDWARE_TESTING_GUIDE.md)** - Comprehensive hardware test documentation
+- **[Quick Reference](QUICK_REFERENCE.md)** - Quick command reference
+- **[Main Testing Guide](../TESTING.md)** - Project-wide testing documentation
 
 ---
 
-## CI/CD Integration
+## License
 
-Tests run automatically on:
-- Every push to main branch
-- Pull request creation
-- Release tagging
-
-See `.github/workflows/` for CI configuration.
-
----
-
-## Troubleshooting Tests
-
-### Common Issues
-
-**Import Errors**
-```bash
-# Ensure virtual environment is activated
-# Ensure package is installed in development mode
-pip install -e .
-```
-
-**Connection Timeouts**
-```bash
-# Check router is accessible
-# Verify firewall rules allow SSH
-# Increase timeout in test configuration
-```
-
-**Test Failures After Changes**
-```bash
-# Clear pytest cache
-pytest --cache-clear
-
-# Run specific failing test with verbose output
-pytest tests/test_core.py::test_name -vv
-```
-
----
-
-## Contributing Tests
-
-When adding new features:
-1. ✅ Write tests first (TDD)
-2. ✅ Ensure tests pass locally
-3. ✅ Add integration tests for router interaction
-4. ✅ Update this README if adding new test types
-5. ✅ Maintain 90%+ code coverage
-
----
-
-## Resources
-
-- **pytest Documentation:** https://docs.pytest.org/
-- **Testing Best Practices:** See `docs/testing/`
-- **MCP Testing Guide:** See MCP SDK documentation
-
+See main project [LICENSE](../LICENSE) file.

@@ -1,29 +1,37 @@
-# Quick Start Guide - Using .env.test
+# Environment-Based Testing - Quick Start
 
-## ✅ Your .env.test File
+Guide for using `.env.test` to configure and run hardware validation tests.
 
-You've created a test environment file at the root of your project with your router credentials:
+---
 
-```
+## Environment Configuration
+
+### Create `.env.test` File
+
+Create a file named `.env.test` in the project root directory with your MikroTik router credentials:
+
+```bash
 MIKROTIK_HOST=192.168.88.1
-MIKROTIK_USERNAME=kevinpez
-MIKROTIK_PASSWORD=MaxCr33k420
+MIKROTIK_USERNAME=admin
+MIKROTIK_PASSWORD=your_password
 MIKROTIK_PORT=22
 MIKROTIK_LOG_LEVEL=INFO
 ```
 
-## 🚀 Running Tests with .env.test
+**Security Note:** This file is in `.gitignore` - never commit credentials to version control.
 
-### Option 1: Load Environment and Run Tests (Quick)
+---
+
+## Running Tests
+
+### Load Environment and Run (PowerShell)
 
 ```powershell
 # Load credentials from .env.test
 $env_content = Get-Content .env.test
 foreach ($line in $env_content) { 
     if ($line -match '^([^=]+)=(.+)$') { 
-        $name = $matches[1]
-        $value = $matches[2]
-        Set-Item -Path "env:$name" -Value $value 
+        Set-Item -Path "env:$($matches[1])" -Value $matches[2]
     } 
 }
 
@@ -31,22 +39,136 @@ foreach ($line in $env_content) {
 python tests/hardware_validation.py -v
 ```
 
-### Option 2: One-Liner (Fastest)
+### Load Environment and Run (Bash)
 
-```powershell
-# System tests
+```bash
+# Load credentials from .env.test
+export $(grep -v '^#' .env.test | xargs)
+
+# Run tests
+python tests/hardware_validation.py -v
+```
+
+---
+
+## Test Commands
+
+### Basic Testing
+
+```bash
+# All tests - compact output
+python tests/hardware_validation.py
+
+# All tests - verbose output
+python tests/hardware_validation.py -v
+
+# Specific category
 python tests/hardware_validation.py --category System -v
 
-# Firewall tests
+# List available categories
+python tests/hardware_validation.py --list-categories
+
+# Save results to JSON
+python tests/hardware_validation.py --report results.json
+```
+
+### Category-Specific Tests
+
+```bash
+# System information
+python tests/hardware_validation.py --category System -v
+
+# Firewall rules
 python tests/hardware_validation.py --category Firewall -v
 
-# Quick compact mode
+# Network interfaces
+python tests/hardware_validation.py --category Interfaces -v
+
+# DNS configuration
+python tests/hardware_validation.py --category DNS -v
+
+# DHCP servers
+python tests/hardware_validation.py --category DHCP -v
+
+# Network diagnostics
+python tests/hardware_validation.py --category Diagnostics -v
+
+# IPv6 configuration
+python tests/hardware_validation.py --category IPv6 -v
+
+# Routing
+python tests/hardware_validation.py --category Routes -v
+```
+
+---
+
+## Output Modes
+
+### Verbose Mode (Detailed)
+
+Shows complete information for each test:
+
+```bash
+python tests/hardware_validation.py -v
+```
+
+**Displays:**
+- Command being executed
+- Arguments passed
+- Execution time
+- Full result output
+- Success/failure status
+
+**Example Output:**
+```
+[1/10] get_system_identity
+
+  Executing: mikrotik_get_system_identity
+  Command executed in 0.45s
+  
+  Result:
+  SYSTEM IDENTITY:
+  name: test-router
+  
+  Command successful
+```
+
+### Compact Mode (Quick Summary)
+
+Shows one line per test:
+
+```bash
 python tests/hardware_validation.py
 ```
 
-### Option 3: Create a PowerShell Script
+**Displays:**
+- Handler position [1/10]
+- Handler name
+- Pass/fail status
+- Execution time
 
-Save this as `run_tests.ps1`:
+**Example Output:**
+```
+[1/10] get_system_identity         PASS (0.45s)
+[2/10] get_system_resources         PASS (0.38s)
+[3/10] get_system_health            PASS (0.41s)
+```
+
+### Save Report (JSON)
+
+Save detailed results to file:
+
+```bash
+python tests/hardware_validation.py -v --report results.json
+```
+
+---
+
+## Test Scripts
+
+### PowerShell Script
+
+Create `run_tests.ps1`:
 
 ```powershell
 # Load .env.test credentials
@@ -65,16 +187,16 @@ if ($args.Count -gt 0) {
 }
 ```
 
-Then run:
+**Usage:**
 ```powershell
 .\run_tests.ps1              # All tests
 .\run_tests.ps1 System       # System category
 .\run_tests.ps1 Firewall     # Firewall category
 ```
 
-### Option 4: Create a Batch File (Windows)
+### Batch Script (Windows)
 
-Save this as `run_tests.bat`:
+Create `run_tests.bat`:
 
 ```batch
 @echo off
@@ -87,209 +209,241 @@ REM Run tests
 python tests/hardware_validation.py -v %1
 ```
 
-Then run:
+**Usage:**
 ```batch
-run_tests.bat                # All tests
-run_tests.bat --category System
+run_tests.bat                    # All tests
+run_tests.bat --category System  # Specific category
 ```
 
-## 📊 What You Can Test
+### Bash Script (Linux/Mac)
 
-### Test Specific Categories:
+Create `run_tests.sh`:
+
+```bash
+#!/bin/bash
+
+# Load .env.test
+export $(grep -v '^#' .env.test | xargs)
+
+# Run tests
+if [ $# -gt 0 ]; then
+    python tests/hardware_validation.py -v --category "$1"
+else
+    python tests/hardware_validation.py -v
+fi
+```
+
+**Usage:**
+```bash
+./run_tests.sh              # All tests
+./run_tests.sh System       # System category
+./run_tests.sh Firewall     # Firewall category
+```
+
+---
+
+## Available Test Categories
+
+The hardware validation suite includes 19 categories:
+
+1. **System** - Router identity, clock, resources, health
+2. **Backup** - Backup creation and restoration
+3. **Certificates** - Certificate management
+4. **Containers** - Container lifecycle management
+5. **DHCP** - DHCP server and client configuration
+6. **DNS** - DNS settings and static entries
+7. **Diagnostics** - Ping, traceroute, ARP, neighbors
+8. **Firewall** - Filter rules, NAT, mangle, RAW
+9. **Hotspot** - Hotspot server and user management
+10. **IP Services** - SSH, API, Winbox access control
+11. **IPv6** - IPv6 addresses, routing, DHCPv6
+12. **Interfaces** - Physical and virtual interfaces
+13. **Logs** - System logging and log management
+14. **OpenVPN** - OpenVPN client/server configuration
+15. **Queues** - Bandwidth limiting and QoS
+16. **Routes** - Static routes and routing table
+17. **Routing Filters** - Route filtering rules
+18. **CAPsMAN** - Controller configuration for wireless
+19. **Users** - User and group management
+20. **Wireless** - Wireless interface configuration
+21. **WireGuard** - WireGuard VPN tunnels
+
+---
+
+## Environment Variables
+
+### Required Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `MIKROTIK_HOST` | Router IP address or hostname | `192.168.88.1` |
+| `MIKROTIK_USERNAME` | SSH/API username | `admin` |
+| `MIKROTIK_PASSWORD` | SSH/API password | `your_password` |
+
+### Optional Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MIKROTIK_PORT` | `22` | SSH port number |
+| `MIKROTIK_LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR) |
+| `MIKROTIK_CMD_TIMEOUT` | `30` | Command timeout in seconds |
+| `MIKROTIK_CONNECT_TIMEOUT` | `10` | Connection timeout in seconds |
+
+---
+
+## Security Best Practices
+
+### Protect Credentials
+
+1. **Never commit** `.env.test` to version control
+2. **Verify** `.env.test` is in `.gitignore`
+3. **Use strong** passwords or SSH keys
+4. **Restrict** file permissions: `chmod 600 .env.test`
+
+### SSH Key Authentication
+
+For enhanced security, use SSH key authentication:
+
+```bash
+MIKROTIK_HOST=192.168.88.1
+MIKROTIK_USERNAME=admin
+MIKROTIK_SSH_KEY=/path/to/private/key
+MIKROTIK_PORT=22
+```
+
+### Access Control
+
+Limit MikroTik API/SSH access:
+
+1. Restrict source IPs in `/ip service`
+2. Use strong passwords or keys
+3. Enable firewall rules
+4. Monitor access logs
+
+---
+
+## Troubleshooting
+
+### Connection Failed
+
+**Symptom:** `Failed to connect to router`
+
+**Solutions:**
+- Verify `MIKROTIK_HOST` is correct
+- Check network connectivity: `ping <MIKROTIK_HOST>`
+- Verify router is powered on
+- Check firewall allows SSH/API access
+
+### Authentication Failed
+
+**Symptom:** `Authentication failed` or `invalid user name or password`
+
+**Solutions:**
+- Verify `MIKROTIK_USERNAME` and `MIKROTIK_PASSWORD`
+- Check user account is enabled on router
+- Verify user has sufficient permissions
+- Check for special characters in password
+
+### Module Not Found
+
+**Symptom:** `ModuleNotFoundError`
+
+**Solutions:**
+- Activate virtual environment: `.venv\Scripts\activate`
+- Install dependencies: `pip install -r requirements.txt`
+- Install package: `pip install -e .`
+
+### Timeout Errors
+
+**Symptom:** Commands timing out
+
+**Solutions:**
+- Increase timeout: `MIKROTIK_CMD_TIMEOUT=60`
+- Check router CPU usage
+- Verify network latency
+- Reduce concurrent operations
+
+---
+
+## Common Workflows
+
+### Daily Monitoring
 
 ```powershell
-# System Information
-python tests/hardware_validation.py --category System -v
-
-# Firewall Rules
-python tests/hardware_validation.py --category Firewall -v
-
-# Network Interfaces
-python tests/hardware_validation.py --category Interfaces -v
-
-# DNS Configuration
-python tests/hardware_validation.py --category DNS -v
-
-# DHCP Servers
-python tests/hardware_validation.py --category DHCP -v
-
-# Network Diagnostics
-python tests/hardware_validation.py --category Diagnostics -v
-
-# IPv6 Configuration
-python tests/hardware_validation.py --category IPv6 -v
-
-# Routing
-python tests/hardware_validation.py --category Routes -v
-
-# Logs
-python tests/hardware_validation.py --category Logs -v
-
-# Backup & Certificates
-python tests/hardware_validation.py --category Backup -v
-
-# Containers
-python tests/hardware_validation.py --category Containers -v
-```
-
-## 🎯 Test Output Modes
-
-### Verbose Mode (Detailed)
-```powershell
-python tests/hardware_validation.py -v
-```
-Shows:
-- ✓ Command being executed
-- ✓ Arguments passed
-- ✓ Execution time
-- ✓ Full result output
-- ✓ Success/failure status
-
-### Compact Mode (Quick Summary)
-```powershell
-python tests/hardware_validation.py
-```
-Shows:
-- [1/7] Handler name ✓ PASS (0.45s)
-- [2/7] Handler name ✓ PASS (0.38s)
-- Summary statistics
-
-### Save Report
-```powershell
-python tests/hardware_validation.py -v --report results.json
-```
-
-## 📋 Example Test Run
-
-```
-[1/7] get_system_clock
-
-  Executing: mikrotik_get_system_clock
-  ✓ Command executed in 0.00s
-  Result:
-SYSTEM CLOCK:
-
-time: 22:09:09
-date: 2025-10-18
-time-zone-name: America/Denver
-
-  ✓ Command successful
-
-[2/7] get_system_events
-
-  Executing: mikrotik_get_system_events
-  ✓ Command executed in 0.19s
-  Result:
-LOG ENTRIES:
-
- 2025-10-18 21:42:20 system,info user kevinpez logged in via api
- 2025-10-18 21:42:20 system,info user kevinpez logged in via ssh
-
-  ✓ Command successful
-```
-
-## ✅ Status Check
-
-Your current test shows:
-```
-System Category:
-  Passed:  5/7 (71.4%)
-  Failed:  0
-  Skipped: 2
-  Duration: 0.21s
-
-Router: test-router
-OS: RouterOS 7.20.1 (stable)
-CPU: ARM64, 4-core @ 350MHz
-Memory: 1GB (887MB free)
-Uptime: 2 days 4 hours
-```
-
-## 🔐 Security Notes
-
-1. **Never commit .env.test to git**
-   - Add `.env.test` to `.gitignore`
-   - Keep your password safe
-
-2. **Keep credentials secure**
-   - Don't share your password
-   - Consider using SSH keys instead
-
-3. **Default .gitignore protection**
-   - The `.env*` pattern should already be in `.gitignore`
-
-## 📚 Available Categories (23 Total)
-
-1. System
-2. Backup
-3. Certificates
-4. Containers
-5. DHCP
-6. DNS
-7. Diagnostics
-8. Firewall
-9. Hotspot
-10. IP Services
-11. IPv6
-12. Interfaces
-13. Logs
-14. OpenVPN
-15. Queues
-16. Routes
-17. Routing Filters
-18. CAPsMAN
-19. Users
-20. Wireless
-21. WireGuard
-22. Diagnostics Tools
-23. IPv6 Full Stack
-
-## 🚀 Next Steps
-
-1. **Run a quick test:**
-   ```powershell
-   $env_content = Get-Content .env.test
-   foreach ($line in $env_content) { if ($line -match '^([^=]+)=(.+)$') { Set-Item -Path "env:$($matches[1])" -Value $matches[2] } }
-   python tests/hardware_validation.py --category System -v
-   ```
-
-2. **Create a run script for easier access**
-
-3. **Integrate into CI/CD pipeline**
-
-4. **Set up automatic monitoring**
-
-## ✨ Key Commands Reference
-
-```powershell
-# Load environment
+# Windows Task Scheduler script
 $env_content = Get-Content .env.test
-foreach ($line in $env_content) { if ($line -match '^([^=]+)=(.+)$') { Set-Item -Path "env:$($matches[1])" -Value $matches[2] } }
+foreach ($line in $env_content) { 
+    if ($line -match '^([^=]+)=(.+)$') { 
+        Set-Item -Path "env:$($matches[1])" -Value $matches[2]
+    } 
+}
 
-# All tests (verbose)
-python tests/hardware_validation.py -v
-
-# All tests (compact)
-python tests/hardware_validation.py
-
-# Specific category (verbose)
-python tests/hardware_validation.py --category Firewall -v
-
-# Save report
-python tests/hardware_validation.py -v --report test-results.json
-
-# List all categories
-python tests/hardware_validation.py --list-categories
+$date = Get-Date -Format "yyyyMMdd-HHmmss"
+python tests/hardware_validation.py --report "daily-$date.json"
 ```
 
-## 🎉 Everything is Ready!
+### Pre-Deployment Validation
 
-Your `.env.test` file is configured and your tests are working perfectly! 
+```bash
+# Validate before deploying changes
+export $(grep -v '^#' .env.test | xargs)
+python tests/hardware_validation.py --report pre_deploy.json
+```
 
-✅ Credentials loaded
-✅ Router connected
-✅ Tests running
-✅ Output showing detailed information
-✅ Results verified
+### Post-Configuration Check
 
-You're all set to start testing your MikroTik MCP! 🚀
+```bash
+# Verify specific category after changes
+export $(grep -v '^#' .env.test | xargs)
+python tests/hardware_validation.py --category Firewall -v
+```
+
+### CI/CD Integration
+
+```yaml
+# GitHub Actions example
+- name: Load test environment
+  run: export $(grep -v '^#' .env.test | xargs)
+  
+- name: Run validation
+  run: python tests/hardware_validation.py --report ${{ github.sha }}.json
+```
+
+---
+
+## Example .env.test File
+
+```bash
+# MikroTik Router Connection
+MIKROTIK_HOST=192.168.88.1
+MIKROTIK_USERNAME=admin
+MIKROTIK_PASSWORD=your_secure_password
+
+# Connection Settings
+MIKROTIK_PORT=22
+MIKROTIK_CMD_TIMEOUT=30
+MIKROTIK_CONNECT_TIMEOUT=10
+
+# Logging
+MIKROTIK_LOG_LEVEL=INFO
+
+# Optional: SSH Key Authentication
+# MIKROTIK_SSH_KEY=/path/to/ssh/key
+
+# Optional: Known Hosts File
+# MIKROTIK_KNOWN_HOSTS=/path/to/known_hosts
+```
+
+---
+
+## Additional Resources
+
+- **[Testing Guide](TESTING.md)** - Complete testing documentation
+- **[Hardware Testing Guide](tests/HARDWARE_TESTING_GUIDE.md)** - Detailed hardware test guide
+- **[Quick Reference](tests/QUICK_REFERENCE.md)** - Command quick reference
+
+---
+
+## License
+
+See main project [LICENSE](LICENSE) file.

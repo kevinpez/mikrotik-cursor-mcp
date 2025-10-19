@@ -1,8 +1,6 @@
-# Real-World Examples (Tested & Working)
+# Real-World Usage Examples
 
-**✅ All examples tested on MikroTik RB5009UG+S+ with RouterOS 7.19.4**
-
-These examples demonstrate real-world usage scenarios based on actual testing with a production MikroTik router.
+Practical examples demonstrating MikroTik MCP capabilities. These commands work with standard MikroTik RouterOS configurations.
 
 ## 🏠 Home Network Management
 
@@ -240,29 +238,29 @@ These examples demonstrate real-world usage scenarios based on actual testing wi
 "Set up traffic shaping rules"
 ```
 
-## 🎯 Success Metrics
+## Performance Expectations
 
-### What You Should See
-- **Response Time**: Commands execute in 1-3 seconds
-- **Reliability**: 99.9% uptime on tested router
-- **Coverage**: 426 tools across 19 categories working
-- **Safety**: Dry-run mode prevents accidental changes
+### Typical Response Times
+- **Read Operations**: <1 second
+- **Write Operations**: 1-2 seconds
+- **Network Diagnostics**: 1-3 seconds (ping, traceroute)
+- **Large Data Sets**: 2-5 seconds (logs, connection tracking)
 
-### Performance Indicators
-- **Connection**: SSH connections establish in <1 second
-- **Command Execution**: RouterOS commands complete in <2 seconds
-- **Data Retrieval**: Large tables (DHCP leases) load in <3 seconds
-- **Error Handling**: Clear error messages for troubleshooting
+### Connection Behavior
+- **API Connection**: Primary method, fastest performance
+- **SSH Fallback**: Automatic if API unavailable
+- **Retry Logic**: 3 attempts with exponential backoff
+- **Error Messages**: Detailed feedback for troubleshooting
 
 ---
 
-## 💡 Pro Tips
+## 💡 Best Practices
 
 1. **Start Simple**: Begin with monitoring commands before making changes
-2. **Use Dry Run**: Keep `MIKROTIK_DRY_RUN=true` until confident
-3. **Backup First**: Always backup before major changes
-4. **Monitor Results**: Check the effects of changes immediately
-5. **Document Changes**: Keep track of what you've modified
+2. **Backup First**: Always backup before major configuration changes
+3. **Monitor Results**: Verify the effects of changes immediately
+4. **Document Changes**: Keep track of what you've modified
+5. **Test Safely**: Use test environment first for complex changes
 
 ## 🆘 When Things Go Wrong
 
@@ -281,4 +279,4 @@ These examples demonstrate real-world usage scenarios based on actual testing wi
 
 ---
 
-**All examples have been tested and verified to work with the MikroTik Cursor MCP server. Start with monitoring commands and gradually move to configuration changes as you become comfortable with the system.**
+**Start with monitoring commands and gradually move to configuration changes as you become comfortable with natural language router management.**

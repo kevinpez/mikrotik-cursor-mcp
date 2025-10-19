@@ -163,6 +163,9 @@ cython_debug/
 .vscode/
 *.code-workspace
 
+# Cursor IDE
+.cursor/
+
 # Local configuration files
 config.local.py
 config.local.json
