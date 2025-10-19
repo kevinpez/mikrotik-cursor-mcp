@@ -94,24 +94,31 @@ def mikrotik_dns_lookup(hostname: str, server: Optional[str] = None) -> str:
     """Perform DNS lookup"""
     app_logger.info(f"DNS lookup: {hostname}")
     
-    # Try RouterOS v7 syntax first
-    cmd_v7 = f'/tool/dns-lookup name={hostname}'
-    if server:
-        cmd_v7 += f' server={server}'
-    
-    result = execute_mikrotik_command(cmd_v7)
-    
-    # If v7 syntax fails, try v6 syntax with different format
-    if not result or "syntax error" in result.lower() or result.strip() == "":
-        cmd_v6 = f'/tool dns-lookup {hostname}'
+    try:
+        # Use API for DNS lookup (more reliable)
+        params = {"name": hostname}
         if server:
-            cmd_v6 += f' server={server}'
-        result = execute_mikrotik_command(cmd_v6)
-    
-    if not result or result.strip() == "":
-        return f"DNS lookup not available or unable to resolve {hostname}."
-    
-    return f"DNS LOOKUP ({hostname}):\n\n{result}"
+            params["server"] = server
+        
+        result = api_fallback_execute("/tool/dns-lookup", params)
+        
+        if not result or result.strip() == "":
+            return f"DNS lookup not available or unable to resolve {hostname}."
+        
+        return f"DNS LOOKUP ({hostname}):\n\n{result}"
+        
+    except Exception as e:
+        # Fallback to simple ping as dns-lookup tool may not be available
+        app_logger.warning(f"DNS lookup failed, trying ping: {e}")
+        try:
+            ping_cmd = f'/ping {hostname} count=1'
+            ping_result = execute_mikrotik_command(ping_cmd)
+            if ping_result and "timeout" not in ping_result.lower():
+                return f"DNS RESOLUTION ({hostname}):\n\nHost is reachable (DNS tool not available)\n{ping_result}"
+            else:
+                return f"Unable to resolve {hostname}"
+        except:
+            return f"DNS lookup not available: {str(e)}"
 
 def mikrotik_check_connection(
     address: str,

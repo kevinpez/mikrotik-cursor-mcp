@@ -98,13 +98,29 @@ def mikrotik_list_ospf_routes() -> str:
     """View OSPF routes. READ-ONLY - safe."""
     app_logger.info("Listing OSPF routes")
     
-    cmd = "/routing ospf route print"
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return "No OSPF routes found."
-    
-    return f"OSPF ROUTES:\n\n{result}"
+    # RouterOS v7 changed OSPF route viewing
+    try:
+        # Try v7 syntax first (uses /routing route for all routes)
+        cmd = "/routing route print where ospf"
+        result = execute_mikrotik_command(cmd)
+        
+        if result and "syntax error" not in result.lower():
+            if result.strip() == "":
+                return "No OSPF routes found."
+            return f"OSPF ROUTES:\n\n{result}"
+        
+        # Fallback to v6 syntax
+        cmd = "/routing ospf lsa print"
+        result = execute_mikrotik_command(cmd)
+        
+        if not result or result.strip() == "":
+            return "No OSPF routes found."
+        
+        return f"OSPF LSA DATABASE:\n\n{result}"
+        
+    except Exception as e:
+        app_logger.error(f"Error listing OSPF routes: {e}")
+        return f"Unable to retrieve OSPF routes. Ensure OSPF is configured."
 
 
 def mikrotik_get_ospf_status(instance: str = "default") -> str:

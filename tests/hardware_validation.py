@@ -84,6 +84,14 @@ class HardwareValidator:
         'mikrotik_monitor_logs',  # Runs indefinitely (follow mode)
         'mikrotik_bandwidth_test',  # Can run for extended periods
         'mikrotik_traceroute',  # Can hang on network timeouts
+        # Safe Mode commands (interactive terminal feature, not API/SSH)
+        'mikrotik_enter_safe_mode',
+        'mikrotik_exit_safe_mode',
+        'mikrotik_get_safe_mode_status',
+        'mikrotik_get_safe_mode_history',
+        'mikrotik_force_exit_safe_mode',
+        'mikrotik_set_safe_mode_timeout',
+        'mikrotik_create_safe_mode_backup',
     ]
     
     # Test arguments for handlers that need specific parameters

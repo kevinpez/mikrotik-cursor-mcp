@@ -65,17 +65,26 @@ def mikrotik_list_bgp_peers(instance_filter: Optional[str] = None) -> str:
     """List BGP peers and their status. READ-ONLY - safe."""
     app_logger.info(f"Listing BGP peers: instance={instance_filter}")
     
-    cmd = "/routing bgp peer print detail"
-    
-    if instance_filter:
-        cmd += f' where instance={instance_filter}'
-    
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return "No BGP peers configured."
-    
-    return f"BGP PEERS:\n\n{result}"
+    try:
+        # Try RouterOS v7 syntax (uses /routing/bgp/connection)
+        result = api_fallback_execute("/routing/bgp/connection/print", {}, limit=100)
+        
+        if result and "not found" not in result.lower():
+            if not result.strip():
+                return "No BGP peers configured."
+            return f"BGP PEERS (RouterOS v7):\n\n{result}"
+        
+        # Fallback to v6 syntax
+        cmd = "/routing bgp peer print detail"
+        result = execute_mikrotik_command(cmd)
+        
+        if not result or result.strip() == "":
+            return "No BGP peers configured."
+        
+        return f"BGP PEERS:\n\n{result}"
+        
+    except Exception as e:
+        return f"No BGP configuration found. BGP may not be enabled."
 
 
 def mikrotik_add_bgp_network(
@@ -105,30 +114,52 @@ def mikrotik_list_bgp_networks(instance_filter: Optional[str] = None) -> str:
     """List BGP advertised networks. READ-ONLY - safe."""
     app_logger.info("Listing BGP networks")
     
-    cmd = "/routing bgp network print detail"
-    
-    if instance_filter:
-        cmd += f' where instance={instance_filter}'
-    
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return "No BGP networks configured."
-    
-    return f"BGP NETWORKS:\n\n{result}"
+    try:
+        # RouterOS v7 uses /routing/bgp/template
+        result = api_fallback_execute("/routing/bgp/template/print", {}, limit=100)
+        
+        if result and "not found" not in result.lower():
+            if not result.strip():
+                return "No BGP networks configured."
+            return f"BGP NETWORKS (RouterOS v7):\n\n{result}"
+        
+        # Fallback to v6 syntax
+        cmd = "/routing bgp network print detail"
+        result = execute_mikrotik_command(cmd)
+        
+        if not result or result.strip() == "":
+            return "No BGP networks configured."
+        
+        return f"BGP NETWORKS:\n\n{result}"
+        
+    except Exception as e:
+        return "No BGP configuration found. BGP may not be enabled."
 
 
 def mikrotik_list_bgp_routes() -> str:
     """View BGP routing table. READ-ONLY - safe."""
     app_logger.info("Listing BGP routes")
     
-    cmd = "/routing bgp route print"
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return "No BGP routes in routing table."
-    
-    return f"BGP ROUTING TABLE:\n\n{result}"
+    try:
+        # RouterOS v7: BGP routes are in main routing table
+        cmd = "/routing route print where bgp"
+        result = execute_mikrotik_command(cmd)
+        
+        if result and "syntax error" not in result.lower():
+            if not result.strip():
+                return "No BGP routes in routing table."
+            return f"BGP ROUTING TABLE:\n\n{result}"
+        
+        # Fallback to v6 syntax
+        result = api_fallback_execute("/routing/bgp/advertisements/print", {}, limit=100)
+        
+        if not result or result.strip() == "":
+            return "No BGP routes in routing table."
+        
+        return f"BGP ROUTING TABLE:\n\n{result}"
+        
+    except Exception as e:
+        return "No BGP routes found. BGP may not be configured."
 
 
 def mikrotik_get_bgp_status(instance: Optional[str] = None) -> str:

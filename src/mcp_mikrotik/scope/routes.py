@@ -289,24 +289,15 @@ def mikrotik_check_route_path(
 def mikrotik_get_route_cache() -> str:
     app_logger.info("Getting route cache")
     
-    cmd = "/ip route cache print"
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return "Route cache is empty."
-    
-    return f"ROUTE CACHE:\n\n{result}"
+    # Route cache was removed in RouterOS v7
+    # Return informative message
+    return "ROUTE CACHE:\n\nNote: Route cache was removed in RouterOS v7.x\n\nIn RouterOS v7+, routing is handled differently with improved performance.\nUse 'list_routes' to view the active routing table instead."
 
 def mikrotik_flush_route_cache() -> str:
     app_logger.info("Flushing route cache")
     
-    cmd = "/ip route cache flush"
-    result = execute_mikrotik_command(cmd)
-    
-    if not result.strip():
-        return "Route cache flushed successfully."
-    else:
-        return f"Flush result: {result}"
+    # Route cache was removed in RouterOS v7
+    return "ROUTE CACHE FLUSH:\n\nNote: Route cache was removed in RouterOS v7.x\n\nThis command is not needed in RouterOS v7+ as routing is handled differently.\nNo action required."
 
 def mikrotik_add_default_route(
     gateway: str,

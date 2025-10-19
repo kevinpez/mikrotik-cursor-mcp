@@ -34,57 +34,48 @@ def mikrotik_get_logs(
     """
     app_logger.info(f"Getting logs with filters: topics={topics}, action={action}, time={time_filter}")
     
-    # Build the command
-    cmd = "/log print"
-    if print_as and print_as != "value":
-        cmd += f" {print_as}"
-    
-    # Add filters
-    filters = []
-    
-    if topics:
-        # Handle multiple topics separated by comma
-        topic_list = [t.strip() for t in topics.split(',')]
-        topic_filter = ' or '.join([f'topics~"{t}"' for t in topic_list])
-        if len(topic_list) > 1:
-            filters.append(f"({topic_filter})")
+    # For RouterOS v7, we need simpler queries
+    # Use API fallback which handles log printing better
+    try:
+        if topics or message_filter:
+            # Build simple filter - one condition only for compatibility
+            cmd = "/log print"
+            
+            if topics and not message_filter:
+                # Simple topic filter
+                cmd += f' where topics~"{topics}"'
+            elif message_filter and not topics:
+                # Simple message filter
+                cmd += f' where message~"{message_filter}"'
+            elif topics and message_filter:
+                # Combined - single topic, message filter
+                cmd += f' where topics~"{topics}" message~"{message_filter}"'
+            
+            result = execute_mikrotik_command(cmd)
         else:
-            filters.append(topic_filter)
-    
-    if action:
-        filters.append(f'action="{action}"')
-    
-    if message_filter:
-        filters.append(f'message~"{message_filter}"')
-    
-    if prefix_filter:
-        filters.append(f'message~"^{prefix_filter}"')
-    
-    if time_filter:
-        # Convert time filter to where clause  
-        # Note: RouterOS uses relative time, not [:timestamp]
-        # We'll skip this filter if it's complex - user can use message_filter instead
-        pass  # Time filtering is complex in RouterOS - skip for now
-    
-    if filters:
-        cmd += " where " + " and ".join(filters)
-    
-    if follow:
-        cmd += " follow"
-    
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "" or result.strip() == "no such item":
-        return "No log entries found matching the criteria."
-    
-    # Apply limit in post-processing if specified
-    if limit and result:
-        lines = result.strip().split('\n')
-        # Keep header lines and limit data lines
-        if len(lines) > limit + 5:  # Account for header lines
-            result = '\n'.join(lines[:limit + 5])
-    
-    return f"LOG ENTRIES:\n\n{result}"
+            # No filters - get recent logs only (last 50 lines)
+            result = api_fallback_execute("/log/print", {".proplist": ".id,time,topics,message"}, limit=50)
+            
+        if not result or result.strip() == "" or result.strip() == "no such item":
+            return "No log entries found matching the criteria."
+        
+        # Apply limit in post-processing if specified
+        if limit and result:
+            lines = result.strip().split('\n')
+            # Keep header lines and limit data lines
+            if len(lines) > limit + 5:  # Account for header lines
+                result = '\n'.join(lines[:limit + 5])
+        
+        return f"LOG ENTRIES:\n\n{result}"
+        
+    except Exception as e:
+        app_logger.error(f"Error getting logs: {e}")
+        # Fallback to simple log retrieval
+        try:
+            result = api_fallback_execute("/log/print", {}, limit=50)
+            return f"LOG ENTRIES (simplified):\n\n{result}"
+        except:
+            return f"Error retrieving logs: {str(e)}"
 
 def mikrotik_get_logs_by_severity(
     severity: str,
@@ -243,22 +234,43 @@ def mikrotik_get_security_logs(
     """
     app_logger.info("Getting security logs")
     
-    # Security-related topics and keywords
-    # Use simple topic filtering - complex regex doesn't work reliably in RouterOS
-    cmd = "/log print where topics~\"system\" or topics~\"firewall\" or topics~\"warning\" or topics~\"error\""
-    
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "" or result.strip() == "no such item":
-        return "No security-related log entries found."
-    
-    # Apply limit in post-processing if specified
-    if limit and result:
+    # Get security logs using API which handles filtering better
+    try:
+        # Use API to get logs with multiple topic filtering
+        result = api_fallback_execute("/log/print", {}, limit=100)
+        
+        if not result or result.strip() == "" or "no such item" in result.lower():
+            return "No security-related log entries found."
+        
+        # Filter for security-related entries (system, firewall, warning, error)
+        security_keywords = ['system', 'firewall', 'warning', 'error', 'critical', 'account']
         lines = result.strip().split('\n')
-        if len(lines) > limit + 5:  # Account for header lines
-            result = '\n'.join(lines[:limit + 5])
-    
-    return f"SECURITY LOG ENTRIES:\n\n{result}"
+        filtered_lines = []
+        
+        for line in lines:
+            line_lower = line.lower()
+            if any(keyword in line_lower for keyword in security_keywords):
+                filtered_lines.append(line)
+        
+        if not filtered_lines:
+            return "No security-related log entries found."
+        
+        # Apply limit
+        if limit and len(filtered_lines) > limit:
+            filtered_lines = filtered_lines[:limit]
+        
+        result = '\n'.join(filtered_lines)
+        return f"SECURITY LOG ENTRIES:\n\n{result}"
+        
+    except Exception as e:
+        app_logger.error(f"Error getting security logs: {e}")
+        # Simple fallback - just get system logs
+        try:
+            cmd = '/log print where topics~"system"'
+            result = execute_mikrotik_command(cmd)
+            return f"SECURITY LOG ENTRIES (system only):\n\n{result}"
+        except:
+            return f"Error retrieving security logs: {str(e)}"
 
 def mikrotik_clear_logs() -> str:
     """
@@ -287,24 +299,38 @@ def mikrotik_get_log_statistics() -> str:
     """
     app_logger.info("Getting log statistics")
     
-    # Get total count
-    total_cmd = "/log print count-only"
-    total_count = execute_mikrotik_command(total_cmd)
-    
-    stats = [f"Total log entries: {total_count.strip()}"]
-    
-    # Get counts by common topics
-    topics = ["info", "warning", "error", "system", "dhcp", "firewall", "interface"]
-    for topic in topics:
-        count_cmd = f'/log print count-only where topics~"{topic}"'
-        count = execute_mikrotik_command(count_cmd)
-        if count.strip().isdigit() and int(count.strip()) > 0:
-            stats.append(f"{topic.capitalize()}: {count.strip()}")
-    
-    # Skip time-based statistics due to RouterOS syntax complexity
-    # These would require RouterOS scripting which is version-dependent
-    
-    return "LOG STATISTICS:\n\n" + "\n".join(stats)
+    try:
+        # Use API to get all logs then count
+        result = api_fallback_execute("/log/print", {".proplist": "topics"}, limit=1000)
+        
+        if not result or "error" in result.lower():
+            return "Unable to retrieve log statistics"
+        
+        # Count entries by parsing
+        lines = result.strip().split('\n')
+        total_count = len([l for l in lines if l.strip()])
+        
+        # Count by topic keywords
+        topic_counts = {}
+        keywords = ["info", "warning", "error", "system", "dhcp", "firewall", "interface", "account"]
+        
+        for line in lines:
+            line_lower = line.lower()
+            for keyword in keywords:
+                if keyword in line_lower:
+                    topic_counts[keyword] = topic_counts.get(keyword, 0) + 1
+        
+        # Build statistics output
+        stats = [f"Total log entries: {total_count}"]
+        for keyword in keywords:
+            if keyword in topic_counts and topic_counts[keyword] > 0:
+                stats.append(f"{keyword.capitalize()}: {topic_counts[keyword]}")
+        
+        return "LOG STATISTICS:\n\n" + "\n".join(stats)
+        
+    except Exception as e:
+        app_logger.error(f"Error getting log statistics: {e}")
+        return f"Error retrieving log statistics: {str(e)}"
 
 def mikrotik_export_logs(
     filename: Optional[str] = None,

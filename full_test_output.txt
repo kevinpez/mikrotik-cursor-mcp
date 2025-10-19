@@ -1,0 +1,1232 @@
+{"timestamp": "2025-10-19T19:59:39.382410Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system identity", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.390609Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Connecting to RouterOS API at 192.168.88.1", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.441835Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully connected to RouterOS API on attempt 1", "module": "logger", "function": "_log_with_context", "line": 188}
+
+[1m[95m================================================================================[0m
+[1m[95mMikroTik MCP Hardware Validation Suite[0m
+[1m[95m================================================================================[0m
+
+[96mRouter Configuration:[0m
+  Host: [1m192.168.88.1[0m
+  User: [1mNot configured[0m
+
+[96mTest Suite Information:[0m
+  Total Handlers: [1m452[0m
+  Categories: [1m23[0m
+  Test Prefix: [1mmcp-hwtest-[0m
+  Verbose Mode: [1mNo[0m
+
+[93mNote: Write operations will be tested with automatic cleanup[0m
+[1m================================================================================[0m
+
+[96mPerforming initial connectivity check...[0m
+[92m+ Connected to router successfully[0m
+[96mRouter Identity: SYSTEM IDENTITY:
+
+name: test[0m
+
+[1m[96m[1/23] Testing category 'Backup' (7 handlers)[0m
+[96mElapsed time: 0.0s[0m
+
+[1m[94mTesting Category: Backup[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/7][0m backup_info                                        [93mΓèÿ SKIP[0m - Missing required argument: 'filename'
+[96m     [2/7][0m create_backup                                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [3/7][0m create_backup_schedule                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [4/7][0m create_safe_mode_backup                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [5/7][0m create_service_backup                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:39.443913Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing backups with filter: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.443913Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /file print where type=backup", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.546328Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully connected to 192.168.88.1", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/7][0m list_backups                                       [92mΓ£ô PASS[0m (0.18s)
+[96m     [7/7][0m restore_backup                                     [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+
+[94mCategory Summary:[0m
+  Passed:  [92m1/7 (14.3%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m6[0m
+  Duration: [1m0.18s[0m
+[96mRunning totals: [92m1 passed[0m, [91m0 failed[0m, [93m6 skipped[0m (7 of 452 total handlers)[0m
+
+[1m[96m[2/23] Testing category 'Certificates' (11 handlers)[0m
+[96mElapsed time: 0.2s[0m
+
+[1m[94mTesting Category: Certificates[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/11][0m create_ca_certificate                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/11][0m create_certificate                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/11][0m export_certificate                                 [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+[96m    [4/11][0m get_certificate                                    [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+[96m    [5/11][0m get_certificate_fingerprint                        [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+[96m    [6/11][0m import_certificate                                 [93mΓèÿ SKIP[0m - Missing required argument: 'file_path'
+{"timestamp": "2025-10-19T19:59:39.625986Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing certificates: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.625986Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /certificate print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/11][0m list_certificates                                  [92mΓ£ô PASS[0m (0.02s)
+[96m    [8/11][0m remove_certificate                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/11][0m revoke_certificate                                 [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+[96m   [10/11][0m sign_certificate                                   [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+[96m   [11/11][0m trust_certificate                                  [93mΓèÿ SKIP[0m - Missing required argument: 'cert_id'
+
+[94mCategory Summary:[0m
+  Passed:  [92m1/11 (9.1%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m10[0m
+  Duration: [1m0.02s[0m
+[96mRunning totals: [92m2 passed[0m, [91m0 failed[0m, [93m16 skipped[0m (18 of 452 total handlers)[0m
+
+[1m[96m[3/23] Testing category 'Containers' (18 handlers)[0m
+[96mElapsed time: 0.2s[0m
+
+[1m[94mTesting Category: Containers[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/18][0m create_container                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/18][0m create_container_env                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/18][0m create_container_mount                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/18][0m create_container_veth                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/18][0m get_container                                      [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:39.644675Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting container configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.644675Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /container config print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.695524Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing container environments", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.695524Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /container envs print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/18][0m get_container_config                               [92mΓ£ô PASS[0m (0.05s)
+[96m    [7/18][0m list_container_envs                                [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.702722Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing container mounts", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.702722Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /container mounts print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [8/18][0m list_container_mounts                              [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.708323Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing container veths", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.709266Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface veth print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/18][0m list_container_veths                               [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.713933Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing containers", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.713933Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /container print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [10/18][0m list_containers                                    [92mΓ£ô PASS[0m (0.01s)
+[96m   [11/18][0m remove_container                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/18][0m remove_container_env                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [13/18][0m remove_container_mount                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/18][0m remove_container_veth                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/18][0m set_container_registry                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [16/18][0m set_container_tmpdir                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/18][0m start_container                                    [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [18/18][0m stop_container                                     [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/18 (27.8%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m13[0m
+  Duration: [1m0.07s[0m
+[96mRunning totals: [92m7 passed[0m, [91m0 failed[0m, [93m29 skipped[0m (36 of 452 total handlers)[0m
+
+[1m[96m[4/23] Testing category 'DHCP' (23 handlers)[0m
+[96mElapsed time: 0.3s[0m
+
+[1m[94mTesting Category: DHCP[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/23][0m configure_dhcpv6_relay                             [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+[96m    [2/23][0m create_dhcp_network                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/23][0m create_dhcp_pool                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/23][0m create_dhcp_server                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/23][0m create_dhcpv6_client                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [6/23][0m create_dhcpv6_option                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/23][0m create_dhcpv6_server                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/23][0m create_dhcpv6_static_lease                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/23][0m get_dhcp_server                                    [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [10/23][0m get_dhcpv6_client                                  [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+[96m   [11/23][0m get_dhcpv6_server                                  [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:39.719188Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCP leases with filters: server=None, address=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.719188Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dhcp-server lease print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [12/23][0m list_dhcp_leases                                   [92mΓ£ô PASS[0m (0.02s)
+{"timestamp": "2025-10-19T19:59:39.735772Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCP servers with filters: name=None, interface=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.735772Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dhcp-server print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [13/23][0m list_dhcp_servers                                  [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.743426Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCPv6 clients", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.743426Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 dhcp-client print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [14/23][0m list_dhcpv6_clients                                [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:39.746374Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCPv6 leases", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.746374Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 dhcp-server binding print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [15/23][0m list_dhcpv6_leases                                 [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.753383Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCPv6 options", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.753383Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 dhcp-server option print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [16/23][0m list_dhcpv6_options                                [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:39.802732Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCPv6 relays: interface_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.802732Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 dhcp-relay print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [17/23][0m list_dhcpv6_relays                                 [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.809080Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing DHCPv6 servers", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.809080Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 dhcp-server print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [18/23][0m list_dhcpv6_servers                                [92mΓ£ô PASS[0m (0.01s)
+[96m   [19/23][0m remove_dhcp_server                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [20/23][0m remove_dhcpv6_client                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [21/23][0m remove_dhcpv6_lease                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [22/23][0m remove_dhcpv6_option                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [23/23][0m remove_dhcpv6_server                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m7/23 (30.4%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m16[0m
+  Duration: [1m0.10s[0m
+[96mRunning totals: [92m14 passed[0m, [91m0 failed[0m, [93m45 skipped[0m (59 of 452 total handlers)[0m
+
+[1m[96m[5/23] Testing category 'DNS' (16 handlers)[0m
+[96mElapsed time: 0.4s[0m
+
+[1m[94mTesting Category: DNS[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/16][0m add_dns_regexp                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/16][0m add_dns_static                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/16][0m disable_dns_static                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:39.815132Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "DNS lookup: google.com", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.815132Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /tool/dns-lookup name=google.com", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.819120Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /tool/dns-lookup name=google.com", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [4/16][0m dns_lookup                                         [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+[96m    [5/16][0m enable_dns_static                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:39.821310Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Exporting DNS configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.821310Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns export file=dns_config", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/16][0m export_dns_config                                  [92mΓ£ô PASS[0m (0.12s)
+{"timestamp": "2025-10-19T19:59:39.938211Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Flushing DNS cache", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.938735Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns cache flush", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/16][0m flush_dns_cache                                    [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.948105Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting DNS cache", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.948105Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns cache print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [8/16][0m get_dns_cache                                      [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.957002Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting DNS cache statistics", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.957002Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns cache print stats", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/16][0m get_dns_cache_statistics                           [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:39.964084Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting DNS settings", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.964084Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [10/16][0m get_dns_settings                                   [92mΓ£ô PASS[0m (0.01s)
+[96m   [11/16][0m get_dns_static                                     [93mΓèÿ SKIP[0m - Missing required argument: 'entry_id'
+{"timestamp": "2025-10-19T19:59:39.976539Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing static DNS entries with filters: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.976539Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip dns static print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [12/16][0m list_dns_static                                    [92mΓ£ô PASS[0m (0.00s)
+[96m   [13/16][0m remove_dns_static                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/16][0m set_dns_servers                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/16][0m test_dns_query                                     [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [16/16][0m update_dns_static                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m6/16 (37.5%)[0m
+  Failed:  [91m1[0m
+  Skipped: [93m9[0m
+  Duration: [1m0.16s[0m
+[96mRunning totals: [92m20 passed[0m, [91m1 failed[0m, [93m54 skipped[0m (75 of 452 total handlers)[0m
+
+[1m[96m[6/23] Testing category 'Diagnostics' (9 handlers)[0m
+[96mElapsed time: 0.5s[0m
+
+[1m[94mTesting Category: Diagnostics[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/9][0m create_traffic_shaping_tree                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [2/9][0m disable_igmp_snooping                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [3/9][0m enable_igmp_snooping                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:39.977559Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting ARP table: interface=None, address=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:39.977559Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip arp print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/9][0m get_arp_table                                      [92mΓ£ô PASS[0m (0.07s)
+{"timestamp": "2025-10-19T19:59:40.045627Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting neighbors via discovery", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:40.045627Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip neighbor print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [5/9][0m get_neighbors                                      [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:40.050665Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Pinging: 8.8.8.8", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:40.050665Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ping 8.8.8.8 count=2", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/9][0m ping                                               [92mΓ£ô PASS[0m (1.02s)
+{"timestamp": "2025-10-19T19:59:41.071677Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Resetting watchdog ping target", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.071677Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system watchdog set watch-address=none", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [7/9][0m reset_watchdog_ping_target                         [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.078013Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Scanning for MikroTik neighbors", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.078013Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip neighbor print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [8/9][0m scan_neighbors                                     [92mΓ£ô PASS[0m (0.01s)
+[96m     [9/9][0m set_watchdog_ping_target                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/9 (55.6%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m4[0m
+  Duration: [1m1.11s[0m
+[96mRunning totals: [92m25 passed[0m, [91m1 failed[0m, [93m58 skipped[0m (84 of 452 total handlers)[0m
+
+[1m[96m[7/23] Testing category 'Firewall' (35 handlers)[0m
+[96mElapsed time: 1.6s[0m
+
+[1m[94mTesting Category: Firewall[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/35][0m create_basic_firewall_setup                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/35][0m create_filter_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:41.089796Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing firewall filter rules with filters: chain=None, action=None", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [3/35][0m create_ipv6_filter_rule                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/35][0m create_ipv6_mangle_rule                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/35][0m create_ipv6_nat_rule                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [6/35][0m create_mangle_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/35][0m create_nat_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/35][0m create_raw_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/35][0m create_route_filter                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [10/35][0m disable_filter_rule                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [11/35][0m disable_nat_rule                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/35][0m enable_filter_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [13/35][0m enable_nat_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/35][0m get_filter_rule                                    [93mΓèÿ SKIP[0m - Missing required argument: 'rule_id'
+[96m   [15/35][0m get_nat_rule                                       [93mΓèÿ SKIP[0m - Missing required argument: 'rule_id'
+{"timestamp": "2025-10-19T19:59:41.089796Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall filter print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [16/35][0m list_filter_rules                                  [92mΓ£ô PASS[0m (0.02s)
+{"timestamp": "2025-10-19T19:59:41.107034Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 firewall filter rules", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.107034Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 firewall filter print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [17/35][0m list_ipv6_filter_rules                             [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.120405Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 firewall mangle rules", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.120405Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 firewall mangle print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [18/35][0m list_ipv6_mangle_rules                             [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.127417Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 NAT rules", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.127417Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 firewall nat print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [19/35][0m list_ipv6_nat_rules                                [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.132321Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing mangle rules: chain=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.132321Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall mangle print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [20/35][0m list_mangle_rules                                  [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.136977Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing NAT rules with filters: chain=None, action=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.136977Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall nat print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [21/35][0m list_nat_rules                                     [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.139695Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing RAW rules: chain=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.139695Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall raw print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [22/35][0m list_raw_rules                                     [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:41.192643Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing route filters: chain=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.193643Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing filter rule print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [23/35][0m list_route_filters                                 [92mΓ£ô PASS[0m (0.01s)
+[96m   [24/35][0m move_filter_rule                                   [93mΓèÿ SKIP[0m - Missing required argument: 'rule_id'
+[96m   [25/35][0m move_nat_rule                                      [93mΓèÿ SKIP[0m - Missing required argument: 'rule_id'
+[96m   [26/35][0m remove_filter_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [27/35][0m remove_ipv6_filter_rule                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [28/35][0m remove_ipv6_mangle_rule                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [29/35][0m remove_ipv6_nat_rule                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [30/35][0m remove_mangle_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [31/35][0m remove_nat_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [32/35][0m remove_raw_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [33/35][0m update_filter_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [34/35][0m update_mangle_rule                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [35/35][0m update_nat_rule                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m8/35 (22.9%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m27[0m
+  Duration: [1m0.11s[0m
+[96mRunning totals: [92m33 passed[0m, [91m1 failed[0m, [93m85 skipped[0m (119 of 452 total handlers)[0m
+
+[1m[96m[8/23] Testing category 'Hotspot' (8 handlers)[0m
+[96mElapsed time: 1.8s[0m
+
+[1m[94mTesting Category: Hotspot[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/8][0m create_hotspot_profile                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [2/8][0m create_hotspot_server                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [3/8][0m create_hotspot_user                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:41.198645Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing active hotspot sessions", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.199643Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip hotspot active print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/8][0m list_hotspot_active                                [92mΓ£ô PASS[0m (0.02s)
+{"timestamp": "2025-10-19T19:59:41.216372Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing hotspot profiles", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.216372Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip hotspot profile print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [5/8][0m list_hotspot_profiles                              [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.221253Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing hotspot servers: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.221253Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip hotspot print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/8][0m list_hotspot_servers                               [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.226259Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing hotspot users: server=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.226259Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip hotspot user print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [7/8][0m list_hotspot_users                                 [92mΓ£ô PASS[0m (0.01s)
+[96m     [8/8][0m remove_hotspot_server                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m4/8 (50.0%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m4[0m
+  Duration: [1m0.04s[0m
+[96mRunning totals: [92m37 passed[0m, [91m1 failed[0m, [93m89 skipped[0m (127 of 452 total handlers)[0m
+
+[1m[96m[9/23] Testing category 'IP Management' (11 handlers)[0m
+[96mElapsed time: 1.8s[0m
+
+[1m[94mTesting Category: IP Management[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/11][0m add_ip_address                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/11][0m create_ip_pool                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/11][0m expand_ip_pool                                     [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m    [4/11][0m get_ip_address                                     [93mΓèÿ SKIP[0m - Missing required argument: 'address_id'
+[96m    [5/11][0m get_ip_pool                                        [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:41.236757Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IP addresses with filters: interface=None, address=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.236757Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip address print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/11][0m list_ip_addresses                                  [92mΓ£ô PASS[0m (0.06s)
+{"timestamp": "2025-10-19T19:59:41.294841Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing used IP pool addresses: pool=None, address=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.294841Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip pool used print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/11][0m list_ip_pool_used                                  [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.304248Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IP pools with filters: name=None, ranges=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.305354Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip pool print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [8/11][0m list_ip_pools                                      [92mΓ£ô PASS[0m (0.01s)
+[96m    [9/11][0m remove_ip_address                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [10/11][0m remove_ip_pool                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [11/11][0m update_ip_pool                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m3/11 (27.3%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m8[0m
+  Duration: [1m0.08s[0m
+[96mRunning totals: [92m40 passed[0m, [91m1 failed[0m, [93m97 skipped[0m (138 of 452 total handlers)[0m
+
+[1m[96m[10/23] Testing category 'IP Services' (9 handlers)[0m
+[96mElapsed time: 1.9s[0m
+
+[1m[94mTesting Category: IP Services[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+{"timestamp": "2025-10-19T19:59:41.313869Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Configuring secure IP services for network: {}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.313869Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Securing service: ssh", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.313869Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set ssh address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.362609Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /ip service set ssh address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.364095Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Securing service: winbox", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.364095Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set winbox address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.371000Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /ip service set winbox address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.371000Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Securing service: api", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.371000Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set api address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.376072Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /ip service set api address={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.376072Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Disabling service: telnet", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.377041Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set telnet disabled=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.407757Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Disabling service: ftp", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.407757Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set ftp disabled=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.465129Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully configured secure IP services", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [1/9][0m configure_secure_services                          [92mΓ£ô PASS[0m (0.15s)
+[96m     [2/9][0m disable_ip_service                                 [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+[96m     [3/9][0m enable_ip_service                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:41.465129Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting IP service configuration for: {}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.465129Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service print where name={}", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.472638Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully retrieved service {}", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/9][0m get_ip_service                                     [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.472638Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting IP services status summary", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.472638Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.485267Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully retrieved IP services status", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [5/9][0m get_service_status                                 [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.486266Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IP services", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.486266Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.494886Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully listed IP services", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/9][0m list_ip_services                                   [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.494886Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Restoring IP services to default configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.494886Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Restoring service: ssh", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.494886Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set ssh address=0.0.0.0/0", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.498709Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Restoring service: winbox", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.498709Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set winbox address=0.0.0.0/0", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.506870Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Restoring service: api", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.506870Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip service set api address=0.0.0.0/0", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.511884Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Successfully restored default IP services", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [7/9][0m restore_default_services                           [92mΓ£ô PASS[0m (0.02s)
+[96m     [8/9][0m set_service_address                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [9/9][0m set_service_port                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/9 (55.6%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m4[0m
+  Duration: [1m0.20s[0m
+[96mRunning totals: [92m45 passed[0m, [91m1 failed[0m, [93m101 skipped[0m (147 of 452 total handlers)[0m
+
+[1m[96m[11/23] Testing category 'IPv6' (15 handlers)[0m
+[96mElapsed time: 2.1s[0m
+
+[1m[94mTesting Category: IPv6[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/15][0m add_ipv6_address                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/15][0m add_ipv6_address_list                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/15][0m create_ipv6_pool                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/15][0m get_ipv6_address                                   [93mΓèÿ SKIP[0m - Missing required argument: 'address'
+[96m    [5/15][0m get_ipv6_nd_settings                               [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+{"timestamp": "2025-10-19T19:59:41.512882Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting IPv6 settings", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.512882Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 settings print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/15][0m get_ipv6_settings                                  [92mΓ£ô PASS[0m (0.07s)
+{"timestamp": "2025-10-19T19:59:41.582402Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 firewall address lists", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.582402Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 firewall address-list print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/15][0m list_ipv6_address_lists                            [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.592932Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 addresses for interface: None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.592932Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 address print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [8/15][0m list_ipv6_addresses                                [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.600417Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 neighbors", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.600417Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 neighbor print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/15][0m list_ipv6_neighbors                                [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.603140Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 pools", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.603140Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 pool print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [10/15][0m list_ipv6_pools                                    [92mΓ£ô PASS[0m (0.02s)
+[96m   [11/15][0m remove_ipv6_address                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/15][0m remove_ipv6_address_list_entry                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [13/15][0m remove_ipv6_pool                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/15][0m set_ipv6_forward                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/15][0m set_ipv6_nd                                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/15 (33.3%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m10[0m
+  Duration: [1m0.11s[0m
+[96mRunning totals: [92m50 passed[0m, [91m1 failed[0m, [93m111 skipped[0m (162 of 452 total handlers)[0m
+
+[1m[96m[12/23] Testing category 'Interfaces' (59 handlers)[0m
+[96mElapsed time: 2.2s[0m
+
+[1m[94mTesting Category: Interfaces[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/59][0m add_bonding_slave                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/59][0m add_bridge_port                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/59][0m add_bridge_vlan                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/59][0m add_ospf_interface                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:41.623988Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Auto-configuring OSPF interfaces", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.624986Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf interface add interface=\"ether1\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.628990Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing ospf interface add interface=\"ether1\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.628990Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf interface add interface=\"bridge\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.632990Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing ospf interface add interface=\"bridge\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.632990Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf interface add interface=\"loopback\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.637134Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing ospf interface add interface=\"loopback\" instance=\"auto-ospf\" area=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [5/59][0m auto_configure_ospf_interfaces                     [91mΓ£ù FAIL[0m (0.01s) - Command returned error
+[96m    [6/59][0m create_bonding_interface                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/59][0m create_bridge                                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/59][0m create_vlan_aware_bridge                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/59][0m create_vlan_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [10/59][0m create_vrrp_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [11/59][0m create_wireguard_interface                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/59][0m create_wireless_interface                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [13/59][0m disable_bridge_vlan_filtering                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/59][0m disable_interface                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/59][0m disable_vrrp_interface                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [16/59][0m disable_wireguard_interface                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/59][0m disable_wireless_interface                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [18/59][0m enable_bridge_vlan_filtering                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [19/59][0m enable_interface                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [20/59][0m enable_vrrp_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [21/59][0m enable_wireguard_interface                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [22/59][0m enable_wireless_interface                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [23/59][0m get_bridge_settings                                [93mΓèÿ SKIP[0m - Missing required argument: 'bridge_id'
+[96m   [24/59][0m get_capsman_interface                              [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:41.638134Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Monitoring interface: None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.638134Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface monitor-traffic \"None\" once", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [25/59][0m get_interface_monitor                              [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.641524Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting interface stats: None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.641524Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface print stats where name=\"None\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [26/59][0m get_interface_stats                                [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.654681Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting traffic for: None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.654681Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface print stats where name=\"None\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [27/59][0m get_interface_traffic                              [92mΓ£ô PASS[0m (0.02s)
+[96m   [28/59][0m get_vlan_interface                                 [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [29/59][0m get_vrrp_interface                                 [93mΓèÿ SKIP[0m - Missing required argument: 'vrrp_id'
+[96m   [30/59][0m get_wireguard_interface                            [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [31/59][0m get_wireless_interface                             [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m   [32/59][0m get_wireless_interface_monitor                     [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+{"timestamp": "2025-10-19T19:59:41.673913Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing bonding interfaces: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.673913Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface bonding print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [33/59][0m list_bonding_interfaces                            [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:41.723631Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing bridge ports: bridge=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.723631Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface bridge port print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [34/59][0m list_bridge_ports                                  [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.733542Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing bridge VLANs: bridge=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.733542Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface bridge vlan print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [35/59][0m list_bridge_vlans                                  [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.738162Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing bridges: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.738162Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface bridge print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [36/59][0m list_bridges                                       [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.744047Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN interfaces", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.744047Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifiwave2 cap print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [37/59][0m list_capsman_interfaces                            [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.748218Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing interfaces: name=None, type=None", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [38/59][0m list_interfaces                                    [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.761965Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing OpenVPN interfaces: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.761965Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface ovpn-client print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [39/59][0m list_openvpn_interfaces                            [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:41.766905Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing VLAN interfaces with filters: name=None, vlan_id=None, interface=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.766905Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface vlan print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [40/59][0m list_vlan_interfaces                               [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing VRRP interfaces: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface vrrp print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [41/59][0m list_vrrp_interfaces                               [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing WireGuard interfaces: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wireguard print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [42/59][0m list_wireguard_interfaces                          [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing wireless interfaces with filters: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.770908Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.788606Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifiwave2 print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.793325Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wireless print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.797775Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /interface wireless print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.797775Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wlan print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.801774Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /interface wlan print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.801774Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [43/59][0m list_wireless_interfaces                           [92mΓ£ô PASS[0m (0.04s)
+[96m   [44/59][0m monitor_vrrp_interface                             [93mΓèÿ SKIP[0m - Missing required argument: 'vrrp_id'
+[96m   [45/59][0m remove_bonding_interface                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [46/59][0m remove_bridge_port                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [47/59][0m remove_bridge_vlan                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [48/59][0m remove_openvpn_interface                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [49/59][0m remove_vlan_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [50/59][0m remove_vrrp_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [51/59][0m remove_wireguard_interface                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [52/59][0m remove_wireless_interface                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [53/59][0m set_bridge_port_vlan                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [54/59][0m set_bridge_protocol                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [55/59][0m update_bridge                                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [56/59][0m update_vlan_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [57/59][0m update_vrrp_interface                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [58/59][0m update_wireguard_interface                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [59/59][0m update_wireless_interface                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m14/59 (23.7%)[0m
+  Failed:  [91m1[0m
+  Skipped: [93m44[0m
+  Duration: [1m0.19s[0m
+[96mRunning totals: [92m64 passed[0m, [91m2 failed[0m, [93m155 skipped[0m (221 of 452 total handlers)[0m
+
+[1m[96m[13/23] Testing category 'Logs' (9 handlers)[0m
+[96mElapsed time: 2.4s[0m
+
+[1m[94mTesting Category: Logs[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/9][0m clear_logs                                         [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+{"timestamp": "2025-10-19T19:59:41.810123Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Exporting logs to file: logs_export_1760903981", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:41.811128Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print file=logs_export_1760903981", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [2/9][0m export_logs                                        [92mΓ£ô PASS[0m (0.26s)
+{"timestamp": "2025-10-19T19:59:42.070574Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting log statistics", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.072088Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.111871Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"info\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.160290Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"warning\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.227379Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"error\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.297653Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"system\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.365773Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"dhcp\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.432505Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"firewall\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.539678Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print count-only where topics~\"interface\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [3/9][0m get_log_statistics                                 [91mΓ£ù FAIL[0m (0.54s) - Command returned error
+{"timestamp": "2025-10-19T19:59:42.606774Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting logs with filters: topics=None, action=None, time=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.606774Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.818825Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /log print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/9][0m get_logs                                           [91mΓ£ù FAIL[0m (0.21s) - Command returned error
+[96m     [5/9][0m get_logs_by_severity                               [93mΓèÿ SKIP[0m - Missing required argument: 'severity'
+[96m     [6/9][0m get_logs_by_topic                                  [93mΓèÿ SKIP[0m - Missing required argument: 'topic'
+{"timestamp": "2025-10-19T19:59:42.818825Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting security logs", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:42.818825Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print where topics~\"system\" or topics~\"firewall\" or topics~\"warning\" or topics~\"error\"", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.054749Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /log print where topics~\"system\" or topics~\"firewall\" or topics~\"warning\" or topics~\"error\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [7/9][0m get_security_logs                                  [91mΓ£ù FAIL[0m (0.24s) - Command returned error
+[96m     [8/9][0m monitor_logs                                       [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+{"timestamp": "2025-10-19T19:59:43.055755Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Searching logs for: term=system", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.055755Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting logs with filters: topics=None, action=None, time=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.055755Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print where message~\"system\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [9/9][0m search_logs                                        [92mΓ£ô PASS[0m (0.08s)
+
+[94mCategory Summary:[0m
+  Passed:  [92m2/9 (22.2%)[0m
+  Failed:  [91m3[0m
+  Skipped: [93m4[0m
+  Duration: [1m1.33s[0m
+[96mRunning totals: [92m66 passed[0m, [91m5 failed[0m, [93m159 skipped[0m (230 of 452 total handlers)[0m
+
+[1m[96m[14/23] Testing category 'OpenVPN' (7 handlers)[0m
+[96mElapsed time: 3.7s[0m
+
+[1m[94mTesting Category: OpenVPN[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/7][0m create_openvpn_client                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [2/7][0m disable_openvpn_client                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [3/7][0m enable_openvpn_client                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:43.137988Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting OpenVPN server status", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.137988Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ppp profile print detail where name~\"ovpn\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/7][0m get_openvpn_server_status                          [92mΓ£ô PASS[0m (0.08s)
+[96m     [5/7][0m get_openvpn_status                                 [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:43.215396Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing OpenVPN servers: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.215396Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface ovpn-server print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/7][0m list_openvpn_servers                               [92mΓ£ô PASS[0m (0.01s)
+[96m     [7/7][0m update_openvpn_client                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m2/7 (28.6%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m5[0m
+  Duration: [1m0.09s[0m
+[96mRunning totals: [92m68 passed[0m, [91m5 failed[0m, [93m164 skipped[0m (237 of 452 total handlers)[0m
+
+[1m[96m[15/23] Testing category 'Other' (78 handlers)[0m
+[96mElapsed time: 3.8s[0m
+
+[1m[94mTesting Category: Other[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/78][0m add_address_list_entry                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/78][0m add_walled_garden                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/78][0m assess_command_risk                                [93mΓèÿ SKIP[0m - Missing required argument: 'command'
+[96m    [4/78][0m bandwidth_test                                     [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+{"timestamp": "2025-10-19T19:59:43.223751Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Checking connection: 8.8.8.8:None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.224763Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ping 8.8.8.8 count=1", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [5/78][0m check_connection                                   [92mΓ£ô PASS[0m (0.02s)
+[96m    [6/78][0m clear_address_list                                 [93mΓèÿ SKIP[0m - Missing required argument: 'list_name'
+[96m    [7/78][0m create_basic_watchdog_monitor                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/78][0m create_common_layer7_protocols                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/78][0m create_custom_chain_with_rules                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [10/78][0m create_export                                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [11/78][0m create_jump_rule                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/78][0m create_layer7_protocol                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [13/78][0m create_port_forward                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [14/78][0m create_routing_mark                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/78][0m create_scheduled_task                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [16/78][0m create_vrrp_ha_pair                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/78][0m create_watchdog_script                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [18/78][0m delete_custom_chain                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [19/78][0m disable_address_list_entry                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [20/78][0m disable_layer7_protocol                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [21/78][0m disable_package                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [22/78][0m disable_scheduled_task                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [23/78][0m disable_watchdog                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [24/78][0m download_file                                      [93mΓèÿ SKIP[0m - Missing required argument: 'filename'
+[96m   [25/78][0m download_package                                   [93mΓèÿ SKIP[0m - Missing required argument: 'url'
+[96m   [26/78][0m enable_address_list_entry                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [27/78][0m enable_layer7_protocol                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [28/78][0m enable_package                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [29/78][0m enable_scheduled_task                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [30/78][0m enable_watchdog                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [31/78][0m execute_approved_operation                         [93mΓèÿ SKIP[0m - Missing required argument: 'command'
+[96m   [32/78][0m export_section                                     [93mΓèÿ SKIP[0m - Missing required argument: 'section'
+[96m   [33/78][0m flush_connections                                  [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+[96m   [34/78][0m force_vrrp_master                                  [93mΓèÿ SKIP[0m - Missing required argument: 'vrrp_id'
+[96m   [35/78][0m get_address_list_entry                             [93mΓèÿ SKIP[0m - Missing required argument: 'entry_id'
+{"timestamp": "2025-10-19T19:59:43.240551Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting configuration summary", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [36/78][0m get_configuration_summary                          [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:43.240551Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting connection tracking table", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.240551Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall connection print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [37/78][0m get_connection_tracking                            [92mΓ£ô PASS[0m (0.16s)
+[96m   [38/78][0m get_layer7_protocol                                [93mΓèÿ SKIP[0m - Missing required argument: 'protocol_id'
+{"timestamp": "2025-10-19T19:59:43.400054Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting license info", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.400054Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system license print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.410082Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting NTP client configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [39/78][0m get_license                                        [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:43.410082Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system ntp client print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [40/78][0m get_ntp_client                                     [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:43.413809Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting package update status", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [41/78][0m get_package                                        [93mΓèÿ SKIP[0m - Missing required argument: 'package_name'
+{"timestamp": "2025-10-19T19:59:43.413809Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package update print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [42/78][0m get_package_update_status                          [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:43.415833Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting routing table: table=main", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.415833Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print where active=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [43/78][0m get_routing_table                                  [92mΓ£ô PASS[0m (0.02s)
+[96m   [44/78][0m get_scheduled_task                                 [93mΓèÿ SKIP[0m - Missing required argument: 'task_id'
+{"timestamp": "2025-10-19T19:59:43.439002Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system uptime", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.439002Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system resource print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [45/78][0m get_uptime                                         [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:43.444632Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting VRRP status for all interfaces", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [46/78][0m get_vpn_status                                     [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+{"timestamp": "2025-10-19T19:59:43.445648Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface vrrp print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [47/78][0m get_vrrp_status                                    [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:43.449005Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting watchdog status", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.449005Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system watchdog print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [48/78][0m get_watchdog_status                                [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:43.503241Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting watchdog types", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.503241Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system watchdog print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [49/78][0m get_watchdog_types                                 [92mΓ£ô PASS[0m (0.00s)
+[96m   [50/78][0m import_configuration                               [93mΓèÿ SKIP[0m - Missing required argument: 'filename'
+{"timestamp": "2025-10-19T19:59:43.508239Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Installing package updates", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.508239Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package update print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [51/78][0m install_updates                                    [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:43.513268Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing all address list names", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.514245Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall address-list print terse", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [52/78][0m list_address_list_names                            [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:43.519958Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing address list entries: list=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.519958Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall address-list print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [53/78][0m list_address_lists                                 [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:43.525478Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing available packages", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:43.525478Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package update check-for-updates", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.532820Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package update print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [54/78][0m list_available_packages                            [92mΓ£ô PASS[0m (2.01s)
+{"timestamp": "2025-10-19T19:59:45.541281Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing custom chains for filter", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.541281Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall filter print terse where action=jump", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [55/78][0m list_custom_chains                                 [92mΓ£ô PASS[0m (0.02s)
+{"timestamp": "2025-10-19T19:59:45.557790Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing Layer 7 protocols: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.558791Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall layer7-protocol print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [56/78][0m list_layer7_protocols                              [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.564854Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing packages: disabled_only=False", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.564854Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [57/78][0m list_packages                                      [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.574596Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing port forwards", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.575643Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall nat print where chain=dstnat and action=dst-nat", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [58/78][0m list_port_forwards                                 [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:45.626831Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing routing marks", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.627849Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing mangle rules: chain=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.627849Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip firewall mangle print detail where action~\"mark-routing\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [59/78][0m list_routing_marks                                 [92mΓ£ô PASS[0m (0.01s)
+[96m   [60/78][0m list_rules_in_chain                                [93mΓèÿ SKIP[0m - Missing required argument: 'chain_type'
+{"timestamp": "2025-10-19T19:59:45.638539Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing scheduled tasks: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.638539Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system scheduler print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [61/78][0m list_scheduled_tasks                               [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.644926Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing walled garden", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.644926Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip hotspot walled-garden print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [62/78][0m list_walled_garden                                 [92mΓ£ô PASS[0m (0.02s)
+[96m   [63/78][0m remove_address_list_entry                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [64/78][0m remove_file                                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [65/78][0m remove_layer7_protocol                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [66/78][0m remove_scheduled_task                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [67/78][0m run_scheduled_task                                 [93mΓèÿ SKIP[0m - Missing required argument: 'task_id'
+[96m   [68/78][0m set_ntp_client                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [69/78][0m set_update_channel                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [70/78][0m set_vrrp_priority                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [71/78][0m setup_vpn_client                                   [93mΓèÿ SKIP[0m - Missing required argument: 'vpn_name'
+[96m   [72/78][0m uninstall_package                                  [93mΓèÿ SKIP[0m - Missing required argument: 'package_name'
+[96m   [73/78][0m update_address_list_entry                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [74/78][0m update_layer7_protocol                             [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [75/78][0m update_packages                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [76/78][0m update_scheduled_task                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [77/78][0m upload_file                                        [93mΓèÿ SKIP[0m - Missing required argument: 'filename'
+[96m   [78/78][0m validate_configuration                             [92mΓ£ô PASS[0m (0.00s)
+
+[94mCategory Summary:[0m
+  Passed:  [92m23/78 (29.5%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m55[0m
+  Duration: [1m2.44s[0m
+[96mRunning totals: [92m91 passed[0m, [91m5 failed[0m, [93m219 skipped[0m (315 of 452 total handlers)[0m
+
+[1m[96m[16/23] Testing category 'QoS/Queues' (19 handlers)[0m
+[96mElapsed time: 6.2s[0m
+
+[1m[94mTesting Category: QoS/Queues[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+{"timestamp": "2025-10-19T19:59:45.664602Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Validating configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [1/19][0m create_htb_queue_tree                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/19][0m create_pcq_queue                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/19][0m create_priority_queue_tree                         [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/19][0m create_queue_tree                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/19][0m create_simple_queue                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [6/19][0m disable_queue_tree                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/19][0m disable_simple_queue                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/19][0m enable_queue_tree                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [9/19][0m enable_simple_queue                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [10/19][0m get_queue_tree                                     [93mΓèÿ SKIP[0m - Missing required argument: 'queue_id'
+{"timestamp": "2025-10-19T19:59:45.664602Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing PCQ queues", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.664602Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /queue type print detail where kind=pcq", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [11/19][0m list_pcq_queues                                    [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.673561Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing queue trees: name_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.673561Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /queue tree print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [12/19][0m list_queue_trees                                   [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:45.724552Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing queue types", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.724552Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /queue type print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [13/19][0m list_queue_types                                   [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.733877Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing simple queues: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.734765Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /queue simple print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [14/19][0m list_simple_queues                                 [92mΓ£ô PASS[0m (0.01s)
+[96m   [15/19][0m remove_pcq_queue                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [16/19][0m remove_queue_tree                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/19][0m remove_simple_queue                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [18/19][0m update_queue_tree                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [19/19][0m update_simple_queue                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m4/19 (21.1%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m15[0m
+  Duration: [1m0.08s[0m
+[96mRunning totals: [92m95 passed[0m, [91m5 failed[0m, [93m234 skipped[0m (334 of 452 total handlers)[0m
+
+[1m[96m[17/23] Testing category 'Routing' (42 handlers)[0m
+[96mElapsed time: 6.3s[0m
+
+[1m[94mTesting Category: Routing[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/42][0m add_bgp_network                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/42][0m add_bgp_peer                                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/42][0m add_blackhole_route                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/42][0m add_default_route                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/42][0m add_ipv6_route                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [6/42][0m add_ospf_network                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/42][0m add_route                                          [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/42][0m auto_assign_ospf_subnet                            [93mΓèÿ SKIP[0m - Missing required argument: 'site_id'
+{"timestamp": "2025-10-19T19:59:45.739767Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Auto-configuring OSPF area: backbone", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.739767Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf area print where name=\"backbone\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/42][0m auto_configure_ospf_area                           [92mΓ£ô PASS[0m (0.06s)
+{"timestamp": "2025-10-19T19:59:45.796520Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Auto-configuring OSPF instance: auto-ospf", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.796520Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf instance print where name=\"auto-ospf\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [10/42][0m auto_configure_ospf_instance                       [92mΓ£ô PASS[0m (0.01s)
+[96m   [11/42][0m auto_configure_ospf_networks                       [93mΓèÿ SKIP[0m - Missing required argument: 'subnet'
+[96m   [12/42][0m auto_discovery_ospf_complete                       [93mΓèÿ SKIP[0m - Missing required argument: 'site_id'
+[96m   [13/42][0m check_route_path                                   [93mΓèÿ SKIP[0m - Missing required argument: 'destination'
+[96m   [14/42][0m clear_bgp_session                                  [93mΓèÿ SKIP[0m - Missing required argument: 'peer'
+[96m   [15/42][0m configure_ospf_authentication                      [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+[96m   [16/42][0m create_bgp_instance                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/42][0m create_ospf_area                                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [18/42][0m create_ospf_instance                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [19/42][0m disable_route                                      [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [20/42][0m enable_ospf_instance                               [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [21/42][0m enable_route                                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:45.809456Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Flushing route cache", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.809456Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route cache flush", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.814136Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /ip route cache flush", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [22/42][0m flush_route_cache                                  [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:45.814136Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting BGP status: instance=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.814136Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing bgp instance print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [23/42][0m get_bgp_status                                     [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:45.819246Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting OSPF assignments", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [24/42][0m get_ospf_assignments                               [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:45.819246Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting OSPF auto-discovery status", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.819246Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf instance print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.824141Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf area print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.829826Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf interface print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.886045Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf neighbor print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.895133Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf route print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.899719Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing ospf route print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [25/42][0m get_ospf_auto_discovery_status                     [91mΓ£ù FAIL[0m (0.08s) - Command returned error
+{"timestamp": "2025-10-19T19:59:45.899719Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting OSPF status: default", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.899719Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf instance print detail where name=default", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [26/42][0m get_ospf_status                                    [92mΓ£ô PASS[0m (0.01s)
+[96m   [27/42][0m get_route                                          [93mΓèÿ SKIP[0m - Missing required argument: 'route_id'
+{"timestamp": "2025-10-19T19:59:45.905691Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting route cache", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.905691Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route cache print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.909740Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /ip route cache print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [28/42][0m get_route_cache                                    [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:45.909740Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting route statistics", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.909740Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.968746Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print count-only where active=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.985198Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print count-only where dynamic=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:45.999466Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print count-only where static=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.013747Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print count-only where disabled=yes", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [29/42][0m get_route_statistics                               [92mΓ£ô PASS[0m (0.13s)
+{"timestamp": "2025-10-19T19:59:46.040830Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting RouterBOARD info", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.040830Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system routerboard print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [30/42][0m get_routerboard                                    [92mΓ£ô PASS[0m (0.04s)
+{"timestamp": "2025-10-19T19:59:46.078456Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing BGP networks", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.078456Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing bgp network print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.083342Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing bgp network print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [31/42][0m list_bgp_networks                                  [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.083342Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing BGP peers: instance=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.084255Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing bgp peer print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.089235Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing bgp peer print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [32/42][0m list_bgp_peers                                     [91mΓ£ù FAIL[0m (0.01s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.089235Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing BGP routes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.089235Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing bgp route print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.094227Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing bgp route print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [33/42][0m list_bgp_routes                                    [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.094227Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing IPv6 routes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.094227Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ipv6 route print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [34/42][0m list_ipv6_routes                                   [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:46.108858Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing OSPF authentication: interface_filter=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.108858Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf interface print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [35/42][0m list_ospf_auth_keys                                [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:46.114240Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing OSPF neighbors", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.114240Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf neighbor print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [36/42][0m list_ospf_neighbors                                [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:46.119538Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing OSPF routes", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.119538Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /routing ospf route print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.122550Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /routing ospf route print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [37/42][0m list_ospf_routes                                   [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.123546Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing routes with filters: dst=None, gateway=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.123546Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /ip route print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [38/42][0m list_routes                                        [92mΓ£ô PASS[0m (0.01s)
+[96m   [39/42][0m remove_ipv6_route                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [40/42][0m remove_route                                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [41/42][0m traceroute                                         [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+[96m   [42/42][0m update_route                                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m11/42 (26.2%)[0m
+  Failed:  [91m7[0m
+  Skipped: [93m24[0m
+  Duration: [1m0.39s[0m
+[96mRunning totals: [92m106 passed[0m, [91m12 failed[0m, [93m258 skipped[0m (376 of 452 total handlers)[0m
+
+[1m[96m[18/23] Testing category 'Safety/Workflow' (7 handlers)[0m
+[96mElapsed time: 6.7s[0m
+
+[1m[94mTesting Category: Safety/Workflow[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+{"timestamp": "2025-10-19T19:59:46.133093Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Entering MikroTik Safe Mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.133093Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system safe-mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.134087Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /system safe-mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.137879Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "Safe Mode activation may have failed: ERROR: Invalid command syntax\n\nCommand: /system safe-mode\n\nError: bad command name safe-mode (line 1 column 9)", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [1/7][0m enter_safe_mode                                    [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+[96m     [2/7][0m execute_with_intelligent_workflow                  [93mΓèÿ SKIP[0m - Missing required argument: 'command'
+{"timestamp": "2025-10-19T19:59:46.137879Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Exiting MikroTik Safe Mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.137879Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system safe-mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.141912Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /system safe-mode", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.141912Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "Safe Mode deactivation may have failed: ERROR: Invalid command syntax\n\nCommand: /system safe-mode\n\nError: bad command name safe-mode (line 1 column 9)", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [3/7][0m exit_safe_mode                                     [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.141912Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "Force exiting Safe Mode - this makes all changes permanent immediately", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.141912Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system safe-mode force-exit", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.144914Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /system safe-mode force-exit", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.144914Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "Force exited Safe Mode - all changes are now permanent", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/7][0m force_exit_safe_mode                               [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.144914Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting Safe Mode change history", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.144914Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system safe-mode history print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.147933Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /system safe-mode history print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [5/7][0m get_safe_mode_history                              [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.147933Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Retrieved Safe Mode history", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.148912Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting Safe Mode status", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.148912Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system safe-mode print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.202874Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /system safe-mode print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.202874Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Retrieved Safe Mode status", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [6/7][0m get_safe_mode_status                               [91mΓ£ù FAIL[0m (0.05s) - Command returned error
+[96m     [7/7][0m set_safe_mode_timeout                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m0/7 (0.0%)[0m
+  Failed:  [91m5[0m
+  Skipped: [93m2[0m
+  Duration: [1m0.07s[0m
+[96mRunning totals: [92m106 passed[0m, [91m17 failed[0m, [93m260 skipped[0m (383 of 452 total handlers)[0m
+
+[1m[96m[19/23] Testing category 'System' (7 handlers)[0m
+[96mElapsed time: 6.8s[0m
+
+[1m[94mTesting Category: System[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+{"timestamp": "2025-10-19T19:59:46.202874Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system clock", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [1/7][0m get_system_clock                                   [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:46.206859Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system events: type=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.206859Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting logs with filters: topics=system, action=None, time=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.206859Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /log print where topics~\"system\"", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [2/7][0m get_system_events                                  [92mΓ£ô PASS[0m (0.07s)
+{"timestamp": "2025-10-19T19:59:46.282727Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system health", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [3/7][0m get_system_health                                  [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:46.329313Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system identity", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [4/7][0m get_system_identity                                [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:46.329313Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system resources", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [5/7][0m get_system_resources                               [92mΓ£ô PASS[0m (0.00s)
+[96m     [6/7][0m reboot_system                                      [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+[96m     [7/7][0m set_system_identity                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/7 (71.4%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m2[0m
+  Duration: [1m0.13s[0m
+[96mRunning totals: [92m111 passed[0m, [91m17 failed[0m, [93m262 skipped[0m (390 of 452 total handlers)[0m
+
+[1m[96m[20/23] Testing category 'Tunnels/VPN' (12 handlers)[0m
+[96mElapsed time: 6.9s[0m
+
+[1m[94mTesting Category: Tunnels/VPN[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/12][0m create_eoip_tunnel                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/12][0m create_gre_tunnel                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/12][0m create_pppoe_client                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/12][0m get_pppoe_status                                   [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:46.330609Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing EoIP tunnels: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.333861Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface eoip print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [5/12][0m list_eoip_tunnels                                  [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:46.337005Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing GRE tunnels: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.337005Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface gre print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/12][0m list_gre_tunnels                                   [92mΓ£ô PASS[0m (0.06s)
+{"timestamp": "2025-10-19T19:59:46.394101Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing PPPoE clients: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.395104Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface pppoe-client print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/12][0m list_pppoe_clients                                 [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:46.398103Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing PPPoE servers", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.398103Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface pppoe-server server print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [8/12][0m list_pppoe_servers                                 [92mΓ£ô PASS[0m (0.00s)
+{"timestamp": "2025-10-19T19:59:46.398103Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing all tunnels", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.398103Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing EoIP tunnels: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.398103Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface eoip print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.444565Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing GRE tunnels: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.444565Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface gre print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/12][0m list_tunnels                                       [92mΓ£ô PASS[0m (0.10s)
+[96m   [10/12][0m remove_eoip_tunnel                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [11/12][0m remove_gre_tunnel                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [12/12][0m remove_pppoe_client                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m5/12 (41.7%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m7[0m
+  Duration: [1m0.17s[0m
+[96mRunning totals: [92m116 passed[0m, [91m17 failed[0m, [93m269 skipped[0m (402 of 452 total handlers)[0m
+
+[1m[96m[21/23] Testing category 'Users' (18 handlers)[0m
+[96mElapsed time: 7.1s[0m
+
+[1m[94mTesting Category: Users[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m    [1/18][0m add_user                                           [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [2/18][0m add_user_group                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/18][0m disable_user                                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/18][0m disconnect_user                                    [93mΓèÿ SKIP[0m - Missing required argument: 'user_id'
+[96m    [5/18][0m enable_user                                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:46.502157Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Exporting user configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.503170Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /user export file=user_config", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [6/18][0m export_user_config                                 [92mΓ£ô PASS[0m (0.06s)
+{"timestamp": "2025-10-19T19:59:46.562747Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting active users", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.563866Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /user active print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [7/18][0m get_active_users                                   [92mΓ£ô PASS[0m (0.01s)
+[96m    [8/18][0m get_user                                           [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+[96m    [9/18][0m get_user_group                                     [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:46.572823Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing user groups with filters: name=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.572823Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /user group print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [10/18][0m list_user_groups                                   [92mΓ£ô PASS[0m (0.01s)
+[96m   [11/18][0m list_user_ssh_keys                                 [93mΓèÿ SKIP[0m - Missing required argument: 'username'
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing users with filters: name=None, group=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /user print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [12/18][0m list_users                                         [92mΓ£ô PASS[0m (0.00s)
+[96m   [13/18][0m remove_user                                        [93mΓèÿ SKIP[0m - Dangerous operation - manually skipped
+[96m   [14/18][0m remove_user_group                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [15/18][0m remove_user_ssh_key                                [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [16/18][0m set_user_ssh_keys                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [17/18][0m update_user                                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [18/18][0m update_user_group                                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m4/18 (22.2%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m14[0m
+  Duration: [1m0.08s[0m
+[96mRunning totals: [92m120 passed[0m, [91m17 failed[0m, [93m283 skipped[0m (420 of 452 total handlers)[0m
+
+[1m[96m[22/23] Testing category 'WireGuard' (4 handlers)[0m
+[96mElapsed time: 7.1s[0m
+
+[1m[94mTesting Category: WireGuard[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+[96m     [1/4][0m add_wireguard_peer                                 [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing WireGuard peers: interface=None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wireguard peers print detail", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m     [2/4][0m list_wireguard_peers                               [92mΓ£ô PASS[0m (0.00s)
+[96m     [3/4][0m remove_wireguard_peer                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m     [4/4][0m update_wireguard_peer                              [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+
+[94mCategory Summary:[0m
+  Passed:  [92m1/4 (25.0%)[0m
+  Failed:  [91m0[0m
+  Skipped: [93m3[0m
+  Duration: [1m0.00s[0m
+[96mRunning totals: [92m121 passed[0m, [91m17 failed[0m, [93m286 skipped[0m (424 of 452 total handlers)[0m
+
+[1m[96m[23/23] Testing category 'Wireless' (28 handlers)[0m
+[96mElapsed time: 7.1s[0m
+
+[1m[94mTesting Category: Wireless[0m
+[94mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Checking wireless support", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.578940Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system resource print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.591958Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /system package print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.597584Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.609953Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.609953Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.614122Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [1/28][0m check_wireless_support                             [92mΓ£ô PASS[0m (0.04s)
+[96m    [2/28][0m create_capsman_configuration                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [3/28][0m create_capsman_datapath                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [4/28][0m create_capsman_provisioning_rule                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [5/28][0m create_wireless_access_list                        [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [6/28][0m create_wireless_security_profile                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [7/28][0m disable_capsman                                    [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m    [8/28][0m enable_capsman                                     [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+{"timestamp": "2025-10-19T19:59:46.614122Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Exporting wireless configuration", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.614122Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.614122Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.618134Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.618134Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi export", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m    [9/28][0m export_wireless_config                             [92mΓ£ô PASS[0m (0.05s)
+[96m   [10/28][0m get_capsman_remote_cap                             [93mΓèÿ SKIP[0m - Missing required argument: 'identity'
+{"timestamp": "2025-10-19T19:59:46.666512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting CAPsMAN status", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.666512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man manager print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.672891Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man manager print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.672891Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting wireless frequencies", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.672891Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [11/28][0m get_capsman_status                                 [91mΓ£ù FAIL[0m (0.01s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.672891Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.725104Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [12/28][0m get_wireless_frequencies                           [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:46.725104Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting wireless registration table for interface: None", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.725104Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.725104Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.731300Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.731300Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi registration-table print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [13/28][0m get_wireless_registration_table                    [92mΓ£ô PASS[0m (0.01s)
+[96m   [14/28][0m get_wireless_security_profile                      [93mΓèÿ SKIP[0m - Missing required argument: 'name'
+{"timestamp": "2025-10-19T19:59:46.736204Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN configurations", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.736204Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man configuration print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.740512Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man configuration print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [15/28][0m list_capsman_configurations                        [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.740512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN datapaths", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.740512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man datapath print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.745513Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man datapath print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [16/28][0m list_capsman_datapaths                             [91mΓ£ù FAIL[0m (0.01s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.745513Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN provisioning rules", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.745513Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man provisioning print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.750512Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man provisioning print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [17/28][0m list_capsman_provisioning_rules                    [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.750512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN registration table", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.750512Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man registration-table print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.754553Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man registration-table print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [18/28][0m list_capsman_registration_table                    [91mΓ£ù FAIL[0m (0.00s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.754553Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing CAPsMAN remote CAPs", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.754553Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /caps-man remote-cap print", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [19/28][0m list_capsman_remote_caps                           [91mΓ£ù FAIL[0m (0.01s) - Command returned error
+{"timestamp": "2025-10-19T19:59:46.759620Z", "level": "WARNING", "logger": "mikrotik_mcp", "message": "RouterOS syntax error: /caps-man remote-cap print", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.759620Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing wireless access list", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.759620Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.759620Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.806793Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [20/28][0m list_wireless_access_list                          [92mΓ£ô PASS[0m (0.05s)
+{"timestamp": "2025-10-19T19:59:46.806793Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Listing wireless security profiles", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.806793Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detecting wireless interface type", "module": "logger", "function": "_log_with_context", "line": 188}
+{"timestamp": "2025-10-19T19:59:46.806793Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Executing MikroTik command: /interface wifi print count-only", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [21/28][0m list_wireless_security_profiles                    [92mΓ£ô PASS[0m (0.01s)
+{"timestamp": "2025-10-19T19:59:46.820647Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Detected wireless interface type: /interface wifi", "module": "logger", "function": "_log_with_context", "line": 188}
+[96m   [22/28][0m remove_capsman_configuration                       [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [23/28][0m remove_capsman_datapath                            [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [24/28][0m remove_capsman_provisioning_rule                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [25/28][0m remove_wireless_access_list_entry                  [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [26/28][0m remove_wireless_security_profile                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+[96m   [27/28][0m scan_wireless_networks                             [93mΓèÿ SKIP[0m - Missing required argument: 'interface'
+{"timestamp": "2025-10-19T19:59:46.821661Z", "level": "INFO", "logger": "mikrotik_mcp", "message": "Getting system identity", "module": "logger", "function": "_log_with_context", "line": 188}
+Traceback (most recent call last):
+[96m   [28/28][0m update_wireless_security_profile                   [93mΓèÿ SKIP[0m - Requires specific resource ID or complex setup
+  File "C:\Users\kevinpez\OneDrive\Desktop\home-network-automation\mikrotik-mcp\tests\hardware_validation.py", line 728, in main
+
+    success = validator.run_all_tests(specific_category=args.category)
+[94mCategory Summary:[0m
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Passed:  [92m6/28 (21.4%)[0m
+  File "C:\Users\kevinpez\OneDrive\Desktop\home-network-automation\mikrotik-mcp\tests\hardware_validation.py", line 526, in run_all_tests
+  Failed:  [91m6[0m
+  Skipped: [93m16[0m
+    self.print_final_results()
+  Duration: [1m0.24s[0m
+  File "C:\Users\kevinpez\OneDrive\Desktop\home-network-automation\mikrotik-mcp\tests\hardware_validation.py", line 628, in print_final_results
+[96mRunning totals: [92m127 passed[0m, [91m23 failed[0m, [93m302 skipped[0m (452 of 452 total handlers)[0m
+
+[96mPerforming final connectivity check...[0m
+    print(f"     Category: {error['category']}")
+[92m+ Router still accessible[0m
+                            ~~~~~^^^^^^^^^^^^
+KeyError: 'category'
+
+[1m[95m================================================================================[0m
+[1m[95mTEST RESULTS SUMMARY[0m
+[1m[95m================================================================================[0m
+
+[1mOverall Statistics:[0m
+  Total Handlers:      [1m452[0m
+  Tests Executed:      [1m452[0m
+  Γö£ΓöÇ Passed:           [92m 127[0m  ( 28.1%)
+  Γö£ΓöÇ Failed:           [91m  23[0m  (  5.1%)
+  ΓööΓöÇ Skipped:          [93m 302[0m  (safety/setup)
+  Duration:            [1m7.4s[0m
+
+  [1m[93m~ Success Rate: 84.7% of runnable tests[0m
+
+[1mResults by Category:[0m
+[1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+  Category                  Passed   Failed   Skipped  Rate
+  [1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+  [92mΓ£ô[0m Backup                  [92m  1[0m/7     0[0m     [93m  6[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Certificates            [92m  1[0m/11    0[0m     [93m 10[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Containers              [92m  5[0m/18    0[0m     [93m 13[0m     [92m100.0%[0m
+  [92mΓ£ô[0m DHCP                    [92m  7[0m/23    0[0m     [93m 16[0m     [92m100.0%[0m
+  [92m+[0m DNS                     [92m  6[0m/16  [91m  1[0m     [93m  9[0m     [92m 85.7%[0m
+  [92mΓ£ô[0m Diagnostics             [92m  5[0m/9     0[0m     [93m  4[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Firewall                [92m  8[0m/35    0[0m     [93m 27[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Hotspot                 [92m  4[0m/8     0[0m     [93m  4[0m     [92m100.0%[0m
+  [92mΓ£ô[0m IP Management           [92m  3[0m/11    0[0m     [93m  8[0m     [92m100.0%[0m
+  [92mΓ£ô[0m IP Services             [92m  5[0m/9     0[0m     [93m  4[0m     [92m100.0%[0m
+  [92mΓ£ô[0m IPv6                    [92m  5[0m/15    0[0m     [93m 10[0m     [92m100.0%[0m
+  [92m+[0m Interfaces              [92m 14[0m/59  [91m  1[0m     [93m 44[0m     [92m 93.3%[0m
+  [91mΓ£ù[0m Logs                    [92m  2[0m/9   [91m  3[0m     [93m  4[0m     [91m 40.0%[0m
+  [92mΓ£ô[0m OpenVPN                 [92m  2[0m/7     0[0m     [93m  5[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Other                   [92m 23[0m/78    0[0m     [93m 55[0m     [92m100.0%[0m
+  [92mΓ£ô[0m QoS/Queues              [92m  4[0m/19    0[0m     [93m 15[0m     [92m100.0%[0m
+  [93m~[0m Routing                 [92m 11[0m/42  [91m  7[0m     [93m 24[0m     [93m 61.1%[0m
+  [91mΓ£ù[0m Safety/Workflow         [92m  0[0m/7   [91m  5[0m     [93m  2[0m     [91m  0.0%[0m
+  [92mΓ£ô[0m System                  [92m  5[0m/7     0[0m     [93m  2[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Tunnels/VPN             [92m  5[0m/12    0[0m     [93m  7[0m     [92m100.0%[0m
+  [92mΓ£ô[0m Users                   [92m  4[0m/18    0[0m     [93m 14[0m     [92m100.0%[0m
+  [92mΓ£ô[0m WireGuard               [92m  1[0m/4     0[0m     [93m  3[0m     [92m100.0%[0m
+  [91mΓ£ù[0m Wireless                [92m  6[0m/28  [91m  6[0m     [93m 16[0m     [91m 50.0%[0m
+
+[1m[91mFailed Tests Details:[0m
+[91mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[0m
+
+  [91m1.[0m [1mdns_lookup[0m
+
+
+[91mTest suite failed with exception: 'category'[0m
