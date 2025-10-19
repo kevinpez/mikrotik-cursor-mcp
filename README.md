@@ -32,7 +32,7 @@
 - **🔧 Maintainability**: Clean API-first architecture
 - **⚡ Performance**: Sub-second response times
 
-See [API_CONVERSION_SUCCESS_REPORT.md](API_CONVERSION_SUCCESS_REPORT.md) for complete details!
+See [API Conversion Success Report](docs/reports/API_CONVERSION_SUCCESS_REPORT.md) for complete details!
 
 ---
 
@@ -707,14 +707,23 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## 📚 **Documentation**
 
-### **Getting Started**
-- **[README.md](README.md)** - Project overview and quick start
-- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete installation and configuration guide
-- **[CAPABILITIES.md](CAPABILITIES.md)** - Complete API reference (382 actions)
+**📖 [Complete Documentation Index](docs/INDEX.md)** - Browse all documentation
 
-### **Usage & Examples**
-- **[REAL_WORLD_EXAMPLES.md](REAL_WORLD_EXAMPLES.md)** - Practical use cases and examples
-- **[WORKFLOW_HELPERS.md](WORKFLOW_HELPERS.md)** - Automation workflow guides
+### **Getting Started**
+- **[Quick Start](#quick-start-tested--working)** - Get up and running in minutes
+- **[Setup Guide](docs/setup/SETUP_COMPLETE_GUIDE.md)** - Complete installation and configuration
+- **[Testing Guide](docs/guides/TESTING_GUIDE.md)** - Verify your installation
+
+### **API Documentation**
+- **[API Conversion Success Report](docs/reports/API_CONVERSION_SUCCESS_REPORT.md)** - 90% success rate achievement
+- **[API Improvements Report](docs/reports/API_IMPROVEMENTS_REPORT.md)** - Latest enhancements (retry, caching, metrics)
+- **[Code Review Report](docs/reports/CODE_REVIEW_REPORT_2025-10-18.md)** - Grade: A+ (95/100)
+
+### **User Guides**
+- **[Intelligent Workflow Guide](docs/guides/INTELLIGENT_WORKFLOW_GUIDE.md)** - Smart automation
+- **[Security Guide](docs/guides/SECURITY_MAINTENANCE_GUIDE.md)** - Best practices
+- **[Safe Mode Guide](docs/guides/MIKROTIK_SAFE_MODE_GUIDE.md)** - Safe operations
+- **[OSPF Guide](docs/guides/OSPF_MCP_USAGE_EXAMPLE.md)** - OSPF configuration
 
 ### **Development & Testing**
 - **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Testing procedures and integration tests
