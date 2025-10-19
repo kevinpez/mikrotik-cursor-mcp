@@ -81,6 +81,8 @@ class HardwareValidator:
         'mikrotik_disable_ip_service',
         'mikrotik_clear_logs',
         'mikrotik_flush_connections',
+        'mikrotik_monitor_logs',  # Runs indefinitely (follow mode)
+        'mikrotik_bandwidth_test',  # Can run for extended periods
     ]
     
     # Test arguments for handlers that need specific parameters
