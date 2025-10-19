@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mikrotik-cursor-mcp"
 version = "4.8.1"
-description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 99% RouterOS coverage, dry-run mode, and enterprise features"
+description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 99% RouterOS coverage and enterprise features"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -16,7 +16,7 @@ authors = [
 maintainers = [
     {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
 ]
-keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "cursor", "automation", "monitoring", "diagnostics", "dry-run", "enterprise", "production"]
+keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "cursor", "automation", "monitoring", "diagnostics", "enterprise", "production"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",

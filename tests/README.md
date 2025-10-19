@@ -8,20 +8,52 @@ Comprehensive testing for the MikroTik Cursor MCP server.
 
 ```
 tests/
-├── README.md                    # This file
-├── test_core.py                 # Core functionality tests
-├── test_comprehensive.py        # Comprehensive integration tests
-├── run_tests.py                 # Test runner with options
-├── unit/                        # Unit tests (future)
+├── README.md                      # This file
+├── hardware_validation.py         # ⭐ NEW: Complete hardware validation suite
+├── HARDWARE_TESTING_GUIDE.md      # Complete guide for hardware testing
+├── test_core.py                   # Core functionality tests
+├── test_comprehensive.py          # Comprehensive integration tests
+├── run_tests.py                   # Test runner with options
+├── unit/                          # Unit tests (future)
 │   └── .gitkeep
-└── integration/                 # Integration tests
+└── integration/                   # Integration tests
     ├── test_integration_runner.py
+    ├── test_all_handlers.py
+    ├── comprehensive_test_suite.py
     └── test_simple_integration.py
 ```
 
 ---
 
 ## Running Tests
+
+### ⭐ NEW: Hardware Validation (Recommended)
+
+**Test ALL commands against your actual MikroTik hardware with detailed CLI feedback:**
+
+```bash
+# Test everything - see what works and what fails on your hardware
+python tests/hardware_validation.py
+
+# Test specific category with detailed output
+python tests/hardware_validation.py --category System -v
+
+# Save detailed results to JSON
+python tests/hardware_validation.py --report results.json
+
+# List all available categories
+python tests/hardware_validation.py --list-categories
+```
+
+**Features:**
+- ✅ Tests EVERY MCP command (400+ handlers)
+- ✅ Real-time progress with color-coded results
+- ✅ Shows exactly what works and what fails on your router
+- ✅ Safe execution with automatic rollback
+- ✅ Detailed JSON reports for CI/CD
+- ✅ Category-based testing (System, Firewall, Routing, etc.)
+
+**See [HARDWARE_TESTING_GUIDE.md](HARDWARE_TESTING_GUIDE.md) for complete documentation.**
 
 ### Quick Test
 ```bash
@@ -90,6 +122,16 @@ pytest tests/test_core.py::test_function_name
 
 **Purpose:** Ensure complete feature coverage
 
+### Hardware Validation Tests (`hardware_validation.py`) - ⭐ NEW
+- ✅ Tests ALL 400+ MCP handlers against real hardware
+- ✅ Real-time CLI feedback with color-coded results
+- ✅ Category-based testing (25+ categories)
+- ✅ Detailed per-command pass/fail reporting
+- ✅ JSON report generation for CI/CD
+- ✅ Safe execution with automatic cleanup
+
+**Purpose:** Comprehensive validation that every command works on your actual router
+
 ### Integration Tests (`integration/`)
 - ✅ Real router connectivity (if available)
 - ✅ Command execution on live devices
@@ -114,7 +156,7 @@ pytest tests/test_core.py::test_function_name
 MIKROTIK_TEST_HOST=192.168.88.1
 MIKROTIK_TEST_USERNAME=admin
 MIKROTIK_TEST_PASSWORD=test-password
-MIKROTIK_TEST_DRY_RUN=true  # Start with dry-run!
+# Configure your MikroTik router credentials
 ```
 
 ### Test Data

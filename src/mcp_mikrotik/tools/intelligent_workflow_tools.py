@@ -11,7 +11,7 @@ def get_intelligent_workflow_tools() -> list[Tool]:
     return [
         Tool(
             name="mikrotik_execute_with_intelligent_workflow",
-            description="Execute a MikroTik command using intelligent risk-based workflow. Automatically determines if the operation is low-risk (direct execution) or high-risk (dry-run preview → approval → safe mode → execution). Provides comprehensive safety measures including log monitoring and state verification.",
+            description="Execute a MikroTik command using intelligent risk-based workflow. Automatically determines if the operation is low-risk (direct execution) or high-risk (approval → safe mode → execution). Provides comprehensive safety measures including log monitoring and state verification.",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -21,7 +21,7 @@ def get_intelligent_workflow_tools() -> list[Tool]:
                     },
                     "user_approved": {
                         "type": "boolean",
-                        "description": "Whether the user has already approved this operation (skip dry-run preview)",
+                        "description": "Whether the user has already approved this operation",
                         "default": False
                     }
                 },
@@ -44,7 +44,7 @@ def get_intelligent_workflow_tools() -> list[Tool]:
         ),
         Tool(
             name="mikrotik_execute_approved_operation",
-            description="Execute a previously approved MikroTik operation with full safety measures (Safe Mode, log monitoring, state verification). Use this after approving a dry-run preview.",
+            description="Execute a previously approved MikroTik operation with full safety measures (Safe Mode, log monitoring, state verification).",
             inputSchema={
                 "type": "object",
                 "properties": {

@@ -48,7 +48,7 @@ Examples:
   python run_tests.py integration             # Run integration tests
   python run_tests.py all                     # Run core, comprehensive, and integration
   python run_tests.py core --verbose          # Run core tests with verbose output
-  python run_tests.py comprehensive --live    # Run comprehensive tests in live mode
+  python run_tests.py comprehensive --category firewall  # Run specific category tests
   python run_tests.py core --save-report      # Run core tests and save report
         """
     )
@@ -63,8 +63,6 @@ Examples:
     
     # Test-specific arguments
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument("--dry-run", action="store_true", default=True, help="Test in dry-run mode (default)")
-    parser.add_argument("--live", action="store_true", help="Run live tests (will make changes)")
     parser.add_argument("--category", "-c", help="Test only specific category (comprehensive only)")
     parser.add_argument("--save-report", action="store_true", help="Save detailed JSON report")
     
@@ -74,10 +72,6 @@ Examples:
     common_args = []
     if args.verbose:
         common_args.append("--verbose")
-    if args.live:
-        common_args.append("--live")
-    elif args.dry_run:
-        common_args.append("--dry-run")
     if args.save_report:
         common_args.append("--save-report")
     
@@ -93,7 +87,6 @@ Examples:
     print("=" * 50)
     print(f"Test Type: {args.test_type}")
     print(f"Verbose: {args.verbose}")
-    print(f"Mode: {'Live (will make changes)' if args.live else 'Dry-run (safe)'}")
     if args.category:
         print(f"Category: {args.category}")
     print(f"Save Report: {args.save_report}")

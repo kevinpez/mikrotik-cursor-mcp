@@ -5,14 +5,8 @@
       "args": ["C:\\path\\to\\mikrotik-mcp\\src\\mcp_mikrotik\\server.py"],
       "env": {
         "MIKROTIK_HOST": "192.168.88.1",
-        "MIKROTIK_USERNAME": "admin",
-        "MIKROTIK_PORT": "22",
-        "MIKROTIK_SSH_KEY": "C:\\Users\\YourUsername\\.ssh\\mikrotik_rsa",
-        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "true",
-        "MIKROTIK_KNOWN_HOSTS": "C:\\Users\\YourUsername\\.ssh\\known_hosts",
-        "MIKROTIK_DRY_RUN": "false",
-        "MIKROTIK_CONNECT_TIMEOUT": "10",
-        "MIKROTIK_CMD_TIMEOUT": "30"
+        "MIKROTIK_USERNAME": "kevinpez",
+        "MIKROTIK_PASSWORD": "your_password"
       }
     }
   }

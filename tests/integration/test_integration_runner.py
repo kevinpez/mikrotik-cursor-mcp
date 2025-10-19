@@ -50,7 +50,6 @@ Examples:
     print("MikroTik Cursor MCP - Integration Test Runner")
     print("=" * 50)
     print("Testing against your actual MikroTik router")
-    print("Mode: Dry-run (safe - no changes will be made)")
     print(f"Verbose: {args.verbose}")
     print()
     

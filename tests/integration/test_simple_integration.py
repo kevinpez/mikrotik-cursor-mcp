@@ -30,9 +30,6 @@ class SimpleIntegrationTester:
             'errors': [],
             'start_time': time.time()
         }
-        
-        # Set dry-run mode for safety
-        os.environ['MIKROTIK_DRY_RUN'] = 'true'
     
     def log(self, message: str, level: str = "INFO"):
         """Log message with timestamp."""
@@ -103,7 +100,6 @@ class SimpleIntegrationTester:
         self.log(f"Testing {len(integration_tests)} integration features...")
         self.log(f"Router: {mikrotik_config.get('host', 'unknown')}")
         self.log(f"User: {mikrotik_config.get('username', 'unknown')}")
-        self.log(f"Mode: Dry-run (safe)")
         
         for tool_name, test_args in integration_tests:
             self.results['total_tests'] += 1
@@ -159,7 +155,6 @@ def main():
     print("MikroTik Cursor MCP - Simple Integration Tests")
     print("=" * 50)
     print("Testing against your actual MikroTik router")
-    print("Mode: Dry-run (safe - no changes will be made)")
     print(f"Verbose: {args.verbose}")
     print()
     

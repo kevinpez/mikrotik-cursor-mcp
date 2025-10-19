@@ -37,12 +37,19 @@ def mikrotik_list_route_filters(chain_filter: Optional[str] = None) -> str:
     """List route filters. READ-ONLY - safe."""
     app_logger.info(f"Listing route filters: chain={chain_filter}")
     
-    cmd = "/routing filter print detail"
-    
+    # Try RouterOS v7 syntax first
+    cmd_v7 = "/routing filter rule print detail"
     if chain_filter:
-        cmd += f' where chain={chain_filter}'
+        cmd_v7 += f' where chain={chain_filter}'
     
-    result = execute_mikrotik_command(cmd)
+    result = execute_mikrotik_command(cmd_v7)
+    
+    # If v7 syntax fails, try v6 syntax
+    if not result or "syntax error" in result.lower() or "bad command" in result.lower():
+        cmd_v6 = "/routing filter print detail"
+        if chain_filter:
+            cmd_v6 += f' where chain={chain_filter}'
+        result = execute_mikrotik_command(cmd_v6)
     
     if not result or result.strip() == "":
         return "No route filters found."

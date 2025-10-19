@@ -23,9 +23,8 @@ from mcp_mikrotik.logger import app_logger
 
 
 class ComprehensiveTester:
-    def __init__(self, verbose: bool = False, dry_run: bool = True, category: str = None):
+    def __init__(self, verbose: bool = False, category: str = None):
         self.verbose = verbose
-        self.dry_run = dry_run
         self.category = category
         self.handlers = get_all_handlers()
         self.results = {
@@ -36,10 +35,6 @@ class ComprehensiveTester:
             'categories': {},
             'start_time': time.time()
         }
-        
-        # Set dry-run mode for safety
-        if dry_run:
-            os.environ['MIKROTIK_DRY_RUN'] = 'true'
     
     def log(self, message: str, level: str = "INFO"):
         """Log message with timestamp."""
@@ -753,7 +748,6 @@ class ComprehensiveTester:
         report = {
             'timestamp': time.strftime("%Y-%m-%d %H:%M:%S"),
             'test_type': 'comprehensive',
-            'dry_run': self.dry_run,
             'verbose': self.verbose,
             'category': self.category,
             'router_config': {
@@ -781,26 +775,20 @@ class ComprehensiveTester:
 def main():
     parser = argparse.ArgumentParser(description="Test all MikroTik Cursor MCP features")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument("--dry-run", action="store_true", default=True, help="Test in dry-run mode (default)")
-    parser.add_argument("--live", action="store_true", help="Run live tests (will make changes)")
     parser.add_argument("--category", "-c", help="Test only specific category")
     parser.add_argument("--save-report", action="store_true", help="Save detailed JSON report")
     
     args = parser.parse_args()
     
-    # Determine dry-run mode
-    dry_run = not args.live if args.live else args.dry_run
-    
     print("MikroTik Cursor MCP - Comprehensive Feature Test")
     print("=" * 50)
-    print(f"Mode: {'Dry-run (safe)' if dry_run else 'Live (will make changes)'}")
     print(f"Verbose: {args.verbose}")
     if args.category:
         print(f"Category: {args.category}")
     print()
     
     # Initialize tester
-    tester = ComprehensiveTester(verbose=args.verbose, dry_run=dry_run, category=args.category)
+    tester = ComprehensiveTester(verbose=args.verbose, category=args.category)
     
     try:
         # Run tests

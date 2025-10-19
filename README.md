@@ -51,8 +51,7 @@ Update your Cursor MCP configuration file:
       "env": {
         "MIKROTIK_HOST": "192.168.88.1",
         "MIKROTIK_USERNAME": "your_username", 
-        "MIKROTIK_PASSWORD": "your_password",
-        "MIKROTIK_DRY_RUN": "true"
+        "MIKROTIK_PASSWORD": "your_password"
       }
     }
   }

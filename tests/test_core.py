@@ -22,9 +22,8 @@ from mcp_mikrotik.logger import app_logger
 
 
 class CoreTester:
-    def __init__(self, verbose: bool = False, dry_run: bool = True):
+    def __init__(self, verbose: bool = False):
         self.verbose = verbose
-        self.dry_run = dry_run
         self.handlers = get_all_handlers()
         self.results = {
             'total_tests': 0,
@@ -33,10 +32,6 @@ class CoreTester:
             'errors': [],
             'start_time': time.time()
         }
-        
-        # Set dry-run mode for safety
-        if dry_run:
-            os.environ['MIKROTIK_DRY_RUN'] = 'true'
     
     def log(self, message: str, level: str = "INFO"):
         """Log message with timestamp."""
@@ -112,7 +107,6 @@ class CoreTester:
         self.log(f"Testing {len(core_tests)} core features...")
         self.log(f"Router: {mikrotik_config.get('host', 'unknown')}")
         self.log(f"User: {mikrotik_config.get('username', 'unknown')}")
-        self.log(f"Dry-run mode: {'ON' if os.environ.get('MIKROTIK_DRY_RUN') == 'true' else 'OFF'}")
         
         for tool_name, test_args in core_tests:
             self.results['total_tests'] += 1
@@ -161,7 +155,6 @@ class CoreTester:
         report = {
             'timestamp': time.strftime("%Y-%m-%d %H:%M:%S"),
             'test_type': 'core',
-            'dry_run': self.dry_run,
             'verbose': self.verbose,
             'router_config': {
                 'host': mikrotik_config.get('host', 'unknown'),
@@ -189,23 +182,17 @@ def main():
     
     parser = argparse.ArgumentParser(description="Test core MikroTik Cursor MCP functionality")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument("--dry-run", action="store_true", default=True, help="Test in dry-run mode (default)")
-    parser.add_argument("--live", action="store_true", help="Run live tests (will make changes)")
     parser.add_argument("--save-report", action="store_true", help="Save detailed JSON report")
     
     args = parser.parse_args()
     
-    # Determine dry-run mode
-    dry_run = not args.live if args.live else args.dry_run
-    
     print("MikroTik Cursor MCP - Core Functionality Test")
     print("=" * 50)
-    print(f"Mode: {'Dry-run (safe)' if dry_run else 'Live (will make changes)'}")
     print(f"Verbose: {args.verbose}")
     print()
     
     # Initialize tester
-    tester = CoreTester(verbose=args.verbose, dry_run=dry_run)
+    tester = CoreTester(verbose=args.verbose)
     
     try:
         # Run tests

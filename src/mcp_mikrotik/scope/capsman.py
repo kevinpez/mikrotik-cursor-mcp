@@ -73,8 +73,22 @@ def mikrotik_list_capsman_interfaces() -> str:
     """
     app_logger.info("Listing CAPsMAN interfaces")
     
-    cmd = "/caps-man interface print"
-    result = execute_mikrotik_command(cmd)
+    # Try WiFi Wave2/v7 syntax first
+    cmd_v7 = "/interface wifiwave2 cap print"
+    result = execute_mikrotik_command(cmd_v7)
+    
+    # If v7 syntax fails, try CAPsMAN (v6)
+    if not result or "syntax error" in result.lower() or "bad command" in result.lower():
+        cmd_v6 = "/caps-man interface print"
+        result = execute_mikrotik_command(cmd_v6)
+    
+    # If both fail, try cap-man (alternate spelling)
+    if not result or "syntax error" in result.lower() or "bad command" in result.lower():
+        cmd_alt = "/cap-man interface print"
+        result = execute_mikrotik_command(cmd_alt)
+    
+    if not result or result.strip() == "":
+        return "CAPsMAN not configured or not supported on this device."
     
     return f"CAPSMAN INTERFACES:\n\n{result}"
 

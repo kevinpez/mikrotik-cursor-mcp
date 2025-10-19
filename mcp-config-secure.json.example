@@ -6,25 +6,9 @@
         "-m", "mcp_mikrotik.serve"
       ],
       "env": {
-        "MIKROTIK_HOST": "${MIKROTIK_HOST}",
-        "MIKROTIK_USERNAME": "${MIKROTIK_USERNAME}",
-        "MIKROTIK_PASSWORD": "${MIKROTIK_PASSWORD}",
-        "MIKROTIK_PORT": "${MIKROTIK_PORT:-22}",
-        "MIKROTIK_SSH_KEY": "${MIKROTIK_SSH_KEY}",
-        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "true",
-        "MIKROTIK_LOG_LEVEL": "INFO",
-        "MIKROTIK_LOG_FORMAT": "json",
-        "MIKROTIK_DRY_RUN": "true",
-        "MIKROTIK_SAFETY_MODE": "true",
-        "MIKROTIK_METRICS_ENABLED": "true",
-        "MIKROTIK_METRICS_PORT": "9090",
-        "MIKROTIK_CONNECTION_POOL_SIZE": "5",
-        "MIKROTIK_CONNECTION_TIMEOUT": "30",
-        "MIKROTIK_COMMAND_TIMEOUT": "60",
-        "MIKROTIK_RETRY_ATTEMPTS": "3",
-        "MIKROTIK_RETRY_DELAY": "1",
-        "MIKROTIK_BACKUP_BEFORE_CHANGES": "true",
-        "MIKROTIK_AUTO_BACKUP_RETENTION": "10"
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "kevinpez",
+        "MIKROTIK_PASSWORD": "your_password"
       },
       "disabled": false,
       "autoApprove": []

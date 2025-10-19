@@ -94,15 +94,22 @@ def mikrotik_dns_lookup(hostname: str, server: Optional[str] = None) -> str:
     """Perform DNS lookup"""
     app_logger.info(f"DNS lookup: {hostname}")
     
-    cmd = f'/tool dns-lookup name="{hostname}"'
-    
+    # Try RouterOS v7 syntax first
+    cmd_v7 = f'/tool/dns-lookup name={hostname}'
     if server:
-        cmd += f' server={server}'
+        cmd_v7 += f' server={server}'
     
-    result = execute_mikrotik_command(cmd)
+    result = execute_mikrotik_command(cmd_v7)
+    
+    # If v7 syntax fails, try v6 syntax with different format
+    if not result or "syntax error" in result.lower() or result.strip() == "":
+        cmd_v6 = f'/tool dns-lookup {hostname}'
+        if server:
+            cmd_v6 += f' server={server}'
+        result = execute_mikrotik_command(cmd_v6)
     
     if not result or result.strip() == "":
-        return f"Unable to resolve {hostname}."
+        return f"DNS lookup not available or unable to resolve {hostname}."
     
     return f"DNS LOOKUP ({hostname}):\n\n{result}"
 

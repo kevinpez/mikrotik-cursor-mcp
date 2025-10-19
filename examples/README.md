@@ -16,7 +16,6 @@ This directory contains example configurations for the MikroTik Cursor MCP serve
 ### `mcp-config.json.example`
 Basic MCP server configuration for Cursor IDE. Includes:
 - Connection settings (host, username, password)
-- Dry-run mode for safe testing
 - Standard configuration
 
 ### `mcp-config-secure.json.example`
@@ -61,7 +60,6 @@ All sensitive values can be set via environment variables instead of hardcoding:
 - `MIKROTIK_PASSWORD` - Router password
 - `MIKROTIK_PORT` - SSH port (default: 22)
 - `MIKROTIK_SSH_KEY` - Path to SSH private key
-- `MIKROTIK_DRY_RUN` - Enable dry-run mode (true/false)
 
 ---
 
@@ -69,10 +67,9 @@ All sensitive values can be set via environment variables instead of hardcoding:
 
 1. **Never commit credentials** to version control
 2. **Use SSH keys** instead of passwords when possible
-3. **Enable dry-run mode** initially to test safely
-4. **Restrict router access** with firewall rules
-5. **Use dedicated user** with appropriate permissions
-6. **Rotate credentials** regularly
+3. **Restrict router access** with firewall rules
+4. **Use dedicated user** with appropriate permissions
+5. **Rotate credentials** regularly
 
 ---
 

@@ -53,7 +53,6 @@ class UltimateHandlerTester:
         'mikrotik_get_openvpn_status',  # Requires specific name argument
         'mikrotik_get_ipv6_nd_settings',  # Requires interface argument
         'mikrotik_safety_check_command',  # Requires command argument
-        'mikrotik_dry_run_command',  # Requires command argument
     ]
     
     def __init__(self, verbose: bool = False):
@@ -115,8 +114,6 @@ class UltimateHandlerTester:
         # Specific handler overrides (handlers that require specific args)
         command_handlers = {
             'mikrotik_assess_command_risk': '/system identity print',
-            'mikrotik_show_dry_run_preview': '/system identity print',
-            'mikrotik_dry_run_command': '/system identity print',
             'mikrotik_safety_check_command': '/system identity print',
         }
         if handler_name in command_handlers:
