@@ -534,48 +534,89 @@ class HardwareValidator:
     def print_final_results(self):
         """Print comprehensive final test results."""
         print(f"\n{Colors.BOLD}{Colors.HEADER}{'='*80}{Colors.ENDC}")
-        print(f"{Colors.BOLD}{Colors.HEADER}HARDWARE VALIDATION RESULTS{Colors.ENDC}")
+        print(f"{Colors.BOLD}{Colors.HEADER}TEST RESULTS SUMMARY{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.HEADER}{'='*80}{Colors.ENDC}\n")
         
-        # Overall statistics
-        total = self.results['total_tests']
+        # Calculate correct statistics
         passed = self.results['passed']
         failed = self.results['failed']
         skipped = self.results['skipped']
-        pass_rate = (passed / max(1, total)) * 100
+        total_tested = passed + failed + skipped
+        total_handlers = self.results['total_handlers']
         
+        # Calculate rates
+        if total_tested > 0:
+            pass_rate = (passed / total_tested) * 100
+            fail_rate = (failed / total_tested) * 100
+        else:
+            pass_rate = 0
+            fail_rate = 0
+        
+        # Print statistics in a nice table format
         print(f"{Colors.BOLD}Overall Statistics:{Colors.ENDC}")
-        print(f"  Total Tests:    {Colors.BOLD}{total}{Colors.ENDC}")
-        print(f"  Passed:         {Colors.GREEN}{passed}{Colors.ENDC} ({pass_rate:.1f}%)")
-        print(f"  Failed:         {Colors.RED}{failed}{Colors.ENDC}")
-        print(f"  Skipped:        {Colors.YELLOW}{skipped}{Colors.ENDC}")
-        print(f"  Duration:       {Colors.BOLD}{self.results['duration_seconds']:.2f}s{Colors.ENDC}")
+        print(f"  {'Total Handlers:':<20} {Colors.BOLD}{total_handlers}{Colors.ENDC}")
+        print(f"  {'Tests Executed:':<20} {Colors.BOLD}{total_tested}{Colors.ENDC}")
+        print(f"  {'├─ Passed:':<20} {Colors.GREEN}{passed:>4}{Colors.ENDC}  ({pass_rate:5.1f}%)")
+        print(f"  {'├─ Failed:':<20} {Colors.RED}{failed:>4}{Colors.ENDC}  ({fail_rate:5.1f}%)")
+        print(f"  {'└─ Skipped:':<20} {Colors.YELLOW}{skipped:>4}{Colors.ENDC}  (safety/setup)")
+        print(f"  {'Duration:':<20} {Colors.BOLD}{self.results['duration_seconds']:.1f}s{Colors.ENDC}")
+        
+        # Success rate calculation
+        if passed > 0 and failed == 0:
+            print(f"\n  {Colors.BOLD}{Colors.GREEN}✓ Success Rate: 100% of runnable tests{Colors.ENDC}")
+        elif total_tested > 0:
+            success_rate = (passed / (passed + failed)) * 100 if (passed + failed) > 0 else 0
+            if success_rate >= 90:
+                color = Colors.GREEN
+                symbol = "✓"
+            elif success_rate >= 70:
+                color = Colors.YELLOW
+                symbol = "~"
+            else:
+                color = Colors.RED
+                symbol = "✗"
+            print(f"\n  {Colors.BOLD}{color}{symbol} Success Rate: {success_rate:.1f}% of runnable tests{Colors.ENDC}")
         
         # Results by category
         print(f"\n{Colors.BOLD}Results by Category:{Colors.ENDC}")
         print(f"{Colors.BOLD}{'─'*80}{Colors.ENDC}")
+        print(f"  {'Category':<25} {'Passed':<8} {'Failed':<8} {'Skipped':<8} {'Rate'}")
+        print(f"  {Colors.BOLD}{'─'*25} {'─'*8} {'─'*8} {'─'*8} {'─'*8}{Colors.ENDC}")
         
         for category_name in sorted(self.results['categories'].keys()):
             cat_results = self.results['categories'][category_name]
-            cat_pass_rate = (cat_results['passed'] / max(1, cat_results['total'])) * 100
+            cat_total = cat_results['total']
+            cat_passed = cat_results['passed']
+            cat_failed = cat_results['failed']
+            cat_skipped = cat_results['skipped']
             
-            # Color code based on pass rate
-            if cat_pass_rate == 100:
+            # Calculate pass rate (of runnable tests)
+            runnable = cat_passed + cat_failed
+            if runnable > 0:
+                success_rate = (cat_passed / runnable) * 100
+            else:
+                success_rate = 0
+            
+            # Color code based on success rate
+            if success_rate == 100 and cat_passed > 0:
+                status_color = Colors.GREEN
+                status = "✓"
+            elif success_rate >= 80:
                 status_color = Colors.GREEN
                 status = "+"
-            elif cat_pass_rate >= 50:
+            elif success_rate >= 60:
                 status_color = Colors.YELLOW
                 status = "~"
             else:
                 status_color = Colors.RED
-                status = "X"
+                status = "✗"
             
-            print(f"  {status_color}{status}{Colors.ENDC} {category_name:25s}: "
-                  f"{status_color}{cat_results['passed']:3d}{Colors.ENDC}/"
-                  f"{cat_results['total']:3d} "
-                  f"({cat_pass_rate:5.1f}%) "
-                  f"[{Colors.RED}F:{cat_results['failed']}{Colors.ENDC} "
-                  f"{Colors.YELLOW}S:{cat_results['skipped']}{Colors.ENDC}]")
+            # Format the row
+            print(f"  {status_color}{status}{Colors.ENDC} {category_name:<23} "
+                  f"{Colors.GREEN}{cat_passed:>3}{Colors.ENDC}/{cat_total:<3} "
+                  f"{Colors.RED if cat_failed > 0 else ''}{cat_failed:>3}{Colors.ENDC}     "
+                  f"{Colors.YELLOW}{cat_skipped:>3}{Colors.ENDC}     "
+                  f"{status_color}{success_rate:>5.1f}%{Colors.ENDC}")
         
         # Failed tests details
         if self.results['errors']:
@@ -601,20 +642,29 @@ class HardwareValidator:
         # Final verdict
         print(f"\n{Colors.BOLD}{'='*80}{Colors.ENDC}")
         if failed == 0 and passed > 0:
+            print(f"{Colors.BOLD}{Colors.GREEN}✓ ALL RUNNABLE TESTS PASSED{Colors.ENDC}")
+            print(f"\n  {Colors.GREEN}Result:{Colors.ENDC} {Colors.BOLD}{passed}{Colors.ENDC} tests executed successfully")
             if skipped > 0:
-                # Calculate actual total (passed + failed + skipped)
-                actual_total = passed + failed + skipped
-                print(f"{Colors.BOLD}{Colors.GREEN}*** ALL RUNNABLE TESTS PASSED! ***{Colors.ENDC}")
-                print(f"{Colors.GREEN}{passed}/{actual_total} tests executed successfully ({skipped} skipped for safety){Colors.ENDC}")
-            else:
-                print(f"{Colors.BOLD}{Colors.GREEN}*** ALL TESTS PASSED! ***{Colors.ENDC}")
-                print(f"{Colors.GREEN}Your MikroTik MCP server is fully functional on hardware!{Colors.ENDC}")
-        elif pass_rate >= 80:
-            print(f"{Colors.BOLD}{Colors.YELLOW}MOSTLY PASSING ({pass_rate:.1f}%){Colors.ENDC}")
-            print(f"{Colors.YELLOW}Most functionality works, but some issues need attention.{Colors.ENDC}")
+                print(f"  {Colors.YELLOW}Note:{Colors.ENDC} {skipped} handlers skipped (dangerous/long-running operations)")
+            print(f"\n  {Colors.GREEN}Your MikroTik MCP is fully operational!{Colors.ENDC}")
+        elif failed == 0:
+            print(f"{Colors.BOLD}{Colors.YELLOW}⚠ NO TESTS RUN{Colors.ENDC}")
+            print(f"\n  Check your test configuration")
         else:
-            print(f"{Colors.BOLD}{Colors.RED}MULTIPLE FAILURES ({pass_rate:.1f}% pass rate){Colors.ENDC}")
-            print(f"{Colors.RED}Significant issues detected - please review failures.{Colors.ENDC}")
+            # Calculate success rate of runnable tests
+            runnable = passed + failed
+            success_rate = (passed / runnable * 100) if runnable > 0 else 0
+            
+            if success_rate >= 80:
+                print(f"{Colors.BOLD}{Colors.YELLOW}⚠ SOME TESTS FAILED{Colors.ENDC}")
+                print(f"\n  {Colors.GREEN}Passed:{Colors.ENDC} {passed}/{runnable} ({success_rate:.1f}%)")
+                print(f"  {Colors.RED}Failed:{Colors.ENDC} {failed} - Review failures above")
+                print(f"\n  {Colors.YELLOW}Most functionality works, but some issues need attention{Colors.ENDC}")
+            else:
+                print(f"{Colors.BOLD}{Colors.RED}✗ MULTIPLE FAILURES{Colors.ENDC}")
+                print(f"\n  {Colors.GREEN}Passed:{Colors.ENDC} {passed}/{runnable} ({success_rate:.1f}%)")
+                print(f"  {Colors.RED}Failed:{Colors.ENDC} {failed} - Review failures above")
+                print(f"\n  {Colors.RED}Significant issues detected - please review failures{Colors.ENDC}")
         print(f"{Colors.BOLD}{'='*80}{Colors.ENDC}\n")
     
     def save_json_report(self):
