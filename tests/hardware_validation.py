@@ -83,6 +83,7 @@ class HardwareValidator:
         'mikrotik_flush_connections',
         'mikrotik_monitor_logs',  # Runs indefinitely (follow mode)
         'mikrotik_bandwidth_test',  # Can run for extended periods
+        'mikrotik_traceroute',  # Can hang on network timeouts
     ]
     
     # Test arguments for handlers that need specific parameters
