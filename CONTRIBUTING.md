@@ -145,7 +145,7 @@ Create comprehensive integration tests in `tests/integration/test_my_feature_int
 Your test file should:
 - Use testcontainers to spin up a real MikroTik RouterOS container
 - Follow the existing test structure and naming conventions
-- Test complete workflows (create, read, update, delete operations)
+- Test complete operations (create, read, update, delete operations)
 - Include proper cleanup to ensure tests are isolated
 - Use the `@pytest.mark.integration` decorator
 

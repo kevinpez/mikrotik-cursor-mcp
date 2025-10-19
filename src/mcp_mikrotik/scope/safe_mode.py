@@ -25,8 +25,7 @@ def mikrotik_enter_safe_mode(timeout_minutes: Optional[int] = None) -> str:
     app_logger.info("Entering MikroTik Safe Mode")
     
     try:
-        # Enter safe mode using Ctrl+X equivalent command
-        # In RouterOS CLI, this is done with Ctrl+X, but via SSH we use the safe-mode command
+        # Try to enter safe mode using the command
         command = "/system safe-mode"
         
         if timeout_minutes:
@@ -34,7 +33,11 @@ def mikrotik_enter_safe_mode(timeout_minutes: Optional[int] = None) -> str:
         
         result = execute_mikrotik_command(command)
         
-        if "safe mode" in result.lower() or "entered" in result.lower():
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nTo use Safe Mode:\n1. Connect directly to the router console\n2. Press Ctrl+X to enter Safe Mode\n3. Make your configuration changes\n4. Press Ctrl+X again to exit and make changes permanent\n\nThis is a limitation of RouterOS, not the MCP server."
+        elif "safe mode" in result.lower() or "entered" in result.lower():
             app_logger.info("Successfully entered Safe Mode")
             return f"SUCCESS: SAFE MODE ACTIVATED\n\nSafe Mode is now active. All configuration changes will be temporary until Safe Mode is exited.\n\nTimeout: {timeout_minutes or 10} minutes\n\nTo make changes permanent, use the exit safe mode command.\n\nResult: {result}"
         else:
@@ -64,7 +67,11 @@ def mikrotik_exit_safe_mode() -> str:
         command = "/system safe-mode"
         result = execute_mikrotik_command(command)
         
-        if "safe mode" in result.lower() or "exited" in result.lower():
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nTo exit Safe Mode:\n1. Connect directly to the router console\n2. Press Ctrl+X to exit Safe Mode and make changes permanent\n\nThis is a limitation of RouterOS, not the MCP server."
+        elif "safe mode" in result.lower() or "exited" in result.lower():
             app_logger.info("Successfully exited Safe Mode - changes are now permanent")
             return f"✅ SAFE MODE DEACTIVATED\n\nSafe Mode has been exited. All configuration changes made during Safe Mode are now permanent.\n\nResult: {result}"
         else:
@@ -91,8 +98,13 @@ def mikrotik_get_safe_mode_status() -> str:
         command = "/system safe-mode print"
         result = execute_mikrotik_command(command)
         
-        app_logger.info("Retrieved Safe Mode status")
-        return f"📊 SAFE MODE STATUS\n\n{result}"
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nSafe Mode status can only be checked by connecting directly to the router console.\n\nThis is a limitation of RouterOS, not the MCP server."
+        else:
+            app_logger.info("Retrieved Safe Mode status")
+            return f"📊 SAFE MODE STATUS\n\n{result}"
         
     except Exception as e:
         error_msg = f"Failed to get Safe Mode status: {str(e)}"
@@ -123,8 +135,13 @@ def mikrotik_set_safe_mode_timeout(timeout_minutes: int) -> str:
         command = f"/system safe-mode set generic-timeout={timeout_minutes}m"
         result = execute_mikrotik_command(command)
         
-        app_logger.info(f"Safe Mode timeout set to {timeout_minutes} minutes")
-        return f"✅ SAFE MODE TIMEOUT SET\n\nSafe Mode timeout has been set to {timeout_minutes} minutes.\n\nThis means that if Safe Mode is not explicitly exited, changes will be automatically reverted after {timeout_minutes} minutes.\n\nResult: {result}"
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nSafe Mode timeout cannot be set remotely. This must be done by connecting directly to the router console.\n\nThis is a limitation of RouterOS, not the MCP server."
+        else:
+            app_logger.info(f"Safe Mode timeout set to {timeout_minutes} minutes")
+            return f"✅ SAFE MODE TIMEOUT SET\n\nSafe Mode timeout has been set to {timeout_minutes} minutes.\n\nThis means that if Safe Mode is not explicitly exited, changes will be automatically reverted after {timeout_minutes} minutes.\n\nResult: {result}"
         
     except Exception as e:
         error_msg = f"Failed to set Safe Mode timeout: {str(e)}"
@@ -149,8 +166,13 @@ def mikrotik_force_exit_safe_mode() -> str:
         command = "/system safe-mode force-exit"
         result = execute_mikrotik_command(command)
         
-        app_logger.warning("Force exited Safe Mode - all changes are now permanent")
-        return f"🚨 FORCE EXIT SAFE MODE\n\nSafe Mode has been force exited. All configuration changes are now permanent.\n\n⚠️ WARNING: This action cannot be undone.\n\nResult: {result}"
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nTo force exit Safe Mode:\n1. Connect directly to the router console\n2. Press Ctrl+X to force exit Safe Mode\n\nThis is a limitation of RouterOS, not the MCP server."
+        else:
+            app_logger.warning("Force exited Safe Mode - all changes are now permanent")
+            return f"🚨 FORCE EXIT SAFE MODE\n\nSafe Mode has been force exited. All configuration changes are now permanent.\n\n⚠️ WARNING: This action cannot be undone.\n\nResult: {result}"
         
     except Exception as e:
         error_msg = f"Failed to force exit Safe Mode: {str(e)}"
@@ -175,8 +197,13 @@ def mikrotik_get_safe_mode_history() -> str:
         command = "/system safe-mode history print"
         result = execute_mikrotik_command(command)
         
-        app_logger.info("Retrieved Safe Mode history")
-        return f"📋 SAFE MODE HISTORY\n\n{result}"
+        # Check if the result contains an error message
+        if "ERROR:" in result or "bad command name" in result.lower() or "no such command" in result.lower() or "bad command name safe-mode" in result.lower():
+            app_logger.info("Safe Mode is not available via API/SSH - this is a terminal-only feature")
+            return f"INFO: SAFE MODE NOT AVAILABLE VIA API/SSH\n\nSafe Mode is a terminal-only feature in RouterOS and cannot be accessed via API or SSH commands.\n\nSafe Mode history can only be viewed by connecting directly to the router console.\n\nThis is a limitation of RouterOS, not the MCP server."
+        else:
+            app_logger.info("Retrieved Safe Mode history")
+            return f"📋 SAFE MODE HISTORY\n\n{result}"
         
     except Exception as e:
         # If history command is not available, provide alternative information

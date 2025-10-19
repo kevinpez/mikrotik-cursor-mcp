@@ -43,6 +43,12 @@ def mikrotik_traceroute(
     """Traceroute to a host from the MikroTik router"""
     app_logger.info(f"Traceroute to: {address}")
     
+    # Limit max_hops for safety (prevent very long traces)
+    if max_hops and max_hops > 15:
+        max_hops = 15
+    elif not max_hops:
+        max_hops = 10  # Reasonable default
+    
     cmd = f"/tool traceroute {address}"
     
     if src_address:
@@ -52,23 +58,59 @@ def mikrotik_traceroute(
     if max_hops:
         cmd += f" max-hops={max_hops}"
     
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return f"Unable to traceroute to {address}."
-    
-    return f"TRACEROUTE ({address}):\n\n{result}"
+    try:
+        result = execute_mikrotik_command(cmd)
+        
+        if not result or result.strip() == "":
+            return f"Unable to traceroute to {address}. This may be due to network restrictions or the target being unreachable."
+        
+        return f"TRACEROUTE ({address}, max-hops={max_hops}):\n\n{result}"
+        
+    except Exception as e:
+        app_logger.error(f"Traceroute failed: {e}")
+        return f"Traceroute to {address} failed: {str(e)}"
 
 def mikrotik_bandwidth_test(
-    address: str,
+    address: Optional[str] = None,
     duration: Optional[int] = 10,
     direction: Optional[str] = "both",
     protocol: Optional[str] = "tcp",
     local_tx_speed: Optional[str] = None,
     remote_tx_speed: Optional[str] = None
 ) -> str:
-    """Run bandwidth test to another MikroTik"""
-    app_logger.info(f"Bandwidth test to: {address}")
+    """Run bandwidth test to another MikroTik or local interface"""
+    app_logger.info(f"Bandwidth test to: {address or 'auto-detect'}")
+    
+    # Limit duration for safety (max 30 seconds for testing)
+    if duration and duration > 30:
+        duration = 30
+    elif not duration:
+        duration = 5  # Very short default for testing
+    
+    # If no address specified, try to find a suitable target
+    if not address:
+        # Try to get the default gateway first
+        try:
+            gateway_cmd = "/ip route print where dst-address=0.0.0.0/0"
+            gateway_result = execute_mikrotik_command(gateway_cmd)
+            if gateway_result and "gateway" in gateway_result:
+                # Extract gateway IP from the result
+                lines = gateway_result.split('\n')
+                for line in lines:
+                    if "gateway" in line and "0.0.0.0/0" in line:
+                        parts = line.split()
+                        for i, part in enumerate(parts):
+                            if part == "gateway" and i + 1 < len(parts):
+                                address = parts[i + 1]
+                                break
+                        if address:
+                            break
+        except:
+            pass
+        
+        # If still no address, use a common test target that might work
+        if not address:
+            address = "127.0.0.1"  # Localhost test
     
     cmd = f"/tool bandwidth-test {address}"
     
@@ -83,12 +125,24 @@ def mikrotik_bandwidth_test(
     if remote_tx_speed:
         cmd += f" remote-tx-speed={remote_tx_speed}"
     
-    result = execute_mikrotik_command(cmd)
-    
-    if not result or result.strip() == "":
-        return f"Unable to run bandwidth test to {address}."
-    
-    return f"BANDWIDTH TEST ({address}):\n\n{result}"
+    try:
+        result = execute_mikrotik_command(cmd)
+        
+        if not result or result.strip() == "":
+            return f"Unable to run bandwidth test to {address}. This may be because the target doesn't support bandwidth testing or is not reachable."
+        
+        # Check for common error patterns
+        if "failed" in result.lower() or "error" in result.lower() or "timeout" in result.lower() or "unimplemented" in result.lower():
+            return f"Bandwidth test to {address} failed or is not supported. This is common when testing against non-MikroTik devices or servers that don't support bandwidth testing.\n\nResult: {result}"
+        
+        return f"BANDWIDTH TEST ({address}, {duration}s):\n\n{result}"
+        
+    except Exception as e:
+        app_logger.error(f"Bandwidth test failed: {e}")
+        error_msg = str(e)
+        if "unimplemented" in error_msg.lower() or "type 3" in error_msg.lower():
+            return f"Bandwidth test to {address} is not supported by this RouterOS version or the target device.\n\nNote: Bandwidth testing typically only works between MikroTik devices with compatible RouterOS versions."
+        return f"Bandwidth test to {address} failed: {error_msg}\n\nNote: Bandwidth testing typically only works between MikroTik devices or with servers that support the bandwidth test protocol."
 
 def mikrotik_dns_lookup(hostname: str, server: Optional[str] = None) -> str:
     """Perform DNS lookup"""

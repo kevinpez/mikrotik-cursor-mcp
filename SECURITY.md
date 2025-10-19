@@ -1,18 +1,8 @@
-# Security Guide for MikroTik Cursor MCP
+# Security Guide
 
-This document provides comprehensive security guidelines for deploying and using the MikroTik Cursor MCP in production environments.
+Comprehensive security guidelines for deploying and using the MikroTik Cursor MCP in production environments.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [RouterOS User Configuration](#routeros-user-configuration)
-- [SSH Key Management](#ssh-key-management)
-- [Network Security](#network-security)
-- [Credential Management](#credential-management)
-- [Logging and Monitoring](#logging-and-monitoring)
-- [Multi-Site Security](#multi-site-security)
-- [Best Practices](#best-practices)
-- [Incident Response](#incident-response)
+---
 
 ## Overview
 
@@ -24,445 +14,379 @@ The MikroTik Cursor MCP provides powerful automation capabilities that require c
 - **Audit logging** - Complete operation tracking
 - **Credential protection** - Secure storage and handling
 
+---
+
 ## RouterOS User Configuration
 
 ### Creating a Dedicated MCP User
 
-Create a dedicated user with minimal required permissions:
+Create a dedicated user account for the MCP server with minimal required permissions:
 
 ```bash
-# Create MCP user group with specific permissions
-/user group add name=mcp-users policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,sniff,sensitive,api
+# Create MCP user with read-only access
+/user add name=mcp-user password=SecurePassword123! group=read
 
-# Create the MCP user
-/user add name=mcp-user group=mcp-users password=your-secure-password
+# Or create with specific permissions
+/user add name=mcp-user password=SecurePassword123! group=full
 ```
 
-### Minimal Permission Policy
+### User Groups and Permissions
 
-For maximum security, create a custom policy with only required permissions:
+**Recommended Groups:**
+- `read` - For monitoring and status queries
+- `read,sensitive` - For configuration viewing
+- `full` - For configuration changes (use with caution)
 
+**Custom Group Example:**
 ```bash
-# Create minimal policy for MCP operations
-/user group add name=mcp-minimal policy=local,ssh,read,write,api
-
-# Required permissions breakdown:
-# - local: Local terminal access
-# - ssh: SSH access
-# - read: Read configuration and status
-# - write: Modify configuration
-# - api: API access for advanced operations
+/user group add name=mcp-operations policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,sniff,sensitive,api
 ```
 
-### Permission Matrix
-
-| Operation Category | Required Permissions | Risk Level |
-|-------------------|---------------------|------------|
-| **Read Operations** | `read` | Low |
-| **System Info** | `read` | Low |
-| **Backup/Restore** | `read`, `write` | Medium |
-| **Firewall Rules** | `read`, `write` | High |
-| **Routing Changes** | `read`, `write` | High |
-| **User Management** | `read`, `write` | Critical |
-| **System Reboot** | `read`, `write`, `reboot` | Critical |
-
-### Recommended User Groups
-
-#### Production Environment
-```bash
-# High-security production group
-/user group add name=mcp-prod policy=local,ssh,read,write,api
-```
-
-#### Development/Testing
-```bash
-# More permissive for testing
-/user group add name=mcp-dev policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,sniff,sensitive,api
-```
-
-#### Read-Only Monitoring
-```bash
-# Read-only for monitoring systems
-/user group add name=mcp-monitor policy=local,ssh,read,api
-```
+---
 
 ## SSH Key Management
 
-### Generate SSH Keys
+### Generate SSH Key Pair
 
 ```bash
-# Generate RSA key (recommended for RouterOS)
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/mikrotik_mcp_rsa -C "mcp-user@mikrotik"
+# Generate RSA key pair
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/mikrotik_mcp_key
 
-# Generate Ed25519 key (more secure, if supported)
-ssh-keygen -t ed25519 -f ~/.ssh/mikrotik_mcp_ed25519 -C "mcp-user@mikrotik"
+# Generate ED25519 key pair (recommended)
+ssh-keygen -t ed25519 -f ~/.ssh/mikrotik_mcp_key
 ```
 
-### Deploy Public Key to RouterOS
+### Configure RouterOS for SSH Keys
 
 ```bash
-# Method 1: Using RouterOS CLI
-/user ssh-keys import public-key-file=mikrotik_mcp_rsa.pub user=mcp-user
+# Add public key to router
+/user ssh-keys import public-key-file=mcp_key.pub user=mcp-user
 
-# Method 2: Using WinBox
-# 1. Go to System → Users
-# 2. Select mcp-user
-# 3. Click on "SSH Keys" tab
-# 4. Import the public key file
+# Disable password authentication (optional)
+/ip service set ssh disabled=no
+/ip service set telnet disabled=yes
 ```
 
-### Configure SSH Client
-
-```bash
-# Add to ~/.ssh/config
-Host mikrotik-*
-    User mcp-user
-    IdentityFile ~/.ssh/mikrotik_mcp_rsa
-    StrictHostKeyChecking yes
-    UserKnownHostsFile ~/.ssh/known_hosts
-    ServerAliveInterval 30
-    ServerAliveCountMax 3
-```
-
-### Key Rotation
-
-```bash
-# Rotate keys every 90 days
-# 1. Generate new key pair
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/mikrotik_mcp_rsa_new
-
-# 2. Deploy new public key
-/user ssh-keys import public-key-file=mikrotik_mcp_rsa_new.pub user=mcp-user
-
-# 3. Test new key
-ssh -i ~/.ssh/mikrotik_mcp_rsa_new mcp-user@router-ip
-
-# 4. Remove old key
-/user ssh-keys remove [find user=mcp-user and key-owner="old-key-owner"]
-
-# 5. Update MCP configuration
-```
-
-## Network Security
-
-### Management Network Isolation
-
-```bash
-# Create dedicated management VLAN
-/interface vlan add interface=ether1 name=mgmt-vlan vlan-id=100
-
-# Assign management IP
-/ip address add address=192.168.100.1/24 interface=mgmt-vlan
-
-# Restrict SSH access to management network only
-/ip firewall filter add chain=input protocol=tcp dst-port=22 src-address=192.168.100.0/24 action=accept
-/ip firewall filter add chain=input protocol=tcp dst-port=22 action=drop
-```
-
-### Firewall Rules for MCP
-
-```bash
-# Allow MCP server access
-/ip firewall filter add chain=input protocol=tcp dst-port=22 src-address=10.0.0.100 action=accept comment="MCP Server Access"
-
-# Allow API access (if using API)
-/ip firewall filter add chain=input protocol=tcp dst-port=8728 src-address=10.0.0.100 action=accept comment="MCP API Access"
-
-# Log all SSH attempts
-/ip firewall filter add chain=input protocol=tcp dst-port=22 action=log log-prefix="SSH-Attempt"
-```
-
-### VPN Access for Remote Management
-
-```bash
-# Create WireGuard interface for MCP access
-/interface wireguard add name=wg-mcp listen-port=51820
-
-# Add peer for MCP server
-/interface wireguard peers add interface=wg-mcp public-key="MCP_SERVER_PUBLIC_KEY" allowed-address=10.0.0.100/32
-
-# Allow WireGuard traffic
-/ip firewall filter add chain=input protocol=udp dst-port=51820 action=accept comment="WireGuard MCP"
-```
-
-## Credential Management
-
-### Environment Variables
-
-```bash
-# Production environment variables
-export MIKROTIK_HOST="192.168.100.1"
-export MIKROTIK_USERNAME="mcp-user"
-export MIKROTIK_SSH_KEY="/secure/path/mikrotik_mcp_rsa"
-export MIKROTIK_STRICT_HOST_KEY_CHECKING="true"
-export MIKROTIK_KNOWN_HOSTS="/secure/path/known_hosts"
-```
-
-### Configuration File Security
-
-```bash
-# Secure configuration file permissions
-chmod 600 ~/.cursor/mcp.json
-chmod 600 ~/.ssh/mikrotik_mcp_rsa
-chmod 644 ~/.ssh/mikrotik_mcp_rsa.pub
-chmod 600 ~/.ssh/known_hosts
-```
-
-### Secret Management Systems
-
-#### HashiCorp Vault Integration
-
-```python
-# Example Vault integration
-import hvac
-
-def get_mikrotik_credentials():
-    client = hvac.Client(url='https://vault.company.com')
-    client.token = os.getenv('VAULT_TOKEN')
-    
-    secret = client.secrets.kv.v2.read_secret_version(
-        path='mikrotik/mcp-credentials'
-    )
-    
-    return {
-        'host': secret['data']['data']['host'],
-        'username': secret['data']['data']['username'],
-        'ssh_key': secret['data']['data']['ssh_key_path']
-    }
-```
-
-#### AWS Secrets Manager
-
-```python
-# Example AWS Secrets Manager integration
-import boto3
-import json
-
-def get_mikrotik_credentials():
-    client = boto3.client('secretsmanager', region_name='us-east-1')
-    
-    response = client.get_secret_value(
-        SecretId='mikrotik/mcp-credentials'
-    )
-    
-    return json.loads(response['SecretString'])
-```
-
-## Logging and Monitoring
-
-### RouterOS Logging Configuration
-
-```bash
-# Enable detailed logging
-/system logging add topics=info,debug action=memory
-
-# Log user activities
-/system logging add topics=system action=memory
-
-# Log firewall events
-/system logging add topics=firewall action=memory
-
-# Log SSH connections
-/system logging add topics=ssh action=memory
-```
-
-### MCP Logging Configuration
+### MCP Configuration with SSH Keys
 
 ```json
 {
   "mcpServers": {
     "mikrotik-cursor-mcp": {
+      "command": "python",
+      "args": ["src/mcp_mikrotik/server.py"],
       "env": {
-        "MIKROTIK_LOG_LEVEL": "INFO",
-        "MIKROTIK_LOG_FORMAT": "json",
-        "MIKROTIK_LOG_FILE": "/var/log/mikrotik-mcp.log",
-        "MIKROTIK_AUDIT_LOG": "true"
+        "MIKROTIK_HOST": "192.168.88.1",
+        "MIKROTIK_USERNAME": "mcp-user",
+        "MIKROTIK_SSH_KEY": "/path/to/mcp_key",
+        "MIKROTIK_PORT": "22"
       }
     }
   }
 }
 ```
 
-### Security Monitoring
+---
+
+## Network Security
+
+### Management Network Isolation
 
 ```bash
-# Monitor failed SSH attempts
-/log print where topics~"ssh" and message~"failed"
+# Create management VLAN
+/interface vlan add interface=bridge name=mgmt-vlan vlan-id=100
 
-# Monitor user changes
-/log print where topics~"system" and message~"user"
+# Add management IP
+/ip address add address=192.168.100.1/24 interface=mgmt-vlan
 
-# Monitor firewall changes
-/log print where topics~"firewall" and message~"added\|removed"
+# Restrict SSH to management network
+/ip service set ssh address=192.168.100.0/24
 ```
 
-## Multi-Site Security
-
-### Site-Specific Credentials
-
-```yaml
-# sites.yaml with encrypted credentials
-sites:
-  production-router-1:
-    name: "Production Router 1"
-    host: "192.168.100.1"
-    username: "mcp-prod-1"
-    ssh_key_path: "/secure/keys/prod-1_rsa"
-    tags: ["production", "critical"]
-    
-  staging-router-1:
-    name: "Staging Router 1"
-    host: "192.168.200.1"
-    username: "mcp-staging-1"
-    ssh_key_path: "/secure/keys/staging-1_rsa"
-    tags: ["staging", "testing"]
-```
-
-### Credential Encryption
+### Firewall Rules for MCP Access
 
 ```bash
-# Encrypt sites.yaml file
-gpg --symmetric --cipher-algo AES256 sites.yaml
+# Allow MCP server access
+/ip firewall filter add chain=input src-address=192.168.100.10 action=accept comment="MCP Server Access"
 
-# Use encrypted file
-python site_manager.py --config sites.yaml.gpg
+# Block unauthorized SSH attempts
+/ip firewall filter add chain=input protocol=tcp dst-port=22 action=drop comment="Block SSH"
 ```
 
-### Network Segmentation
+### API Security
 
 ```bash
-# Different management networks per environment
-Production: 192.168.100.0/24
-Staging:    192.168.200.0/24
-Development: 192.168.300.0/24
+# Restrict API access
+/ip service set api address=192.168.100.0/24
+
+# Use TLS for API (RouterOS 7+)
+/ip service set api-ssl address=192.168.100.0/24
 ```
 
-## Best Practices
+---
 
-### 1. Principle of Least Privilege
+## Credential Management
 
-- Create dedicated users with minimal required permissions
-- Use separate credentials for different environments
-- Regularly audit user permissions
+### Environment Variables
 
-### 2. Defense in Depth
+**Never hardcode credentials in configuration files:**
 
-- Network-level restrictions (firewall rules)
-- Application-level authentication (SSH keys)
-- Logging and monitoring at all levels
+```json
+{
+  "env": {
+    "MIKROTIK_HOST": "192.168.88.1",
+    "MIKROTIK_USERNAME": "mcp-user",
+    "MIKROTIK_PASSWORD": "${MIKROTIK_PASSWORD}",
+    "MIKROTIK_PORT": "22"
+  }
+}
+```
 
-### 3. Regular Security Updates
+### Secret Management
+
+**Use external secret management:**
+- HashiCorp Vault
+- AWS Secrets Manager
+- Azure Key Vault
+- Kubernetes Secrets
+
+### Credential Rotation
 
 ```bash
-# Update RouterOS regularly
-/system package update install
+# Regular password rotation
+/user set mcp-user password=NewSecurePassword456!
 
-# Update MCP dependencies
-pip install --upgrade mikrotik-cursor-mcp
-
-# Rotate SSH keys every 90 days
+# SSH key rotation
+/user ssh-keys remove [find user=mcp-user]
+/user ssh-keys import public-key-file=new_mcp_key.pub user=mcp-user
 ```
 
-### 4. Backup and Recovery
+---
+
+## Logging and Monitoring
+
+### RouterOS Logging
 
 ```bash
-# Regular configuration backups
-/backup save name=security-backup-$(date +%Y%m%d)
+# Enable comprehensive logging
+/system logging add topics=info,debug action=memory
 
-# Test restore procedures
-/backup load name=security-backup-20240101
+# Log to remote syslog
+/system logging add topics=info,debug action=remote remote=192.168.100.5 remote-port=514
+
+# Log to file
+/system logging add topics=info,debug action=file file-name=mcp-operations
 ```
 
-### 5. Incident Response Preparation
+### MCP Server Logging
 
 ```bash
-# Create emergency access procedures
-# 1. Out-of-band access (console)
-# 2. Emergency user accounts
-# 3. Rollback procedures
-# 4. Contact information
+# Enable debug logging
+export MIKROTIK_LOG_LEVEL=DEBUG
+
+# Log to file
+export MIKROTIK_LOG_FILE=/var/log/mikrotik-mcp.log
 ```
+
+### Monitoring Commands
+
+```bash
+# Check active connections
+/ip firewall connection print
+
+# Monitor SSH connections
+/log print where topics~"ssh"
+
+# Check authentication attempts
+/log print where topics~"auth"
+
+# Monitor system resources
+/system resource print
+```
+
+---
+
+## Daily Security Operations
+
+### Log Monitoring
+
+```bash
+# Check firewall drops
+/log print where topics~"firewall"
+
+# Check SSH connections
+/log print where topics~"ssh"
+
+# Check system errors
+/log print where topics~"error"
+
+# Check authentication attempts
+/log print where topics~"auth"
+```
+
+### System Health Check
+
+```bash
+# System resources
+/system resource print
+
+# Interface status
+/interface print
+
+# Active connections
+/ip firewall connection print
+
+# User activity
+/user active print
+```
+
+### Security Status Check
+
+```bash
+# Check enabled services
+/ip service print
+
+# Check firewall rules
+/ip firewall filter print
+
+# Check user accounts
+/user print
+
+# Check SSH keys
+/user ssh-keys print
+```
+
+---
+
+## Backup and Recovery
+
+### Automated Backups
+
+```bash
+# Create backup script
+/system script add name=backup-mcp source={
+    /system backup save name=mcp-backup-$(/system clock get date)
+    /file remove [find name~"mcp-backup" and creation-time<([/system clock get date]-7d)]
+}
+
+# Schedule daily backups
+/system scheduler add name=backup-mcp-daily interval=1d on-event=backup-mcp
+```
+
+### Backup Verification
+
+```bash
+# List available backups
+/file print where type=backup
+
+# Test backup restoration (in test environment)
+/system backup load name=mcp-backup-2025-10-19
+```
+
+---
 
 ## Incident Response
 
 ### Security Incident Checklist
 
 1. **Immediate Response**
-   - [ ] Isolate affected systems
-   - [ ] Preserve logs and evidence
-   - [ ] Notify security team
-   - [ ] Document timeline
+   - Disable affected user accounts
+   - Block suspicious IP addresses
+   - Enable additional logging
+   - Create emergency backup
 
 2. **Investigation**
-   - [ ] Review access logs
-   - [ ] Check for unauthorized changes
-   - [ ] Analyze network traffic
-   - [ ] Identify attack vector
+   - Review logs for unauthorized access
+   - Check for configuration changes
+   - Verify backup integrity
+   - Document findings
 
 3. **Recovery**
-   - [ ] Restore from clean backup
-   - [ ] Update credentials
-   - [ ] Patch vulnerabilities
-   - [ ] Strengthen security controls
+   - Restore from clean backup if needed
+   - Update passwords and SSH keys
+   - Review and update firewall rules
+   - Implement additional security measures
 
-4. **Post-Incident**
-   - [ ] Conduct lessons learned
-   - [ ] Update security procedures
-   - [ ] Improve monitoring
-   - [ ] Train staff
-
-### Emergency Access Procedures
+### Emergency Commands
 
 ```bash
-# Emergency console access
-# 1. Physical access to router
-# 2. Use console cable
-# 3. Reset to factory defaults if necessary
-# 4. Restore from secure backup
+# Disable all services except SSH
+/ip service set telnet,ftp,www,api,winbox disabled=yes
 
-# Emergency network access
-# 1. Use out-of-band management
-# 2. VPN to management network
-# 3. Emergency user account
+# Block all external access
+/ip firewall filter add chain=input action=drop comment="Emergency Block"
+
+# Enable Safe Mode
+/system safe-mode
 ```
-
-## Compliance and Auditing
-
-### Audit Trail Requirements
-
-- All MCP operations logged with timestamps
-- User identification for all actions
-- Configuration changes tracked
-- Access attempts monitored
-
-### Compliance Frameworks
-
-- **SOC 2**: Access controls, monitoring, incident response
-- **ISO 27001**: Information security management
-- **PCI DSS**: Network security for payment processing
-- **HIPAA**: Healthcare data protection
-
-### Regular Security Assessments
-
-```bash
-# Monthly security checklist
-# 1. Review user accounts and permissions
-# 2. Check SSH key validity
-# 3. Review firewall rules
-# 4. Analyze access logs
-# 5. Test backup/restore procedures
-# 6. Update security documentation
-```
-
-## Contact and Support
-
-For security-related issues:
-
-- **Security Issues**: security@company.com
-- **Emergency Contact**: +1-XXX-XXX-XXXX
-- **Documentation**: [Internal Security Wiki]
-- **Incident Response**: [Internal IR Procedures]
 
 ---
 
-**Remember**: Security is an ongoing process, not a one-time setup. Regular reviews, updates, and testing are essential for maintaining a secure environment.
+## Best Practices
+
+### General Security
+
+- Use dedicated service accounts with minimal permissions
+- Implement network segmentation for management traffic
+- Enable comprehensive logging and monitoring
+- Regular security audits and penetration testing
+- Keep RouterOS firmware updated
+- Use strong, unique passwords
+- Implement multi-factor authentication where possible
+
+### MCP-Specific Security
+
+- Use SSH keys instead of passwords
+- Restrict MCP server to specific IP addresses
+- Monitor MCP operations through logs
+- Test changes in non-production environments
+- Use Safe Mode for risky operations
+- Implement change approval workflows
+- Regular backup and recovery testing
+
+### Network Security
+
+- Segment management networks
+- Use VPNs for remote access
+- Implement intrusion detection
+- Regular firewall rule reviews
+- Monitor for unusual traffic patterns
+- Use encrypted protocols (SSH, TLS)
+
+---
+
+## Tools and Resources
+
+### Security Tools
+- WinBox: GUI management tool
+- The Dude: Network monitoring
+- Netinstall: RouterOS installation tool
+- MCP Server: MikroTik automation system
+
+### Documentation
+- [RouterOS Security Guide](https://help.mikrotik.com/docs/display/ROS/Security)
+- [SSH Key Management](https://help.mikrotik.com/docs/display/ROS/SSH)
+- [Firewall Configuration](https://help.mikrotik.com/docs/display/ROS/IP+Firewall)
+
+---
+
+## Compliance and Auditing
+
+### Audit Requirements
+
+- Document all configuration changes
+- Maintain access logs for compliance
+- Regular security assessments
+- Incident response procedures
+- Backup and recovery testing
+
+### Compliance Frameworks
+
+- ISO 27001
+- NIST Cybersecurity Framework
+- SOC 2
+- PCI DSS (if applicable)
+
+---
+
+*Security guide for MikroTik Cursor MCP Server*

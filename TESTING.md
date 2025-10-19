@@ -8,6 +8,14 @@ Comprehensive testing documentation for the MikroTik Cursor MCP server.
 
 The MikroTik MCP includes a hardware validation suite that tests all 440+ handler functions against live MikroTik routers. This ensures that every command works correctly with your specific RouterOS configuration.
 
+**Test Suite Features:**
+- Tests 440+ handler functions across 19 categories
+- Real-time progress indicators
+- Verbose and compact output modes
+- JSON report generation
+- Safety features prevent dangerous operations
+- Category-specific testing
+
 ---
 
 ## Quick Start
@@ -51,38 +59,44 @@ python tests/hardware_validation.py --list-categories
 
 ---
 
-## Test Modes
+## Test Categories
+
+The hardware validation suite covers 19 functional categories:
+
+1. **System** - Identity, resources, clock, health
+2. **Firewall** - Filter, NAT, mangle, RAW rules
+3. **Interfaces** - Physical, virtual, bridge, VLAN
+4. **Routes** - Static routes, BGP, OSPF
+5. **IPv6** - Addresses, routes, DHCPv6, firewall
+6. **Wireless** - Interfaces, CAPsMAN, security
+7. **DNS** - Settings, static entries, cache
+8. **DHCP** - Servers, pools, leases
+9. **Users** - User management, groups
+10. **WireGuard** - VPN interfaces and peers
+11. **OpenVPN** - Client, server, certificates
+12. **Containers** - Docker lifecycle, networking
+13. **Certificates** - PKI, CA, SSL/TLS
+14. **Backup** - Create, restore, export
+15. **Hotspot** - Servers, users, captive portal
+16. **IP Management** - Addresses, pools, services
+17. **Queues** - Simple queues, queue trees
+18. **Logs** - View, search, clear
+19. **Diagnostics** - Ping, traceroute, ARP
+
+---
+
+## Output Formats
 
 ### Compact Mode (Default)
 
-Shows one line per handler with pass/fail status:
-
-```bash
-python tests/hardware_validation.py --category System
-```
-
-**Output:**
 ```
 [1/10] get_system_identity         PASS (0.45s)
 [2/10] get_system_resources         PASS (0.38s)
 [3/10] get_system_health            PASS (0.41s)
 ```
 
-**Best for:**
-- Quick status checks
-- CI/CD pipelines
-- Monitoring scripts
-- Production validation
-
 ### Verbose Mode
 
-Shows detailed command execution information:
-
-```bash
-python tests/hardware_validation.py --category System -v
-```
-
-**Output:**
 ```
 [1/10] get_system_identity
 
@@ -96,143 +110,127 @@ python tests/hardware_validation.py --category System -v
   Command successful
 ```
 
-**Best for:**
-- Debugging failures
-- Learning RouterOS API
-- Detailed analysis
-- Development
+### JSON Report
 
----
-
-## Test Categories
-
-The test suite covers 19 functional categories:
-
-| Category | Handlers | Description |
-|----------|----------|-------------|
-| **System** | 13 | Identity, resources, clock, health, packages |
-| **Firewall** | 54 | Filter rules, NAT, mangle, RAW, Layer 7 |
-| **Interfaces** | 53 | Physical, virtual, bridge, VLAN, bonding |
-| **Routes** | 33 | Static routes, BGP, OSPF, filters |
-| **IPv6** | 43 | Addresses, routes, DHCPv6, firewall |
-| **Wireless** | 39 | Interfaces, CAPsMAN, security |
-| **DNS** | 15 | Settings, static entries, cache |
-| **DHCP** | 7 | Servers, pools, leases |
-| **Users** | 18 | User management, groups, permissions |
-| **WireGuard** | 11 | Interfaces, peers, keys |
-| **OpenVPN** | 9 | Client, server, certificates |
-| **Containers** | 18 | Docker lifecycle, images, networking |
-| **Certificates** | 11 | PKI, CA, SSL/TLS |
-| **Backup** | 10 | Create, restore, export |
-| **Hotspot** | 10 | Servers, users, captive portal |
-| **IP Management** | 18 | Addresses, pools, services |
-| **Queues** | 20 | Simple queues, queue trees, QoS |
-| **Logs** | 10 | View, search, clear |
-| **Diagnostics** | 9 | Ping, traceroute, ARP, DNS lookup |
-
----
-
-## Test Output Components
-
-### Verbose Output
-
-Each test shows:
-
-1. **Handler Number** - Position in category [1/10]
-2. **Handler Name** - Function being tested
-3. **Executing** - Exact command name
-4. **Arguments** - Parameters passed (if any)
-5. **Execution Time** - How long it took
-6. **Result** - Command output (first 500 chars)
-7. **Status** - Success/failure/skip indicator
-
-### Status Indicators
-
-- **PASS** - Command executed successfully
-- **FAIL** - Command returned error
-- **SKIP** - Command skipped (requires arguments or dangerous)
-
----
-
-## Common Test Scenarios
-
-### Pre-Deployment Validation
-
-Validate router before deploying changes:
-
-```bash
-python tests/hardware_validation.py --report pre_deploy_$(date +%Y%m%d).json
-```
-
-### Post-Configuration Check
-
-Verify specific category after configuration changes:
-
-```bash
-python tests/hardware_validation.py --category Firewall -v
-```
-
-### Daily Monitoring
-
-Schedule regular tests to catch configuration drift:
-
-```powershell
-# Windows Task Scheduler
-python tests/hardware_validation.py --report daily_$(Get-Date -f 'yyyyMMdd').json
-```
-
-```bash
-# Linux cron
-0 2 * * * cd /path/to/mikrotik-mcp && python tests/hardware_validation.py --report daily_$(date +%Y%m%d).json
-```
-
-### CI/CD Integration
-
-Integrate into continuous integration pipeline:
-
-```yaml
-# GitHub Actions example
-- name: Validate MikroTik Configuration
-  run: |
-    python tests/hardware_validation.py --report ${{ github.sha }}.json
-```
-
-### Debug Specific Handler
-
-Test individual handler in verbose mode:
-
-```bash
-python tests/hardware_validation.py --category System -v 2>&1 | grep -A 20 "get_system_identity"
+```json
+{
+  "summary": {
+    "total": 440,
+    "passed": 385,
+    "failed": 35,
+    "skipped": 20
+  },
+  "categories": [
+    {
+      "name": "System",
+      "handlers": 13,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 3
+    }
+  ]
+}
 ```
 
 ---
 
 ## Understanding Results
 
+### Status Indicators
+
+- **PASS** - Handler executed successfully
+- **FAIL** - Handler returned error
+- **SKIP** - Handler skipped (dangerous or requires arguments)
+
 ### Expected Pass Rates
 
-Different categories have different expected pass rates:
-
-- **Read Operations** (list, get): 80-95%
-- **Write Operations** (create, update): 30-50% (many require specific arguments)
+- **Read Operations**: 80-95%
+- **Write Operations**: 30-50% (many require specific arguments)
 - **Diagnostic Operations**: 60-80%
 
-### Why Handlers Are Skipped
+### Why Handlers Skip
 
-Handlers are skipped for safety or missing arguments:
+- **Dangerous operations**: reboot, factory_reset, clear_logs
+- **Missing arguments**: Operations requiring specific IDs, filenames
+- **Hardware dependent**: Features not available on all models
+- **Version specific**: Feature requires newer RouterOS version
 
-- **Dangerous Operations**: reboot, clear_logs, factory_reset
-- **Missing Arguments**: Operations requiring specific IDs, filenames, etc.
-- **Hardware Dependent**: Features not available on all models
+---
 
-### Common "Failures" (Not Bugs)
+## Safety Features
 
-Some failures are expected and indicate proper validation:
+The test suite includes multiple safety features:
 
-- **Missing Arguments**: Handler correctly validates input
-- **Invalid IDs**: Cannot modify non-existent resources
-- **Type Validation**: Handler rejects invalid parameter types
-- **RouterOS Version**: Feature not available in current version
+### 1. Protected Resources
+- System reboot operations
+- Factory reset commands
+- User account deletion
+- Service disabling
+- Log clearing operations
+
+### 2. Test Mode Features
+- Safe defaults for all operations
+- Automatic cleanup of test resources
+- Test prefixes for created resources
+- Skip dangerous operations automatically
+- Rollback support for test changes
+
+### 3. Timeout Protection
+- Long-running operations have timeouts
+- Network operations are limited
+- Interactive operations are skipped
+
+---
+
+## Common Test Workflows
+
+### Quick Health Check (5 categories, ~2 min)
+```bash
+python tests/hardware_validation.py --category System
+python tests/hardware_validation.py --category Interfaces
+python tests/hardware_validation.py --category Firewall
+python tests/hardware_validation.py --category DNS
+python tests/hardware_validation.py --category Diagnostics
+```
+
+### Complete Validation (All categories, ~5 min)
+```bash
+python tests/hardware_validation.py --report complete_validation.json
+```
+
+### Development Testing (Specific category)
+```bash
+python tests/hardware_validation.py --category Wireless -v
+```
+
+### CI/CD Pipeline
+```bash
+python tests/hardware_validation.py --report ci_results.json
+```
+
+---
+
+## Using pytest
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_core.py
+
+# Run with coverage
+pytest --cov=src/mcp_mikrotik
+
+# Run with verbose output
+pytest -v
+
+# Run specific test function
+pytest tests/test_core.py::test_connection
+
+# Run tests matching pattern
+pytest -k "firewall"
+```
 
 ---
 
@@ -240,242 +238,128 @@ Some failures are expected and indicate proper validation:
 
 ### Connection Errors
 
-**Symptom:** `Failed to connect to router`
+**Issue:** `Failed to connect to router`
 
 **Solutions:**
 1. Verify `MIKROTIK_HOST` in `.env.test`
 2. Check network connectivity: `ping 192.168.88.1`
-3. Verify credentials
-4. Ensure SSH/API is enabled on router
+3. Verify SSH/API is enabled on router
+4. Check firewall rules allow access
 
-### Authentication Failures
+### Authentication Errors
 
-**Symptom:** `Authentication failed` or `invalid user name or password`
+**Issue:** `Authentication failed`
 
 **Solutions:**
-1. Verify password in `.env.test`
+1. Verify credentials in `.env.test`
 2. Check user has sufficient permissions
 3. Ensure user account is enabled
-4. Verify RouterOS user group settings
+
+### Import Errors
+
+**Issue:** `ModuleNotFoundError`
+
+**Solutions:**
+1. Activate virtual environment
+2. Install dependencies: `pip install -r requirements.txt`
+3. Install package: `pip install -e .`
 
 ### Timeout Issues
 
-**Symptom:** Commands timing out
+**Issue:** Commands timing out
 
 **Solutions:**
-1. Check router CPU usage: `/system resource print`
+1. Check router CPU usage
 2. Verify network latency
-3. Increase timeout in `.env.test`: `MIKROTIK_CMD_TIMEOUT=60`
-4. Check for hanging processes on router
-
-### Module Import Errors
-
-**Symptom:** `ModuleNotFoundError` or import errors
-
-**Solutions:**
-1. Ensure virtual environment is activated
-2. Install dependencies: `pip install -r requirements.txt`
-3. Install package in development mode: `pip install -e .`
+3. Increase timeout: `MIKROTIK_CMD_TIMEOUT=60` in `.env.test`
 
 ---
 
-## Test Configuration
-
-### Environment Variables
-
-All test configuration via `.env.test`:
-
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `MIKROTIK_HOST` | Required | Router IP address |
-| `MIKROTIK_USERNAME` | Required | SSH/API username |
-| `MIKROTIK_PASSWORD` | Required | SSH/API password |
-| `MIKROTIK_PORT` | 22 | SSH port |
-| `MIKROTIK_LOG_LEVEL` | INFO | Logging verbosity |
-| `MIKROTIK_CMD_TIMEOUT` | 30 | Command timeout (seconds) |
-| `MIKROTIK_CONNECT_TIMEOUT` | 10 | Connection timeout (seconds) |
-
-### Loading Environment
-
-**PowerShell (Windows):**
-```powershell
-$env_content = Get-Content .env.test
-foreach ($line in $env_content) { 
-    if ($line -match '^([^=]+)=(.+)$') { 
-        Set-Item -Path "env:$($matches[1])" -Value $matches[2]
-    } 
-}
-python tests/hardware_validation.py -v
-```
-
-**Bash (Linux/Mac):**
-```bash
-export $(grep -v '^#' .env.test | xargs)
-python tests/hardware_validation.py -v
-```
-
----
-
-## Performance Metrics
+## Performance Benchmarks
 
 ### Typical Execution Times
 
-- **Single Category**: 0.2 - 2.0 seconds
-- **All Categories**: 30 - 60 seconds
-- **Simple Queries** (get, list): <100ms
-- **Diagnostic Commands** (ping): 1-2 seconds
-- **Write Operations**: 100-500ms
+- **Core tests**: 5-10 seconds
+- **Comprehensive tests**: 10-20 seconds
+- **Hardware validation (single category)**: 0.2-2 seconds
+- **Hardware validation (all categories)**: 30-60 seconds
 
-### Performance Tips
+### Optimization Tips
 
-1. **Use Category Testing**: Test only what you need
-2. **Parallel Execution**: Run multiple category tests in parallel
-3. **Local Router**: Test against local router for faster execution
-4. **Skip Dangerous**: Skipped handlers save time
-
----
-
-## Safety Features
-
-### Protected Operations
-
-The test suite automatically skips dangerous operations:
-
-- **System reboot**
-- **Factory reset**
-- **Log clearing** (unless explicitly requested)
-- **User deletion** (protects test user)
-- **Configuration reset**
-
-### Test Isolation
-
-- Test prefixes identify test-created resources
-- Automatic cleanup after tests
-- No permanent configuration changes
-- Read operations are prioritized
-
-### Rollback Protection
-
-- No destructive operations by default
-- Explicit confirmation required for dangerous actions
-- Test mode indicators
-- Dry-run support for development
+1. Test specific categories when developing
+2. Use compact mode for quick checks
+3. Run full suite in CI/CD only
+4. Enable parallel test execution
 
 ---
 
-## Advanced Usage
+## CI/CD Integration
 
-### Custom Test Prefix
+### GitHub Actions Example
 
-Set custom prefix for test resources:
+```yaml
+name: Test MikroTik MCP
 
-```python
-# In test file
-TEST_PREFIX = "mytest-"
-```
+on: [push, pull_request]
 
-### Filter Specific Handlers
-
-Test only handlers matching pattern:
-
-```bash
-python tests/hardware_validation.py --category System -v | grep "get_system"
-```
-
-### Export Results for Analysis
-
-```bash
-python tests/hardware_validation.py --report results.json
-cat results.json | jq '.categories[] | select(.status=="FAIL")'
-```
-
-### Continuous Monitoring
-
-Create monitoring script:
-
-```python
-#!/usr/bin/env python3
-import subprocess
-import json
-from datetime import datetime
-
-result = subprocess.run(
-    ['python', 'tests/hardware_validation.py', '--report', 'temp.json'],
-    capture_output=True
-)
-
-with open('temp.json') as f:
-    data = json.load(f)
-    
-if data['summary']['failed'] > 0:
-    # Send alert
-    print(f"ALERT: {data['summary']['failed']} tests failed")
-```
-
----
-
-## Test Development
-
-### Adding New Test Categories
-
-Tests are auto-discovered from handler functions in `src/mcp_mikrotik/scope/`.
-
-1. Create new scope file: `src/mcp_mikrotik/scope/myfeature.py`
-2. Define handlers with `mikrotik_` prefix
-3. Run tests - automatically included
-
-### Handler Naming Convention
-
-```python
-def mikrotik_<action>_<resource>(action: str, **kwargs):
-    """
-    <Description of what handler does>
-    
-    Args:
-        action: The action to perform
-        **kwargs: Additional arguments
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Run tests
+        run: pytest -v
         
-    Returns:
-        dict: Result from RouterOS
-    """
+      - name: Hardware validation
+        if: github.event_name == 'push'
+        env:
+          MIKROTIK_HOST: ${{ secrets.MIKROTIK_HOST }}
+          MIKROTIK_USERNAME: ${{ secrets.MIKROTIK_USERNAME }}
+          MIKROTIK_PASSWORD: ${{ secrets.MIKROTIK_PASSWORD }}
+        run: |
+          python tests/hardware_validation.py --report results.json
+          
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: results.json
 ```
 
-### Test Configuration Per Handler
+---
 
-Some handlers require specific test configurations. Add to test suite:
+## Contributing Tests
+
+When adding new features:
+
+1. Write tests first (TDD approach)
+2. Ensure tests pass locally
+3. Add integration tests for router interaction
+4. Update this guide if adding new test types
+5. Maintain test coverage above 90%
+
+### Test Naming Convention
 
 ```python
-HANDLER_CONFIG = {
-    "mikrotik_create_user": {
-        "skip": True,
-        "reason": "Requires explicit confirmation"
-    },
-    "mikrotik_ping": {
-        "args": {"address": "8.8.8.8", "count": 2}
-    }
-}
+# File: test_<module>.py
+# Class: Test<Feature>
+# Method: test_<specific_behavior>
+
+def test_firewall_filter_rule_creation():
+    """Test creating a firewall filter rule."""
+    pass
 ```
-
----
-
-## Reporting Issues
-
-When reporting test failures:
-
-1. **Include RouterOS version**: `/system resource print`
-2. **Run verbose mode**: `--category <Category> -v`
-3. **Save results**: `--report issue.json`
-4. **Check router logs**: `/log print`
-5. **Verify network**: Test manual SSH connection
-
----
-
-## Additional Resources
-
-- **Hardware Testing Guide**: `tests/HARDWARE_TESTING_GUIDE.md`
-- **Quick Reference**: `tests/QUICK_REFERENCE.md`
-- **Example Scripts**: `examples/run_hardware_tests.{sh,bat}`
-- **Test Suite Source**: `tests/hardware_validation.py`
 
 ---
 

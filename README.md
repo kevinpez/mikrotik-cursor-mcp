@@ -456,39 +456,25 @@ MIT License - see [LICENSE](LICENSE) file
 
 - **GitHub Issues:** [Report bugs or request features](https://github.com/kevinpez/mikrotik-cursor-mcp/issues)
 - **GitHub Discussions:** [Ask questions or share use cases](https://github.com/kevinpez/mikrotik-cursor-mcp/discussions)
-- **Documentation:** See [docs/INDEX.md](docs/INDEX.md)
+- **Documentation:** See documentation section below
 
 ---
 
 ## Documentation
 
-**[Complete Documentation Index](docs/INDEX.md)**
-
 ### Getting Started
 - **[Quick Start](#quick-start)** - Installation and configuration
-- **[Setup Guide](docs/setup/SETUP_COMPLETE_GUIDE.md)** - Detailed setup instructions
-- **[Testing Guide](TESTING.md)** - Verify installation
-
-### API Documentation
-- **[API Conversion Report](docs/reports/API_CONVERSION_SUCCESS_REPORT.md)** - API implementation details
-- **[API Improvements](docs/reports/API_IMPROVEMENTS_REPORT.md)** - Retry, caching, metrics
-- **[Code Review](docs/reports/CODE_REVIEW_REPORT_2025-10-18.md)** - Code quality assessment
+- **[Setup Guide](SETUP.md)** - Complete installation and configuration
+- **[Testing Guide](TESTING.md)** - Comprehensive testing procedures
 
 ### User Guides
-- **[Intelligent Workflow Guide](docs/guides/INTELLIGENT_WORKFLOW_GUIDE.md)** - Automation workflows
-- **[Security Guide](docs/guides/SECURITY_MAINTENANCE_GUIDE.md)** - Security best practices
-- **[Safe Mode Guide](docs/guides/MIKROTIK_SAFE_MODE_GUIDE.md)** - Safe operation procedures
-- **[OSPF Guide](docs/guides/OSPF_MCP_USAGE_EXAMPLE.md)** - OSPF configuration examples
+- **[Security Guide](SECURITY.md)** - Security best practices and hardening
+- **[User Guides](GUIDES.md)** - IP Services and Safe Mode operations
 
 ### Development
-- **[Testing Guide](TESTING.md)** - Testing procedures
 - **[Contributing](CONTRIBUTING.md)** - Contribution guidelines
 - **[Changelog](CHANGELOG.md)** - Version history
 - **[Roadmap](ROADMAP.md)** - Future development plans
-
-### Project Information
-- **[Authors](docs/AUTHORS.md)** - Author information
-- **[Credits](docs/CREDITS.md)** - Acknowledgments
 - **[License](LICENSE)** - MIT License
 
 ---
