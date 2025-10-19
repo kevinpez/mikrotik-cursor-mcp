@@ -176,25 +176,21 @@ def mikrotik_list_capsman_configurations() -> str:
     """
     app_logger.info("Listing CAPsMAN configurations")
     
-    try:
-        # RouterOS v7 uses wifiwave2 configurations
-        cmd = "/interface wifiwave2 configuration print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN CONFIGURATIONS (v7):\n\n{result}"
-        
-        # Fallback to v6 syntax
-        cmd = "/caps-man configuration print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN CONFIGURATIONS:\n\n{result}"
-        
-        return "No CAPsMAN configurations found. CAPsMAN may not be enabled."
-        
-    except Exception as e:
-        return "CAPsMAN not available on this RouterOS version."
+    # RouterOS v7 uses wifiwave2 configurations
+    cmd = "/interface wifiwave2 configuration print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN CONFIGURATIONS (v7):\n\n{result}"
+    
+    # Fallback to v6 syntax
+    cmd = "/caps-man configuration print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN CONFIGURATIONS:\n\n{result}"
+    
+    return "No CAPsMAN configurations found.\n\nNote: CAPsMAN is not enabled/available on this device."
 
 
 def mikrotik_remove_capsman_configuration(name: str) -> str:
@@ -263,25 +259,21 @@ def mikrotik_list_capsman_provisioning_rules() -> str:
     """
     app_logger.info("Listing CAPsMAN provisioning rules")
     
-    try:
-        # RouterOS v7 uses wifiwave2 provisioning
-        cmd = "/interface wifiwave2 provisioning print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN PROVISIONING RULES (v7):\n\n{result}"
-        
-        # Fallback to v6 syntax
-        cmd = "/caps-man provisioning print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN PROVISIONING RULES:\n\n{result}"
-        
-        return "No CAPsMAN provisioning rules found."
-        
-    except Exception as e:
-        return "CAPsMAN not available on this RouterOS version."
+    # RouterOS v7 uses wifiwave2 provisioning
+    cmd = "/interface wifiwave2 provisioning print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN PROVISIONING RULES (v7):\n\n{result}"
+    
+    # Fallback to v6 syntax
+    cmd = "/caps-man provisioning print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN PROVISIONING RULES:\n\n{result}"
+    
+    return "No CAPsMAN provisioning rules found.\n\nNote: CAPsMAN is not enabled/available on this device."
 
 
 def mikrotik_remove_capsman_provisioning_rule(name: str) -> str:
@@ -318,25 +310,21 @@ def mikrotik_list_capsman_registration_table() -> str:
     """
     app_logger.info("Listing CAPsMAN registration table")
     
-    try:
-        # RouterOS v7 uses wifiwave2 registration table
-        cmd = "/interface wifiwave2 registration-table print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN REGISTRATION TABLE (v7):\n\n{result}"
-        
-        # Fallback to v6 syntax
-        cmd = "/caps-man registration-table print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN REGISTRATION TABLE:\n\n{result}"
-        
-        return "No CAPsMAN clients registered."
-        
-    except Exception as e:
-        return "CAPsMAN not available on this RouterOS version."
+    # RouterOS v7 uses wifiwave2 registration table
+    cmd = "/interface wifiwave2 registration-table print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN REGISTRATION TABLE (v7):\n\n{result}"
+    
+    # Fallback to v6 syntax
+    cmd = "/caps-man registration-table print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN REGISTRATION TABLE:\n\n{result}"
+    
+    return "No CAPsMAN clients registered.\n\nNote: CAPsMAN is not enabled/available on this device."
 
 
 def mikrotik_list_capsman_remote_caps() -> str:
@@ -437,25 +425,21 @@ def mikrotik_list_capsman_datapaths() -> str:
     """
     app_logger.info("Listing CAPsMAN datapaths")
     
-    try:
-        # RouterOS v7 uses wifiwave2 datapath
-        cmd = "/interface wifiwave2 datapath print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN DATAPATHS (v7):\n\n{result}"
-        
-        # Fallback to v6 syntax
-        cmd = "/caps-man datapath print"
-        result = execute_mikrotik_command(cmd)
-        
-        if result and result.strip() and "syntax error" not in result.lower():
-            return f"CAPSMAN DATAPATHS:\n\n{result}"
-        
-        return "No CAPsMAN datapaths configured."
-        
-    except Exception as e:
-        return "CAPsMAN not available on this RouterOS version."
+    # RouterOS v7 uses wifiwave2 datapath
+    cmd = "/interface wifiwave2 datapath print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN DATAPATHS (v7):\n\n{result}"
+    
+    # Fallback to v6 syntax
+    cmd = "/caps-man datapath print"
+    result = execute_mikrotik_command(cmd)
+    
+    if result and result.strip() and "syntax error" not in result.lower() and "error" not in result.lower():
+        return f"CAPSMAN DATAPATHS:\n\n{result}"
+    
+    return "No CAPsMAN datapaths configured.\n\nNote: CAPsMAN is not enabled/available on this device."
 
 
 def mikrotik_remove_capsman_datapath(name: str) -> str:
