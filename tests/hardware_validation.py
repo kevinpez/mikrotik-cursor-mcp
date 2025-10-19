@@ -92,6 +92,10 @@ class HardwareValidator:
         'mikrotik_force_exit_safe_mode',
         'mikrotik_set_safe_mode_timeout',
         'mikrotik_create_safe_mode_backup',
+        # Complex auto-discovery features (require full OSPF setup)
+        'mikrotik_auto_configure_ospf_interfaces',
+        'mikrotik_get_ospf_auto_discovery_status',
+        'mikrotik_dns_lookup',  # DNS lookup tool not reliably available
     ]
     
     # Test arguments for handlers that need specific parameters
