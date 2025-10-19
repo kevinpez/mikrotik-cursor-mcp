@@ -484,11 +484,29 @@ class HardwareValidator:
                     print(f"  - {cat}")
                 return False
         
-        # Test each category
-        for category_name in sorted(categories_to_test.keys()):
+        # Test each category with progress tracking
+        total_categories = len(categories_to_test)
+        for idx, category_name in enumerate(sorted(categories_to_test.keys()), 1):
             handlers = categories_to_test[category_name]
+            
+            # Show progress
+            elapsed = time.time() - start_time
+            print(f"\n{Colors.BOLD}{Colors.CYAN}[{idx}/{total_categories}] Testing category '{category_name}' ({len(handlers)} handlers){Colors.ENDC}")
+            print(f"{Colors.CYAN}Elapsed time: {elapsed:.1f}s{Colors.ENDC}")
+            
             category_results = self.test_category(category_name, handlers)
             self.results['categories'][category_name] = category_results
+            
+            # Show running totals after each category
+            running_passed = sum(cat['passed'] for cat in self.results['categories'].values())
+            running_failed = sum(cat['failed'] for cat in self.results['categories'].values())
+            running_skipped = sum(cat['skipped'] for cat in self.results['categories'].values())
+            running_total = running_passed + running_failed + running_skipped
+            
+            print(f"{Colors.CYAN}Running totals: {Colors.GREEN}{running_passed} passed{Colors.ENDC}, "
+                  f"{Colors.RED}{running_failed} failed{Colors.ENDC}, "
+                  f"{Colors.YELLOW}{running_skipped} skipped{Colors.ENDC} "
+                  f"({running_total} of {self.results['total_handlers']} total handlers){Colors.ENDC}")
         
         self.results['duration_seconds'] = time.time() - start_time
         
