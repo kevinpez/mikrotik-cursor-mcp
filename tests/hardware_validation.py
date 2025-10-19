@@ -432,6 +432,7 @@ class HardwareValidator:
                 result_info = f"({result['duration']:.2f}s) - {result.get('reason', 'Unknown error')}"
                 self.results['errors'].append({
                     'handler': handler_name,
+                    'category': category_name,
                     'reason': result.get('reason', 'Unknown error'),
                     'output': result.get('output', '')
                 })
