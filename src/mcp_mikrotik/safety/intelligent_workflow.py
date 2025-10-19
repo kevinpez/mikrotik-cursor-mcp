@@ -241,12 +241,11 @@ class IntelligentWorkflowManager:
         """Execute high-risk operations with safety measures."""
         app_logger.info("Executing high-risk workflow with safety measures")
         
-        # Step 1: Show dry-run preview (if not already approved)
+        # Step 1: Check if user approval is required
         if not user_approved:
-            dry_run_result = self._show_dry_run_preview(command, assessment)
             return WorkflowResult(
                 success=False,
-                message=dry_run_result,
+                message=f"APPROVAL REQUIRED FOR HIGH RISK OPERATION\n\nCommand: {command}\nRisk Level: {assessment.risk_level.value}\nWarnings: {len(assessment.warnings)} warnings found\n\nPlease approve this operation before proceeding.",
                 command_executed="",
                 safe_mode_used=False,
                 logs_checked=False,
@@ -296,36 +295,6 @@ class IntelligentWorkflowManager:
                 state_verified=False,
                 rollback_triggered=rollback_triggered
             )
-    
-    def _show_dry_run_preview(self, command: str, assessment: RiskAssessment) -> str:
-        """Show dry-run preview and request approval."""
-        preview = f"""DRY-RUN PREVIEW & APPROVAL REQUIRED
-
-**Command to Execute:**
-```
-{command}
-```
-
-**Risk Assessment:**
-- **Level**: {assessment.risk_level.value.upper()}
-- **Reason**: {assessment.reason}
-- **Impact**: {assessment.estimated_impact}
-
-**Warnings:**
-"""
-        for warning in assessment.warnings:
-            preview += f"- WARNING: {warning}\n"
-        
-        preview += f"""
-**Safety Measures:**
-- {'Safe Mode will be used' if assessment.requires_safe_mode else 'Safe Mode not required'}
-- Log monitoring will be performed
-- State verification will be performed
-- Automatic rollback available
-
-**To proceed, please approve this operation.**
-"""
-        return preview
     
     def _check_basic_logs(self) -> bool:
         """Check basic system logs for errors."""

@@ -23,7 +23,6 @@ class LogContext:
     user_id: Optional[str] = None
     site_id: Optional[str] = None
     safety_level: Optional[str] = None
-    dry_run: bool = False
 
 
 class StructuredFormatter(logging.Formatter):
@@ -57,8 +56,6 @@ class StructuredFormatter(logging.Formatter):
         if hasattr(record, 'safety_level'):
             log_entry["safety_level"] = record.safety_level
         
-        if hasattr(record, 'dry_run'):
-            log_entry["dry_run"] = record.dry_run
         
         # Add exception info if present
         if record.exc_info:
@@ -87,7 +84,6 @@ class RequestContextFilter(logging.Filter):
             record.operation = context.operation
             record.site_id = context.site_id
             record.safety_level = context.safety_level
-            record.dry_run = context.dry_run
             
             # Calculate duration if this is the end of an operation
             if hasattr(record, 'operation_end'):
@@ -142,7 +138,7 @@ class MikroTikLogger:
     
     @contextmanager
     def request_context(self, operation: str, site_id: Optional[str] = None, 
-                       safety_level: Optional[str] = None, dry_run: bool = False,
+                       safety_level: Optional[str] = None,
                        user_id: Optional[str] = None):
         """
         Context manager for request-scoped logging.
@@ -151,7 +147,6 @@ class MikroTikLogger:
             operation: Name of the operation being performed
             site_id: Identifier for the site/router
             safety_level: Safety level of the operation
-            dry_run: Whether this is a dry-run operation
             user_id: User performing the operation
         """
         context = LogContext(
@@ -160,7 +155,6 @@ class MikroTikLogger:
             start_time=time.time(),
             site_id=site_id,
             safety_level=safety_level,
-            dry_run=dry_run,
             user_id=user_id
         )
         
@@ -172,7 +166,6 @@ class MikroTikLogger:
                 'operation_start': True,
                 'site_id': site_id,
                 'safety_level': safety_level,
-                'dry_run': dry_run
             })
             yield context
         finally:
@@ -180,7 +173,6 @@ class MikroTikLogger:
                 'operation_end': True,
                 'site_id': site_id,
                 'safety_level': safety_level,
-                'dry_run': dry_run
             })
             self._set_context(old_context)
     
@@ -192,7 +184,6 @@ class MikroTikLogger:
             kwargs.setdefault('operation', context.operation)
             kwargs.setdefault('site_id', context.site_id)
             kwargs.setdefault('safety_level', context.safety_level)
-            kwargs.setdefault('dry_run', context.dry_run)
         
         self.logger.log(level, msg, *args, **kwargs)
     
@@ -281,24 +272,6 @@ class MikroTikLogger:
             **extra
         })
     
-    def log_dry_run(self, operation: str, safety_level: str, 
-                   warnings: list, **extra):
-        """
-        Log dry-run operations.
-        
-        Args:
-            operation: Operation being dry-run
-            safety_level: Safety level of the operation
-            warnings: List of warnings
-            **extra: Additional context
-        """
-        self.info(f"Dry-run: {operation}", extra={
-            'dry_run': True,
-            'operation': operation,
-            'safety_level': safety_level,
-            'warnings': warnings,
-            **extra
-        })
 
 
 # Global logger instance

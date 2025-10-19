@@ -158,17 +158,6 @@ class PrometheusMetrics:
         
         self.increment_counter("mikrotik_mcp_safety_events_total", labels)
     
-    def record_dry_run(self, operation: str, safety_level: str, 
-                      site_id: str = None):
-        """Record dry-run operations."""
-        labels = {
-            "operation": operation,
-            "safety_level": safety_level
-        }
-        if site_id:
-            labels["site_id"] = site_id
-        
-        self.increment_counter("mikrotik_mcp_dry_runs_total", labels)
     
     def record_error(self, error_type: str, operation: str, site_id: str = None):
         """Record error events."""
@@ -211,9 +200,6 @@ class PrometheusMetrics:
             output.append("# TYPE mikrotik_mcp_safety_events_total counter")
             output.append("")
             
-            output.append("# HELP mikrotik_mcp_dry_runs_total Total number of dry-run operations")
-            output.append("# TYPE mikrotik_mcp_dry_runs_total counter")
-            output.append("")
             
             output.append("# HELP mikrotik_mcp_errors_total Total number of errors")
             output.append("# TYPE mikrotik_mcp_errors_total counter")
@@ -335,6 +321,3 @@ class MetricsMiddleware:
         """Record safety metrics."""
         self.metrics.record_safety_event(safety_level, operation, site_id)
     
-    def record_dry_run(self, operation: str, safety_level: str, site_id: str = None):
-        """Record dry-run metrics."""
-        self.metrics.record_dry_run(operation, safety_level, site_id)

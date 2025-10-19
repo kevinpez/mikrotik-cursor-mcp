@@ -22,8 +22,7 @@ mikrotik_config = {
     # Timeouts (seconds)
     "connect_timeout": int(os.getenv("MIKROTIK_CONNECT_TIMEOUT", "10")),
     "command_timeout": int(os.getenv("MIKROTIK_CMD_TIMEOUT", "30")),
-    # Dry-run and safety settings
-    "dry_run": os.getenv("MIKROTIK_DRY_RUN", "true").lower() == "true",
+    # Safety settings
     "safety_mode": os.getenv("MIKROTIK_SAFETY_MODE", "true").lower() == "true",
 }
 
@@ -58,23 +57,13 @@ def get_config_summary():
         "strict_host_key_checking": mikrotik_config.get("strict_host_key_checking"),
         "connect_timeout": mikrotik_config.get("connect_timeout"),
         "command_timeout": mikrotik_config.get("command_timeout"),
-        "dry_run": mikrotik_config.get("dry_run"),
         "safety_mode": mikrotik_config.get("safety_mode"),
     }
-
-def set_dry_run_mode(enabled: bool):
-    """Set dry-run mode at runtime."""
-    mikrotik_config["dry_run"] = enabled
-    return mikrotik_config["dry_run"]
 
 def set_safety_mode(enabled: bool):
     """Set safety mode at runtime."""
     mikrotik_config["safety_mode"] = enabled
     return mikrotik_config["safety_mode"]
-
-def get_dry_run_mode():
-    """Get current dry-run mode status."""
-    return mikrotik_config.get("dry_run", True)
 
 def get_safety_mode():
     """Get current safety mode status."""

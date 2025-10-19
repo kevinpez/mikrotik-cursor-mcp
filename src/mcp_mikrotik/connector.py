@@ -1,24 +1,16 @@
 import os
 from .logger import app_logger
 from .connection_manager import get_connection_manager
-from .settings.configuration import mikrotik_config, get_dry_run_mode
+from .settings.configuration import mikrotik_config
 
 
 def execute_mikrotik_command(command: str) -> str:
     """
     Execute a MikroTik command via SSH and return the output.
     Uses connection pooling for better performance.
-    Respects dry-run mode for safety.
     Handles RouterOS-specific errors gracefully.
     """
     app_logger.info(f"Executing MikroTik command: {command}")
-    
-    # Check if we're in dry-run mode (uses runtime configuration)
-    dry_run_mode = get_dry_run_mode()
-    
-    if dry_run_mode:
-        app_logger.info(f"DRY-RUN MODE: Would execute command: {command}")
-        return f"[DRY-RUN] Would execute: {command}\n\nThis command was not actually executed due to dry-run mode being enabled."
     
     connection_manager = get_connection_manager()
     

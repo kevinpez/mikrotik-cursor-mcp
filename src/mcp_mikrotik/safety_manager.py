@@ -12,7 +12,7 @@ from enum import Enum
 from datetime import datetime, timedelta
 from .connection_manager import get_connection_manager
 from .logger import app_logger
-from .dry_run import SafetyLevel, get_dry_run_manager
+# Removed dry_run import
 
 
 class ChangeType(Enum):
@@ -128,7 +128,7 @@ class UnifiedSafetyManager:
     
     def __init__(self):
         self.connection_manager = get_connection_manager()
-        self.dry_run_manager = get_dry_run_manager()
+        # Removed dry_run_manager
         self.change_records: Dict[str, ChangeRecord] = {}
         self.rollback_plans: Dict[str, RollbackPlan] = {}
         self.safety_checks: Dict[ChangeType, List[SafetyCheck]] = {}
@@ -674,8 +674,8 @@ class UnifiedSafetyManager:
         """Execute an operation with safety checks, backup, and idempotency verification."""
         change_id = str(uuid.uuid4())
         
-        # Determine safety level
-        safety_level = self.dry_run_manager._get_safety_level(operation_name)
+        # Determine safety level (simplified without dry_run)
+        safety_level = "medium"  # Default safety level
         
         # Create change record
         change_record = ChangeRecord(
