@@ -580,8 +580,14 @@ class HardwareValidator:
         # Final verdict
         print(f"\n{Colors.BOLD}{'='*80}{Colors.ENDC}")
         if failed == 0 and passed > 0:
-            print(f"{Colors.BOLD}{Colors.GREEN}*** ALL TESTS PASSED! ***{Colors.ENDC}")
-            print(f"{Colors.GREEN}Your MikroTik MCP server is fully functional on hardware!{Colors.ENDC}")
+            if skipped > 0:
+                # Calculate actual total (passed + failed + skipped)
+                actual_total = passed + failed + skipped
+                print(f"{Colors.BOLD}{Colors.GREEN}*** ALL RUNNABLE TESTS PASSED! ***{Colors.ENDC}")
+                print(f"{Colors.GREEN}{passed}/{actual_total} tests executed successfully ({skipped} skipped for safety){Colors.ENDC}")
+            else:
+                print(f"{Colors.BOLD}{Colors.GREEN}*** ALL TESTS PASSED! ***{Colors.ENDC}")
+                print(f"{Colors.GREEN}Your MikroTik MCP server is fully functional on hardware!{Colors.ENDC}")
         elif pass_rate >= 80:
             print(f"{Colors.BOLD}{Colors.YELLOW}MOSTLY PASSING ({pass_rate:.1f}%){Colors.ENDC}")
             print(f"{Colors.YELLOW}Most functionality works, but some issues need attention.{Colors.ENDC}")
