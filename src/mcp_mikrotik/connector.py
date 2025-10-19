@@ -1,7 +1,7 @@
 import os
 from .logger import app_logger
 from .connection_manager import get_connection_manager
-from .settings.configuration import mikrotik_config
+from .settings.configuration import mikrotik_config, get_dry_run_mode
 
 
 def execute_mikrotik_command(command: str) -> str:
@@ -13,8 +13,8 @@ def execute_mikrotik_command(command: str) -> str:
     """
     app_logger.info(f"Executing MikroTik command: {command}")
     
-    # Check if we're in dry-run mode
-    dry_run_mode = os.environ.get('MIKROTIK_DRY_RUN', 'false').lower() == 'true'
+    # Check if we're in dry-run mode (uses runtime configuration)
+    dry_run_mode = get_dry_run_mode()
     
     if dry_run_mode:
         app_logger.info(f"DRY-RUN MODE: Would execute command: {command}")

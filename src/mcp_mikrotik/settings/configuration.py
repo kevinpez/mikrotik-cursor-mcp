@@ -61,3 +61,21 @@ def get_config_summary():
         "dry_run": mikrotik_config.get("dry_run"),
         "safety_mode": mikrotik_config.get("safety_mode"),
     }
+
+def set_dry_run_mode(enabled: bool):
+    """Set dry-run mode at runtime."""
+    mikrotik_config["dry_run"] = enabled
+    return mikrotik_config["dry_run"]
+
+def set_safety_mode(enabled: bool):
+    """Set safety mode at runtime."""
+    mikrotik_config["safety_mode"] = enabled
+    return mikrotik_config["safety_mode"]
+
+def get_dry_run_mode():
+    """Get current dry-run mode status."""
+    return mikrotik_config.get("dry_run", True)
+
+def get_safety_mode():
+    """Get current safety mode status."""
+    return mikrotik_config.get("safety_mode", True)

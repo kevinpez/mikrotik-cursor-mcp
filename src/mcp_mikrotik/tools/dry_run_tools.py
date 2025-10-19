@@ -8,6 +8,13 @@ from mcp.types import Tool
 from ..dry_run import get_dry_run_manager, OperationType
 from ..safety_manager import get_unified_safety_manager, DesiredState
 from ..logger import app_logger
+from ..settings.configuration import (
+    get_config_summary, 
+    set_dry_run_mode, 
+    set_safety_mode,
+    get_dry_run_mode,
+    get_safety_mode
+)
 
 
 def get_dry_run_tools() -> List[Tool]:
@@ -180,6 +187,46 @@ def get_dry_run_tools() -> List[Tool]:
                     }
                 },
                 "required": ["commands"]
+            }
+        ),
+        
+        # Configuration management tools
+        Tool(
+            name="mikrotik_get_settings",
+            description="Get current MCP server settings including dry-run mode, safety mode, connection info",
+            inputSchema={
+                "type": "object",
+                "properties": {}
+            }
+        ),
+        
+        Tool(
+            name="mikrotik_toggle_dry_run",
+            description="Enable or disable dry-run mode at runtime without restarting Cursor",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "true to enable dry-run mode, false to disable"
+                    }
+                },
+                "required": ["enabled"]
+            }
+        ),
+        
+        Tool(
+            name="mikrotik_toggle_safety_mode",
+            description="Enable or disable safety mode at runtime",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "true to enable safety mode, false to disable"
+                    }
+                },
+                "required": ["enabled"]
             }
         )
     ]
@@ -497,6 +544,63 @@ def _generate_batch_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
     return summary
 
 
+def mikrotik_get_settings() -> Dict[str, Any]:
+    """Get current MCP server settings."""
+    try:
+        settings = get_config_summary()
+        app_logger.info("Settings retrieved successfully")
+        return {
+            "success": True,
+            "settings": settings
+        }
+    except Exception as e:
+        app_logger.error(f"Error getting settings: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+def mikrotik_toggle_dry_run(enabled: bool) -> Dict[str, Any]:
+    """Toggle dry-run mode at runtime."""
+    try:
+        old_state = get_dry_run_mode()
+        new_state = set_dry_run_mode(enabled)
+        app_logger.info(f"Dry-run mode toggled: {old_state} → {new_state}")
+        return {
+            "success": True,
+            "message": f"Dry-run mode {'enabled' if new_state else 'disabled'}",
+            "previous_state": old_state,
+            "current_state": new_state
+        }
+    except Exception as e:
+        app_logger.error(f"Error toggling dry-run mode: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+def mikrotik_toggle_safety_mode(enabled: bool) -> Dict[str, Any]:
+    """Toggle safety mode at runtime."""
+    try:
+        old_state = get_safety_mode()
+        new_state = set_safety_mode(enabled)
+        app_logger.info(f"Safety mode toggled: {old_state} → {new_state}")
+        return {
+            "success": True,
+            "message": f"Safety mode {'enabled' if new_state else 'disabled'}",
+            "previous_state": old_state,
+            "current_state": new_state
+        }
+    except Exception as e:
+        app_logger.error(f"Error toggling safety mode: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
 def get_dry_run_handlers() -> Dict[str, Callable]:
     """Return the dry-run tool handlers."""
     
@@ -520,4 +624,7 @@ def get_dry_run_handlers() -> Dict[str, Callable]:
         "mikrotik_check_idempotency": sync_idempotency_check,
         "mikrotik_ensure_desired_state": mikrotik_ensure_desired_state,
         "mikrotik_batch_safety_analysis": mikrotik_batch_safety_analysis,
+        "mikrotik_get_settings": mikrotik_get_settings,
+        "mikrotik_toggle_dry_run": mikrotik_toggle_dry_run,
+        "mikrotik_toggle_safety_mode": mikrotik_toggle_safety_mode,
     }
