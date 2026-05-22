@@ -7,11 +7,11 @@ name = "mikrotik-cursor-mcp"
 version = "4.8.1"
 description = "Production-ready MikroTik MCP server optimized for Cursor IDE with 99% RouterOS coverage and enterprise features"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com", role = "original-author"},
-    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com", role = "enhancement-developer"}
+    {name = "Jeff Nasseri", email = "sir.jeff.nasseri@gmail.com"},
+    {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
 ]
 maintainers = [
     {name = "Kevin Pez", email = "kevinpez@users.noreply.github.com"}
@@ -19,8 +19,6 @@ maintainers = [
 keywords = ["mcp", "mikrotik", "router", "network", "ai", "assistant", "cursor", "automation", "monitoring", "diagnostics", "enterprise", "production"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: MIT License",
