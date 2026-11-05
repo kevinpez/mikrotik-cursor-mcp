@@ -2,11 +2,21 @@ from typing import Dict, Any, List, Callable
 from mcp.types import Tool
 
 from .vlan_tools import get_vlan_tools, get_vlan_handlers
-from .ip_tools import get_ip_address_tools, get_ip_pool_tools, get_ip_address_handlers, get_ip_pool_handlers
+from .ip_tools import (
+    get_ip_address_tools,
+    get_ip_pool_tools,
+    get_ip_address_handlers,
+    get_ip_pool_handlers,
+)
 from .dhcp_tools import get_dhcp_tools, get_dhcp_handlers
-from .firewall_tools import (get_firewall_filter_tools, get_firewall_nat_tools, 
-    get_firewall_filter_handlers, get_firewall_nat_handlers,
-    get_firewall_address_list_tools, get_firewall_address_list_handlers)
+from .firewall_tools import (
+    get_firewall_filter_tools,
+    get_firewall_nat_tools,
+    get_firewall_filter_handlers,
+    get_firewall_nat_handlers,
+    get_firewall_address_list_tools,
+    get_firewall_address_list_handlers,
+)
 from .dns_tools import get_dns_tools, get_dns_handlers
 from .route_tools import get_route_tools, get_route_handlers
 from .user_tools import get_user_tools, get_user_handlers
@@ -19,19 +29,46 @@ from .diagnostic_tools import get_diagnostic_tools, get_diagnostic_handlers
 from .queue_tools import get_queue_tools, get_queue_handlers
 from .wireguard_tools import get_wireguard_tools, get_wireguard_handlers
 from .openvpn_tools import get_openvpn_tools, get_openvpn_handlers
-from .firewall_advanced_tools import get_firewall_advanced_tools, get_firewall_advanced_handlers
+from .firewall_advanced_tools import (
+    get_firewall_advanced_tools,
+    get_firewall_advanced_handlers,
+)
 from .connectivity_tools import get_connectivity_tools, get_connectivity_handlers
 from .hotspot_tools import get_hotspot_tools, get_hotspot_handlers
-from .routing_advanced_tools import get_routing_advanced_tools, get_routing_advanced_handlers
+from .routing_advanced_tools import (
+    get_routing_advanced_tools,
+    get_routing_advanced_handlers,
+)
 from .workflow_tools import get_workflow_tools, get_workflow_handlers
-from .ipv6_tools import (get_ipv6_tools, get_ipv6_handlers, get_ipv6_firewall_tools,
-                         get_ipv6_firewall_handlers, get_dhcpv6_tools, get_dhcpv6_handlers)
+from .ipv6_tools import (
+    get_ipv6_tools,
+    get_ipv6_handlers,
+    get_ipv6_firewall_tools,
+    get_ipv6_firewall_handlers,
+    get_dhcpv6_tools,
+    get_dhcpv6_handlers,
+)
 from .container_tools import get_container_tools, get_container_handlers
 from .certificate_tools import get_certificate_tools, get_certificate_handlers
 from .safe_mode_tools import get_safe_mode_tools, get_safe_mode_handlers
-from .intelligent_workflow_tools import get_intelligent_workflow_tools, get_intelligent_workflow_handlers
+from .intelligent_workflow_tools import (
+    get_intelligent_workflow_tools,
+    get_intelligent_workflow_handlers,
+)
 from .ip_services_tools import get_ip_services_tools, get_ip_services_handlers
-from .ospf_autodiscovery_tools import get_ospf_autodiscovery_tools, get_ospf_autodiscovery_handlers
+
+try:  # Optional module: OSPF auto-discovery
+    from .ospf_autodiscovery_tools import (
+        get_ospf_autodiscovery_tools,
+        get_ospf_autodiscovery_handlers,
+    )
+except ImportError:  # pragma: no cover
+
+    def get_ospf_autodiscovery_tools() -> List[Tool]:
+        return []
+
+    def get_ospf_autodiscovery_handlers() -> Dict[str, Callable]:
+        return {}
 
 
 def get_all_tools() -> List[Tool]:
@@ -115,16 +152,15 @@ def get_all_tools() -> List[Tool]:
     # Certificate tools
     tools.extend(get_certificate_tools())
 
-
     # Safe mode tools
     tools.extend(get_safe_mode_tools())
-    
+
     # Intelligent workflow tools
     tools.extend(get_intelligent_workflow_tools())
-    
+
     # IP services tools
     tools.extend(get_ip_services_tools())
-    
+
     # OSPF auto-discovery tools
     tools.extend(get_ospf_autodiscovery_tools())
 
@@ -212,17 +248,16 @@ def get_all_handlers() -> Dict[str, Callable]:
     # Certificate handlers
     handlers.update(get_certificate_handlers())
 
-
     # Safe mode handlers
     handlers.update(get_safe_mode_handlers())
 
     # Intelligent workflow handlers
     handlers.update(get_intelligent_workflow_handlers())
-    
+
     # IP services handlers
     handlers.update(get_ip_services_handlers())
-    
+
     # OSPF auto-discovery handlers
     handlers.update(get_ospf_autodiscovery_handlers())
-    
+
     return handlers
