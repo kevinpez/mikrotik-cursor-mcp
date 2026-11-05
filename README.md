@@ -3,6 +3,7 @@
 A Model Context Protocol (MCP) server for managing MikroTik routers using natural language in Cursor IDE.
 
 [![Version](https://img.shields.io/badge/version-4.8.1-blue.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp)
+[![CI](https://github.com/kevinpez/mikrotik-cursor-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/kevinpez/mikrotik-cursor-mcp/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 *Based on [mikrotik-mcp](https://github.com/jeff-nasseri/mikrotik-mcp) by [@jeff-nasseri](https://github.com/jeff-nasseri)*
@@ -17,58 +18,48 @@ This MCP server provides a natural language interface to MikroTik RouterOS devic
 
 - **API-First Design**: Uses MikroTik API for fast, structured communication
 - **SSH Fallback**: Automatically falls back to SSH when API is unavailable
-- **Category-Based Tools**: Organizes 440+ actions into 19 logical categories
+- **Category-Based Tools**: Registers 440+ tools across 19 categories
 - **Dual Transport**: API and SSH support with automatic selection
 
 ---
 
 ## Quick Start
 
-### Installation
-
 ```bash
-cd mikrotik-mcp
+git clone https://github.com/kevinpez/mikrotik-cursor-mcp.git
+cd mikrotik-cursor-mcp
 python -m venv .venv
-.venv\Scripts\activate  # Windows
-# or: source .venv/bin/activate  # Linux/Mac
-pip install -r requirements.txt
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -e .
 ```
 
-### Configure Cursor MCP
-
-Update your Cursor MCP configuration file:
-
-**Windows**: `%APPDATA%\Cursor\User\globalStorage\cursor.mcp\mcp.json`  
-**macOS**: `~/Library/Application Support/Cursor/User/globalStorage/cursor.mcp/mcp.json`  
-**Linux**: `~/.config/Cursor/User/globalStorage/cursor.mcp/mcp.json`
+Add the server to Cursor's MCP config (`~/.cursor/mcp.json`, or `%USERPROFILE%\.cursor\mcp.json` on Windows). Use a dedicated RouterOS user and an SSH key rather than a password:
 
 ```json
 {
   "mcpServers": {
     "mikrotik-cursor-mcp": {
-      "command": "C:\\path\\to\\mikrotik-mcp\\.venv\\Scripts\\python.exe",
-      "args": ["C:\\path\\to\\mikrotik-mcp\\src\\mcp_mikrotik\\server.py"],
+      "command": "/path/to/mikrotik-cursor-mcp/.venv/bin/python",
+      "args": ["-m", "mcp_mikrotik.server"],
       "env": {
         "MIKROTIK_HOST": "192.168.88.1",
-        "MIKROTIK_USERNAME": "your_username", 
-        "MIKROTIK_PASSWORD": "your_password"
+        "MIKROTIK_USERNAME": "mcp-user",
+        "MIKROTIK_SSH_KEY": "~/.ssh/mikrotik_ed25519",
+        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "true",
+        "MIKROTIK_KNOWN_HOSTS": "~/.ssh/known_hosts"
       }
     }
   }
 }
 ```
 
-### Test Connection
-
-Restart Cursor and ask: *"Show me my router's system information"*
-
-For detailed setup instructions, see: **[SETUP_COMPLETE_GUIDE.md](docs/setup/SETUP_COMPLETE_GUIDE.md)**
+Restart Cursor and ask: *"Show me my router's system information."* Full options are in [SETUP.md](SETUP.md).
 
 ---
 
 ## What Is This?
 
-A production-ready MCP server that enables natural language management of MikroTik routers through Cursor IDE. Instead of memorizing RouterOS commands, describe your intent in plain language.
+An MCP server that enables natural language management of MikroTik routers through Cursor IDE. Instead of memorizing RouterOS commands, describe your intent in plain language.
 
 **Example:**
 > "Create a WireGuard VPN tunnel to my AWS EC2 instance at 52.1.2.3"
@@ -103,7 +94,7 @@ The server translates this into the necessary RouterOS API calls or SSH commands
 | **Logs** | 10 | View, Search, Clear |
 | **Diagnostics** | 9 | Ping, Traceroute, DNS Lookup, ARP, Neighbors |
 
-**Total: 440+ actions across 19 categories**
+**Total: 440+ registered tools** (the CI job prints the exact count)
 
 ### Core Capabilities
 
@@ -119,75 +110,11 @@ The server translates this into the necessary RouterOS API calls or SSH commands
 
 ---
 
-## Installation
+## Requirements
 
-### Prerequisites
-
-- Python 3.8+
+- Python 3.10+
 - Cursor IDE
-- MikroTik RouterOS device with SSH or API enabled
-- Network access to the router
-
-### Setup Steps
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/kevinpez/mikrotik-cursor-mcp.git
-cd mikrotik-cursor-mcp
-
-# 2. Create virtual environment
-python -m venv .venv
-
-# On Windows:
-.venv\Scripts\activate
-
-# On Linux/Mac:
-source .venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Install the package
-pip install -e .
-```
-
-### Configure Cursor IDE
-
-Add this to your Cursor MCP configuration file (`%USERPROFILE%\.cursor\mcp.json` on Windows or `~/.cursor/mcp.json` on Linux/Mac):
-
-```json
-{
-  "mcpServers": {
-    "mikrotik-cursor-mcp": {
-      "command": "python",
-      "args": [
-        "-m",
-        "mcp_mikrotik.server"
-      ],
-      "cwd": "C:\\Users\\YourUsername\\mikrotik-cursor-mcp",
-      "env": {
-        "MIKROTIK_HOST": "192.168.88.1",
-        "MIKROTIK_USERNAME": "admin",
-        "MIKROTIK_PASSWORD": "your-password",
-        "MIKROTIK_PORT": "22",
-        "MIKROTIK_SSH_KEY": "C:\\Users\\YourUsername\\.ssh\\mikrotik_rsa", 
-        "MIKROTIK_STRICT_HOST_KEY_CHECKING": "false",
-        "MIKROTIK_KNOWN_HOSTS": "C:\\Users\\YourUsername\\.ssh\\known_hosts",
-        "MIKROTIK_CONNECT_TIMEOUT": "10",
-        "MIKROTIK_CMD_TIMEOUT": "30"
-      }
-    }
-  }
-}
-```
-
-**Important:** Replace the paths and credentials with your actual values.
-
-### Verify Installation
-
-1. Restart Cursor IDE completely
-2. Open a new Cursor chat
-3. Ask: "List all backups on my MikroTik router"
+- A MikroTik RouterOS device with SSH or the API enabled, reachable from your machine
 
 ---
 
@@ -270,7 +197,7 @@ Traditional Approach:          This MCP:
 
 ### Technology Stack
 
-- **Python 3.8+** - Core language
+- **Python 3.10+** - Core language
 - **MCP SDK** - Model Context Protocol implementation
 - **RouterOS API** - Primary communication method
 - **Paramiko** - SSH fallback connectivity
@@ -299,6 +226,15 @@ Traditional Approach:          This MCP:
 
 ## Testing
 
+### Unit Tests (no router needed)
+
+```bash
+pip install pytest pytest-mock
+python -m pytest tests/unit
+```
+
+These cover input validation and the SSH client (with a mocked connection) and run in CI on Python 3.10 to 3.12.
+
 ### Hardware Validation Suite
 
 The project includes a comprehensive hardware validation suite that tests all handlers against live MikroTik hardware.
@@ -319,7 +255,7 @@ python tests/hardware_validation.py --list-categories
 
 ### Test Configuration
 
-Create a `.env.test` file in the project root:
+Create a `.env.test` file in the project root (it is git-ignored, so it stays on your machine):
 
 ```bash
 MIKROTIK_HOST=192.168.88.1
