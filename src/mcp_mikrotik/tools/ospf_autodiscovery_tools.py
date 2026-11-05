@@ -1,6 +1,7 @@
 """
 OSPF Auto-Discovery tool definitions for MikroTik RouterOS.
 """
+
 from typing import Dict, Any, List, Callable
 from ..scope.ospf_autodiscovery import (
     mikrotik_scan_mikrotik_neighbors,
@@ -12,7 +13,7 @@ from ..scope.ospf_autodiscovery import (
     mikrotik_auto_configure_ospf_interfaces,
     mikrotik_enable_ospf_instance,
     mikrotik_auto_discovery_ospf_complete,
-    mikrotik_get_ospf_auto_discovery_status
+    mikrotik_get_ospf_auto_discovery_status,
 )
 from mcp.types import Tool
 
@@ -24,22 +25,13 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
         Tool(
             name="mikrotik_scan_mikrotik_neighbors",
             description="Scan for MikroTik neighbors using MNDP (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
-        
         # Assignment management tools
         Tool(
             name="mikrotik_get_ospf_assignments",
             description="Get current OSPF subnet and Router ID assignments (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_auto_assign_ospf_subnet",
@@ -49,18 +41,17 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                 "properties": {
                     "site_id": {
                         "type": "string",
-                        "description": "Unique identifier for the site"
+                        "description": "Unique identifier for the site",
                     },
                     "base_subnet": {
                         "type": "string",
                         "description": "Base subnet to start assignment from",
-                        "default": "192.168.100.0/24"
-                    }
+                        "default": "192.168.100.0/24",
+                    },
                 },
-                "required": ["site_id"]
-            }
+                "required": ["site_id"],
+            },
         ),
-        
         # OSPF configuration tools
         Tool(
             name="mikrotik_auto_configure_ospf_instance",
@@ -71,20 +62,20 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance",
-                        "default": "auto-ospf"
+                        "default": "auto-ospf",
                     },
                     "router_id": {
                         "type": "string",
-                        "description": "Router ID for the OSPF instance"
+                        "description": "Router ID for the OSPF instance",
                     },
                     "comment": {
                         "type": "string",
                         "description": "Comment for the OSPF instance",
-                        "default": "Auto-OSPF Instance"
-                    }
+                        "default": "Auto-OSPF Instance",
+                    },
                 },
-                "required": []
-            }
+                "required": [],
+            },
         ),
         Tool(
             name="mikrotik_auto_configure_ospf_area",
@@ -95,26 +86,26 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                     "area_name": {
                         "type": "string",
                         "description": "Name of the OSPF area",
-                        "default": "backbone"
+                        "default": "backbone",
                     },
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance",
-                        "default": "auto-ospf"
+                        "default": "auto-ospf",
                     },
                     "area_id": {
                         "type": "string",
                         "description": "Area ID for the OSPF area",
-                        "default": "0.0.0.0"
+                        "default": "0.0.0.0",
                     },
                     "comment": {
                         "type": "string",
                         "description": "Comment for the OSPF area",
-                        "default": "Backbone Area"
-                    }
+                        "default": "Backbone Area",
+                    },
                 },
-                "required": []
-            }
+                "required": [],
+            },
         ),
         Tool(
             name="mikrotik_auto_configure_ospf_networks",
@@ -124,25 +115,25 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                 "properties": {
                     "subnet": {
                         "type": "string",
-                        "description": "Subnet to advertise (e.g., 192.168.100.0/24)"
+                        "description": "Subnet to advertise (e.g., 192.168.100.0/24)",
                     },
                     "router_id": {
                         "type": "string",
-                        "description": "Router ID subnet (e.g., 100.100.100.100/32)"
+                        "description": "Router ID subnet (e.g., 100.100.100.100/32)",
                     },
                     "area_name": {
                         "type": "string",
                         "description": "Name of the OSPF area",
-                        "default": "backbone"
+                        "default": "backbone",
                     },
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance",
-                        "default": "auto-ospf"
-                    }
+                        "default": "auto-ospf",
+                    },
                 },
-                "required": ["subnet", "router_id"]
-            }
+                "required": ["subnet", "router_id"],
+            },
         ),
         Tool(
             name="mikrotik_auto_configure_ospf_interfaces",
@@ -153,21 +144,21 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                     "management_interface": {
                         "type": "string",
                         "description": "Management interface name",
-                        "default": "ether1"
+                        "default": "ether1",
                     },
                     "area_name": {
                         "type": "string",
                         "description": "Name of the OSPF area",
-                        "default": "backbone"
+                        "default": "backbone",
                     },
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance",
-                        "default": "auto-ospf"
-                    }
+                        "default": "auto-ospf",
+                    },
                 },
-                "required": []
-            }
+                "required": [],
+            },
         ),
         Tool(
             name="mikrotik_enable_ospf_instance",
@@ -178,13 +169,12 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance to enable",
-                        "default": "auto-ospf"
+                        "default": "auto-ospf",
                     }
                 },
-                "required": []
-            }
+                "required": [],
+            },
         ),
-        
         # Complete auto-discovery tool
         Tool(
             name="mikrotik_auto_discovery_ospf_complete",
@@ -194,37 +184,32 @@ def get_ospf_autodiscovery_tools() -> List[Tool]:
                 "properties": {
                     "site_id": {
                         "type": "string",
-                        "description": "Unique identifier for the site"
+                        "description": "Unique identifier for the site",
                     },
                     "management_interface": {
                         "type": "string",
                         "description": "Management interface name",
-                        "default": "ether1"
+                        "default": "ether1",
                     },
                     "instance_name": {
                         "type": "string",
                         "description": "Name of the OSPF instance",
-                        "default": "auto-ospf"
+                        "default": "auto-ospf",
                     },
                     "area_name": {
                         "type": "string",
                         "description": "Name of the OSPF area",
-                        "default": "backbone"
-                    }
+                        "default": "backbone",
+                    },
                 },
-                "required": ["site_id"]
-            }
+                "required": ["site_id"],
+            },
         ),
-        
         # Status and monitoring tools
         Tool(
             name="mikrotik_get_ospf_auto_discovery_status",
             description="Get comprehensive OSPF auto-discovery status (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
     ]
 
@@ -234,49 +219,45 @@ def get_ospf_autodiscovery_handlers() -> Dict[str, Callable]:
     return {
         # Neighbor discovery handlers
         "mikrotik_scan_mikrotik_neighbors": lambda args: mikrotik_scan_mikrotik_neighbors(),
-        
         # Assignment management handlers
         "mikrotik_get_ospf_assignments": lambda args: mikrotik_get_ospf_assignments(),
         "mikrotik_auto_assign_ospf_subnet": lambda args: mikrotik_auto_assign_ospf_subnet(
             site_id=args["site_id"],
-            base_subnet=args.get("base_subnet", "192.168.100.0/24")
+            base_subnet=args.get("base_subnet", "192.168.100.0/24"),
         ),
-        
         # OSPF configuration handlers
         "mikrotik_auto_configure_ospf_instance": lambda args: mikrotik_auto_configure_ospf_instance(
             instance_name=args.get("instance_name", "auto-ospf"),
             router_id=args.get("router_id"),
-            comment=args.get("comment", "Auto-OSPF Instance")
+            comment=args.get("comment", "Auto-OSPF Instance"),
         ),
         "mikrotik_auto_configure_ospf_area": lambda args: mikrotik_auto_configure_ospf_area(
             area_name=args.get("area_name", "backbone"),
             instance_name=args.get("instance_name", "auto-ospf"),
             area_id=args.get("area_id", "0.0.0.0"),
-            comment=args.get("comment", "Backbone Area")
+            comment=args.get("comment", "Backbone Area"),
         ),
         "mikrotik_auto_configure_ospf_networks": lambda args: mikrotik_auto_configure_ospf_networks(
             subnet=args["subnet"],
             router_id=args["router_id"],
             area_name=args.get("area_name", "backbone"),
-            instance_name=args.get("instance_name", "auto-ospf")
+            instance_name=args.get("instance_name", "auto-ospf"),
         ),
         "mikrotik_auto_configure_ospf_interfaces": lambda args: mikrotik_auto_configure_ospf_interfaces(
             management_interface=args.get("management_interface", "ether1"),
             area_name=args.get("area_name", "backbone"),
-            instance_name=args.get("instance_name", "auto-ospf")
+            instance_name=args.get("instance_name", "auto-ospf"),
         ),
         "mikrotik_enable_ospf_instance": lambda args: mikrotik_enable_ospf_instance(
             instance_name=args.get("instance_name", "auto-ospf")
         ),
-        
         # Complete auto-discovery handler
         "mikrotik_auto_discovery_ospf_complete": lambda args: mikrotik_auto_discovery_ospf_complete(
             site_id=args["site_id"],
             management_interface=args.get("management_interface", "ether1"),
             instance_name=args.get("instance_name", "auto-ospf"),
-            area_name=args.get("area_name", "backbone")
+            area_name=args.get("area_name", "backbone"),
         ),
-        
         # Status and monitoring handlers
         "mikrotik_get_ospf_auto_discovery_status": lambda args: mikrotik_get_ospf_auto_discovery_status(),
     }

@@ -13,11 +13,11 @@ def mikrotik_create_dhcp_server(
     disabled: bool = False,
     authoritative: str = "yes",
     delay_threshold: Optional[str] = None,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """
     Creates a DHCP server on MikroTik device.
-    
+
     Args:
         name: Name of the DHCP server
         interface: Interface to bind the DHCP server to
@@ -27,65 +27,70 @@ def mikrotik_create_dhcp_server(
         authoritative: Authoritative mode (yes/no/after-2sec-delay)
         delay_threshold: Delay threshold for authoritative mode
         comment: Optional comment
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Creating DHCP server: name={name}, interface={interface}")
-    
+
     # Build the command
-    cmd = f"/ip dhcp-server add name={name} interface={interface} lease-time={lease_time}"
-    
+    cmd = (
+        f"/ip dhcp-server add name={name} interface={interface} lease-time={lease_time}"
+    )
+
     # Add optional parameters
     if address_pool:
         cmd += f" address-pool={address_pool}"
-    
+
     if disabled:
         cmd += " disabled=yes"
-    
+
     if authoritative != "yes":
         cmd += f" authoritative={authoritative}"
-    
+
     if delay_threshold:
         cmd += f" delay-threshold={delay_threshold}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to create DHCP server: {result}"
-    
+
     # Get the created server details
     details_cmd = f'/ip dhcp-server print detail where name="{name}"'
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"DHCP server created successfully:\n\n{details}"
+
 
 def mikrotik_list_dhcp_servers(
     name_filter: Optional[str] = None,
     interface_filter: Optional[str] = None,
     disabled_only: bool = False,
-    invalid_only: bool = False
+    invalid_only: bool = False,
 ) -> str:
     """
     Lists DHCP servers on MikroTik device.
-    
+
     Args:
         name_filter: Filter by server name (partial match)
         interface_filter: Filter by interface
         disabled_only: Show only disabled servers
         invalid_only: Show only invalid servers
-    
+
     Returns:
         List of DHCP servers
     """
-    app_logger.info(f"Listing DHCP servers with filters: name={name_filter}, interface={interface_filter}")
-    
+    app_logger.info(
+        f"Listing DHCP servers with filters: name={name_filter}, interface={interface_filter}"
+    )
+
     # Build the command
     cmd = "/ip dhcp-server print"
-    
+
     # Add filters
     filters = []
     if name_filter:
@@ -96,36 +101,38 @@ def mikrotik_list_dhcp_servers(
         filters.append("disabled=yes")
     if invalid_only:
         filters.append("invalid=yes")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return "No DHCP servers found matching the criteria."
-    
+
     return f"DHCP SERVERS:\n\n{result}"
+
 
 def mikrotik_get_dhcp_server(name: str) -> str:
     """
     Gets detailed information about a specific DHCP server.
-    
+
     Args:
         name: Name of the DHCP server
-    
+
     Returns:
         Detailed information about the DHCP server
     """
     app_logger.info(f"Getting DHCP server details: name={name}")
-    
+
     cmd = f'/ip dhcp-server print detail where name="{name}"'
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return f"DHCP server '{name}' not found."
-    
+
     return f"DHCP SERVER DETAILS:\n\n{result}"
+
 
 def mikrotik_create_dhcp_network(
     network: str,
@@ -136,11 +143,11 @@ def mikrotik_create_dhcp_network(
     wins_servers: Optional[List[str]] = None,
     ntp_servers: Optional[List[str]] = None,
     dhcp_option: Optional[List[str]] = None,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """
     Creates a DHCP network configuration on MikroTik device.
-    
+
     Args:
         network: Network address (e.g., "192.168.1.0/24")
         gateway: Default gateway
@@ -151,116 +158,119 @@ def mikrotik_create_dhcp_network(
         ntp_servers: List of NTP servers
         dhcp_option: List of additional DHCP options
         comment: Optional comment
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Creating DHCP network: network={network}, gateway={gateway}")
-    
+
     # Build the command
     cmd = f"/ip dhcp-server network add address={network} gateway={gateway}"
-    
+
     # Add optional parameters
     if netmask:
         cmd += f" netmask={netmask}"
-    
+
     if dns_servers:
         cmd += f" dns-server={','.join(dns_servers)}"
-    
+
     if domain:
         cmd += f' domain="{domain}"'
-    
+
     if wins_servers:
         cmd += f" wins-server={','.join(wins_servers)}"
-    
+
     if ntp_servers:
         cmd += f" ntp-server={','.join(ntp_servers)}"
-    
+
     if dhcp_option:
         cmd += f" dhcp-option={','.join(dhcp_option)}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to create DHCP network: {result}"
-    
+
     # Get the created network details
     details_cmd = f'/ip dhcp-server network print detail where address="{network}"'
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"DHCP network created successfully:\n\n{details}"
+
 
 def mikrotik_create_dhcp_pool(
     name: str,
     ranges: str,
     next_pool: Optional[str] = None,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """
     Creates a DHCP address pool on MikroTik device.
-    
+
     Args:
         name: Name of the address pool
         ranges: IP address ranges (e.g., "192.168.1.10-192.168.1.100")
         next_pool: Name of the next pool in chain
         comment: Optional comment
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Creating DHCP pool: name={name}, ranges={ranges}")
-    
+
     # Build the command
-    cmd = f'/ip pool add name={name} ranges={ranges}'
-    
+    cmd = f"/ip pool add name={name} ranges={ranges}"
+
     # Add optional parameters
     if next_pool:
         cmd += f" next-pool={next_pool}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to create DHCP pool: {result}"
-    
+
     # Get the created pool details
     details_cmd = f'/ip pool print detail where name="{name}"'
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"DHCP pool created successfully:\n\n{details}"
+
 
 def mikrotik_remove_dhcp_server(name: str) -> str:
     """
     Removes a DHCP server from MikroTik device.
-    
+
     Args:
         name: Name of the DHCP server to remove
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Removing DHCP server: name={name}")
-    
+
     # First check if the server exists
     check_cmd = f'/ip dhcp-server print count-only where name="{name}"'
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"DHCP server '{name}' not found."
-    
+
     # Remove the server
     cmd = f'/ip dhcp-server remove [find name="{name}"]'
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to remove DHCP server: {result}"
-    
+
     return f"DHCP server '{name}' removed successfully."
+
 
 def mikrotik_list_dhcp_leases(
     server_filter: Optional[str] = None,
@@ -268,11 +278,11 @@ def mikrotik_list_dhcp_leases(
     mac_filter: Optional[str] = None,
     status_filter: Optional[str] = None,
     dynamic_only: bool = False,
-    static_only: bool = False
+    static_only: bool = False,
 ) -> str:
     """
     Lists DHCP leases on MikroTik device.
-    
+
     Args:
         server_filter: Filter by DHCP server name
         address_filter: Filter by IP address
@@ -280,37 +290,38 @@ def mikrotik_list_dhcp_leases(
         status_filter: Filter by status (bound, waiting, searching, etc.)
         dynamic_only: Show only dynamic leases
         static_only: Show only static leases
-    
+
     Returns:
         List of DHCP leases with host information
     """
-    app_logger.info(f"Listing DHCP leases with filters: server={server_filter}, address={address_filter}")
-    
+    app_logger.info(
+        f"Listing DHCP leases with filters: server={server_filter}, address={address_filter}"
+    )
+
     # Build the command
     cmd = "/ip dhcp-server lease print detail"
-    
+
     # Add filters
     filters = []
     if server_filter:
         filters.append(f'server="{server_filter}"')
     if address_filter:
-        filters.append(f'address={address_filter}')
+        filters.append(f"address={address_filter}")
     if mac_filter:
-        filters.append(f'mac-address={mac_filter}')
+        filters.append(f"mac-address={mac_filter}")
     if status_filter:
-        filters.append(f'status={status_filter}')
+        filters.append(f"status={status_filter}")
     if dynamic_only:
         filters.append("dynamic=yes")
     if static_only:
         filters.append("dynamic=no")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return "No DHCP leases found matching the criteria."
-    
-    return f"DHCP LEASES:\n\n{result}"
 
+    return f"DHCP LEASES:\n\n{result}"

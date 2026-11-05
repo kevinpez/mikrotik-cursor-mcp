@@ -3,6 +3,7 @@ from ..connector import execute_mikrotik_command
 from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
+
 def mikrotik_create_filter_rule(
     chain: str,
     rule_action: str,
@@ -23,11 +24,11 @@ def mikrotik_create_filter_rule(
     disabled: bool = False,
     log: bool = False,
     log_prefix: Optional[str] = None,
-    place_before: Optional[str] = None
+    place_before: Optional[str] = None,
 ) -> str:
     """
     Creates a firewall filter rule on MikroTik device.
-    
+
     Args:
         chain: Filter chain (input, forward, output)
         rule_action: Action to take (accept, drop, reject, jump, log, passthrough, return)
@@ -49,81 +50,95 @@ def mikrotik_create_filter_rule(
         log: Whether to log packets matching this rule
         log_prefix: Prefix for log entries
         place_before: Place this rule before another rule (by number)
-    
+
     Returns:
         Command output or error message
     """
-    app_logger.info(f"Creating firewall filter rule: chain={chain}, rule_action={rule_action}")
-    
+    app_logger.info(
+        f"Creating firewall filter rule: chain={chain}, rule_action={rule_action}"
+    )
+
     # Validate chain
     valid_chains = ["input", "forward", "output"]
     if chain not in valid_chains:
-        return f"Error: Invalid chain '{chain}'. Must be one of: {', '.join(valid_chains)}"
-    
+        return (
+            f"Error: Invalid chain '{chain}'. Must be one of: {', '.join(valid_chains)}"
+        )
+
     # Validate action
-    valid_actions = ["accept", "drop", "reject", "jump", "log", "passthrough", "return", "tarpit", "fasttrack-connection"]
+    valid_actions = [
+        "accept",
+        "drop",
+        "reject",
+        "jump",
+        "log",
+        "passthrough",
+        "return",
+        "tarpit",
+        "fasttrack-connection",
+    ]
     if rule_action not in valid_actions:
         return f"Error: Invalid action '{rule_action}'. Must be one of: {', '.join(valid_actions)}"
-    
+
     # Build the command
     cmd = f"/ip firewall filter add chain={chain} action={rule_action}"
-    
+
     # Add optional parameters
     if src_address:
         cmd += f" src-address={src_address}"
-    
+
     if dst_address:
         cmd += f" dst-address={dst_address}"
-    
+
     if src_port:
         cmd += f" src-port={src_port}"
-    
+
     if dst_port:
         cmd += f" dst-port={dst_port}"
-    
+
     if protocol:
         cmd += f" protocol={protocol}"
-    
+
     if in_interface:
         cmd += f' in-interface="{in_interface}"'
-    
+
     if out_interface:
         cmd += f' out-interface="{out_interface}"'
-    
+
     if connection_state:
         cmd += f" connection-state={connection_state}"
-    
+
     if connection_nat_state:
         cmd += f" connection-nat-state={connection_nat_state}"
-    
+
     if src_address_list:
         cmd += f' src-address-list="{src_address_list}"'
-    
+
     if dst_address_list:
         cmd += f' dst-address-list="{dst_address_list}"'
-    
+
     if limit:
         cmd += f" limit={limit}"
-    
+
     if tcp_flags:
         cmd += f" tcp-flags={tcp_flags}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     if disabled:
         cmd += " disabled=yes"
-    
+
     if log:
         cmd += " log=yes"
         if log_prefix:
             cmd += f' log-prefix="{log_prefix}"'
-    
+
     if place_before:
         cmd += f" place-before={place_before}"
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check if creation was successful
     if result.strip():
         # MikroTik returns the ID of created item on success
@@ -132,7 +147,7 @@ def mikrotik_create_filter_rule(
             rule_id = result.strip()
             details_cmd = f"/ip firewall filter print detail where .id={rule_id}"
             details = execute_mikrotik_command(details_cmd)
-            
+
             if details.strip():
                 return f"Firewall filter rule created successfully:\n\n{details}"
             else:
@@ -144,14 +159,17 @@ def mikrotik_create_filter_rule(
         # No output might mean success, let's check
         details_cmd = "/ip firewall filter print detail count-only"
         count = execute_mikrotik_command(details_cmd)
-        
+
         if count.strip().isdigit() and int(count.strip()) > 0:
             # Get the last rule
-            last_rule_cmd = f"/ip firewall filter print detail from={int(count.strip())-1}"
+            last_rule_cmd = (
+                f"/ip firewall filter print detail from={int(count.strip())-1}"
+            )
             details = execute_mikrotik_command(last_rule_cmd)
             return f"Firewall filter rule created successfully:\n\n{details}"
         else:
             return "Firewall filter rule creation completed but unable to verify."
+
 
 def mikrotik_list_filter_rules(
     chain_filter: Optional[str] = None,
@@ -162,11 +180,11 @@ def mikrotik_list_filter_rules(
     interface_filter: Optional[str] = None,
     disabled_only: bool = False,
     invalid_only: bool = False,
-    dynamic_only: bool = False
+    dynamic_only: bool = False,
 ) -> str:
     """
     Lists firewall filter rules on MikroTik device.
-    
+
     Args:
         chain_filter: Filter by chain (input, forward, output)
         action_filter: Filter by action
@@ -177,15 +195,17 @@ def mikrotik_list_filter_rules(
         disabled_only: Show only disabled rules
         invalid_only: Show only invalid rules
         dynamic_only: Show only dynamic rules
-    
+
     Returns:
         List of firewall filter rules
     """
-    app_logger.info(f"Listing firewall filter rules with filters: chain={chain_filter}, action={action_filter}")
-    
+    app_logger.info(
+        f"Listing firewall filter rules with filters: chain={chain_filter}, action={action_filter}"
+    )
+
     # Build the command
     cmd = "/ip firewall filter print"
-    
+
     # Add filters
     filters = []
     if chain_filter:
@@ -199,44 +219,48 @@ def mikrotik_list_filter_rules(
     if protocol_filter:
         filters.append(f"protocol={protocol_filter}")
     if interface_filter:
-        filters.append(f'(in-interface~"{interface_filter}" or out-interface~"{interface_filter}")')
+        filters.append(
+            f'(in-interface~"{interface_filter}" or out-interface~"{interface_filter}")'
+        )
     if disabled_only:
         filters.append("disabled=yes")
     if invalid_only:
         filters.append("invalid=yes")
     if dynamic_only:
         filters.append("dynamic=yes")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check for empty result
     if not result or result.strip() == "" or result.strip() == "no such item":
         return "No firewall filter rules found matching the criteria."
-    
+
     return f"FIREWALL FILTER RULES:\n\n{result}"
+
 
 def mikrotik_get_filter_rule(rule_id: str) -> str:
     """
     Gets detailed information about a specific firewall filter rule.
-    
+
     Args:
         rule_id: ID of the filter rule (can be number or *number format)
-    
+
     Returns:
         Detailed information about the filter rule
     """
     app_logger.info(f"Getting firewall filter rule details: rule_id={rule_id}")
-    
+
     cmd = f"/ip firewall filter print detail where .id={rule_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return f"Firewall filter rule with ID '{rule_id}' not found."
-    
+
     return f"FIREWALL FILTER RULE DETAILS:\n\n{result}"
+
 
 def mikrotik_update_filter_rule(
     rule_id: str,
@@ -258,11 +282,11 @@ def mikrotik_update_filter_rule(
     comment: Optional[str] = None,
     disabled: Optional[bool] = None,
     log: Optional[bool] = None,
-    log_prefix: Optional[str] = None
+    log_prefix: Optional[str] = None,
 ) -> str:
     """
     Updates an existing firewall filter rule on MikroTik device.
-    
+
     Args:
         rule_id: ID of the filter rule to update
         chain: New chain
@@ -284,15 +308,15 @@ def mikrotik_update_filter_rule(
         disabled: Enable/disable the rule
         log: Enable/disable logging
         log_prefix: New log prefix
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Updating firewall filter rule: rule_id={rule_id}")
-    
+
     # Build the command
     cmd = f"/ip firewall filter set {rule_id}"
-    
+
     # Add parameters to update
     updates = []
     if chain:
@@ -372,139 +396,162 @@ def mikrotik_update_filter_rule(
         updates.append(f'log={"yes" if log else "no"}')
         if log and log_prefix:
             updates.append(f'log-prefix="{log_prefix}"')
-    
+
     if not updates:
         return "No updates specified."
-    
+
     cmd += " " + " ".join(updates)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check if update was successful
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to update firewall filter rule: {result}"
-    
+
     # Get the updated rule details
     details_cmd = f"/ip firewall filter print detail where .id={rule_id}"
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"Firewall filter rule updated successfully:\n\n{details}"
+
 
 def mikrotik_remove_filter_rule(rule_id: str) -> str:
     """
     Removes a firewall filter rule from MikroTik device.
-    
+
     Args:
         rule_id: ID of the filter rule to remove
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Removing firewall filter rule: rule_id={rule_id}")
-    
+
     # First check if the rule exists
     check_cmd = f"/ip firewall filter print count-only where .id={rule_id}"
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"Firewall filter rule with ID '{rule_id}' not found."
-    
+
     # Remove the rule
     cmd = f"/ip firewall filter remove {rule_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to remove firewall filter rule: {result}"
-    
+
     return f"Firewall filter rule with ID '{rule_id}' removed successfully."
+
 
 def mikrotik_move_filter_rule(rule_id: str, destination: int) -> str:
     """
     Moves a firewall filter rule to a different position in the chain.
-    
+
     Args:
         rule_id: ID of the filter rule to move
         destination: Destination position (0-based index)
-    
+
     Returns:
         Command output or error message
     """
-    app_logger.info(f"Moving firewall filter rule: rule_id={rule_id} to position {destination}")
-    
+    app_logger.info(
+        f"Moving firewall filter rule: rule_id={rule_id} to position {destination}"
+    )
+
     # Check if the rule exists
     check_cmd = f"/ip firewall filter print count-only where .id={rule_id}"
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"Firewall filter rule with ID '{rule_id}' not found."
-    
+
     # Move the rule
     cmd = f"/ip firewall filter move {rule_id} destination={destination}"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to move firewall filter rule: {result}"
-    
+
     return f"Firewall filter rule with ID '{rule_id}' moved to position {destination}."
+
 
 def mikrotik_enable_filter_rule(rule_id: str) -> str:
     """
     Enables a firewall filter rule.
-    
+
     Args:
         rule_id: ID of the filter rule to enable
-    
+
     Returns:
         Command output or error message
     """
     return mikrotik_update_filter_rule(rule_id, disabled=False)
 
+
 def mikrotik_disable_filter_rule(rule_id: str) -> str:
     """
     Disables a firewall filter rule.
-    
+
     Args:
         rule_id: ID of the filter rule to disable
-    
+
     Returns:
         Command output or error message
     """
     return mikrotik_update_filter_rule(rule_id, disabled=True)
 
+
 def mikrotik_create_basic_firewall_setup() -> str:
     """
     Creates a basic firewall setup with common security rules.
-    
+
     Returns:
         Setup result
     """
     app_logger.info("Creating basic firewall setup")
-    
+
     results = []
-    
+
     # Allow established and related connections
-    cmd1 = "/ip firewall filter add chain=input action=accept connection-state=established,related comment=\"Accept established,related\""
+    cmd1 = '/ip firewall filter add chain=input action=accept connection-state=established,related comment="Accept established,related"'
     result1 = execute_mikrotik_command(cmd1)
-    results.append("Rule 1 (established/related): " + ("Created" if not result1 or "*" in result1 else result1))
-    
+    results.append(
+        "Rule 1 (established/related): "
+        + ("Created" if not result1 or "*" in result1 else result1)
+    )
+
     # Drop invalid connections
-    cmd2 = "/ip firewall filter add chain=input action=drop connection-state=invalid comment=\"Drop invalid\""
+    cmd2 = '/ip firewall filter add chain=input action=drop connection-state=invalid comment="Drop invalid"'
     result2 = execute_mikrotik_command(cmd2)
-    results.append("Rule 2 (drop invalid): " + ("Created" if not result2 or "*" in result2 else result2))
-    
+    results.append(
+        "Rule 2 (drop invalid): "
+        + ("Created" if not result2 or "*" in result2 else result2)
+    )
+
     # Allow ICMP
-    cmd3 = "/ip firewall filter add chain=input action=accept protocol=icmp comment=\"Accept ICMP\""
+    cmd3 = '/ip firewall filter add chain=input action=accept protocol=icmp comment="Accept ICMP"'
     result3 = execute_mikrotik_command(cmd3)
-    results.append("Rule 3 (ICMP): " + ("Created" if not result3 or "*" in result3 else result3))
-    
+    results.append(
+        "Rule 3 (ICMP): " + ("Created" if not result3 or "*" in result3 else result3)
+    )
+
     # Allow management from specific network
-    cmd4 = "/ip firewall filter add chain=input action=accept src-address=192.168.88.0/24 comment=\"Accept management network\""
+    cmd4 = '/ip firewall filter add chain=input action=accept src-address=192.168.88.0/24 comment="Accept management network"'
     result4 = execute_mikrotik_command(cmd4)
-    results.append("Rule 4 (management network): " + ("Created" if not result4 or "*" in result4 else result4))
-    
+    results.append(
+        "Rule 4 (management network): "
+        + ("Created" if not result4 or "*" in result4 else result4)
+    )
+
     # Drop everything else
-    cmd5 = "/ip firewall filter add chain=input action=drop comment=\"Drop everything else\""
+    cmd5 = (
+        '/ip firewall filter add chain=input action=drop comment="Drop everything else"'
+    )
     result5 = execute_mikrotik_command(cmd5)
-    results.append("Rule 5 (drop all): " + ("Created" if not result5 or "*" in result5 else result5))
-    
+    results.append(
+        "Rule 5 (drop all): "
+        + ("Created" if not result5 or "*" in result5 else result5)
+    )
+
     return "BASIC FIREWALL SETUP RESULTS:\n\n" + "\n".join(results)

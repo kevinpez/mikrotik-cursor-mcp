@@ -1,11 +1,15 @@
 from typing import Dict, Any, List, Callable
 from ..scope.dhcp import (
-    mikrotik_create_dhcp_server, mikrotik_list_dhcp_servers,
-    mikrotik_get_dhcp_server, mikrotik_create_dhcp_network,
-    mikrotik_create_dhcp_pool, mikrotik_remove_dhcp_server,
-    mikrotik_list_dhcp_leases
+    mikrotik_create_dhcp_server,
+    mikrotik_list_dhcp_servers,
+    mikrotik_get_dhcp_server,
+    mikrotik_create_dhcp_network,
+    mikrotik_create_dhcp_pool,
+    mikrotik_remove_dhcp_server,
+    mikrotik_list_dhcp_leases,
 )
 from mcp.types import Tool
+
 
 def get_dhcp_tools() -> List[Tool]:
     """Return the list of DHCP server tools."""
@@ -22,11 +26,14 @@ def get_dhcp_tools() -> List[Tool]:
                     "lease_time": {"type": "string"},
                     "address_pool": {"type": "string"},
                     "disabled": {"type": "boolean"},
-                    "authoritative": {"type": "string", "enum": ["yes", "no", "after-2sec-delay"]},
+                    "authoritative": {
+                        "type": "string",
+                        "enum": ["yes", "no", "after-2sec-delay"],
+                    },
                     "delay_threshold": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["name", "interface"]
+                "required": ["name", "interface"],
             },
         ),
         Tool(
@@ -38,9 +45,9 @@ def get_dhcp_tools() -> List[Tool]:
                     "name_filter": {"type": "string"},
                     "interface_filter": {"type": "string"},
                     "disabled_only": {"type": "boolean"},
-                    "invalid_only": {"type": "boolean"}
+                    "invalid_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -48,10 +55,8 @@ def get_dhcp_tools() -> List[Tool]:
             description="Gets detailed information about a specific DHCP server",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
         Tool(
@@ -68,9 +73,9 @@ def get_dhcp_tools() -> List[Tool]:
                     "wins_servers": {"type": "array", "items": {"type": "string"}},
                     "ntp_servers": {"type": "array", "items": {"type": "string"}},
                     "dhcp_option": {"type": "array", "items": {"type": "string"}},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["network", "gateway"]
+                "required": ["network", "gateway"],
             },
         ),
         Tool(
@@ -82,9 +87,9 @@ def get_dhcp_tools() -> List[Tool]:
                     "name": {"type": "string"},
                     "ranges": {"type": "string"},
                     "next_pool": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["name", "ranges"]
+                "required": ["name", "ranges"],
             },
         ),
         Tool(
@@ -92,10 +97,8 @@ def get_dhcp_tools() -> List[Tool]:
             description="Removes a DHCP server from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
         Tool(
@@ -109,12 +112,13 @@ def get_dhcp_tools() -> List[Tool]:
                     "mac_filter": {"type": "string"},
                     "status_filter": {"type": "string"},
                     "dynamic_only": {"type": "boolean"},
-                    "static_only": {"type": "boolean"}
+                    "static_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
     ]
+
 
 def get_dhcp_handlers() -> Dict[str, Callable]:
     """Return the handlers for DHCP server tools."""
@@ -127,17 +131,15 @@ def get_dhcp_handlers() -> Dict[str, Callable]:
             args.get("disabled", False),
             args.get("authoritative", "yes"),
             args.get("delay_threshold"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_list_dhcp_servers": lambda args: mikrotik_list_dhcp_servers(
             args.get("name_filter"),
             args.get("interface_filter"),
             args.get("disabled_only", False),
-            args.get("invalid_only", False)
+            args.get("invalid_only", False),
         ),
-        "mikrotik_get_dhcp_server": lambda args: mikrotik_get_dhcp_server(
-            args["name"]
-        ),
+        "mikrotik_get_dhcp_server": lambda args: mikrotik_get_dhcp_server(args["name"]),
         "mikrotik_create_dhcp_network": lambda args: mikrotik_create_dhcp_network(
             args["network"],
             args["gateway"],
@@ -147,13 +149,10 @@ def get_dhcp_handlers() -> Dict[str, Callable]:
             args.get("wins_servers"),
             args.get("ntp_servers"),
             args.get("dhcp_option"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_create_dhcp_pool": lambda args: mikrotik_create_dhcp_pool(
-            args["name"],
-            args["ranges"],
-            args.get("next_pool"),
-            args.get("comment")
+            args["name"], args["ranges"], args.get("next_pool"), args.get("comment")
         ),
         "mikrotik_remove_dhcp_server": lambda args: mikrotik_remove_dhcp_server(
             args["name"]
@@ -164,6 +163,6 @@ def get_dhcp_handlers() -> Dict[str, Callable]:
             args.get("mac_filter"),
             args.get("status_filter"),
             args.get("dynamic_only", False),
-            args.get("static_only", False)
+            args.get("static_only", False),
         ),
     }

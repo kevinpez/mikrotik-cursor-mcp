@@ -1,18 +1,33 @@
 from typing import Dict, Any, List, Callable
 from ..scope.interfaces import (
-    mikrotik_list_interfaces, mikrotik_get_interface_stats, mikrotik_enable_interface,
-    mikrotik_disable_interface, mikrotik_get_interface_monitor, mikrotik_list_bridge_ports,
-    mikrotik_add_bridge_port, mikrotik_remove_bridge_port, mikrotik_get_interface_traffic
+    mikrotik_list_interfaces,
+    mikrotik_get_interface_stats,
+    mikrotik_enable_interface,
+    mikrotik_disable_interface,
+    mikrotik_get_interface_monitor,
+    mikrotik_list_bridge_ports,
+    mikrotik_add_bridge_port,
+    mikrotik_remove_bridge_port,
+    mikrotik_get_interface_traffic,
 )
 from ..scope.bridge_advanced import (
-    mikrotik_list_bridges, mikrotik_create_bridge, mikrotik_update_bridge,
-    mikrotik_list_bridge_vlans, mikrotik_add_bridge_vlan, mikrotik_remove_bridge_vlan,
-    mikrotik_set_bridge_port_vlan, mikrotik_enable_bridge_vlan_filtering,
-    mikrotik_disable_bridge_vlan_filtering, mikrotik_get_bridge_settings,
-    mikrotik_set_bridge_protocol, mikrotik_enable_igmp_snooping,
-    mikrotik_disable_igmp_snooping, mikrotik_create_vlan_aware_bridge
+    mikrotik_list_bridges,
+    mikrotik_create_bridge,
+    mikrotik_update_bridge,
+    mikrotik_list_bridge_vlans,
+    mikrotik_add_bridge_vlan,
+    mikrotik_remove_bridge_vlan,
+    mikrotik_set_bridge_port_vlan,
+    mikrotik_enable_bridge_vlan_filtering,
+    mikrotik_disable_bridge_vlan_filtering,
+    mikrotik_get_bridge_settings,
+    mikrotik_set_bridge_protocol,
+    mikrotik_enable_igmp_snooping,
+    mikrotik_disable_igmp_snooping,
+    mikrotik_create_vlan_aware_bridge,
 )
 from mcp.types import Tool
+
 
 def get_interface_tools() -> List[Tool]:
     """Return the list of interface management tools."""
@@ -26,9 +41,9 @@ def get_interface_tools() -> List[Tool]:
                     "name_filter": {"type": "string"},
                     "type_filter": {"type": "string"},
                     "running_only": {"type": "boolean"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -36,10 +51,8 @@ def get_interface_tools() -> List[Tool]:
             description="Gets traffic statistics for a specific interface",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string"}
-                },
-                "required": ["interface_name"]
+                "properties": {"interface_name": {"type": "string"}},
+                "required": ["interface_name"],
             },
         ),
         Tool(
@@ -47,10 +60,8 @@ def get_interface_tools() -> List[Tool]:
             description="Enables a network interface",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string"}
-                },
-                "required": ["interface_name"]
+                "properties": {"interface_name": {"type": "string"}},
+                "required": ["interface_name"],
             },
         ),
         Tool(
@@ -58,10 +69,8 @@ def get_interface_tools() -> List[Tool]:
             description="Disables a network interface",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string"}
-                },
-                "required": ["interface_name"]
+                "properties": {"interface_name": {"type": "string"}},
+                "required": ["interface_name"],
             },
         ),
         Tool(
@@ -69,10 +78,8 @@ def get_interface_tools() -> List[Tool]:
             description="Monitor interface traffic in real-time (snapshot)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string"}
-                },
-                "required": ["interface_name"]
+                "properties": {"interface_name": {"type": "string"}},
+                "required": ["interface_name"],
             },
         ),
         Tool(
@@ -80,10 +87,8 @@ def get_interface_tools() -> List[Tool]:
             description="Lists bridge ports",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_name": {"type": "string"}
-                },
-                "required": []
+                "properties": {"bridge_name": {"type": "string"}},
+                "required": [],
             },
         ),
         Tool(
@@ -93,9 +98,9 @@ def get_interface_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "bridge": {"type": "string"},
-                    "interface": {"type": "string"}
+                    "interface": {"type": "string"},
                 },
-                "required": ["bridge", "interface"]
+                "required": ["bridge", "interface"],
             },
         ),
         Tool(
@@ -103,10 +108,8 @@ def get_interface_tools() -> List[Tool]:
             description="Removes an interface from its bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface": {"type": "string"}
-                },
-                "required": ["interface"]
+                "properties": {"interface": {"type": "string"}},
+                "required": ["interface"],
             },
         ),
         Tool(
@@ -114,10 +117,8 @@ def get_interface_tools() -> List[Tool]:
             description="Gets current traffic for an interface",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "interface_name": {"type": "string"}
-                },
-                "required": ["interface_name"]
+                "properties": {"interface_name": {"type": "string"}},
+                "required": ["interface_name"],
             },
         ),
         # Advanced Bridge tools
@@ -128,9 +129,9 @@ def get_interface_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "name_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -141,14 +142,18 @@ def get_interface_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string"},
                     "vlan_filtering": {"type": "boolean", "default": False},
-                    "protocol_mode": {"type": "string", "enum": ["none", "rstp", "stp", "mstp"], "default": "rstp"},
+                    "protocol_mode": {
+                        "type": "string",
+                        "enum": ["none", "rstp", "stp", "mstp"],
+                        "default": "rstp",
+                    },
                     "priority": {"type": "integer", "default": 32768},
                     "igmp_snooping": {"type": "boolean", "default": False},
                     "mtu": {"type": "integer", "default": 1500},
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -159,13 +164,16 @@ def get_interface_tools() -> List[Tool]:
                 "properties": {
                     "bridge_id": {"type": "string"},
                     "vlan_filtering": {"type": "boolean"},
-                    "protocol_mode": {"type": "string", "enum": ["none", "rstp", "stp", "mstp"]},
+                    "protocol_mode": {
+                        "type": "string",
+                        "enum": ["none", "rstp", "stp", "mstp"],
+                    },
                     "priority": {"type": "integer"},
                     "igmp_snooping": {"type": "boolean"},
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["bridge_id"]
+                "required": ["bridge_id"],
             },
         ),
         Tool(
@@ -175,9 +183,9 @@ def get_interface_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "bridge_filter": {"type": "string"},
-                    "vlan_ids": {"type": "string"}
+                    "vlan_ids": {"type": "string"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -187,12 +195,21 @@ def get_interface_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "bridge": {"type": "string"},
-                    "vlan_ids": {"type": "string", "description": "VLAN IDs (e.g., '10' or '10-20')"},
-                    "tagged": {"type": "string", "description": "Tagged ports (comma-separated)"},
-                    "untagged": {"type": "string", "description": "Untagged ports (comma-separated)"},
-                    "comment": {"type": "string"}
+                    "vlan_ids": {
+                        "type": "string",
+                        "description": "VLAN IDs (e.g., '10' or '10-20')",
+                    },
+                    "tagged": {
+                        "type": "string",
+                        "description": "Tagged ports (comma-separated)",
+                    },
+                    "untagged": {
+                        "type": "string",
+                        "description": "Untagged ports (comma-separated)",
+                    },
+                    "comment": {"type": "string"},
                 },
-                "required": ["bridge", "vlan_ids", "tagged"]
+                "required": ["bridge", "vlan_ids", "tagged"],
             },
         ),
         Tool(
@@ -200,10 +217,8 @@ def get_interface_tools() -> List[Tool]:
             description="Removes VLAN configuration from a bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "vlan_id": {"type": "string"}
-                },
-                "required": ["vlan_id"]
+                "properties": {"vlan_id": {"type": "string"}},
+                "required": ["vlan_id"],
             },
         ),
         Tool(
@@ -215,10 +230,18 @@ def get_interface_tools() -> List[Tool]:
                     "port": {"type": "string"},
                     "bridge": {"type": "string"},
                     "pvid": {"type": "integer", "default": 1},
-                    "frame_types": {"type": "string", "enum": ["admit-all", "admit-only-vlan-tagged", "admit-only-untagged-and-priority-tagged"], "default": "admit-all"},
-                    "ingress_filtering": {"type": "boolean", "default": False}
+                    "frame_types": {
+                        "type": "string",
+                        "enum": [
+                            "admit-all",
+                            "admit-only-vlan-tagged",
+                            "admit-only-untagged-and-priority-tagged",
+                        ],
+                        "default": "admit-all",
+                    },
+                    "ingress_filtering": {"type": "boolean", "default": False},
                 },
-                "required": ["port", "bridge"]
+                "required": ["port", "bridge"],
             },
         ),
         Tool(
@@ -226,10 +249,8 @@ def get_interface_tools() -> List[Tool]:
             description="Enables VLAN filtering on a bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_name": {"type": "string"}
-                },
-                "required": ["bridge_name"]
+                "properties": {"bridge_name": {"type": "string"}},
+                "required": ["bridge_name"],
             },
         ),
         Tool(
@@ -237,10 +258,8 @@ def get_interface_tools() -> List[Tool]:
             description="Disables VLAN filtering on a bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_name": {"type": "string"}
-                },
-                "required": ["bridge_name"]
+                "properties": {"bridge_name": {"type": "string"}},
+                "required": ["bridge_name"],
             },
         ),
         Tool(
@@ -248,10 +267,8 @@ def get_interface_tools() -> List[Tool]:
             description="Gets detailed settings for a bridge (READ-ONLY, safe)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_id": {"type": "string"}
-                },
-                "required": ["bridge_id"]
+                "properties": {"bridge_id": {"type": "string"}},
+                "required": ["bridge_id"],
             },
         ),
         Tool(
@@ -261,10 +278,13 @@ def get_interface_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "bridge_id": {"type": "string"},
-                    "protocol_mode": {"type": "string", "enum": ["none", "rstp", "stp", "mstp"]},
-                    "priority": {"type": "integer"}
+                    "protocol_mode": {
+                        "type": "string",
+                        "enum": ["none", "rstp", "stp", "mstp"],
+                    },
+                    "priority": {"type": "integer"},
                 },
-                "required": ["bridge_id", "protocol_mode"]
+                "required": ["bridge_id", "protocol_mode"],
             },
         ),
         Tool(
@@ -272,10 +292,8 @@ def get_interface_tools() -> List[Tool]:
             description="Enables IGMP snooping on a bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_id": {"type": "string"}
-                },
-                "required": ["bridge_id"]
+                "properties": {"bridge_id": {"type": "string"}},
+                "required": ["bridge_id"],
             },
         ),
         Tool(
@@ -283,10 +301,8 @@ def get_interface_tools() -> List[Tool]:
             description="Disables IGMP snooping on a bridge",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "bridge_id": {"type": "string"}
-                },
-                "required": ["bridge_id"]
+                "properties": {"bridge_id": {"type": "string"}},
+                "required": ["bridge_id"],
             },
         ),
         Tool(
@@ -298,12 +314,13 @@ def get_interface_tools() -> List[Tool]:
                     "name": {"type": "string"},
                     "ports": {"type": "array", "items": {"type": "string"}},
                     "vlan_config": {"type": "array"},
-                    "protocol_mode": {"type": "string", "default": "rstp"}
+                    "protocol_mode": {"type": "string", "default": "rstp"},
                 },
-                "required": ["name", "ports", "vlan_config"]
+                "required": ["name", "ports", "vlan_config"],
             },
         ),
     ]
+
 
 def get_interface_handlers() -> Dict[str, Callable]:
     """Return the handlers for interface management tools."""
@@ -312,7 +329,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args.get("name_filter"),
             args.get("type_filter"),
             args.get("running_only", False),
-            args.get("disabled_only", False)
+            args.get("disabled_only", False),
         ),
         "mikrotik_get_interface_stats": lambda args: mikrotik_get_interface_stats(
             args.get("interface_name") or args.get("name")
@@ -330,8 +347,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args.get("bridge_name")
         ),
         "mikrotik_add_bridge_port": lambda args: mikrotik_add_bridge_port(
-            args["bridge"],
-            args["interface"]
+            args["bridge"], args["interface"]
         ),
         "mikrotik_remove_bridge_port": lambda args: mikrotik_remove_bridge_port(
             args["interface"]
@@ -341,8 +357,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
         ),
         # Advanced Bridge handlers
         "mikrotik_list_bridges": lambda args: mikrotik_list_bridges(
-            args.get("name_filter"),
-            args.get("disabled_only", False)
+            args.get("name_filter"), args.get("disabled_only", False)
         ),
         "mikrotik_create_bridge": lambda args: mikrotik_create_bridge(
             args["name"],
@@ -352,7 +367,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args.get("igmp_snooping", False),
             args.get("mtu", 1500),
             args.get("comment"),
-            args.get("disabled", False)
+            args.get("disabled", False),
         ),
         "mikrotik_update_bridge": lambda args: mikrotik_update_bridge(
             args["bridge_id"],
@@ -361,18 +376,17 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args.get("priority"),
             args.get("igmp_snooping"),
             args.get("comment"),
-            args.get("disabled")
+            args.get("disabled"),
         ),
         "mikrotik_list_bridge_vlans": lambda args: mikrotik_list_bridge_vlans(
-            args.get("bridge_filter"),
-            args.get("vlan_ids")
+            args.get("bridge_filter"), args.get("vlan_ids")
         ),
         "mikrotik_add_bridge_vlan": lambda args: mikrotik_add_bridge_vlan(
             args["bridge"],
             args["vlan_ids"],
             args["tagged"],
             args.get("untagged"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_remove_bridge_vlan": lambda args: mikrotik_remove_bridge_vlan(
             args["vlan_id"]
@@ -382,7 +396,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args["bridge"],
             args.get("pvid", 1),
             args.get("frame_types", "admit-all"),
-            args.get("ingress_filtering", False)
+            args.get("ingress_filtering", False),
         ),
         "mikrotik_enable_bridge_vlan_filtering": lambda args: mikrotik_enable_bridge_vlan_filtering(
             args["bridge_name"]
@@ -394,9 +408,7 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args["bridge_id"]
         ),
         "mikrotik_set_bridge_protocol": lambda args: mikrotik_set_bridge_protocol(
-            args["bridge_id"],
-            args["protocol_mode"],
-            args.get("priority")
+            args["bridge_id"], args["protocol_mode"], args.get("priority")
         ),
         "mikrotik_enable_igmp_snooping": lambda args: mikrotik_enable_igmp_snooping(
             args["bridge_id"]
@@ -408,7 +420,6 @@ def get_interface_handlers() -> Dict[str, Callable]:
             args["name"],
             args["ports"],
             args["vlan_config"],
-            args.get("protocol_mode", "rstp")
+            args.get("protocol_mode", "rstp"),
         ),
     }
-

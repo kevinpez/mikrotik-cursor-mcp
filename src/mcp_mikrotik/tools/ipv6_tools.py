@@ -1,28 +1,52 @@
 from typing import Dict, Any, List, Callable
 from ..scope.ipv6 import (
-    mikrotik_list_ipv6_addresses, mikrotik_add_ipv6_address, mikrotik_remove_ipv6_address,
-    mikrotik_get_ipv6_address, mikrotik_list_ipv6_routes, mikrotik_add_ipv6_route,
-    mikrotik_remove_ipv6_route, mikrotik_list_ipv6_neighbors, mikrotik_get_ipv6_nd_settings,
-    mikrotik_set_ipv6_nd, mikrotik_list_ipv6_pools, mikrotik_create_ipv6_pool,
-    mikrotik_remove_ipv6_pool, mikrotik_get_ipv6_settings, mikrotik_set_ipv6_forward
+    mikrotik_list_ipv6_addresses,
+    mikrotik_add_ipv6_address,
+    mikrotik_remove_ipv6_address,
+    mikrotik_get_ipv6_address,
+    mikrotik_list_ipv6_routes,
+    mikrotik_add_ipv6_route,
+    mikrotik_remove_ipv6_route,
+    mikrotik_list_ipv6_neighbors,
+    mikrotik_get_ipv6_nd_settings,
+    mikrotik_set_ipv6_nd,
+    mikrotik_list_ipv6_pools,
+    mikrotik_create_ipv6_pool,
+    mikrotik_remove_ipv6_pool,
+    mikrotik_get_ipv6_settings,
+    mikrotik_set_ipv6_forward,
 )
 from ..scope.ipv6_firewall import (
-    mikrotik_list_ipv6_filter_rules, mikrotik_create_ipv6_filter_rule,
-    mikrotik_remove_ipv6_filter_rule, mikrotik_list_ipv6_nat_rules,
-    mikrotik_create_ipv6_nat_rule, mikrotik_remove_ipv6_nat_rule,
-    mikrotik_list_ipv6_address_lists, mikrotik_add_ipv6_address_list,
-    mikrotik_remove_ipv6_address_list_entry, mikrotik_list_ipv6_mangle_rules,
-    mikrotik_create_ipv6_mangle_rule, mikrotik_remove_ipv6_mangle_rule
+    mikrotik_list_ipv6_filter_rules,
+    mikrotik_create_ipv6_filter_rule,
+    mikrotik_remove_ipv6_filter_rule,
+    mikrotik_list_ipv6_nat_rules,
+    mikrotik_create_ipv6_nat_rule,
+    mikrotik_remove_ipv6_nat_rule,
+    mikrotik_list_ipv6_address_lists,
+    mikrotik_add_ipv6_address_list,
+    mikrotik_remove_ipv6_address_list_entry,
+    mikrotik_list_ipv6_mangle_rules,
+    mikrotik_create_ipv6_mangle_rule,
+    mikrotik_remove_ipv6_mangle_rule,
 )
 from ..scope.ipv6_dhcp import (
-    mikrotik_list_dhcpv6_servers, mikrotik_create_dhcpv6_server,
-    mikrotik_remove_dhcpv6_server, mikrotik_get_dhcpv6_server,
-    mikrotik_list_dhcpv6_leases, mikrotik_create_dhcpv6_static_lease,
-    mikrotik_remove_dhcpv6_lease, mikrotik_list_dhcpv6_clients,
-    mikrotik_create_dhcpv6_client, mikrotik_remove_dhcpv6_client,
-    mikrotik_get_dhcpv6_client, mikrotik_list_dhcpv6_options,
-    mikrotik_create_dhcpv6_option, mikrotik_remove_dhcpv6_option,
-    mikrotik_configure_dhcpv6_relay, mikrotik_list_dhcpv6_relays
+    mikrotik_list_dhcpv6_servers,
+    mikrotik_create_dhcpv6_server,
+    mikrotik_remove_dhcpv6_server,
+    mikrotik_get_dhcpv6_server,
+    mikrotik_list_dhcpv6_leases,
+    mikrotik_create_dhcpv6_static_lease,
+    mikrotik_remove_dhcpv6_lease,
+    mikrotik_list_dhcpv6_clients,
+    mikrotik_create_dhcpv6_client,
+    mikrotik_remove_dhcpv6_client,
+    mikrotik_get_dhcpv6_client,
+    mikrotik_list_dhcpv6_options,
+    mikrotik_create_dhcpv6_option,
+    mikrotik_remove_dhcpv6_option,
+    mikrotik_configure_dhcpv6_relay,
+    mikrotik_list_dhcpv6_relays,
 )
 from mcp.types import Tool
 
@@ -37,9 +61,12 @@ def get_ipv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "interface": {"type": "string", "description": "Filter by interface"}
+                    "interface": {
+                        "type": "string",
+                        "description": "Filter by interface",
+                    }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -48,14 +75,17 @@ def get_ipv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "address": {"type": "string", "description": "IPv6 address with prefix"},
+                    "address": {
+                        "type": "string",
+                        "description": "IPv6 address with prefix",
+                    },
                     "interface": {"type": "string", "description": "Interface name"},
                     "advertise": {"type": "boolean", "description": "Advertise prefix"},
                     "eui_64": {"type": "boolean", "description": "Use EUI-64"},
                     "no_dad": {"type": "boolean", "description": "Disable DAD"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["address", "interface"]
+                "required": ["address", "interface"],
             },
         ),
         Tool(
@@ -66,7 +96,7 @@ def get_ipv6_tools() -> List[Tool]:
                 "properties": {
                     "address": {"type": "string", "description": "IPv6 address"}
                 },
-                "required": ["address"]
+                "required": ["address"],
             },
         ),
         Tool(
@@ -77,10 +107,9 @@ def get_ipv6_tools() -> List[Tool]:
                 "properties": {
                     "address": {"type": "string", "description": "IPv6 address"}
                 },
-                "required": ["address"]
+                "required": ["address"],
             },
         ),
-        
         # IPv6 Routes
         Tool(
             name="mikrotik_list_ipv6_routes",
@@ -88,9 +117,12 @@ def get_ipv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "dst_address": {"type": "string", "description": "Filter by destination"}
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Filter by destination",
+                    }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -99,13 +131,19 @@ def get_ipv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "dst_address": {"type": "string", "description": "Destination prefix"},
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Destination prefix",
+                    },
                     "gateway": {"type": "string", "description": "Gateway address"},
                     "interface": {"type": "string", "description": "Interface name"},
-                    "distance": {"type": "integer", "description": "Administrative distance"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "distance": {
+                        "type": "integer",
+                        "description": "Administrative distance",
+                    },
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["dst_address"]
+                "required": ["dst_address"],
             },
         ),
         Tool(
@@ -114,21 +152,19 @@ def get_ipv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "dst_address": {"type": "string", "description": "Destination address"}
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Destination address",
+                    }
                 },
-                "required": ["dst_address"]
+                "required": ["dst_address"],
             },
         ),
-        
         # IPv6 Neighbors
         Tool(
             name="mikrotik_list_ipv6_neighbors",
             description="Lists IPv6 neighbors",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_ipv6_nd_settings",
@@ -138,7 +174,7 @@ def get_ipv6_tools() -> List[Tool]:
                 "properties": {
                     "interface": {"type": "string", "description": "Interface name"}
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
         Tool(
@@ -151,22 +187,23 @@ def get_ipv6_tools() -> List[Tool]:
                     "ra_interval": {"type": "string", "description": "RA interval"},
                     "ra_lifetime": {"type": "string", "description": "RA lifetime"},
                     "hop_limit": {"type": "integer", "description": "Hop limit"},
-                    "advertise_mac_address": {"type": "boolean", "description": "Advertise MAC"},
-                    "advertise_dns": {"type": "boolean", "description": "Advertise DNS"}
+                    "advertise_mac_address": {
+                        "type": "boolean",
+                        "description": "Advertise MAC",
+                    },
+                    "advertise_dns": {
+                        "type": "boolean",
+                        "description": "Advertise DNS",
+                    },
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
-        
         # IPv6 Pools
         Tool(
             name="mikrotik_list_ipv6_pools",
             description="Lists IPv6 pools",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_ipv6_pool",
@@ -176,10 +213,13 @@ def get_ipv6_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Pool name"},
                     "prefix": {"type": "string", "description": "IPv6 prefix"},
-                    "prefix_length": {"type": "integer", "description": "Prefix length"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "prefix_length": {
+                        "type": "integer",
+                        "description": "Prefix length",
+                    },
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["name", "prefix"]
+                "required": ["name", "prefix"],
             },
         ),
         Tool(
@@ -187,22 +227,15 @@ def get_ipv6_tools() -> List[Tool]:
             description="Removes an IPv6 pool",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string", "description": "Pool name"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string", "description": "Pool name"}},
+                "required": ["name"],
             },
         ),
-        
         # IPv6 Settings
         Tool(
             name="mikrotik_get_ipv6_settings",
             description="Gets global IPv6 settings",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_set_ipv6_forward",
@@ -212,7 +245,7 @@ def get_ipv6_tools() -> List[Tool]:
                 "properties": {
                     "enabled": {"type": "boolean", "description": "Enable forwarding"}
                 },
-                "required": ["enabled"]
+                "required": ["enabled"],
             },
         ),
     ]
@@ -230,7 +263,7 @@ def get_ipv6_handlers() -> Dict[str, Callable]:
             advertise=args.get("advertise", True),
             eui_64=args.get("eui_64", False),
             no_dad=args.get("no_dad", False),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_address": lambda args: mikrotik_remove_ipv6_address(
             args["address"]
@@ -246,7 +279,7 @@ def get_ipv6_handlers() -> Dict[str, Callable]:
             gateway=args.get("gateway"),
             interface=args.get("interface"),
             distance=args.get("distance", 1),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_route": lambda args: mikrotik_remove_ipv6_route(
             args["dst_address"]
@@ -261,14 +294,14 @@ def get_ipv6_handlers() -> Dict[str, Callable]:
             ra_lifetime=args.get("ra_lifetime"),
             hop_limit=args.get("hop_limit"),
             advertise_mac_address=args.get("advertise_mac_address"),
-            advertise_dns=args.get("advertise_dns")
+            advertise_dns=args.get("advertise_dns"),
         ),
         "mikrotik_list_ipv6_pools": lambda args: mikrotik_list_ipv6_pools(),
         "mikrotik_create_ipv6_pool": lambda args: mikrotik_create_ipv6_pool(
             name=args["name"],
             prefix=args["prefix"],
             prefix_length=args.get("prefix_length", 64),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_pool": lambda args: mikrotik_remove_ipv6_pool(
             args["name"]
@@ -287,11 +320,7 @@ def get_ipv6_firewall_tools() -> List[Tool]:
         Tool(
             name="mikrotik_list_ipv6_filter_rules",
             description="Lists IPv6 firewall filter rules",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_ipv6_filter_rule",
@@ -303,16 +332,28 @@ def get_ipv6_firewall_tools() -> List[Tool]:
                     "rule_action": {"type": "string", "description": "Rule action"},
                     "protocol": {"type": "string", "description": "Protocol"},
                     "src_address": {"type": "string", "description": "Source address"},
-                    "dst_address": {"type": "string", "description": "Destination address"},
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Destination address",
+                    },
                     "src_port": {"type": "string", "description": "Source port"},
                     "dst_port": {"type": "string", "description": "Destination port"},
-                    "in_interface": {"type": "string", "description": "Input interface"},
-                    "out_interface": {"type": "string", "description": "Output interface"},
-                    "connection_state": {"type": "string", "description": "Connection state"},
+                    "in_interface": {
+                        "type": "string",
+                        "description": "Input interface",
+                    },
+                    "out_interface": {
+                        "type": "string",
+                        "description": "Output interface",
+                    },
+                    "connection_state": {
+                        "type": "string",
+                        "description": "Connection state",
+                    },
                     "disabled": {"type": "boolean", "description": "Disable rule"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["chain", "rule_action"]
+                "required": ["chain", "rule_action"],
             },
         ),
         Tool(
@@ -320,22 +361,15 @@ def get_ipv6_firewall_tools() -> List[Tool]:
             description="Removes an IPv6 firewall filter rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string", "description": "Rule ID"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string", "description": "Rule ID"}},
+                "required": ["rule_id"],
             },
         ),
-        
         # NAT Rules
         Tool(
             name="mikrotik_list_ipv6_nat_rules",
             description="Lists IPv6 NAT rules",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_ipv6_nat_rule",
@@ -346,12 +380,21 @@ def get_ipv6_firewall_tools() -> List[Tool]:
                     "chain": {"type": "string", "description": "Chain name"},
                     "action": {"type": "string", "description": "NAT action"},
                     "src_address": {"type": "string", "description": "Source address"},
-                    "dst_address": {"type": "string", "description": "Destination address"},
-                    "out_interface": {"type": "string", "description": "Output interface"},
-                    "to_addresses": {"type": "string", "description": "Translation address"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Destination address",
+                    },
+                    "out_interface": {
+                        "type": "string",
+                        "description": "Output interface",
+                    },
+                    "to_addresses": {
+                        "type": "string",
+                        "description": "Translation address",
+                    },
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["chain", "action"]
+                "required": ["chain", "action"],
             },
         ),
         Tool(
@@ -359,13 +402,10 @@ def get_ipv6_firewall_tools() -> List[Tool]:
             description="Removes an IPv6 NAT rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string", "description": "Rule ID"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string", "description": "Rule ID"}},
+                "required": ["rule_id"],
             },
         ),
-        
         # Address Lists
         Tool(
             name="mikrotik_list_ipv6_address_lists",
@@ -373,9 +413,12 @@ def get_ipv6_firewall_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "list_name": {"type": "string", "description": "Filter by list name"}
+                    "list_name": {
+                        "type": "string",
+                        "description": "Filter by list name",
+                    }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -387,9 +430,9 @@ def get_ipv6_firewall_tools() -> List[Tool]:
                     "list_name": {"type": "string", "description": "List name"},
                     "address": {"type": "string", "description": "IPv6 address"},
                     "timeout": {"type": "string", "description": "Timeout"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["list_name", "address"]
+                "required": ["list_name", "address"],
             },
         ),
         Tool(
@@ -400,19 +443,14 @@ def get_ipv6_firewall_tools() -> List[Tool]:
                 "properties": {
                     "entry_id": {"type": "string", "description": "Entry ID"}
                 },
-                "required": ["entry_id"]
+                "required": ["entry_id"],
             },
         ),
-        
         # Mangle Rules
         Tool(
             name="mikrotik_list_ipv6_mangle_rules",
             description="Lists IPv6 mangle rules",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_ipv6_mangle_rule",
@@ -424,12 +462,18 @@ def get_ipv6_firewall_tools() -> List[Tool]:
                     "action": {"type": "string", "description": "Mangle action"},
                     "protocol": {"type": "string", "description": "Protocol"},
                     "src_address": {"type": "string", "description": "Source address"},
-                    "dst_address": {"type": "string", "description": "Destination address"},
-                    "new_routing_mark": {"type": "string", "description": "Routing mark"},
+                    "dst_address": {
+                        "type": "string",
+                        "description": "Destination address",
+                    },
+                    "new_routing_mark": {
+                        "type": "string",
+                        "description": "Routing mark",
+                    },
                     "passthrough": {"type": "boolean", "description": "Passthrough"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["chain", "action"]
+                "required": ["chain", "action"],
             },
         ),
         Tool(
@@ -437,10 +481,8 @@ def get_ipv6_firewall_tools() -> List[Tool]:
             description="Removes an IPv6 mangle rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string", "description": "Rule ID"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string", "description": "Rule ID"}},
+                "required": ["rule_id"],
             },
         ),
     ]
@@ -462,7 +504,7 @@ def get_ipv6_firewall_handlers() -> Dict[str, Callable]:
             out_interface=args.get("out_interface"),
             connection_state=args.get("connection_state"),
             disabled=args.get("disabled", False),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_filter_rule": lambda args: mikrotik_remove_ipv6_filter_rule(
             args["rule_id"]
@@ -475,7 +517,7 @@ def get_ipv6_firewall_handlers() -> Dict[str, Callable]:
             dst_address=args.get("dst_address"),
             out_interface=args.get("out_interface"),
             to_addresses=args.get("to_addresses"),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_nat_rule": lambda args: mikrotik_remove_ipv6_nat_rule(
             args["rule_id"]
@@ -487,7 +529,7 @@ def get_ipv6_firewall_handlers() -> Dict[str, Callable]:
             list_name=args["list_name"],
             address=args["address"],
             timeout=args.get("timeout"),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_address_list_entry": lambda args: mikrotik_remove_ipv6_address_list_entry(
             args["entry_id"]
@@ -501,7 +543,7 @@ def get_ipv6_firewall_handlers() -> Dict[str, Callable]:
             dst_address=args.get("dst_address"),
             new_routing_mark=args.get("new_routing_mark"),
             passthrough=args.get("passthrough", True),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_ipv6_mangle_rule": lambda args: mikrotik_remove_ipv6_mangle_rule(
             args["rule_id"]
@@ -516,11 +558,7 @@ def get_dhcpv6_tools() -> List[Tool]:
         Tool(
             name="mikrotik_list_dhcpv6_servers",
             description="Lists DHCPv6 servers",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_dhcpv6_server",
@@ -532,9 +570,9 @@ def get_dhcpv6_tools() -> List[Tool]:
                     "interface": {"type": "string", "description": "Interface"},
                     "address_pool": {"type": "string", "description": "Address pool"},
                     "lease_time": {"type": "string", "description": "Lease time"},
-                    "disabled": {"type": "boolean", "description": "Disable server"}
+                    "disabled": {"type": "boolean", "description": "Disable server"},
                 },
-                "required": ["name", "interface", "address_pool"]
+                "required": ["name", "interface", "address_pool"],
             },
         ),
         Tool(
@@ -545,7 +583,7 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Server name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -556,19 +594,14 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Server name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
-        
         # DHCPv6 Leases
         Tool(
             name="mikrotik_list_dhcpv6_leases",
             description="Lists DHCPv6 leases",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_dhcpv6_static_lease",
@@ -579,9 +612,9 @@ def get_dhcpv6_tools() -> List[Tool]:
                     "address": {"type": "string", "description": "IPv6 address"},
                     "duid": {"type": "string", "description": "Client DUID"},
                     "server": {"type": "string", "description": "Server name"},
-                    "comment": {"type": "string", "description": "Comment"}
+                    "comment": {"type": "string", "description": "Comment"},
                 },
-                "required": ["address", "duid"]
+                "required": ["address", "duid"],
             },
         ),
         Tool(
@@ -592,19 +625,14 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "lease_id": {"type": "string", "description": "Lease ID"}
                 },
-                "required": ["lease_id"]
+                "required": ["lease_id"],
             },
         ),
-        
         # DHCPv6 Client
         Tool(
             name="mikrotik_list_dhcpv6_clients",
             description="Lists DHCPv6 clients",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_dhcpv6_client",
@@ -614,12 +642,18 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "interface": {"type": "string", "description": "Interface"},
                     "pool_name": {"type": "string", "description": "Pool name"},
-                    "pool_prefix_length": {"type": "integer", "description": "Prefix length"},
-                    "add_default_route": {"type": "boolean", "description": "Add default route"},
+                    "pool_prefix_length": {
+                        "type": "integer",
+                        "description": "Prefix length",
+                    },
+                    "add_default_route": {
+                        "type": "boolean",
+                        "description": "Add default route",
+                    },
                     "request": {"type": "string", "description": "Request type"},
-                    "disabled": {"type": "boolean", "description": "Disable client"}
+                    "disabled": {"type": "boolean", "description": "Disable client"},
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
         Tool(
@@ -630,7 +664,7 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "interface": {"type": "string", "description": "Interface"}
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
         Tool(
@@ -641,19 +675,14 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "interface": {"type": "string", "description": "Interface"}
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
-        
         # DHCPv6 Options
         Tool(
             name="mikrotik_list_dhcpv6_options",
             description="Lists DHCPv6 options",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_dhcpv6_option",
@@ -663,9 +692,9 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Option name"},
                     "code": {"type": "integer", "description": "Option code"},
-                    "value": {"type": "string", "description": "Option value"}
+                    "value": {"type": "string", "description": "Option value"},
                 },
-                "required": ["name", "code", "value"]
+                "required": ["name", "code", "value"],
             },
         ),
         Tool(
@@ -676,7 +705,7 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Option name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         # DHCPv6 Relay - NEW in v4.8.0
@@ -686,12 +715,21 @@ def get_dhcpv6_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "interface": {"type": "string", "description": "Interface to run relay on"},
-                    "dhcp_server": {"type": "string", "description": "IPv6 address of DHCPv6 server"},
-                    "name": {"type": "string", "description": "Optional name for relay"},
-                    "disabled": {"type": "boolean", "description": "Disable relay"}
+                    "interface": {
+                        "type": "string",
+                        "description": "Interface to run relay on",
+                    },
+                    "dhcp_server": {
+                        "type": "string",
+                        "description": "IPv6 address of DHCPv6 server",
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Optional name for relay",
+                    },
+                    "disabled": {"type": "boolean", "description": "Disable relay"},
                 },
-                "required": ["interface", "dhcp_server"]
+                "required": ["interface", "dhcp_server"],
             },
         ),
         Tool(
@@ -701,9 +739,9 @@ def get_dhcpv6_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "interface_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
     ]
@@ -718,7 +756,7 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
             interface=args["interface"],
             address_pool=args["address_pool"],
             lease_time=args.get("lease_time", "1d"),
-            disabled=args.get("disabled", False)
+            disabled=args.get("disabled", False),
         ),
         "mikrotik_remove_dhcpv6_server": lambda args: mikrotik_remove_dhcpv6_server(
             args["name"]
@@ -731,7 +769,7 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
             address=args["address"],
             duid=args["duid"],
             server=args.get("server"),
-            comment=args.get("comment")
+            comment=args.get("comment"),
         ),
         "mikrotik_remove_dhcpv6_lease": lambda args: mikrotik_remove_dhcpv6_lease(
             args["lease_id"]
@@ -743,7 +781,7 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
             pool_prefix_length=args.get("pool_prefix_length", 64),
             add_default_route=args.get("add_default_route", True),
             request=args.get("request", "address"),
-            disabled=args.get("disabled", False)
+            disabled=args.get("disabled", False),
         ),
         "mikrotik_remove_dhcpv6_client": lambda args: mikrotik_remove_dhcpv6_client(
             args["interface"]
@@ -753,9 +791,7 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_list_dhcpv6_options": lambda args: mikrotik_list_dhcpv6_options(),
         "mikrotik_create_dhcpv6_option": lambda args: mikrotik_create_dhcpv6_option(
-            name=args["name"],
-            code=args["code"],
-            value=args["value"]
+            name=args["name"], code=args["code"], value=args["value"]
         ),
         "mikrotik_remove_dhcpv6_option": lambda args: mikrotik_remove_dhcpv6_option(
             args["name"]
@@ -765,11 +801,10 @@ def get_dhcpv6_handlers() -> Dict[str, Callable]:
             interface=args["interface"],
             dhcp_server=args["dhcp_server"],
             name=args.get("name"),
-            disabled=args.get("disabled", False)
+            disabled=args.get("disabled", False),
         ),
         "mikrotik_list_dhcpv6_relays": lambda args: mikrotik_list_dhcpv6_relays(
             interface_filter=args.get("interface_filter"),
-            disabled_only=args.get("disabled_only", False)
+            disabled_only=args.get("disabled_only", False),
         ),
     }
-

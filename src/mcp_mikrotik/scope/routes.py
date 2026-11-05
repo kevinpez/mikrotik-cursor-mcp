@@ -3,6 +3,7 @@ from ..connector import execute_mikrotik_command
 from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
+
 def mikrotik_add_route(
     dst_address: str,
     gateway: str,
@@ -14,12 +15,12 @@ def mikrotik_add_route(
     disabled: bool = False,
     vrf_interface: Optional[str] = None,
     pref_src: Optional[str] = None,
-    check_gateway: Optional[str] = None
+    check_gateway: Optional[str] = None,
 ) -> str:
     app_logger.info(f"Adding route: dst={dst_address}, gateway={gateway}")
-    
+
     cmd = f"/ip route add dst-address={dst_address} gateway={gateway}"
-    
+
     if distance is not None:
         cmd += f" distance={distance}"
     if scope is not None:
@@ -38,15 +39,15 @@ def mikrotik_add_route(
         cmd += f" pref-src={pref_src}"
     if check_gateway:
         cmd += f" check-gateway={check_gateway}"
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if result.strip():
         if "*" in result or result.strip().isdigit():
             route_id = result.strip()
             details_cmd = f"/ip route print detail where .id={route_id}"
             details = execute_mikrotik_command(details_cmd)
-            
+
             if details.strip():
                 return f"Route added successfully:\n\n{details}"
             else:
@@ -56,11 +57,12 @@ def mikrotik_add_route(
     else:
         details_cmd = f'/ip route print detail where dst-address="{dst_address}" and gateway="{gateway}"'
         details = execute_mikrotik_command(details_cmd)
-        
+
         if details.strip():
             return f"Route added successfully:\n\n{details}"
         else:
             return "Route addition completed but unable to verify."
+
 
 def mikrotik_list_routes(
     dst_filter: Optional[str] = None,
@@ -70,12 +72,14 @@ def mikrotik_list_routes(
     active_only: bool = False,
     disabled_only: bool = False,
     dynamic_only: bool = False,
-    static_only: bool = False
+    static_only: bool = False,
 ) -> str:
-    app_logger.info(f"Listing routes with filters: dst={dst_filter}, gateway={gateway_filter}")
-    
+    app_logger.info(
+        f"Listing routes with filters: dst={dst_filter}, gateway={gateway_filter}"
+    )
+
     cmd = "/ip route print"
-    
+
     filters = []
     if dst_filter:
         filters.append(f'dst-address~"{dst_filter}"')
@@ -93,27 +97,29 @@ def mikrotik_list_routes(
         filters.append("dynamic=yes")
     if static_only:
         filters.append("static=yes")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "" or result.strip() == "no such item":
         return "No routes found matching the criteria."
-    
+
     return f"ROUTES:\n\n{result}"
+
 
 def mikrotik_get_route(route_id: str) -> str:
     app_logger.info(f"Getting route details: route_id={route_id}")
-    
+
     cmd = f"/ip route print detail where .id={route_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return f"Route with ID '{route_id}' not found."
-    
+
     return f"ROUTE DETAILS:\n\n{result}"
+
 
 def mikrotik_update_route(
     route_id: str,
@@ -127,12 +133,12 @@ def mikrotik_update_route(
     disabled: Optional[bool] = None,
     vrf_interface: Optional[str] = None,
     pref_src: Optional[str] = None,
-    check_gateway: Optional[str] = None
+    check_gateway: Optional[str] = None,
 ) -> str:
     app_logger.info(f"Updating route: route_id={route_id}")
-    
+
     cmd = f"/ip route set {route_id}"
-    
+
     updates = []
     if dst_address:
         updates.append(f"dst-address={dst_address}")
@@ -165,82 +171,90 @@ def mikrotik_update_route(
             updates.append(f"pref-src={pref_src}")
     if check_gateway is not None:
         updates.append(f"check-gateway={check_gateway}")
-    
+
     if not updates:
         return "No updates specified."
-    
+
     cmd += " " + " ".join(updates)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to update route: {result}"
-    
+
     details_cmd = f"/ip route print detail where .id={route_id}"
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"Route updated successfully:\n\n{details}"
+
 
 def mikrotik_remove_route(route_id: str) -> str:
     app_logger.info(f"Removing route: route_id={route_id}")
-    
+
     # If it looks like a CIDR address, search for it
     if "/" in route_id:
         # Find all routes and search for this dst-address
-        list_cmd = '/ip route print terse'
+        list_cmd = "/ip route print terse"
         list_result = execute_mikrotik_command(list_cmd)
         app_logger.info(f"Terse output: {repr(list_result)}")
-        
+
         # Parse the output to find the route with matching dst-address
         import re
+
         # Look for lines containing .id and the target dst-address
-        lines = list_result.split('\n')
+        lines = list_result.split("\n")
         for line in lines:
-            if route_id in line and '.id=' in line:
-                match = re.search(r'\.id=(\*[0-9A-F]+)', line)
+            if route_id in line and ".id=" in line:
+                match = re.search(r"\.id=(\*[0-9A-F]+)", line)
                 if match:
                     actual_id = match.group(1)
                     app_logger.info(f"Found route with ID: {actual_id}")
                     cmd = f"/ip route remove {actual_id}"
                     result = execute_mikrotik_command(cmd)
-                    
-                    if result.strip() == "" or ("failure" not in result.lower() and "error" not in result.lower()):
+
+                    if result.strip() == "" or (
+                        "failure" not in result.lower()
+                        and "error" not in result.lower()
+                    ):
                         return f"Route with destination '{route_id}' (ID: {actual_id}) removed successfully."
                     else:
                         return f"Failed to remove route: {result}"
-        
+
         return f"Route with destination '{route_id}' not found. Full output: {list_result[:200]}"
-    
+
     # Otherwise treat as ID
     check_cmd = f"/ip route print count-only where .id={route_id}"
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"Route with ID '{route_id}' not found."
-    
+
     cmd = f"/ip route remove {route_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to remove route: {result}"
-    
+
     return f"Route with ID '{route_id}' removed successfully."
+
 
 def mikrotik_enable_route(route_id: str) -> str:
     return mikrotik_update_route(route_id, disabled=False)
 
+
 def mikrotik_disable_route(route_id: str) -> str:
     return mikrotik_update_route(route_id, disabled=True)
+
 
 def mikrotik_get_routing_table(
     table_name: Optional[str] = "main",
     protocol_filter: Optional[str] = None,
-    active_only: bool = True
+    active_only: bool = True,
 ) -> str:
     app_logger.info(f"Getting routing table: table={table_name}")
-    
+
     cmd = "/ip route print"
-    
+
     filters = []
     if table_name and table_name != "main":
         filters.append(f'routing-table="{table_name}"')
@@ -248,85 +262,89 @@ def mikrotik_get_routing_table(
         filters.append(f'protocol="{protocol_filter}"')
     if active_only:
         filters.append("active=yes")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return f"No routes found in table '{table_name}'."
-    
+
     return f"ROUTING TABLE ({table_name}):\n\n{result}"
 
+
 def mikrotik_check_route_path(
-    destination: str,
-    source: Optional[str] = None,
-    routing_mark: Optional[str] = None
+    destination: str, source: Optional[str] = None, routing_mark: Optional[str] = None
 ) -> str:
     app_logger.info(f"Checking route path to: {destination}")
-    
+
     # Try API first, fallback to SSH
     try:
         from ..api_connector import execute_api_command
+
         # Use route listing via API instead of traceroute
-        routes = execute_api_command('/ip/route', 'print')
+        routes = execute_api_command("/ip/route", "print")
         return f"ROUTE INFORMATION FOR {destination}:\n\nAvailable routes:\n{routes}\n\nNote: Use SSH traceroute for detailed path tracing."
     except Exception as e:
         # Fallback to SSH if API fails
-        app_logger.warning(f"API failed for route path check, falling back to SSH: {str(e)}")
+        app_logger.warning(
+            f"API failed for route path check, falling back to SSH: {str(e)}"
+        )
         cmd = f"/tool traceroute {destination}"
         if source:
             cmd += f" src-address={source}"
-        
+
         result = execute_mikrotik_command(cmd)
-        
+
         if not result:
             return f"Unable to check route to {destination}"
-        
+
         return f"ROUTE PATH TO {destination} (via SSH traceroute):\n\n{result}"
+
 
 def mikrotik_get_route_cache() -> str:
     app_logger.info("Getting route cache")
-    
+
     # Route cache was removed in RouterOS v7
     # Return informative message
     return "ROUTE CACHE:\n\nNote: Route cache was removed in RouterOS v7.x\n\nIn RouterOS v7+, routing is handled differently with improved performance.\nUse 'list_routes' to view the active routing table instead."
 
+
 def mikrotik_flush_route_cache() -> str:
     app_logger.info("Flushing route cache")
-    
+
     # Route cache was removed in RouterOS v7
     return "ROUTE CACHE FLUSH:\n\nNote: Route cache was removed in RouterOS v7.x\n\nThis command is not needed in RouterOS v7+ as routing is handled differently.\nNo action required."
+
 
 def mikrotik_add_default_route(
     gateway: str,
     distance: int = 1,
     comment: Optional[str] = None,
-    check_gateway: str = "ping"
+    check_gateway: str = "ping",
 ) -> str:
     return mikrotik_add_route(
         dst_address="0.0.0.0/0",
         gateway=gateway,
         distance=distance,
         comment=comment or "Default route",
-        check_gateway=check_gateway
+        check_gateway=check_gateway,
     )
 
+
 def mikrotik_add_blackhole_route(
-    dst_address: str,
-    distance: int = 1,
-    comment: Optional[str] = None
+    dst_address: str, distance: int = 1, comment: Optional[str] = None
 ) -> str:
     app_logger.info(f"Adding blackhole route: dst={dst_address}")
-    
+
     cmd = f"/ip route add dst-address={dst_address} type=blackhole distance={distance}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if result.strip():
         if "*" in result or result.strip().isdigit():
             return f"Blackhole route added successfully. ID: {result}"
@@ -335,30 +353,31 @@ def mikrotik_add_blackhole_route(
     else:
         return "Blackhole route added successfully."
 
+
 def mikrotik_get_route_statistics() -> str:
     app_logger.info("Getting route statistics")
-    
+
     total_cmd = "/ip route print count-only"
     total_count = execute_mikrotik_command(total_cmd)
-    
+
     active_cmd = "/ip route print count-only where active=yes"
     active_count = execute_mikrotik_command(active_cmd)
-    
+
     dynamic_cmd = "/ip route print count-only where dynamic=yes"
     dynamic_count = execute_mikrotik_command(dynamic_cmd)
-    
+
     static_cmd = "/ip route print count-only where static=yes"
     static_count = execute_mikrotik_command(static_cmd)
-    
+
     disabled_cmd = "/ip route print count-only where disabled=yes"
     disabled_count = execute_mikrotik_command(disabled_cmd)
-    
+
     stats = [
         f"Total routes: {total_count.strip()}",
         f"Active routes: {active_count.strip()}",
         f"Dynamic routes: {dynamic_count.strip()}",
         f"Static routes: {static_count.strip()}",
-        f"Disabled routes: {disabled_count.strip()}"
+        f"Disabled routes: {disabled_count.strip()}",
     ]
-    
+
     return "ROUTE STATISTICS:\n\n" + "\n".join(stats)

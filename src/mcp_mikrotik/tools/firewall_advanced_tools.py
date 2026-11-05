@@ -1,6 +1,7 @@
 """
 Advanced firewall tool definitions (Mangle, RAW, Connection Tracking, Layer 7).
 """
+
 from typing import Dict, Any, List, Callable
 from ..scope.firewall_mangle import (
     mikrotik_list_mangle_rules,
@@ -8,16 +9,16 @@ from ..scope.firewall_mangle import (
     mikrotik_remove_mangle_rule,
     mikrotik_update_mangle_rule,
     mikrotik_create_routing_mark,
-    mikrotik_list_routing_marks
+    mikrotik_list_routing_marks,
 )
 from ..scope.firewall_raw import (
     mikrotik_list_raw_rules,
     mikrotik_create_raw_rule,
-    mikrotik_remove_raw_rule
+    mikrotik_remove_raw_rule,
 )
 from ..scope.firewall_connection import (
     mikrotik_get_connection_tracking,
-    mikrotik_flush_connections
+    mikrotik_flush_connections,
 )
 from ..scope.firewall_layer7 import (
     mikrotik_list_layer7_protocols,
@@ -27,14 +28,14 @@ from ..scope.firewall_layer7 import (
     mikrotik_remove_layer7_protocol,
     mikrotik_enable_layer7_protocol,
     mikrotik_disable_layer7_protocol,
-    mikrotik_create_common_layer7_protocols
+    mikrotik_create_common_layer7_protocols,
 )
 from ..scope.firewall_chains import (
     mikrotik_list_custom_chains,
     mikrotik_create_jump_rule,
     mikrotik_list_rules_in_chain,
     mikrotik_delete_custom_chain,
-    mikrotik_create_custom_chain_with_rules
+    mikrotik_create_custom_chain_with_rules,
 )
 from mcp.types import Tool
 
@@ -51,9 +52,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                 "properties": {
                     "chain_filter": {"type": "string"},
                     "action_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -62,7 +63,16 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain": {"type": "string", "enum": ["prerouting", "postrouting", "input", "output", "forward"]},
+                    "chain": {
+                        "type": "string",
+                        "enum": [
+                            "prerouting",
+                            "postrouting",
+                            "input",
+                            "output",
+                            "forward",
+                        ],
+                    },
                     "mangle_action": {"type": "string"},
                     "src_address": {"type": "string"},
                     "dst_address": {"type": "string"},
@@ -75,9 +85,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "new_connection_mark": {"type": "string"},
                     "new_routing_mark": {"type": "string"},
                     "passthrough": {"type": "boolean"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["chain", "mangle_action"]
+                "required": ["chain", "mangle_action"],
             },
         ),
         Tool(
@@ -85,10 +95,8 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Remove firewall mangle rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -103,9 +111,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "new_connection_mark": {"type": "string"},
                     "new_routing_mark": {"type": "string"},
                     "disabled": {"type": "boolean"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["rule_id"]
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -118,19 +126,15 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "src_address": {"type": "string"},
                     "dst_address": {"type": "string"},
                     "in_interface": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
             name="mikrotik_list_routing_marks",
             description="List all routing marks (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         # RAW tools
         Tool(
@@ -140,9 +144,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "chain_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -152,7 +156,10 @@ def get_firewall_advanced_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "chain": {"type": "string", "enum": ["prerouting", "output"]},
-                    "raw_action": {"type": "string", "enum": ["accept", "drop", "notrack"]},
+                    "raw_action": {
+                        "type": "string",
+                        "enum": ["accept", "drop", "notrack"],
+                    },
                     "src_address": {"type": "string"},
                     "dst_address": {"type": "string"},
                     "protocol": {"type": "string"},
@@ -160,9 +167,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "dst_port": {"type": "string"},
                     "in_interface": {"type": "string"},
                     "out_interface": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["chain", "raw_action"]
+                "required": ["chain", "raw_action"],
             },
         ),
         Tool(
@@ -170,10 +177,8 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Remove firewall RAW rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         # Connection tracking tools
@@ -186,9 +191,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "protocol_filter": {"type": "string"},
                     "src_address_filter": {"type": "string"},
                     "dst_address_filter": {"type": "string"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -199,9 +204,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                 "properties": {
                     "protocol": {"type": "string"},
                     "src_address": {"type": "string"},
-                    "dst_address": {"type": "string"}
+                    "dst_address": {"type": "string"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         # Layer 7 protocol tools
@@ -212,9 +217,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "name_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -226,9 +231,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "name": {"type": "string"},
                     "regexp": {"type": "string"},
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["name", "regexp"]
+                "required": ["name", "regexp"],
             },
         ),
         Tool(
@@ -236,10 +241,8 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Get Layer 7 protocol matcher details (READ-ONLY, safe)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "protocol_id": {"type": "string"}
-                },
-                "required": ["protocol_id"]
+                "properties": {"protocol_id": {"type": "string"}},
+                "required": ["protocol_id"],
             },
         ),
         Tool(
@@ -252,9 +255,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "name": {"type": "string"},
                     "regexp": {"type": "string"},
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["protocol_id"]
+                "required": ["protocol_id"],
             },
         ),
         Tool(
@@ -262,10 +265,8 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Remove Layer 7 protocol matcher",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "protocol_id": {"type": "string"}
-                },
-                "required": ["protocol_id"]
+                "properties": {"protocol_id": {"type": "string"}},
+                "required": ["protocol_id"],
             },
         ),
         Tool(
@@ -273,10 +274,8 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Enable Layer 7 protocol matcher",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "protocol_id": {"type": "string"}
-                },
-                "required": ["protocol_id"]
+                "properties": {"protocol_id": {"type": "string"}},
+                "required": ["protocol_id"],
             },
         ),
         Tool(
@@ -284,20 +283,14 @@ def get_firewall_advanced_tools() -> List[Tool]:
             description="Disable Layer 7 protocol matcher",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "protocol_id": {"type": "string"}
-                },
-                "required": ["protocol_id"]
+                "properties": {"protocol_id": {"type": "string"}},
+                "required": ["protocol_id"],
             },
         ),
         Tool(
             name="mikrotik_create_common_layer7_protocols",
             description="Create common Layer 7 protocol matchers (YouTube, Netflix, Facebook, etc.)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         # Custom chains tools
         Tool(
@@ -306,9 +299,13 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain_type": {"type": "string", "enum": ["filter", "nat", "mangle", "raw"], "default": "filter"}
+                    "chain_type": {
+                        "type": "string",
+                        "enum": ["filter", "nat", "mangle", "raw"],
+                        "default": "filter",
+                    }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -317,7 +314,10 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain_type": {"type": "string", "enum": ["filter", "nat", "mangle", "raw"]},
+                    "chain_type": {
+                        "type": "string",
+                        "enum": ["filter", "nat", "mangle", "raw"],
+                    },
                     "source_chain": {"type": "string"},
                     "target_chain": {"type": "string"},
                     "src_address": {"type": "string"},
@@ -328,9 +328,9 @@ def get_firewall_advanced_tools() -> List[Tool]:
                     "in_interface": {"type": "string"},
                     "out_interface": {"type": "string"},
                     "comment": {"type": "string"},
-                    "place_before": {"type": "string"}
+                    "place_before": {"type": "string"},
                 },
-                "required": ["chain_type", "source_chain", "target_chain"]
+                "required": ["chain_type", "source_chain", "target_chain"],
             },
         ),
         Tool(
@@ -339,10 +339,13 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain_type": {"type": "string", "enum": ["filter", "nat", "mangle", "raw"]},
-                    "chain_name": {"type": "string"}
+                    "chain_type": {
+                        "type": "string",
+                        "enum": ["filter", "nat", "mangle", "raw"],
+                    },
+                    "chain_name": {"type": "string"},
                 },
-                "required": ["chain_type", "chain_name"]
+                "required": ["chain_type", "chain_name"],
             },
         ),
         Tool(
@@ -351,10 +354,13 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain_type": {"type": "string", "enum": ["filter", "nat", "mangle", "raw"]},
-                    "chain_name": {"type": "string"}
+                    "chain_type": {
+                        "type": "string",
+                        "enum": ["filter", "nat", "mangle", "raw"],
+                    },
+                    "chain_name": {"type": "string"},
                 },
-                "required": ["chain_type", "chain_name"]
+                "required": ["chain_type", "chain_name"],
             },
         ),
         Tool(
@@ -363,13 +369,21 @@ def get_firewall_advanced_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "chain_type": {"type": "string", "enum": ["filter", "nat", "mangle", "raw"]},
+                    "chain_type": {
+                        "type": "string",
+                        "enum": ["filter", "nat", "mangle", "raw"],
+                    },
                     "source_chain": {"type": "string"},
                     "custom_chain_name": {"type": "string"},
                     "rules": {"type": "array"},
-                    "match_criteria": {"type": "object"}
+                    "match_criteria": {"type": "object"},
                 },
-                "required": ["chain_type", "source_chain", "custom_chain_name", "rules"]
+                "required": [
+                    "chain_type",
+                    "source_chain",
+                    "custom_chain_name",
+                    "rules",
+                ],
             },
         ),
     ]
@@ -382,7 +396,7 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
         "mikrotik_list_mangle_rules": lambda args: mikrotik_list_mangle_rules(
             args.get("chain_filter"),
             args.get("action_filter"),
-            args.get("disabled_only", False)
+            args.get("disabled_only", False),
         ),
         "mikrotik_create_mangle_rule": lambda args: mikrotik_create_mangle_rule(
             args["chain"],
@@ -398,7 +412,7 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("new_connection_mark"),
             args.get("new_routing_mark"),
             args.get("passthrough", True),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_remove_mangle_rule": lambda args: mikrotik_remove_mangle_rule(
             args["rule_id"]
@@ -410,20 +424,19 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("new_connection_mark"),
             args.get("new_routing_mark"),
             args.get("disabled"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_create_routing_mark": lambda args: mikrotik_create_routing_mark(
             args["name"],
             args.get("src_address"),
             args.get("dst_address"),
             args.get("in_interface"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_list_routing_marks": lambda args: mikrotik_list_routing_marks(),
         # RAW handlers
         "mikrotik_list_raw_rules": lambda args: mikrotik_list_raw_rules(
-            args.get("chain_filter"),
-            args.get("disabled_only", False)
+            args.get("chain_filter"), args.get("disabled_only", False)
         ),
         "mikrotik_create_raw_rule": lambda args: mikrotik_create_raw_rule(
             args["chain"],
@@ -435,7 +448,7 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("dst_port"),
             args.get("in_interface"),
             args.get("out_interface"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_remove_raw_rule": lambda args: mikrotik_remove_raw_rule(
             args["rule_id"]
@@ -445,23 +458,20 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("protocol_filter"),
             args.get("src_address_filter"),
             args.get("dst_address_filter"),
-            args.get("limit", 100)
+            args.get("limit", 100),
         ),
         "mikrotik_flush_connections": lambda args: mikrotik_flush_connections(
-            args.get("protocol"),
-            args.get("src_address"),
-            args.get("dst_address")
+            args.get("protocol"), args.get("src_address"), args.get("dst_address")
         ),
         # Layer 7 protocol handlers
         "mikrotik_list_layer7_protocols": lambda args: mikrotik_list_layer7_protocols(
-            args.get("name_filter"),
-            args.get("disabled_only", False)
+            args.get("name_filter"), args.get("disabled_only", False)
         ),
         "mikrotik_create_layer7_protocol": lambda args: mikrotik_create_layer7_protocol(
             args["name"],
             args["regexp"],
             args.get("comment"),
-            args.get("disabled", False)
+            args.get("disabled", False),
         ),
         "mikrotik_get_layer7_protocol": lambda args: mikrotik_get_layer7_protocol(
             args["protocol_id"]
@@ -471,7 +481,7 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("name"),
             args.get("regexp"),
             args.get("comment"),
-            args.get("disabled")
+            args.get("disabled"),
         ),
         "mikrotik_remove_layer7_protocol": lambda args: mikrotik_remove_layer7_protocol(
             args["protocol_id"]
@@ -499,24 +509,19 @@ def get_firewall_advanced_handlers() -> Dict[str, Callable]:
             args.get("in_interface"),
             args.get("out_interface"),
             args.get("comment"),
-            args.get("place_before")
+            args.get("place_before"),
         ),
         "mikrotik_list_rules_in_chain": lambda args: mikrotik_list_rules_in_chain(
-            args["chain_type"],
-            args["chain_name"]
+            args["chain_type"], args["chain_name"]
         ),
         "mikrotik_delete_custom_chain": lambda args: mikrotik_delete_custom_chain(
-            args["chain_type"],
-            args["chain_name"]
+            args["chain_type"], args["chain_name"]
         ),
         "mikrotik_create_custom_chain_with_rules": lambda args: mikrotik_create_custom_chain_with_rules(
             args["chain_type"],
             args["source_chain"],
             args["custom_chain_name"],
             args["rules"],
-            args.get("match_criteria")
+            args.get("match_criteria"),
         ),
     }
-
-
-

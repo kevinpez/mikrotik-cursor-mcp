@@ -1,10 +1,13 @@
 from typing import Dict, Any, List, Callable
 from ..scope.vlan import (
-    mikrotik_create_vlan_interface, mikrotik_list_vlan_interfaces,
-    mikrotik_get_vlan_interface, mikrotik_update_vlan_interface,
-    mikrotik_remove_vlan_interface
+    mikrotik_create_vlan_interface,
+    mikrotik_list_vlan_interfaces,
+    mikrotik_get_vlan_interface,
+    mikrotik_update_vlan_interface,
+    mikrotik_remove_vlan_interface,
 )
 from mcp.types import Tool
+
 
 def get_vlan_tools() -> List[Tool]:
     """Return the list of VLAN interface tools."""
@@ -23,10 +26,13 @@ def get_vlan_tools() -> List[Tool]:
                     "disabled": {"type": "boolean"},
                     "mtu": {"type": "integer"},
                     "use_service_tag": {"type": "boolean"},
-                    "arp": {"type": "string", "enum": ["enabled", "disabled", "proxy-arp", "reply-only"]},
-                    "arp_timeout": {"type": "string"}
+                    "arp": {
+                        "type": "string",
+                        "enum": ["enabled", "disabled", "proxy-arp", "reply-only"],
+                    },
+                    "arp_timeout": {"type": "string"},
                 },
-                "required": ["name", "vlan_id", "interface"]
+                "required": ["name", "vlan_id", "interface"],
             },
         ),
         Tool(
@@ -38,9 +44,9 @@ def get_vlan_tools() -> List[Tool]:
                     "name_filter": {"type": "string"},
                     "vlan_id_filter": {"type": "integer"},
                     "interface_filter": {"type": "string"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -48,10 +54,8 @@ def get_vlan_tools() -> List[Tool]:
             description="Gets detailed information about a specific VLAN interface",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
         Tool(
@@ -68,10 +72,13 @@ def get_vlan_tools() -> List[Tool]:
                     "disabled": {"type": "boolean"},
                     "mtu": {"type": "integer"},
                     "use_service_tag": {"type": "boolean"},
-                    "arp": {"type": "string", "enum": ["enabled", "disabled", "proxy-arp", "reply-only"]},
-                    "arp_timeout": {"type": "string"}
+                    "arp": {
+                        "type": "string",
+                        "enum": ["enabled", "disabled", "proxy-arp", "reply-only"],
+                    },
+                    "arp_timeout": {"type": "string"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -79,13 +86,12 @@ def get_vlan_tools() -> List[Tool]:
             description="Removes a VLAN interface from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
     ]
+
 
 def get_vlan_handlers() -> Dict[str, Callable]:
     """Return the handlers for VLAN interface tools."""
@@ -99,13 +105,13 @@ def get_vlan_handlers() -> Dict[str, Callable]:
             args.get("mtu"),
             args.get("use_service_tag", False),
             args.get("arp", "enabled"),
-            args.get("arp_timeout")
+            args.get("arp_timeout"),
         ),
         "mikrotik_list_vlan_interfaces": lambda args: mikrotik_list_vlan_interfaces(
             args.get("name_filter"),
             args.get("vlan_id_filter"),
             args.get("interface_filter"),
-            args.get("disabled_only", False)
+            args.get("disabled_only", False),
         ),
         "mikrotik_get_vlan_interface": lambda args: mikrotik_get_vlan_interface(
             args["name"]
@@ -120,7 +126,7 @@ def get_vlan_handlers() -> Dict[str, Callable]:
             args.get("mtu"),
             args.get("use_service_tag"),
             args.get("arp"),
-            args.get("arp_timeout")
+            args.get("arp_timeout"),
         ),
         "mikrotik_remove_vlan_interface": lambda args: mikrotik_remove_vlan_interface(
             args["name"]

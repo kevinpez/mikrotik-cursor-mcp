@@ -2,6 +2,7 @@
 MikroTik connection manager with pooling and health checks.
 Provides efficient connection reuse and automatic reconnection.
 """
+
 import time
 import threading
 from typing import Optional, Dict, Any
@@ -16,11 +17,11 @@ class MikroTikConnectionManager:
     """
     Manages SSH connections to MikroTik devices with pooling and health checks.
     """
-    
+
     def __init__(self, max_idle_time: int = 300, health_check_interval: int = 60):
         """
         Initialize connection manager.
-        
+
         Args:
             max_idle_time: Maximum idle time before closing connection (seconds)
             health_check_interval: How often to check connection health (seconds)
@@ -32,11 +33,11 @@ class MikroTikConnectionManager:
         self._health_check_interval = health_check_interval
         self._last_health_check = 0
         self._is_healthy = False
-        
+
     def _create_connection(self) -> paramiko.SSHClient:
         """Create a new SSH connection."""
         app_logger.debug("Creating new SSH connection to MikroTik")
-        
+
         client = paramiko.SSHClient()
         # Host key policy
         if mikrotik_config.get("strict_host_key_checking"):
@@ -48,18 +49,22 @@ class MikroTikConnectionManager:
                     app_logger.warning(f"Failed to load known hosts: {e}")
         else:
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        
+
         try:
             # Prepare auth options
             ssh_key = mikrotik_config.get("ssh_key_path")
             ssh_key_pass = mikrotik_config.get("ssh_key_passphrase")
             password = mikrotik_config.get("password")
             use_key = bool(ssh_key) and not password
-            
+
             # Check if we have any authentication method
             if not password and not ssh_key:
-                app_logger.error("No authentication method configured. Set either MIKROTIK_PASSWORD or MIKROTIK_SSH_KEY")
-                raise paramiko.AuthenticationException("No authentication method configured")
+                app_logger.error(
+                    "No authentication method configured. Set either MIKROTIK_PASSWORD or MIKROTIK_SSH_KEY"
+                )
+                raise paramiko.AuthenticationException(
+                    "No authentication method configured"
+                )
 
             client.connect(
                 hostname=mikrotik_config["host"],
@@ -70,7 +75,7 @@ class MikroTikConnectionManager:
                 passphrase=ssh_key_pass if use_key and ssh_key_pass else None,
                 look_for_keys=not use_key,
                 allow_agent=not use_key,
-                timeout=mikrotik_config.get("connect_timeout", 10)
+                timeout=mikrotik_config.get("connect_timeout", 10),
             )
             # Enable TCP keepalive on transport
             try:
@@ -93,33 +98,38 @@ class MikroTikConnectionManager:
         except Exception as e:
             app_logger.error(f"Unexpected connection error: {str(e)}")
             raise
-    
+
     def _is_stale(self) -> bool:
         """Check if connection is stale and should be recreated."""
         if not self._connection or not self._last_used:
             return True
-        
+
         idle_time = time.time() - self._last_used
         if idle_time > self._max_idle_time:
             app_logger.debug(f"Connection stale after {idle_time:.1f}s idle time")
             return True
-        
+
         # Check if connection is still alive
-        if not self._connection.get_transport() or not self._connection.get_transport().is_active():
+        if (
+            not self._connection.get_transport()
+            or not self._connection.get_transport().is_active()
+        ):
             app_logger.debug("SSH transport is not active")
             return True
-        
+
         return False
-    
+
     def _health_check(self) -> bool:
         """Perform a health check on the connection."""
         if not self._connection:
             return False
-        
+
         try:
             # Simple command to test connection
-            stdin, stdout, stderr = self._connection.exec_command('/system identity print', timeout=5)
-            result = stdout.read().decode('utf-8')
+            stdin, stdout, stderr = self._connection.exec_command(
+                "/system identity print", timeout=5
+            )
+            result = stdout.read().decode("utf-8")
             if result and ("name=" in result or "name:" in result):
                 app_logger.debug("Connection health check passed")
                 return True
@@ -129,30 +139,32 @@ class MikroTikConnectionManager:
         except Exception as e:
             app_logger.warning(f"Connection health check failed: {str(e)}")
             return False
-    
+
     def get_connection(self) -> paramiko.SSHClient:
         """Get a healthy SSH connection, creating one if necessary."""
         with self._lock:
             current_time = time.time()
-            
+
             # Check if we need a health check
-            if (self._connection and 
-                current_time - self._last_health_check > self._health_check_interval):
+            if (
+                self._connection
+                and current_time - self._last_health_check > self._health_check_interval
+            ):
                 if not self._health_check():
                     app_logger.info("Health check failed, recreating connection")
                     self._close_connection()
                 self._last_health_check = current_time
-            
+
             # Create new connection if needed
             if self._is_stale():
                 self._close_connection()
                 self._connection = self._create_connection()
                 self._is_healthy = True
                 self._last_health_check = current_time
-            
+
             self._last_used = current_time
             return self._connection
-    
+
     def _close_connection(self):
         """Close the current connection."""
         if self._connection:
@@ -164,12 +176,12 @@ class MikroTikConnectionManager:
             finally:
                 self._connection = None
                 self._is_healthy = False
-    
+
     def close(self):
         """Close the connection manager and cleanup resources."""
         with self._lock:
             self._close_connection()
-    
+
     @contextmanager
     def get_connection_context(self):
         """Context manager for getting a connection."""

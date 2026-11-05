@@ -1,26 +1,40 @@
 from typing import Dict, Any, List, Callable
 from ..scope.firewall_filter import (
-    mikrotik_create_filter_rule, mikrotik_list_filter_rules,
-    mikrotik_get_filter_rule, mikrotik_update_filter_rule,
-    mikrotik_remove_filter_rule, mikrotik_move_filter_rule,
-    mikrotik_enable_filter_rule, mikrotik_disable_filter_rule,
-    mikrotik_create_basic_firewall_setup
+    mikrotik_create_filter_rule,
+    mikrotik_list_filter_rules,
+    mikrotik_get_filter_rule,
+    mikrotik_update_filter_rule,
+    mikrotik_remove_filter_rule,
+    mikrotik_move_filter_rule,
+    mikrotik_enable_filter_rule,
+    mikrotik_disable_filter_rule,
+    mikrotik_create_basic_firewall_setup,
 )
 from ..scope.firewall_nat import (
-    mikrotik_create_nat_rule, mikrotik_list_nat_rules,
-    mikrotik_get_nat_rule, mikrotik_update_nat_rule,
-    mikrotik_remove_nat_rule, mikrotik_move_nat_rule,
-    mikrotik_enable_nat_rule, mikrotik_disable_nat_rule,
-    mikrotik_create_port_forward, mikrotik_list_port_forwards
+    mikrotik_create_nat_rule,
+    mikrotik_list_nat_rules,
+    mikrotik_get_nat_rule,
+    mikrotik_update_nat_rule,
+    mikrotik_remove_nat_rule,
+    mikrotik_move_nat_rule,
+    mikrotik_enable_nat_rule,
+    mikrotik_disable_nat_rule,
+    mikrotik_create_port_forward,
+    mikrotik_list_port_forwards,
 )
 from ..scope.firewall_address_list import (
-    mikrotik_list_address_lists, mikrotik_add_address_list_entry,
-    mikrotik_remove_address_list_entry, mikrotik_update_address_list_entry,
-    mikrotik_get_address_list_entry, mikrotik_list_address_list_names,
-    mikrotik_clear_address_list, mikrotik_enable_address_list_entry,
-    mikrotik_disable_address_list_entry
+    mikrotik_list_address_lists,
+    mikrotik_add_address_list_entry,
+    mikrotik_remove_address_list_entry,
+    mikrotik_update_address_list_entry,
+    mikrotik_get_address_list_entry,
+    mikrotik_list_address_list_names,
+    mikrotik_clear_address_list,
+    mikrotik_enable_address_list_entry,
+    mikrotik_disable_address_list_entry,
 )
 from mcp.types import Tool
+
 
 def get_firewall_filter_tools() -> List[Tool]:
     """Return the list of firewall filter tools."""
@@ -33,7 +47,21 @@ def get_firewall_filter_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "chain": {"type": "string", "enum": ["input", "forward", "output"]},
-                    "rule_action": {"type": "string", "enum": ["accept", "drop", "reject", "jump", "log", "passthrough", "return", "tarpit", "fasttrack-connection"], "description": "Firewall action to take"},
+                    "rule_action": {
+                        "type": "string",
+                        "enum": [
+                            "accept",
+                            "drop",
+                            "reject",
+                            "jump",
+                            "log",
+                            "passthrough",
+                            "return",
+                            "tarpit",
+                            "fasttrack-connection",
+                        ],
+                        "description": "Firewall action to take",
+                    },
                     "src_address": {"type": "string"},
                     "dst_address": {"type": "string"},
                     "src_port": {"type": "string"},
@@ -51,9 +79,9 @@ def get_firewall_filter_tools() -> List[Tool]:
                     "disabled": {"type": "boolean"},
                     "log": {"type": "boolean"},
                     "log_prefix": {"type": "string"},
-                    "place_before": {"type": "string"}
+                    "place_before": {"type": "string"},
                 },
-                "required": ["chain", "rule_action"]
+                "required": ["chain", "rule_action"],
             },
         ),
         Tool(
@@ -70,9 +98,9 @@ def get_firewall_filter_tools() -> List[Tool]:
                     "interface_filter": {"type": "string"},
                     "disabled_only": {"type": "boolean"},
                     "invalid_only": {"type": "boolean"},
-                    "dynamic_only": {"type": "boolean"}
+                    "dynamic_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -80,10 +108,8 @@ def get_firewall_filter_tools() -> List[Tool]:
             description="Gets detailed information about a specific firewall filter rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -111,9 +137,9 @@ def get_firewall_filter_tools() -> List[Tool]:
                     "comment": {"type": "string"},
                     "disabled": {"type": "boolean"},
                     "log": {"type": "boolean"},
-                    "log_prefix": {"type": "string"}
+                    "log_prefix": {"type": "string"},
                 },
-                "required": ["rule_id"]
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -121,10 +147,8 @@ def get_firewall_filter_tools() -> List[Tool]:
             description="Removes a firewall filter rule from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -134,9 +158,9 @@ def get_firewall_filter_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "rule_id": {"type": "string"},
-                    "destination": {"type": "integer"}
+                    "destination": {"type": "integer"},
                 },
-                "required": ["rule_id", "destination"]
+                "required": ["rule_id", "destination"],
             },
         ),
         Tool(
@@ -144,10 +168,8 @@ def get_firewall_filter_tools() -> List[Tool]:
             description="Enables a firewall filter rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -155,22 +177,17 @@ def get_firewall_filter_tools() -> List[Tool]:
             description="Disables a firewall filter rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
             name="mikrotik_create_basic_firewall_setup",
             description="Creates a basic firewall setup with common security rules",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
     ]
+
 
 def get_firewall_nat_tools() -> List[Tool]:
     """Return the list of firewall NAT tools."""
@@ -197,9 +214,9 @@ def get_firewall_nat_tools() -> List[Tool]:
                     "disabled": {"type": "boolean"},
                     "log": {"type": "boolean"},
                     "log_prefix": {"type": "string"},
-                    "place_before": {"type": "string"}
+                    "place_before": {"type": "string"},
                 },
-                "required": ["chain", "action"]
+                "required": ["chain", "action"],
             },
         ),
         Tool(
@@ -215,9 +232,9 @@ def get_firewall_nat_tools() -> List[Tool]:
                     "protocol_filter": {"type": "string"},
                     "interface_filter": {"type": "string"},
                     "disabled_only": {"type": "boolean"},
-                    "invalid_only": {"type": "boolean"}
+                    "invalid_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -225,10 +242,8 @@ def get_firewall_nat_tools() -> List[Tool]:
             description="Gets detailed information about a specific NAT rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -252,9 +267,9 @@ def get_firewall_nat_tools() -> List[Tool]:
                     "comment": {"type": "string"},
                     "disabled": {"type": "boolean"},
                     "log": {"type": "boolean"},
-                    "log_prefix": {"type": "string"}
+                    "log_prefix": {"type": "string"},
                 },
-                "required": ["rule_id"]
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -262,10 +277,8 @@ def get_firewall_nat_tools() -> List[Tool]:
             description="Removes a NAT rule from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -275,9 +288,9 @@ def get_firewall_nat_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "rule_id": {"type": "string"},
-                    "destination": {"type": "integer"}
+                    "destination": {"type": "integer"},
                 },
-                "required": ["rule_id", "destination"]
+                "required": ["rule_id", "destination"],
             },
         ),
         Tool(
@@ -285,10 +298,8 @@ def get_firewall_nat_tools() -> List[Tool]:
             description="Enables a NAT rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -296,10 +307,8 @@ def get_firewall_nat_tools() -> List[Tool]:
             description="Disables a NAT rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "rule_id": {"type": "string"}
-                },
-                "required": ["rule_id"]
+                "properties": {"rule_id": {"type": "string"}},
+                "required": ["rule_id"],
             },
         ),
         Tool(
@@ -313,21 +322,18 @@ def get_firewall_nat_tools() -> List[Tool]:
                     "internal_port": {"type": "integer"},
                     "protocol": {"type": "string", "enum": ["tcp", "udp", "both"]},
                     "in_interface": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["external_port", "internal_ip"]
+                "required": ["external_port", "internal_ip"],
             },
         ),
         Tool(
             name="mikrotik_list_port_forwards",
             description="Lists all port forwarding rules (dstnat dst-nat rules)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
     ]
+
 
 def get_firewall_filter_handlers() -> Dict[str, Callable]:
     """Return the handlers for firewall filter tools."""
@@ -352,7 +358,7 @@ def get_firewall_filter_handlers() -> Dict[str, Callable]:
             args.get("disabled", False),
             args.get("log", False),
             args.get("log_prefix"),
-            args.get("place_before")
+            args.get("place_before"),
         ),
         "mikrotik_list_filter_rules": lambda args: mikrotik_list_filter_rules(
             args.get("chain_filter"),
@@ -363,7 +369,7 @@ def get_firewall_filter_handlers() -> Dict[str, Callable]:
             args.get("interface_filter"),
             args.get("disabled_only", False),
             args.get("invalid_only", False),
-            args.get("dynamic_only", False)
+            args.get("dynamic_only", False),
         ),
         "mikrotik_get_filter_rule": lambda args: mikrotik_get_filter_rule(
             args["rule_id"]
@@ -388,14 +394,13 @@ def get_firewall_filter_handlers() -> Dict[str, Callable]:
             args.get("comment"),
             args.get("disabled"),
             args.get("log"),
-            args.get("log_prefix")
+            args.get("log_prefix"),
         ),
         "mikrotik_remove_filter_rule": lambda args: mikrotik_remove_filter_rule(
             args["rule_id"]
         ),
         "mikrotik_move_filter_rule": lambda args: mikrotik_move_filter_rule(
-            args["rule_id"],
-            args["destination"]
+            args["rule_id"], args["destination"]
         ),
         "mikrotik_enable_filter_rule": lambda args: mikrotik_enable_filter_rule(
             args["rule_id"]
@@ -405,6 +410,7 @@ def get_firewall_filter_handlers() -> Dict[str, Callable]:
         ),
         "mikrotik_create_basic_firewall_setup": lambda args: mikrotik_create_basic_firewall_setup(),
     }
+
 
 def get_firewall_nat_handlers() -> Dict[str, Callable]:
     """Return the handlers for firewall NAT tools."""
@@ -425,7 +431,7 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
             args.get("disabled", False),
             args.get("log", False),
             args.get("log_prefix"),
-            args.get("place_before")
+            args.get("place_before"),
         ),
         "mikrotik_list_nat_rules": lambda args: mikrotik_list_nat_rules(
             args.get("chain_filter"),
@@ -435,11 +441,9 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
             args.get("protocol_filter"),
             args.get("interface_filter"),
             args.get("disabled_only", False),
-            args.get("invalid_only", False)
+            args.get("invalid_only", False),
         ),
-        "mikrotik_get_nat_rule": lambda args: mikrotik_get_nat_rule(
-            args["rule_id"]
-        ),
+        "mikrotik_get_nat_rule": lambda args: mikrotik_get_nat_rule(args["rule_id"]),
         "mikrotik_update_nat_rule": lambda args: mikrotik_update_nat_rule(
             args["rule_id"],
             args.get("chain"),
@@ -456,14 +460,13 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
             args.get("comment"),
             args.get("disabled"),
             args.get("log"),
-            args.get("log_prefix")
+            args.get("log_prefix"),
         ),
         "mikrotik_remove_nat_rule": lambda args: mikrotik_remove_nat_rule(
             args["rule_id"]
         ),
         "mikrotik_move_nat_rule": lambda args: mikrotik_move_nat_rule(
-            args["rule_id"],
-            args["destination"]
+            args["rule_id"], args["destination"]
         ),
         "mikrotik_enable_nat_rule": lambda args: mikrotik_enable_nat_rule(
             args["rule_id"]
@@ -477,10 +480,11 @@ def get_firewall_nat_handlers() -> Dict[str, Callable]:
             args.get("internal_port"),
             args.get("protocol", "tcp"),
             args.get("in_interface"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_list_port_forwards": lambda args: mikrotik_list_port_forwards(),
     }
+
 
 def get_firewall_address_list_tools() -> List[Tool]:
     """Return the list of firewall address list tools."""
@@ -494,9 +498,9 @@ def get_firewall_address_list_tools() -> List[Tool]:
                     "list_filter": {"type": "string"},
                     "address_filter": {"type": "string"},
                     "dynamic_only": {"type": "boolean"},
-                    "disabled_only": {"type": "boolean"}
+                    "disabled_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -507,11 +511,14 @@ def get_firewall_address_list_tools() -> List[Tool]:
                 "properties": {
                     "list_name": {"type": "string"},
                     "address": {"type": "string"},
-                    "timeout": {"type": "string", "description": "Timeout (e.g., 1h, 30m, 1d, 1w)"},
+                    "timeout": {
+                        "type": "string",
+                        "description": "Timeout (e.g., 1h, 30m, 1d, 1w)",
+                    },
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["list_name", "address"]
+                "required": ["list_name", "address"],
             },
         ),
         Tool(
@@ -519,10 +526,8 @@ def get_firewall_address_list_tools() -> List[Tool]:
             description="Removes an entry from a firewall address list",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "entry_id": {"type": "string"}
-                },
-                "required": ["entry_id"]
+                "properties": {"entry_id": {"type": "string"}},
+                "required": ["entry_id"],
             },
         ),
         Tool(
@@ -533,11 +538,14 @@ def get_firewall_address_list_tools() -> List[Tool]:
                 "properties": {
                     "entry_id": {"type": "string"},
                     "address": {"type": "string"},
-                    "timeout": {"type": "string", "description": "Timeout (e.g., 1h, 30m, 1d, 1w) or 'none' to remove"},
+                    "timeout": {
+                        "type": "string",
+                        "description": "Timeout (e.g., 1h, 30m, 1d, 1w) or 'none' to remove",
+                    },
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["entry_id"]
+                "required": ["entry_id"],
             },
         ),
         Tool(
@@ -545,30 +553,22 @@ def get_firewall_address_list_tools() -> List[Tool]:
             description="Gets detailed information about a specific address list entry (READ-ONLY, safe)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "entry_id": {"type": "string"}
-                },
-                "required": ["entry_id"]
+                "properties": {"entry_id": {"type": "string"}},
+                "required": ["entry_id"],
             },
         ),
         Tool(
             name="mikrotik_list_address_list_names",
             description="Lists all unique address list names currently in use (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_clear_address_list",
             description="Removes all entries from a specific address list (⚠️ destructive!)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "list_name": {"type": "string"}
-                },
-                "required": ["list_name"]
+                "properties": {"list_name": {"type": "string"}},
+                "required": ["list_name"],
             },
         ),
         Tool(
@@ -576,10 +576,8 @@ def get_firewall_address_list_tools() -> List[Tool]:
             description="Enables an address list entry",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "entry_id": {"type": "string"}
-                },
-                "required": ["entry_id"]
+                "properties": {"entry_id": {"type": "string"}},
+                "required": ["entry_id"],
             },
         ),
         Tool(
@@ -587,13 +585,12 @@ def get_firewall_address_list_tools() -> List[Tool]:
             description="Disables an address list entry",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "entry_id": {"type": "string"}
-                },
-                "required": ["entry_id"]
+                "properties": {"entry_id": {"type": "string"}},
+                "required": ["entry_id"],
             },
         ),
     ]
+
 
 def get_firewall_address_list_handlers() -> Dict[str, Callable]:
     """Return the handlers for firewall address list tools."""
@@ -602,14 +599,14 @@ def get_firewall_address_list_handlers() -> Dict[str, Callable]:
             args.get("list_filter"),
             args.get("address_filter"),
             args.get("dynamic_only", False),
-            args.get("disabled_only", False)
+            args.get("disabled_only", False),
         ),
         "mikrotik_add_address_list_entry": lambda args: mikrotik_add_address_list_entry(
             args["list_name"],
             args["address"],
             args.get("timeout"),
             args.get("comment"),
-            args.get("disabled", False)
+            args.get("disabled", False),
         ),
         "mikrotik_remove_address_list_entry": lambda args: mikrotik_remove_address_list_entry(
             args["entry_id"]
@@ -619,7 +616,7 @@ def get_firewall_address_list_handlers() -> Dict[str, Callable]:
             args.get("address"),
             args.get("timeout"),
             args.get("comment"),
-            args.get("disabled")
+            args.get("disabled"),
         ),
         "mikrotik_get_address_list_entry": lambda args: mikrotik_get_address_list_entry(
             args["entry_id"]

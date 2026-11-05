@@ -1,6 +1,7 @@
 """
 OpenVPN tool definitions and handlers for MCP server.
 """
+
 from typing import Dict, Any, List, Callable
 from ..scope.openvpn import (
     mikrotik_list_openvpn_interfaces,
@@ -11,7 +12,7 @@ from ..scope.openvpn import (
     mikrotik_update_openvpn_client,
     mikrotik_get_openvpn_status,
     mikrotik_enable_openvpn_client,
-    mikrotik_disable_openvpn_client
+    mikrotik_disable_openvpn_client,
 )
 from mcp.types import Tool
 
@@ -27,14 +28,14 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name_filter": {
                         "type": "string",
-                        "description": "Filter by interface name"
+                        "description": "Filter by interface name",
                     },
                     "disabled_only": {
                         "type": "boolean",
-                        "description": "Show only disabled interfaces"
-                    }
+                        "description": "Show only disabled interfaces",
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -45,20 +46,16 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name_filter": {
                         "type": "string",
-                        "description": "Filter by server name"
+                        "description": "Filter by server name",
                     }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
             name="mikrotik_get_openvpn_server_status",
             description="Get OpenVPN server status (READ-ONLY, safe)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_openvpn_client",
@@ -68,49 +65,46 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "Interface name (e.g., 'ovpn-client-aws')"
+                        "description": "Interface name (e.g., 'ovpn-client-aws')",
                     },
                     "connect_to": {
                         "type": "string",
-                        "description": "Server IP address or hostname"
+                        "description": "Server IP address or hostname",
                     },
                     "port": {
                         "type": "integer",
-                        "description": "OpenVPN port (default: 1194)"
+                        "description": "OpenVPN port (default: 1194)",
                     },
                     "user": {
                         "type": "string",
-                        "description": "Username for authentication"
+                        "description": "Username for authentication",
                     },
                     "password": {
                         "type": "string",
-                        "description": "Password for authentication"
+                        "description": "Password for authentication",
                     },
                     "certificate": {
                         "type": "string",
-                        "description": "Certificate name for cert-based auth"
+                        "description": "Certificate name for cert-based auth",
                     },
                     "auth": {
                         "type": "string",
                         "enum": ["sha1", "sha256", "sha512"],
-                        "description": "Authentication method (default: sha1)"
+                        "description": "Authentication method (default: sha1)",
                     },
                     "cipher": {
                         "type": "string",
                         "enum": ["aes128", "aes192", "aes256", "blowfish128"],
-                        "description": "Encryption cipher (default: aes128)"
+                        "description": "Encryption cipher (default: aes128)",
                     },
                     "mode": {
                         "type": "string",
                         "enum": ["ip", "ethernet"],
-                        "description": "Connection mode (default: ip)"
+                        "description": "Connection mode (default: ip)",
                     },
-                    "comment": {
-                        "type": "string",
-                        "description": "Optional comment"
-                    }
+                    "comment": {"type": "string", "description": "Optional comment"},
                 },
-                "required": ["name", "connect_to"]
+                "required": ["name", "connect_to"],
             },
         ),
         Tool(
@@ -121,10 +115,10 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "Interface name to remove"
+                        "description": "Interface name to remove",
                     }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -133,36 +127,21 @@ def get_openvpn_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Interface name"
-                    },
+                    "name": {"type": "string", "description": "Interface name"},
                     "connect_to": {
                         "type": "string",
-                        "description": "New server address"
+                        "description": "New server address",
                     },
-                    "port": {
-                        "type": "integer",
-                        "description": "New port"
-                    },
-                    "user": {
-                        "type": "string",
-                        "description": "New username"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "New password"
-                    },
+                    "port": {"type": "integer", "description": "New port"},
+                    "user": {"type": "string", "description": "New username"},
+                    "password": {"type": "string", "description": "New password"},
                     "disabled": {
                         "type": "boolean",
-                        "description": "Enable/disable interface"
+                        "description": "Enable/disable interface",
                     },
-                    "comment": {
-                        "type": "string",
-                        "description": "Update comment"
-                    }
+                    "comment": {"type": "string", "description": "Update comment"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -171,12 +150,9 @@ def get_openvpn_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Interface name"
-                    }
+                    "name": {"type": "string", "description": "Interface name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -187,10 +163,10 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "Interface name to enable"
+                        "description": "Interface name to enable",
                     }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -201,10 +177,10 @@ def get_openvpn_tools() -> List[Tool]:
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "Interface name to disable"
+                        "description": "Interface name to disable",
                     }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
     ]
@@ -214,8 +190,7 @@ def get_openvpn_handlers() -> Dict[str, Callable]:
     """Return the handlers for OpenVPN management tools."""
     return {
         "mikrotik_list_openvpn_interfaces": lambda args: mikrotik_list_openvpn_interfaces(
-            args.get("name_filter"),
-            args.get("disabled_only", False)
+            args.get("name_filter"), args.get("disabled_only", False)
         ),
         "mikrotik_list_openvpn_servers": lambda args: mikrotik_list_openvpn_servers(
             args.get("name_filter")
@@ -231,7 +206,7 @@ def get_openvpn_handlers() -> Dict[str, Callable]:
             args.get("auth", "sha1"),
             args.get("cipher", "aes128"),
             args.get("mode", "ip"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_remove_openvpn_interface": lambda args: mikrotik_remove_openvpn_interface(
             args["name"]
@@ -243,7 +218,7 @@ def get_openvpn_handlers() -> Dict[str, Callable]:
             args.get("user"),
             args.get("password"),
             args.get("disabled"),
-            args.get("comment")
+            args.get("comment"),
         ),
         "mikrotik_get_openvpn_status": lambda args: mikrotik_get_openvpn_status(
             args["name"]
@@ -255,4 +230,3 @@ def get_openvpn_handlers() -> Dict[str, Callable]:
             args["name"]
         ),
     }
-

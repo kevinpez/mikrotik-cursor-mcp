@@ -11,8 +11,9 @@ from ..scope.certificates import (
     mikrotik_create_ca_certificate,
     mikrotik_revoke_certificate,
     mikrotik_trust_certificate,
-    mikrotik_get_certificate_fingerprint
+    mikrotik_get_certificate_fingerprint,
 )
+
 
 def get_certificate_tools() -> List[Tool]:
     """Return the list of certificate management tools."""
@@ -26,9 +27,9 @@ def get_certificate_tools() -> List[Tool]:
                     "name_filter": {"type": "string"},
                     "common_name_filter": {"type": "string"},
                     "invalid_only": {"type": "boolean"},
-                    "expired_only": {"type": "boolean"}
+                    "expired_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -36,10 +37,8 @@ def get_certificate_tools() -> List[Tool]:
             description="Gets detailed information about a specific certificate (READ-ONLY, safe)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "cert_id": {"type": "string"}
-                },
-                "required": ["cert_id"]
+                "properties": {"cert_id": {"type": "string"}},
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -50,7 +49,11 @@ def get_certificate_tools() -> List[Tool]:
                 "properties": {
                     "common_name": {"type": "string"},
                     "name": {"type": "string"},
-                    "key_size": {"type": "integer", "enum": [1024, 2048, 4096], "default": 2048},
+                    "key_size": {
+                        "type": "integer",
+                        "enum": [1024, 2048, 4096],
+                        "default": 2048,
+                    },
                     "days_valid": {"type": "integer", "default": 365},
                     "country": {"type": "string"},
                     "state": {"type": "string"},
@@ -58,9 +61,9 @@ def get_certificate_tools() -> List[Tool]:
                     "organization": {"type": "string"},
                     "unit": {"type": "string"},
                     "subject_alt_name": {"type": "string"},
-                    "key_usage": {"type": "string"}
+                    "key_usage": {"type": "string"},
                 },
-                "required": ["common_name"]
+                "required": ["common_name"],
             },
         ),
         Tool(
@@ -70,9 +73,12 @@ def get_certificate_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "cert_id": {"type": "string"},
-                    "ca": {"type": "string", "description": "CA certificate name (optional for self-sign)"}
+                    "ca": {
+                        "type": "string",
+                        "description": "CA certificate name (optional for self-sign)",
+                    },
                 },
-                "required": ["cert_id"]
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -83,9 +89,9 @@ def get_certificate_tools() -> List[Tool]:
                 "properties": {
                     "file_path": {"type": "string"},
                     "passphrase": {"type": "string"},
-                    "name": {"type": "string"}
+                    "name": {"type": "string"},
                 },
-                "required": ["file_path"]
+                "required": ["file_path"],
             },
         ),
         Tool(
@@ -97,9 +103,13 @@ def get_certificate_tools() -> List[Tool]:
                     "cert_id": {"type": "string"},
                     "file_name": {"type": "string"},
                     "export_passphrase": {"type": "string"},
-                    "type_": {"type": "string", "enum": ["pem", "pkcs12"], "default": "pem"}
+                    "type_": {
+                        "type": "string",
+                        "enum": ["pem", "pkcs12"],
+                        "default": "pem",
+                    },
                 },
-                "required": ["cert_id"]
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -107,10 +117,8 @@ def get_certificate_tools() -> List[Tool]:
             description="Removes a certificate from the device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "cert_id": {"type": "string"}
-                },
-                "required": ["cert_id"]
+                "properties": {"cert_id": {"type": "string"}},
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -121,12 +129,16 @@ def get_certificate_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string"},
                     "common_name": {"type": "string"},
-                    "key_size": {"type": "integer", "enum": [1024, 2048, 4096], "default": 2048},
+                    "key_size": {
+                        "type": "integer",
+                        "enum": [1024, 2048, 4096],
+                        "default": 2048,
+                    },
                     "days_valid": {"type": "integer", "default": 3650},
                     "country": {"type": "string"},
-                    "organization": {"type": "string"}
+                    "organization": {"type": "string"},
                 },
-                "required": ["name", "common_name"]
+                "required": ["name", "common_name"],
             },
         ),
         Tool(
@@ -134,10 +146,8 @@ def get_certificate_tools() -> List[Tool]:
             description="Revokes a certificate (marks as not trusted)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "cert_id": {"type": "string"}
-                },
-                "required": ["cert_id"]
+                "properties": {"cert_id": {"type": "string"}},
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -145,10 +155,8 @@ def get_certificate_tools() -> List[Tool]:
             description="Marks a certificate as trusted",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "cert_id": {"type": "string"}
-                },
-                "required": ["cert_id"]
+                "properties": {"cert_id": {"type": "string"}},
+                "required": ["cert_id"],
             },
         ),
         Tool(
@@ -156,13 +164,12 @@ def get_certificate_tools() -> List[Tool]:
             description="Gets the fingerprint of a certificate (READ-ONLY, safe)",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "cert_id": {"type": "string"}
-                },
-                "required": ["cert_id"]
+                "properties": {"cert_id": {"type": "string"}},
+                "required": ["cert_id"],
             },
         ),
     ]
+
 
 def get_certificate_handlers() -> Dict[str, Callable]:
     """Return the handlers for certificate management tools."""
@@ -171,7 +178,7 @@ def get_certificate_handlers() -> Dict[str, Callable]:
             args.get("name_filter"),
             args.get("common_name_filter"),
             args.get("invalid_only", False),
-            args.get("expired_only", False)
+            args.get("expired_only", False),
         ),
         "mikrotik_get_certificate": lambda args: mikrotik_get_certificate(
             args["cert_id"]
@@ -187,22 +194,19 @@ def get_certificate_handlers() -> Dict[str, Callable]:
             args.get("organization"),
             args.get("unit"),
             args.get("subject_alt_name"),
-            args.get("key_usage")
+            args.get("key_usage"),
         ),
         "mikrotik_sign_certificate": lambda args: mikrotik_sign_certificate(
-            args["cert_id"],
-            args.get("ca")
+            args["cert_id"], args.get("ca")
         ),
         "mikrotik_import_certificate": lambda args: mikrotik_import_certificate(
-            args["file_path"],
-            args.get("passphrase"),
-            args.get("name")
+            args["file_path"], args.get("passphrase"), args.get("name")
         ),
         "mikrotik_export_certificate": lambda args: mikrotik_export_certificate(
             args["cert_id"],
             args.get("file_name"),
             args.get("export_passphrase"),
-            args.get("type_", "pem")
+            args.get("type_", "pem"),
         ),
         "mikrotik_remove_certificate": lambda args: mikrotik_remove_certificate(
             args["cert_id"]
@@ -213,7 +217,7 @@ def get_certificate_handlers() -> Dict[str, Callable]:
             args.get("key_size", 2048),
             args.get("days_valid", 3650),
             args.get("country"),
-            args.get("organization")
+            args.get("organization"),
         ),
         "mikrotik_revoke_certificate": lambda args: mikrotik_revoke_certificate(
             args["cert_id"]
@@ -225,4 +229,3 @@ def get_certificate_handlers() -> Dict[str, Callable]:
             args["cert_id"]
         ),
     }
-

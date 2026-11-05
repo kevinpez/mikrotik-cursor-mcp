@@ -3,6 +3,7 @@ from ..connector import execute_mikrotik_command
 from ..api_fallback import api_fallback_execute
 from ..logger import app_logger
 
+
 def mikrotik_create_nat_rule(
     chain: str,
     action: str,
@@ -19,11 +20,11 @@ def mikrotik_create_nat_rule(
     disabled: bool = False,
     log: bool = False,
     log_prefix: Optional[str] = None,
-    place_before: Optional[str] = None
+    place_before: Optional[str] = None,
 ) -> str:
     """
     Creates a NAT rule on MikroTik device.
-    
+
     Args:
         chain: NAT chain (srcnat, dstnat)
         action: Action to take (accept, drop, masquerade, dst-nat, src-nat, etc.)
@@ -41,73 +42,97 @@ def mikrotik_create_nat_rule(
         log: Whether to log packets matching this rule
         log_prefix: Prefix for log entries
         place_before: Place this rule before another rule (by number)
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Creating NAT rule: chain={chain}, action={action}")
-    
+
     # Validate chain
     valid_chains = ["srcnat", "dstnat"]
     if chain not in valid_chains:
-        return f"Error: Invalid chain '{chain}'. Must be one of: {', '.join(valid_chains)}"
-    
+        return (
+            f"Error: Invalid chain '{chain}'. Must be one of: {', '.join(valid_chains)}"
+        )
+
     # Validate action based on chain
-    srcnat_actions = ["accept", "drop", "masquerade", "src-nat", "same", "netmap", "jump", "return", "log", "passthrough"]
-    dstnat_actions = ["accept", "drop", "dst-nat", "jump", "return", "log", "passthrough", "redirect", "netmap", "same"]
-    
+    srcnat_actions = [
+        "accept",
+        "drop",
+        "masquerade",
+        "src-nat",
+        "same",
+        "netmap",
+        "jump",
+        "return",
+        "log",
+        "passthrough",
+    ]
+    dstnat_actions = [
+        "accept",
+        "drop",
+        "dst-nat",
+        "jump",
+        "return",
+        "log",
+        "passthrough",
+        "redirect",
+        "netmap",
+        "same",
+    ]
+
     if chain == "srcnat" and action not in srcnat_actions:
         return f"Error: Invalid action '{action}' for srcnat. Must be one of: {', '.join(srcnat_actions)}"
     elif chain == "dstnat" and action not in dstnat_actions:
         return f"Error: Invalid action '{action}' for dstnat. Must be one of: {', '.join(dstnat_actions)}"
-    
+
     # Build the command
     cmd = f"/ip firewall nat add chain={chain} action={action}"
-    
+
     # Add optional parameters
     if src_address:
         cmd += f" src-address={src_address}"
-    
+
     if dst_address:
         cmd += f" dst-address={dst_address}"
-    
+
     if src_port:
         cmd += f" src-port={src_port}"
-    
+
     if dst_port:
         cmd += f" dst-port={dst_port}"
-    
+
     if protocol:
         cmd += f" protocol={protocol}"
-    
+
     if in_interface:
         cmd += f' in-interface="{in_interface}"'
-    
+
     if out_interface:
         cmd += f' out-interface="{out_interface}"'
-    
+
     if to_addresses:
         cmd += f" to-addresses={to_addresses}"
-    
+
     if to_ports:
         cmd += f" to-ports={to_ports}"
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     if disabled:
         cmd += " disabled=yes"
-    
+
     if log:
         cmd += " log=yes"
         if log_prefix:
             cmd += f' log-prefix="{log_prefix}"'
-    
+
     if place_before:
         cmd += f" place-before={place_before}"
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check if creation was successful
     if result.strip():
         # MikroTik returns the ID of created item on success
@@ -116,7 +141,7 @@ def mikrotik_create_nat_rule(
             rule_id = result.strip()
             details_cmd = f"/ip firewall nat print detail where .id={rule_id}"
             details = execute_mikrotik_command(details_cmd)
-            
+
             if details.strip():
                 return f"NAT rule created successfully:\n\n{details}"
             else:
@@ -128,7 +153,7 @@ def mikrotik_create_nat_rule(
         # No output might mean success, let's check by getting the last rule
         details_cmd = "/ip firewall nat print detail count-only"
         count = execute_mikrotik_command(details_cmd)
-        
+
         if count.strip().isdigit() and int(count.strip()) > 0:
             # Get the last rule
             last_rule_cmd = f"/ip firewall nat print detail from={int(count.strip())-1}"
@@ -136,6 +161,7 @@ def mikrotik_create_nat_rule(
             return f"NAT rule created successfully:\n\n{details}"
         else:
             return "NAT rule creation completed but unable to verify."
+
 
 def mikrotik_list_nat_rules(
     chain_filter: Optional[str] = None,
@@ -145,11 +171,11 @@ def mikrotik_list_nat_rules(
     protocol_filter: Optional[str] = None,
     interface_filter: Optional[str] = None,
     disabled_only: bool = False,
-    invalid_only: bool = False
+    invalid_only: bool = False,
 ) -> str:
     """
     Lists NAT rules on MikroTik device.
-    
+
     Args:
         chain_filter: Filter by chain (srcnat, dstnat)
         action_filter: Filter by action
@@ -159,15 +185,17 @@ def mikrotik_list_nat_rules(
         interface_filter: Filter by interface (in or out)
         disabled_only: Show only disabled rules
         invalid_only: Show only invalid rules
-    
+
     Returns:
         List of NAT rules
     """
-    app_logger.info(f"Listing NAT rules with filters: chain={chain_filter}, action={action_filter}")
-    
+    app_logger.info(
+        f"Listing NAT rules with filters: chain={chain_filter}, action={action_filter}"
+    )
+
     # Build the command
     cmd = "/ip firewall nat print"
-    
+
     # Add filters
     filters = []
     if chain_filter:
@@ -181,42 +209,46 @@ def mikrotik_list_nat_rules(
     if protocol_filter:
         filters.append(f"protocol={protocol_filter}")
     if interface_filter:
-        filters.append(f'(in-interface~"{interface_filter}" or out-interface~"{interface_filter}")')
+        filters.append(
+            f'(in-interface~"{interface_filter}" or out-interface~"{interface_filter}")'
+        )
     if disabled_only:
         filters.append("disabled=yes")
     if invalid_only:
         filters.append("invalid=yes")
-    
+
     if filters:
         cmd += " where " + " ".join(filters)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check for empty result
     if not result or result.strip() == "" or result.strip() == "no such item":
         return "No NAT rules found matching the criteria."
-    
+
     return f"NAT RULES:\n\n{result}"
+
 
 def mikrotik_get_nat_rule(rule_id: str) -> str:
     """
     Gets detailed information about a specific NAT rule.
-    
+
     Args:
         rule_id: ID of the NAT rule (can be number or *number format)
-    
+
     Returns:
         Detailed information about the NAT rule
     """
     app_logger.info(f"Getting NAT rule details: rule_id={rule_id}")
-    
+
     cmd = f"/ip firewall nat print detail where .id={rule_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return f"NAT rule with ID '{rule_id}' not found."
-    
+
     return f"NAT RULE DETAILS:\n\n{result}"
+
 
 def mikrotik_update_nat_rule(
     rule_id: str,
@@ -234,11 +266,11 @@ def mikrotik_update_nat_rule(
     comment: Optional[str] = None,
     disabled: Optional[bool] = None,
     log: Optional[bool] = None,
-    log_prefix: Optional[str] = None
+    log_prefix: Optional[str] = None,
 ) -> str:
     """
     Updates an existing NAT rule on MikroTik device.
-    
+
     Args:
         rule_id: ID of the NAT rule to update
         chain: New chain
@@ -256,15 +288,15 @@ def mikrotik_update_nat_rule(
         disabled: Enable/disable the rule
         log: Enable/disable logging
         log_prefix: New log prefix
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Updating NAT rule: rule_id={rule_id}")
-    
+
     # Build the command
     cmd = f"/ip firewall nat set {rule_id}"
-    
+
     # Add parameters to update
     updates = []
     if chain:
@@ -324,104 +356,109 @@ def mikrotik_update_nat_rule(
         updates.append(f'log={"yes" if log else "no"}')
         if log and log_prefix:
             updates.append(f'log-prefix="{log_prefix}"')
-    
+
     if not updates:
         return "No updates specified."
-    
+
     cmd += " " + " ".join(updates)
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     # Check if update was successful
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to update NAT rule: {result}"
-    
+
     # Get the updated rule details
     details_cmd = f"/ip firewall nat print detail where .id={rule_id}"
     details = execute_mikrotik_command(details_cmd)
-    
+
     return f"NAT rule updated successfully:\n\n{details}"
+
 
 def mikrotik_remove_nat_rule(rule_id: str) -> str:
     """
     Removes a NAT rule from MikroTik device.
-    
+
     Args:
         rule_id: ID of the NAT rule to remove
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Removing NAT rule: rule_id={rule_id}")
-    
+
     # First check if the rule exists
     check_cmd = f"/ip firewall nat print count-only where .id={rule_id}"
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"NAT rule with ID '{rule_id}' not found."
-    
+
     # Remove the rule
     cmd = f"/ip firewall nat remove {rule_id}"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to remove NAT rule: {result}"
-    
+
     return f"NAT rule with ID '{rule_id}' removed successfully."
+
 
 def mikrotik_move_nat_rule(rule_id: str, destination: int) -> str:
     """
     Moves a NAT rule to a different position in the chain.
-    
+
     Args:
         rule_id: ID of the NAT rule to move
         destination: Destination position (0-based index)
-    
+
     Returns:
         Command output or error message
     """
     app_logger.info(f"Moving NAT rule: rule_id={rule_id} to position {destination}")
-    
+
     # Check if the rule exists
     check_cmd = f"/ip firewall nat print count-only where .id={rule_id}"
     count = execute_mikrotik_command(check_cmd)
-    
+
     if count.strip() == "0":
         return f"NAT rule with ID '{rule_id}' not found."
-    
+
     # Move the rule
     cmd = f"/ip firewall nat move {rule_id} destination={destination}"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to move NAT rule: {result}"
-    
+
     return f"NAT rule with ID '{rule_id}' moved to position {destination}."
+
 
 def mikrotik_enable_nat_rule(rule_id: str) -> str:
     """
     Enables a NAT rule.
-    
+
     Args:
         rule_id: ID of the NAT rule to enable
-    
+
     Returns:
         Command output or error message
     """
     return mikrotik_update_nat_rule(rule_id, disabled=False)
 
+
 def mikrotik_disable_nat_rule(rule_id: str) -> str:
     """
     Disables a NAT rule.
-    
+
     Args:
         rule_id: ID of the NAT rule to disable
-    
+
     Returns:
         Command output or error message
     """
     return mikrotik_update_nat_rule(rule_id, disabled=True)
+
 
 def mikrotik_create_port_forward(
     external_port: int,
@@ -429,11 +466,11 @@ def mikrotik_create_port_forward(
     internal_port: Optional[int] = None,
     protocol: str = "tcp",
     in_interface: Optional[str] = None,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """
     Easy port forwarding helper - creates a dstnat rule.
-    
+
     Args:
         external_port: External port to forward from
         internal_ip: Internal IP address to forward to
@@ -441,18 +478,20 @@ def mikrotik_create_port_forward(
         protocol: Protocol (tcp, udp, or both)
         in_interface: WAN interface (optional, defaults to any)
         comment: Comment for the rule
-    
+
     Returns:
         Command output or error message
     """
     if internal_port is None:
         internal_port = external_port
-    
+
     if comment is None:
         comment = f"Port Forward: {external_port} -> {internal_ip}:{internal_port}"
-    
-    app_logger.info(f"Creating port forward: {external_port} -> {internal_ip}:{internal_port}")
-    
+
+    app_logger.info(
+        f"Creating port forward: {external_port} -> {internal_ip}:{internal_port}"
+    )
+
     # Handle "both" protocol by creating two rules
     if protocol.lower() == "both":
         # Create TCP rule
@@ -464,9 +503,9 @@ def mikrotik_create_port_forward(
             to_addresses=internal_ip,
             to_ports=str(internal_port),
             in_interface=in_interface,
-            comment=f"{comment} (TCP)"
+            comment=f"{comment} (TCP)",
         )
-        
+
         # Create UDP rule
         udp_result = mikrotik_create_nat_rule(
             chain="dstnat",
@@ -476,9 +515,9 @@ def mikrotik_create_port_forward(
             to_addresses=internal_ip,
             to_ports=str(internal_port),
             in_interface=in_interface,
-            comment=f"{comment} (UDP)"
+            comment=f"{comment} (UDP)",
         )
-        
+
         return f"TCP Rule:\n{tcp_result}\n\nUDP Rule:\n{udp_result}"
     else:
         # Single protocol
@@ -490,17 +529,18 @@ def mikrotik_create_port_forward(
             to_addresses=internal_ip,
             to_ports=str(internal_port),
             in_interface=in_interface,
-            comment=comment
+            comment=comment,
         )
+
 
 def mikrotik_list_port_forwards() -> str:
     """List all port forwarding rules (dstnat with dst-nat action)"""
     app_logger.info("Listing port forwards")
-    
-    cmd = '/ip firewall nat print where chain=dstnat and action=dst-nat'
+
+    cmd = "/ip firewall nat print where chain=dstnat and action=dst-nat"
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return "No port forwarding rules found."
-    
+
     return f"PORT FORWARDING RULES:\n\n{result}"

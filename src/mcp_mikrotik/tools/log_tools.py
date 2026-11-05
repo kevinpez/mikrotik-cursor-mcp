@@ -1,11 +1,18 @@
 from typing import Dict, Any, List, Callable
 from ..scope.logs import (
-    mikrotik_get_logs, mikrotik_get_logs_by_severity, mikrotik_get_logs_by_topic,
-    mikrotik_search_logs, mikrotik_get_system_events, mikrotik_get_security_logs,
-    mikrotik_clear_logs, mikrotik_get_log_statistics, mikrotik_export_logs,
-    mikrotik_monitor_logs
+    mikrotik_get_logs,
+    mikrotik_get_logs_by_severity,
+    mikrotik_get_logs_by_topic,
+    mikrotik_search_logs,
+    mikrotik_get_system_events,
+    mikrotik_get_security_logs,
+    mikrotik_clear_logs,
+    mikrotik_get_log_statistics,
+    mikrotik_export_logs,
+    mikrotik_monitor_logs,
 )
 from mcp.types import Tool
+
 
 def get_log_tools() -> List[Tool]:
     """Return the list of log tools."""
@@ -24,9 +31,12 @@ def get_log_tools() -> List[Tool]:
                     "prefix_filter": {"type": "string"},
                     "limit": {"type": "integer"},
                     "follow": {"type": "boolean"},
-                    "print_as": {"type": "string", "enum": ["value", "detail", "terse"]}
+                    "print_as": {
+                        "type": "string",
+                        "enum": ["value", "detail", "terse"],
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -35,11 +45,14 @@ def get_log_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "severity": {"type": "string", "enum": ["debug", "info", "warning", "error", "critical"]},
+                    "severity": {
+                        "type": "string",
+                        "enum": ["debug", "info", "warning", "error", "critical"],
+                    },
                     "time_filter": {"type": "string"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": ["severity"]
+                "required": ["severity"],
             },
         ),
         Tool(
@@ -50,9 +63,9 @@ def get_log_tools() -> List[Tool]:
                 "properties": {
                     "topic": {"type": "string"},
                     "time_filter": {"type": "string"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": ["topic"]
+                "required": ["topic"],
             },
         ),
         Tool(
@@ -64,9 +77,9 @@ def get_log_tools() -> List[Tool]:
                     "search_term": {"type": "string"},
                     "time_filter": {"type": "string"},
                     "case_sensitive": {"type": "boolean"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": ["search_term"]
+                "required": ["search_term"],
             },
         ),
         Tool(
@@ -77,9 +90,9 @@ def get_log_tools() -> List[Tool]:
                 "properties": {
                     "event_type": {"type": "string"},
                     "time_filter": {"type": "string"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -89,28 +102,20 @@ def get_log_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "time_filter": {"type": "string"},
-                    "limit": {"type": "integer"}
+                    "limit": {"type": "integer"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
             name="mikrotik_clear_logs",
             description="Clears all logs from MikroTik device",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_log_statistics",
             description="Gets statistics about log entries",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_export_logs",
@@ -121,9 +126,9 @@ def get_log_tools() -> List[Tool]:
                     "filename": {"type": "string"},
                     "topics": {"type": "string"},
                     "time_filter": {"type": "string"},
-                    "format": {"type": "string", "enum": ["plain", "csv"]}
+                    "format": {"type": "string", "enum": ["plain", "csv"]},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -134,12 +139,13 @@ def get_log_tools() -> List[Tool]:
                 "properties": {
                     "topics": {"type": "string"},
                     "action": {"type": "string"},
-                    "duration": {"type": "integer"}
+                    "duration": {"type": "integer"},
                 },
-                "required": []
+                "required": [],
             },
         ),
     ]
+
 
 def get_log_handlers() -> Dict[str, Callable]:
     """Return the handlers for log tools."""
@@ -152,32 +158,25 @@ def get_log_handlers() -> Dict[str, Callable]:
             args.get("prefix_filter"),
             args.get("limit"),
             args.get("follow", False),
-            args.get("print_as", "value")
+            args.get("print_as", "value"),
         ),
         "mikrotik_get_logs_by_severity": lambda args: mikrotik_get_logs_by_severity(
-            args["severity"],
-            args.get("time_filter"),
-            args.get("limit")
+            args["severity"], args.get("time_filter"), args.get("limit")
         ),
         "mikrotik_get_logs_by_topic": lambda args: mikrotik_get_logs_by_topic(
-            args["topic"],
-            args.get("time_filter"),
-            args.get("limit")
+            args["topic"], args.get("time_filter"), args.get("limit")
         ),
         "mikrotik_search_logs": lambda args: mikrotik_search_logs(
             args["search_term"],
             args.get("time_filter"),
             args.get("case_sensitive", False),
-            args.get("limit")
+            args.get("limit"),
         ),
         "mikrotik_get_system_events": lambda args: mikrotik_get_system_events(
-            args.get("event_type"),
-            args.get("time_filter"),
-            args.get("limit")
+            args.get("event_type"), args.get("time_filter"), args.get("limit")
         ),
         "mikrotik_get_security_logs": lambda args: mikrotik_get_security_logs(
-            args.get("time_filter"),
-            args.get("limit")
+            args.get("time_filter"), args.get("limit")
         ),
         "mikrotik_clear_logs": lambda args: mikrotik_clear_logs(),
         "mikrotik_get_log_statistics": lambda args: mikrotik_get_log_statistics(),
@@ -185,11 +184,9 @@ def get_log_handlers() -> Dict[str, Callable]:
             args.get("filename"),
             args.get("topics"),
             args.get("time_filter"),
-            args.get("format", "plain")
+            args.get("format", "plain"),
         ),
         "mikrotik_monitor_logs": lambda args: mikrotik_monitor_logs(
-            args.get("topics"),
-            args.get("action"),
-            args.get("duration", 10)
+            args.get("topics"), args.get("action"), args.get("duration", 10)
         ),
     }

@@ -2,6 +2,7 @@
 Intelligent Workflow tools for MikroTik operations.
 Provides risk-based workflow management with automatic safety measures.
 """
+
 from mcp.types import Tool
 from ..safety.intelligent_workflow import get_workflow_manager
 
@@ -17,15 +18,15 @@ def get_intelligent_workflow_tools() -> list[Tool]:
                 "properties": {
                     "command": {
                         "type": "string",
-                        "description": "The MikroTik RouterOS command to execute"
+                        "description": "The MikroTik RouterOS command to execute",
                     },
                     "user_approved": {
                         "type": "boolean",
                         "description": "Whether the user has already approved this operation",
-                        "default": False
-                    }
+                        "default": False,
+                    },
                 },
-                "required": ["command"]
+                "required": ["command"],
             },
         ),
         Tool(
@@ -36,10 +37,10 @@ def get_intelligent_workflow_tools() -> list[Tool]:
                 "properties": {
                     "command": {
                         "type": "string",
-                        "description": "The MikroTik RouterOS command to assess"
+                        "description": "The MikroTik RouterOS command to assess",
                     }
                 },
-                "required": ["command"]
+                "required": ["command"],
             },
         ),
         Tool(
@@ -50,10 +51,10 @@ def get_intelligent_workflow_tools() -> list[Tool]:
                 "properties": {
                     "command": {
                         "type": "string",
-                        "description": "The approved MikroTik RouterOS command to execute"
+                        "description": "The approved MikroTik RouterOS command to execute",
                     }
                 },
-                "required": ["command"]
+                "required": ["command"],
             },
         ),
     ]
@@ -65,8 +66,12 @@ def get_intelligent_workflow_handlers() -> dict:
         "mikrotik_execute_with_intelligent_workflow": lambda args: _execute_with_workflow(
             args["command"], args.get("user_approved", False)
         ),
-        "mikrotik_assess_command_risk": lambda args: _assess_command_risk(args["command"]),
-        "mikrotik_execute_approved_operation": lambda args: _execute_approved_operation(args["command"]),
+        "mikrotik_assess_command_risk": lambda args: _assess_command_risk(
+            args["command"]
+        ),
+        "mikrotik_execute_approved_operation": lambda args: _execute_approved_operation(
+            args["command"]
+        ),
     }
 
 
@@ -81,7 +86,7 @@ def _assess_command_risk(command: str) -> str:
     """Assess the risk level of a command."""
     workflow_manager = get_workflow_manager()
     assessment = workflow_manager.assess_risk(command)
-    
+
     result = f"""RISK ASSESSMENT
 
 **Command:** `{command}`
@@ -100,7 +105,7 @@ def _assess_command_risk(command: str) -> str:
 """
     for warning in assessment.warnings:
         result += f"- WARNING: {warning}\n"
-    
+
     return result
 
 

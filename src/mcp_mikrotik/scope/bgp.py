@@ -2,6 +2,7 @@
 BGP (Border Gateway Protocol) management for MikroTik RouterOS.
 For enterprise routing, multi-homing, and internet peering.
 """
+
 from typing import Optional
 from ..connector import execute_mikrotik_command
 from ..api_fallback import api_fallback_execute
@@ -14,23 +15,23 @@ def mikrotik_create_bgp_instance(
     router_id: str,
     redistribute_connected: bool = False,
     redistribute_static: bool = False,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """Create BGP routing instance."""
     app_logger.info(f"Creating BGP instance: {name} (AS {as_number})")
-    
-    cmd = f'/routing bgp instance add name={name} as={as_number} router-id={router_id}'
+
+    cmd = f"/routing bgp instance add name={name} as={as_number} router-id={router_id}"
     cmd += f' redistribute-connected={"yes" if redistribute_connected else "no"}'
     cmd += f' redistribute-static={"yes" if redistribute_static else "no"}'
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to create BGP instance: {result}"
-    
+
     return f"BGP instance '{name}' created successfully (AS {as_number})."
 
 
@@ -41,48 +42,48 @@ def mikrotik_add_bgp_peer(
     remote_as: int,
     multihop: bool = False,
     route_reflect: bool = False,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """Add BGP peer/neighbor."""
     app_logger.info(f"Adding BGP peer: {name} to {remote_address}")
-    
-    cmd = f'/routing bgp peer add name={name} instance={instance} remote-address={remote_address} remote-as={remote_as}'
+
+    cmd = f"/routing bgp peer add name={name} instance={instance} remote-address={remote_address} remote-as={remote_as}"
     cmd += f' multihop={"yes" if multihop else "no"}'
     cmd += f' route-reflect={"yes" if route_reflect else "no"}'
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to add BGP peer: {result}"
-    
+
     return f"BGP peer '{name}' added successfully."
 
 
 def mikrotik_list_bgp_peers(instance_filter: Optional[str] = None) -> str:
     """List BGP peers and their status. READ-ONLY - safe."""
     app_logger.info(f"Listing BGP peers: instance={instance_filter}")
-    
+
     try:
         # Try RouterOS v7 syntax (uses /routing/bgp/connection)
         result = api_fallback_execute("/routing/bgp/connection/print", {}, limit=100)
-        
+
         if result and "not found" not in result.lower():
             if not result.strip():
                 return "No BGP peers configured."
             return f"BGP PEERS (RouterOS v7):\n\n{result}"
-        
+
         # Fallback to v6 syntax
         cmd = "/routing bgp peer print detail"
         result = execute_mikrotik_command(cmd)
-        
+
         if not result or result.strip() == "":
             return "No BGP peers configured."
-        
+
         return f"BGP PEERS:\n\n{result}"
-        
+
     except Exception as e:
         return f"No BGP configuration found. BGP may not be enabled."
 
@@ -91,47 +92,47 @@ def mikrotik_add_bgp_network(
     instance: str,
     network: str,
     synchronize: bool = False,
-    comment: Optional[str] = None
+    comment: Optional[str] = None,
 ) -> str:
     """Advertise network via BGP."""
     app_logger.info(f"Adding BGP network: {network}")
-    
-    cmd = f'/routing bgp network add instance={instance} network={network}'
+
+    cmd = f"/routing bgp network add instance={instance} network={network}"
     cmd += f' synchronize={"yes" if synchronize else "no"}'
-    
+
     if comment:
         cmd += f' comment="{comment}"'
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to add BGP network: {result}"
-    
+
     return f"BGP network '{network}' added successfully."
 
 
 def mikrotik_list_bgp_networks(instance_filter: Optional[str] = None) -> str:
     """List BGP advertised networks. READ-ONLY - safe."""
     app_logger.info("Listing BGP networks")
-    
+
     try:
         # RouterOS v7 uses /routing/bgp/template
         result = api_fallback_execute("/routing/bgp/template/print", {}, limit=100)
-        
+
         if result and "not found" not in result.lower():
             if not result.strip():
                 return "No BGP networks configured."
             return f"BGP NETWORKS (RouterOS v7):\n\n{result}"
-        
+
         # Fallback to v6 syntax
         cmd = "/routing bgp network print detail"
         result = execute_mikrotik_command(cmd)
-        
+
         if not result or result.strip() == "":
             return "No BGP networks configured."
-        
+
         return f"BGP NETWORKS:\n\n{result}"
-        
+
     except Exception as e:
         return "No BGP configuration found. BGP may not be enabled."
 
@@ -139,25 +140,27 @@ def mikrotik_list_bgp_networks(instance_filter: Optional[str] = None) -> str:
 def mikrotik_list_bgp_routes() -> str:
     """View BGP routing table. READ-ONLY - safe."""
     app_logger.info("Listing BGP routes")
-    
+
     try:
         # RouterOS v7: BGP routes are in main routing table
         cmd = "/routing route print where bgp"
         result = execute_mikrotik_command(cmd)
-        
+
         if result and "syntax error" not in result.lower():
             if not result.strip():
                 return "No BGP routes in routing table."
             return f"BGP ROUTING TABLE:\n\n{result}"
-        
+
         # Fallback to v6 syntax
-        result = api_fallback_execute("/routing/bgp/advertisements/print", {}, limit=100)
-        
+        result = api_fallback_execute(
+            "/routing/bgp/advertisements/print", {}, limit=100
+        )
+
         if not result or result.strip() == "":
             return "No BGP routes in routing table."
-        
+
         return f"BGP ROUTING TABLE:\n\n{result}"
-        
+
     except Exception as e:
         return "No BGP routes found. BGP may not be configured."
 
@@ -165,30 +168,28 @@ def mikrotik_list_bgp_routes() -> str:
 def mikrotik_get_bgp_status(instance: Optional[str] = None) -> str:
     """Get BGP instance status. READ-ONLY - safe."""
     app_logger.info(f"Getting BGP status: instance={instance}")
-    
+
     if instance:
-        cmd = f'/routing bgp instance print detail where name={instance}'
+        cmd = f"/routing bgp instance print detail where name={instance}"
     else:
         cmd = "/routing bgp instance print detail"
-    
+
     result = execute_mikrotik_command(cmd)
-    
+
     if not result or result.strip() == "":
         return "No BGP instances configured."
-    
+
     return f"BGP STATUS:\n\n{result}"
 
 
 def mikrotik_clear_bgp_session(peer: str) -> str:
     """Reset BGP session (soft reset)."""
     app_logger.info(f"Clearing BGP session: {peer}")
-    
-    cmd = f'/routing bgp peer reset [find name={peer}]'
+
+    cmd = f"/routing bgp peer reset [find name={peer}]"
     result = execute_mikrotik_command(cmd)
-    
+
     if "failure:" in result.lower() or "error" in result.lower():
         return f"Failed to reset BGP session: {result}"
-    
+
     return f"BGP session for peer '{peer}' reset successfully."
-
-

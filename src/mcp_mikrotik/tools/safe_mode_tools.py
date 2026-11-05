@@ -2,6 +2,7 @@
 Safe Mode tools for MikroTik RouterOS.
 Provides access to RouterOS's built-in safe mode functionality.
 """
+
 from mcp.types import Tool
 from ..scope import safe_mode
 
@@ -19,29 +20,21 @@ def get_safe_mode_tools() -> list[Tool]:
                         "type": "integer",
                         "description": "Optional timeout in minutes (default: 10 minutes). Changes will be automatically reverted after this time if Safe Mode is not explicitly exited.",
                         "minimum": 1,
-                        "maximum": 60
+                        "maximum": 60,
                     }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
             name="mikrotik_exit_safe_mode",
             description="Exit MikroTik Safe Mode and make all changes permanent",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_safe_mode_status",
             description="Get the current Safe Mode status and configuration",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_set_safe_mode_timeout",
@@ -53,38 +46,26 @@ def get_safe_mode_tools() -> list[Tool]:
                         "type": "integer",
                         "description": "Timeout period in minutes (1-60). After this time, changes will be automatically reverted if Safe Mode is not explicitly exited.",
                         "minimum": 1,
-                        "maximum": 60
+                        "maximum": 60,
                     }
                 },
-                "required": ["timeout_minutes"]
+                "required": ["timeout_minutes"],
             },
         ),
         Tool(
             name="mikrotik_force_exit_safe_mode",
             description="Force exit Safe Mode immediately (emergency use only)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_safe_mode_history",
             description="Get the history of changes made during the current Safe Mode session",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_create_safe_mode_backup",
             description="Create a backup before entering Safe Mode (recommended best practice)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
     ]
 

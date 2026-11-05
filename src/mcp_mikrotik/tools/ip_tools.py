@@ -1,14 +1,21 @@
 from typing import Dict, Any, List, Callable
 from ..scope.ip_address import (
-    mikrotik_add_ip_address, mikrotik_list_ip_addresses,
-    mikrotik_get_ip_address, mikrotik_remove_ip_address
+    mikrotik_add_ip_address,
+    mikrotik_list_ip_addresses,
+    mikrotik_get_ip_address,
+    mikrotik_remove_ip_address,
 )
 from ..scope.ip_pool import (
-    mikrotik_create_ip_pool, mikrotik_list_ip_pools, mikrotik_get_ip_pool,
-    mikrotik_update_ip_pool, mikrotik_remove_ip_pool, mikrotik_list_ip_pool_used,
-    mikrotik_expand_ip_pool
+    mikrotik_create_ip_pool,
+    mikrotik_list_ip_pools,
+    mikrotik_get_ip_pool,
+    mikrotik_update_ip_pool,
+    mikrotik_remove_ip_pool,
+    mikrotik_list_ip_pool_used,
+    mikrotik_expand_ip_pool,
 )
 from mcp.types import Tool
+
 
 def get_ip_address_tools() -> List[Tool]:
     """Return the list of IP address tools."""
@@ -25,9 +32,9 @@ def get_ip_address_tools() -> List[Tool]:
                     "network": {"type": "string"},
                     "broadcast": {"type": "string"},
                     "comment": {"type": "string"},
-                    "disabled": {"type": "boolean"}
+                    "disabled": {"type": "boolean"},
                 },
-                "required": ["address", "interface"]
+                "required": ["address", "interface"],
             },
         ),
         Tool(
@@ -40,9 +47,9 @@ def get_ip_address_tools() -> List[Tool]:
                     "address_filter": {"type": "string"},
                     "network_filter": {"type": "string"},
                     "disabled_only": {"type": "boolean"},
-                    "dynamic_only": {"type": "boolean"}
+                    "dynamic_only": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -50,10 +57,8 @@ def get_ip_address_tools() -> List[Tool]:
             description="Gets detailed information about a specific IP address",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "address_id": {"type": "string"}
-                },
-                "required": ["address_id"]
+                "properties": {"address_id": {"type": "string"}},
+                "required": ["address_id"],
             },
         ),
         Tool(
@@ -61,13 +66,12 @@ def get_ip_address_tools() -> List[Tool]:
             description="Removes an IP address from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "address_id": {"type": "string"}
-                },
-                "required": ["address_id"]
+                "properties": {"address_id": {"type": "string"}},
+                "required": ["address_id"],
             },
         ),
     ]
+
 
 def get_ip_pool_tools() -> List[Tool]:
     """Return the list of IP pool tools."""
@@ -82,9 +86,9 @@ def get_ip_pool_tools() -> List[Tool]:
                     "name": {"type": "string"},
                     "ranges": {"type": "string"},
                     "next_pool": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["name", "ranges"]
+                "required": ["name", "ranges"],
             },
         ),
         Tool(
@@ -95,9 +99,9 @@ def get_ip_pool_tools() -> List[Tool]:
                 "properties": {
                     "name_filter": {"type": "string"},
                     "ranges_filter": {"type": "string"},
-                    "include_used": {"type": "boolean"}
+                    "include_used": {"type": "boolean"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -105,10 +109,8 @@ def get_ip_pool_tools() -> List[Tool]:
             description="Gets detailed information about a specific IP pool",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
         Tool(
@@ -121,9 +123,9 @@ def get_ip_pool_tools() -> List[Tool]:
                     "new_name": {"type": "string"},
                     "ranges": {"type": "string"},
                     "next_pool": {"type": "string"},
-                    "comment": {"type": "string"}
+                    "comment": {"type": "string"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -131,10 +133,8 @@ def get_ip_pool_tools() -> List[Tool]:
             description="Removes an IP pool from MikroTik device",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
             },
         ),
         Tool(
@@ -146,9 +146,9 @@ def get_ip_pool_tools() -> List[Tool]:
                     "pool_name": {"type": "string"},
                     "address_filter": {"type": "string"},
                     "mac_filter": {"type": "string"},
-                    "info_filter": {"type": "string"}
+                    "info_filter": {"type": "string"},
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -158,12 +158,13 @@ def get_ip_pool_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "name": {"type": "string"},
-                    "additional_ranges": {"type": "string"}
+                    "additional_ranges": {"type": "string"},
                 },
-                "required": ["name", "additional_ranges"]
+                "required": ["name", "additional_ranges"],
             },
         ),
     ]
+
 
 def get_ip_address_handlers() -> Dict[str, Callable]:
     """Return the handlers for IP address tools."""
@@ -174,14 +175,14 @@ def get_ip_address_handlers() -> Dict[str, Callable]:
             args.get("network"),
             args.get("broadcast"),
             args.get("comment"),
-            args.get("disabled", False)
+            args.get("disabled", False),
         ),
         "mikrotik_list_ip_addresses": lambda args: mikrotik_list_ip_addresses(
             args.get("interface_filter"),
             args.get("address_filter"),
             args.get("network_filter"),
             args.get("disabled_only", False),
-            args.get("dynamic_only", False)
+            args.get("dynamic_only", False),
         ),
         "mikrotik_get_ip_address": lambda args: mikrotik_get_ip_address(
             args["address_id"]
@@ -191,41 +192,34 @@ def get_ip_address_handlers() -> Dict[str, Callable]:
         ),
     }
 
+
 def get_ip_pool_handlers() -> Dict[str, Callable]:
     """Return the handlers for IP pool tools."""
     return {
         "mikrotik_create_ip_pool": lambda args: mikrotik_create_ip_pool(
-            args["name"],
-            args["ranges"],
-            args.get("next_pool"),
-            args.get("comment")
+            args["name"], args["ranges"], args.get("next_pool"), args.get("comment")
         ),
         "mikrotik_list_ip_pools": lambda args: mikrotik_list_ip_pools(
             args.get("name_filter"),
             args.get("ranges_filter"),
-            args.get("include_used", False)
+            args.get("include_used", False),
         ),
-        "mikrotik_get_ip_pool": lambda args: mikrotik_get_ip_pool(
-            args["name"]
-        ),
+        "mikrotik_get_ip_pool": lambda args: mikrotik_get_ip_pool(args["name"]),
         "mikrotik_update_ip_pool": lambda args: mikrotik_update_ip_pool(
             args["name"],
             args.get("new_name"),
             args.get("ranges"),
             args.get("next_pool"),
-            args.get("comment")
+            args.get("comment"),
         ),
-        "mikrotik_remove_ip_pool": lambda args: mikrotik_remove_ip_pool(
-            args["name"]
-        ),
+        "mikrotik_remove_ip_pool": lambda args: mikrotik_remove_ip_pool(args["name"]),
         "mikrotik_list_ip_pool_used": lambda args: mikrotik_list_ip_pool_used(
             args.get("pool_name"),
             args.get("address_filter"),
             args.get("mac_filter"),
-            args.get("info_filter")
+            args.get("info_filter"),
         ),
         "mikrotik_expand_ip_pool": lambda args: mikrotik_expand_ip_pool(
-            args["name"],
-            args["additional_ranges"]
+            args["name"], args["additional_ranges"]
         ),
     }

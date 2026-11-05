@@ -1,26 +1,45 @@
 from typing import Dict, Any, List, Callable
 from ..scope.wireless import (
-    mikrotik_create_wireless_interface, mikrotik_list_wireless_interfaces,
-    mikrotik_get_wireless_interface, mikrotik_update_wireless_interface,
-    mikrotik_remove_wireless_interface, mikrotik_enable_wireless_interface,
-    mikrotik_disable_wireless_interface, mikrotik_scan_wireless_networks,
-    mikrotik_get_wireless_registration_table, mikrotik_check_wireless_support,
-    mikrotik_create_wireless_security_profile, mikrotik_list_wireless_security_profiles,
-    mikrotik_get_wireless_security_profile, mikrotik_remove_wireless_security_profile,
-    mikrotik_update_wireless_security_profile, mikrotik_create_wireless_access_list,
-    mikrotik_list_wireless_access_list, mikrotik_remove_wireless_access_list_entry,
-    mikrotik_get_wireless_interface_monitor, mikrotik_get_wireless_frequencies,
-    mikrotik_export_wireless_config
+    mikrotik_create_wireless_interface,
+    mikrotik_list_wireless_interfaces,
+    mikrotik_get_wireless_interface,
+    mikrotik_update_wireless_interface,
+    mikrotik_remove_wireless_interface,
+    mikrotik_enable_wireless_interface,
+    mikrotik_disable_wireless_interface,
+    mikrotik_scan_wireless_networks,
+    mikrotik_get_wireless_registration_table,
+    mikrotik_check_wireless_support,
+    mikrotik_create_wireless_security_profile,
+    mikrotik_list_wireless_security_profiles,
+    mikrotik_get_wireless_security_profile,
+    mikrotik_remove_wireless_security_profile,
+    mikrotik_update_wireless_security_profile,
+    mikrotik_create_wireless_access_list,
+    mikrotik_list_wireless_access_list,
+    mikrotik_remove_wireless_access_list_entry,
+    mikrotik_get_wireless_interface_monitor,
+    mikrotik_get_wireless_frequencies,
+    mikrotik_export_wireless_config,
 )
 from ..scope.capsman import (
-    mikrotik_enable_capsman, mikrotik_disable_capsman, mikrotik_get_capsman_status,
-    mikrotik_list_capsman_interfaces, mikrotik_get_capsman_interface,
-    mikrotik_create_capsman_configuration, mikrotik_list_capsman_configurations,
-    mikrotik_remove_capsman_configuration, mikrotik_create_capsman_provisioning_rule,
-    mikrotik_list_capsman_provisioning_rules, mikrotik_remove_capsman_provisioning_rule,
-    mikrotik_list_capsman_registration_table, mikrotik_list_capsman_remote_caps,
-    mikrotik_get_capsman_remote_cap, mikrotik_create_capsman_datapath,
-    mikrotik_list_capsman_datapaths, mikrotik_remove_capsman_datapath
+    mikrotik_enable_capsman,
+    mikrotik_disable_capsman,
+    mikrotik_get_capsman_status,
+    mikrotik_list_capsman_interfaces,
+    mikrotik_get_capsman_interface,
+    mikrotik_create_capsman_configuration,
+    mikrotik_list_capsman_configurations,
+    mikrotik_remove_capsman_configuration,
+    mikrotik_create_capsman_provisioning_rule,
+    mikrotik_list_capsman_provisioning_rules,
+    mikrotik_remove_capsman_provisioning_rule,
+    mikrotik_list_capsman_registration_table,
+    mikrotik_list_capsman_remote_caps,
+    mikrotik_get_capsman_remote_cap,
+    mikrotik_create_capsman_datapath,
+    mikrotik_list_capsman_datapaths,
+    mikrotik_remove_capsman_datapath,
 )
 from mcp.types import Tool
 
@@ -35,28 +54,73 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the wireless interface"},
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the wireless interface",
+                    },
                     "ssid": {"type": "string", "description": "Network SSID name"},
-                    "disabled": {"type": "boolean", "description": "Whether to disable the interface"},
+                    "disabled": {
+                        "type": "boolean",
+                        "description": "Whether to disable the interface",
+                    },
                     "comment": {"type": "string", "description": "Optional comment"},
                     # Legacy parameters for backward compatibility
-                    "radio_name": {"type": "string",
-                                   "description": "Name of the radio interface (legacy systems only)"},
-                    "mode": {"type": "string",
-                             "enum": ["ap-bridge", "bridge", "station", "station-pseudobridge", "station-bridge",
-                                      "station-wds", "ap-bridge-wds", "alignment-only"],
-                             "description": "Wireless mode (legacy systems only)"},
-                    "frequency": {"type": "string", "description": "Operating frequency (legacy systems only)"},
-                    "band": {"type": "string",
-                             "enum": ["2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "5ghz-a", "5ghz-a/n", "5ghz-a/n/ac", "2ghz-g",
-                                      "2ghz-n", "5ghz-n", "5ghz-ac"],
-                             "description": "Frequency band (legacy systems only)"},
-                    "channel_width": {"type": "string",
-                                      "enum": ["20mhz", "40mhz", "80mhz", "160mhz", "20/40mhz-eC", "20/40mhz-Ce"],
-                                      "description": "Channel width (legacy systems only)"},
-                    "security_profile": {"type": "string", "description": "Security profile name (legacy systems only)"}
+                    "radio_name": {
+                        "type": "string",
+                        "description": "Name of the radio interface (legacy systems only)",
+                    },
+                    "mode": {
+                        "type": "string",
+                        "enum": [
+                            "ap-bridge",
+                            "bridge",
+                            "station",
+                            "station-pseudobridge",
+                            "station-bridge",
+                            "station-wds",
+                            "ap-bridge-wds",
+                            "alignment-only",
+                        ],
+                        "description": "Wireless mode (legacy systems only)",
+                    },
+                    "frequency": {
+                        "type": "string",
+                        "description": "Operating frequency (legacy systems only)",
+                    },
+                    "band": {
+                        "type": "string",
+                        "enum": [
+                            "2ghz-b",
+                            "2ghz-b/g",
+                            "2ghz-b/g/n",
+                            "5ghz-a",
+                            "5ghz-a/n",
+                            "5ghz-a/n/ac",
+                            "2ghz-g",
+                            "2ghz-n",
+                            "5ghz-n",
+                            "5ghz-ac",
+                        ],
+                        "description": "Frequency band (legacy systems only)",
+                    },
+                    "channel_width": {
+                        "type": "string",
+                        "enum": [
+                            "20mhz",
+                            "40mhz",
+                            "80mhz",
+                            "160mhz",
+                            "20/40mhz-eC",
+                            "20/40mhz-Ce",
+                        ],
+                        "description": "Channel width (legacy systems only)",
+                    },
+                    "security_profile": {
+                        "type": "string",
+                        "description": "Security profile name (legacy systems only)",
+                    },
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -65,11 +129,20 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name_filter": {"type": "string", "description": "Filter by interface name"},
-                    "disabled_only": {"type": "boolean", "description": "Show only disabled interfaces"},
-                    "running_only": {"type": "boolean", "description": "Show only running interfaces"}
+                    "name_filter": {
+                        "type": "string",
+                        "description": "Filter by interface name",
+                    },
+                    "disabled_only": {
+                        "type": "boolean",
+                        "description": "Show only disabled interfaces",
+                    },
+                    "running_only": {
+                        "type": "boolean",
+                        "description": "Show only running interfaces",
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -78,9 +151,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the wireless interface"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the wireless interface",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -89,13 +165,22 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Current name of the wireless interface"},
-                    "new_name": {"type": "string", "description": "New name for the interface"},
+                    "name": {
+                        "type": "string",
+                        "description": "Current name of the wireless interface",
+                    },
+                    "new_name": {
+                        "type": "string",
+                        "description": "New name for the interface",
+                    },
                     "ssid": {"type": "string", "description": "New SSID name"},
-                    "disabled": {"type": "boolean", "description": "Enable/disable interface"},
-                    "comment": {"type": "string", "description": "New comment"}
+                    "disabled": {
+                        "type": "boolean",
+                        "description": "Enable/disable interface",
+                    },
+                    "comment": {"type": "string", "description": "New comment"},
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -104,9 +189,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the wireless interface to remove"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the wireless interface to remove",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -115,9 +203,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the wireless interface"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the wireless interface",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -126,12 +217,14 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the wireless interface"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the wireless interface",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
-
         # Wireless Security Profile Management (Legacy)
         Tool(
             name="mikrotik_create_wireless_security_profile",
@@ -139,19 +232,18 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the security profile"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the security profile",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
             name="mikrotik_list_wireless_security_profiles",
             description="Lists wireless security profiles (legacy systems only)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_wireless_security_profile",
@@ -159,9 +251,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the security profile"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the security profile",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -170,12 +265,14 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Name of the security profile to remove"}
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the security profile to remove",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
-
         # Wireless Network Operations
         Tool(
             name="mikrotik_scan_wireless_networks",
@@ -183,10 +280,17 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "interface": {"type": "string", "description": "Wireless interface to use for scanning"},
-                    "duration": {"type": "integer", "description": "Scan duration in seconds", "default": 5}
+                    "interface": {
+                        "type": "string",
+                        "description": "Wireless interface to use for scanning",
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "description": "Scan duration in seconds",
+                        "default": 5,
+                    },
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
         Tool(
@@ -195,30 +299,24 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "interface": {"type": "string", "description": "Filter by specific wireless interface"}
+                    "interface": {
+                        "type": "string",
+                        "description": "Filter by specific wireless interface",
+                    }
                 },
-                "required": []
+                "required": [],
             },
         ),
-
         # Wireless Access List Management (Legacy)
         Tool(
             name="mikrotik_create_wireless_access_list",
             description="Creates a wireless access list entry (legacy systems only)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_list_wireless_access_list",
             description="Lists wireless access list entries (legacy systems only)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_remove_wireless_access_list_entry",
@@ -226,22 +324,20 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "entry_id": {"type": "string", "description": "ID of the access list entry to remove"}
+                    "entry_id": {
+                        "type": "string",
+                        "description": "ID of the access list entry to remove",
+                    }
                 },
-                "required": ["entry_id"]
+                "required": ["entry_id"],
             },
         ),
         # Wireless Support Check
         Tool(
             name="mikrotik_check_wireless_support",
             description="Checks if the device supports wireless functionality",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
-        
         # Advanced Wireless Tools
         Tool(
             name="mikrotik_update_wireless_security_profile",
@@ -251,11 +347,17 @@ def get_wireless_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Security profile name"},
                     "mode": {"type": "string", "description": "Security mode"},
-                    "authentication_types": {"type": "string", "description": "Authentication types"},
+                    "authentication_types": {
+                        "type": "string",
+                        "description": "Authentication types",
+                    },
                     "wpa_pre_shared_key": {"type": "string", "description": "WPA PSK"},
-                    "wpa2_pre_shared_key": {"type": "string", "description": "WPA2 PSK"}
+                    "wpa2_pre_shared_key": {
+                        "type": "string",
+                        "description": "WPA2 PSK",
+                    },
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -264,66 +366,44 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "interface": {"type": "string", "description": "Wireless interface name"}
+                    "interface": {
+                        "type": "string",
+                        "description": "Wireless interface name",
+                    }
                 },
-                "required": ["interface"]
+                "required": ["interface"],
             },
         ),
         Tool(
             name="mikrotik_get_wireless_frequencies",
             description="Gets available wireless frequencies (v6.x only)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_export_wireless_config",
             description="Exports the complete wireless configuration",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
-        
         # CAPsMAN Manager Tools
         Tool(
             name="mikrotik_enable_capsman",
             description="Enables CAPsMAN (Controlled Access Point System Manager)",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_disable_capsman",
             description="Disables CAPsMAN",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_capsman_status",
             description="Gets CAPsMAN manager status",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_list_capsman_interfaces",
             description="Lists all CAPsMAN controlled wireless interfaces",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_capsman_interface",
@@ -333,7 +413,7 @@ def get_wireless_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Interface name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -342,22 +422,25 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Configuration profile name"},
+                    "name": {
+                        "type": "string",
+                        "description": "Configuration profile name",
+                    },
                     "ssid": {"type": "string", "description": "Network SSID"},
                     "country": {"type": "string", "description": "Country code"},
-                    "mode": {"type": "string", "enum": ["ap", "bridge", "station"], "description": "Operating mode"}
+                    "mode": {
+                        "type": "string",
+                        "enum": ["ap", "bridge", "station"],
+                        "description": "Operating mode",
+                    },
                 },
-                "required": ["name", "ssid"]
+                "required": ["name", "ssid"],
             },
         ),
         Tool(
             name="mikrotik_list_capsman_configurations",
             description="Lists all CAPsMAN configuration profiles",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_remove_capsman_configuration",
@@ -365,9 +448,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Configuration profile name"}
+                    "name": {
+                        "type": "string",
+                        "description": "Configuration profile name",
+                    }
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
@@ -377,49 +463,42 @@ def get_wireless_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "name": {"type": "string", "description": "Rule name"},
-                    "action": {"type": "string", "enum": ["create-enabled", "create-disabled"], "description": "Provisioning action"},
-                    "master_configuration": {"type": "string", "description": "Configuration profile to apply"}
+                    "action": {
+                        "type": "string",
+                        "enum": ["create-enabled", "create-disabled"],
+                        "description": "Provisioning action",
+                    },
+                    "master_configuration": {
+                        "type": "string",
+                        "description": "Configuration profile to apply",
+                    },
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
             name="mikrotik_list_capsman_provisioning_rules",
             description="Lists all CAPsMAN provisioning rules",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_remove_capsman_provisioning_rule",
             description="Removes a CAPsMAN provisioning rule",
             inputSchema={
                 "type": "object",
-                "properties": {
-                    "name": {"type": "string", "description": "Rule name"}
-                },
-                "required": ["name"]
+                "properties": {"name": {"type": "string", "description": "Rule name"}},
+                "required": ["name"],
             },
         ),
         Tool(
             name="mikrotik_list_capsman_registration_table",
             description="Lists all registered CAPsMAN clients",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_list_capsman_remote_caps",
             description="Lists all remote CAPs (Access Points) connected to this CAPsMAN",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_get_capsman_remote_cap",
@@ -427,9 +506,12 @@ def get_wireless_tools() -> List[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "identity": {"type": "string", "description": "Remote CAP identity/name"}
+                    "identity": {
+                        "type": "string",
+                        "description": "Remote CAP identity/name",
+                    }
                 },
-                "required": ["identity"]
+                "required": ["identity"],
             },
         ),
         Tool(
@@ -439,20 +521,23 @@ def get_wireless_tools() -> List[Tool]:
                 "type": "object",
                 "properties": {
                     "name": {"type": "string", "description": "Datapath name"},
-                    "bridge": {"type": "string", "description": "Bridge interface to use"},
-                    "vlan_mode": {"type": "string", "enum": ["no-tag", "use-tag"], "description": "VLAN mode"}
+                    "bridge": {
+                        "type": "string",
+                        "description": "Bridge interface to use",
+                    },
+                    "vlan_mode": {
+                        "type": "string",
+                        "enum": ["no-tag", "use-tag"],
+                        "description": "VLAN mode",
+                    },
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
         Tool(
             name="mikrotik_list_capsman_datapaths",
             description="Lists all CAPsMAN datapath configurations",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            },
+            inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         Tool(
             name="mikrotik_remove_capsman_datapath",
@@ -462,7 +547,7 @@ def get_wireless_tools() -> List[Tool]:
                 "properties": {
                     "name": {"type": "string", "description": "Datapath name"}
                 },
-                "required": ["name"]
+                "required": ["name"],
             },
         ),
     ]
@@ -478,19 +563,22 @@ def get_wireless_handlers() -> Dict[str, Callable]:
             disabled=args.get("disabled", False),
             comment=args.get("comment"),
             # Pass all other args as kwargs for legacy compatibility
-            **{k: v for k, v in args.items() if k not in ["name", "ssid", "disabled", "comment"]}
+            **{
+                k: v
+                for k, v in args.items()
+                if k not in ["name", "ssid", "disabled", "comment"]
+            },
         ),
         "mikrotik_list_wireless_interfaces": lambda args: mikrotik_list_wireless_interfaces(
             args.get("name_filter"),
             args.get("disabled_only", False),
-            args.get("running_only", False)
+            args.get("running_only", False),
         ),
         "mikrotik_get_wireless_interface": lambda args: mikrotik_get_wireless_interface(
             args["name"]
         ),
         "mikrotik_update_wireless_interface": lambda args: mikrotik_update_wireless_interface(
-            name=args["name"],
-            **{k: v for k, v in args.items() if k != "name"}
+            name=args["name"], **{k: v for k, v in args.items() if k != "name"}
         ),
         "mikrotik_remove_wireless_interface": lambda args: mikrotik_remove_wireless_interface(
             args["name"]
@@ -501,11 +589,9 @@ def get_wireless_handlers() -> Dict[str, Callable]:
         "mikrotik_disable_wireless_interface": lambda args: mikrotik_disable_wireless_interface(
             args["name"]
         ),
-
         # Wireless Security Profile Management - Simplified for new system
         "mikrotik_create_wireless_security_profile": lambda args: mikrotik_create_wireless_security_profile(
-            name=args["name"],
-            **{k: v for k, v in args.items() if k != "name"}
+            name=args["name"], **{k: v for k, v in args.items() if k != "name"}
         ),
         "mikrotik_list_wireless_security_profiles": lambda args: mikrotik_list_wireless_security_profiles(
             **args
@@ -516,16 +602,13 @@ def get_wireless_handlers() -> Dict[str, Callable]:
         "mikrotik_remove_wireless_security_profile": lambda args: mikrotik_remove_wireless_security_profile(
             args["name"]
         ),
-
         # Wireless Network Operations
         "mikrotik_scan_wireless_networks": lambda args: mikrotik_scan_wireless_networks(
-            args["interface"],
-            args.get("duration", 5)
+            args["interface"], args.get("duration", 5)
         ),
         "mikrotik_get_wireless_registration_table": lambda args: mikrotik_get_wireless_registration_table(
             args.get("interface")
         ),
-
         # Wireless Access List Management - Simplified for new system
         "mikrotik_create_wireless_access_list": lambda args: mikrotik_create_wireless_access_list(
             **args
@@ -536,21 +619,17 @@ def get_wireless_handlers() -> Dict[str, Callable]:
         "mikrotik_remove_wireless_access_list_entry": lambda args: mikrotik_remove_wireless_access_list_entry(
             args["entry_id"]
         ),
-
         # Wireless Support Check
         "mikrotik_check_wireless_support": lambda args: mikrotik_check_wireless_support(),
-        
         # Advanced Wireless Handlers
         "mikrotik_update_wireless_security_profile": lambda args: mikrotik_update_wireless_security_profile(
-            name=args["name"],
-            **{k: v for k, v in args.items() if k != "name"}
+            name=args["name"], **{k: v for k, v in args.items() if k != "name"}
         ),
         "mikrotik_get_wireless_interface_monitor": lambda args: mikrotik_get_wireless_interface_monitor(
             args["interface"]
         ),
         "mikrotik_get_wireless_frequencies": lambda args: mikrotik_get_wireless_frequencies(),
         "mikrotik_export_wireless_config": lambda args: mikrotik_export_wireless_config(),
-        
         # CAPsMAN Manager Handlers
         "mikrotik_enable_capsman": lambda args: mikrotik_enable_capsman(),
         "mikrotik_disable_capsman": lambda args: mikrotik_disable_capsman(),
@@ -564,7 +643,11 @@ def get_wireless_handlers() -> Dict[str, Callable]:
             ssid=args["ssid"],
             country=args.get("country"),
             mode=args.get("mode", "ap"),
-            **{k: v for k, v in args.items() if k not in ["name", "ssid", "country", "mode"]}
+            **{
+                k: v
+                for k, v in args.items()
+                if k not in ["name", "ssid", "country", "mode"]
+            },
         ),
         "mikrotik_list_capsman_configurations": lambda args: mikrotik_list_capsman_configurations(),
         "mikrotik_remove_capsman_configuration": lambda args: mikrotik_remove_capsman_configuration(
@@ -574,7 +657,11 @@ def get_wireless_handlers() -> Dict[str, Callable]:
             name=args["name"],
             action=args.get("action", "create-enabled"),
             master_configuration=args.get("master_configuration"),
-            **{k: v for k, v in args.items() if k not in ["name", "action", "master_configuration"]}
+            **{
+                k: v
+                for k, v in args.items()
+                if k not in ["name", "action", "master_configuration"]
+            },
         ),
         "mikrotik_list_capsman_provisioning_rules": lambda args: mikrotik_list_capsman_provisioning_rules(),
         "mikrotik_remove_capsman_provisioning_rule": lambda args: mikrotik_remove_capsman_provisioning_rule(
@@ -589,7 +676,11 @@ def get_wireless_handlers() -> Dict[str, Callable]:
             name=args["name"],
             bridge=args.get("bridge"),
             vlan_mode=args.get("vlan_mode"),
-            **{k: v for k, v in args.items() if k not in ["name", "bridge", "vlan_mode"]}
+            **{
+                k: v
+                for k, v in args.items()
+                if k not in ["name", "bridge", "vlan_mode"]
+            },
         ),
         "mikrotik_list_capsman_datapaths": lambda args: mikrotik_list_capsman_datapaths(),
         "mikrotik_remove_capsman_datapath": lambda args: mikrotik_remove_capsman_datapath(
