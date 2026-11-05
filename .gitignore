@@ -249,11 +249,9 @@ backups/
 *.backup
 
 # Standalone scripts (keep only MCP server)
-*_autodiscovery.py
 *_network_setup.py
 *_security_scan.py
 *_monitor.py
-automated_*.py
 scan_*.py
 
 # Certificate files
@@ -352,3 +350,6 @@ _templates/
 .aider*
 
 mcp-config.json
+# Local credentials, never commit
+.env.*
+!.env.example
